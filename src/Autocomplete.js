@@ -12,6 +12,7 @@
 
 import React, { Component } from 'react';
 import Select from 'react-select';
+import Registry from './Registry';
 
 export default class Autocomplete extends Component {
 
@@ -50,3 +51,5 @@ export default class Autocomplete extends Component {
     );
   }
 }
+
+Registry.set('Autocomplete', Autocomplete);

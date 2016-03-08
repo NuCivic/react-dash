@@ -63,7 +63,7 @@ export var state = {
             url: 'http://data.com/data.json'
           }
         }
-      }
+      },
     ],
     right: [
       {
@@ -81,6 +81,12 @@ export var state = {
       }
     ],
     top: [
+      {
+        type: 'Autocomplete',
+        name: 'some-name',
+        multi: true,
+        url: 'http://localhost:3004/options?q={{keyword}}'
+      },
       {
         header:'Top',
         type: 'Chart',

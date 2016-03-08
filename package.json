@@ -38,6 +38,7 @@
     "webpack-dev-server": "^1.12.1"
   },
   "dependencies": {
+    "fixed-data-table": "^0.6.0",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-select": "git+https://github.com/JedWatson/react-select.git"

@@ -15,6 +15,7 @@ export default class App extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {};
   }
 
   onChange(value) {
@@ -24,8 +25,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <Autocomplete name="form-field-name" multi={true} url="http://localhost:3004/options?q={{keyword}}" onChange={this.onChange} />
-        <Dashboard {...state} layout={Geary}/>
+        <Dashboard context={this.state} {...state} layout={Geary}/>
       </div>
     );
   }
