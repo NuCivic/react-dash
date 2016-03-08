@@ -1,30 +1,18 @@
 import React, { Component } from 'react';
 import Chart from './Chart';
+import Card from './Card';
 import Registry from './Registry';
 
 export default class Layout extends Component {
   renderRegion(elements){
     if (!elements) return;
     return elements.map((element, key) => {
-      element.key = key;
-      return React.createElement(Registry.get(element.type), element);
+      return (
+        <Card key={key} {...element}>
+          {React.createElement(Registry.get(element.type), element)}
+        </Card>
+      );
     });
-  }
-  render() {
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">{this.renderRegion(this.props.regions.top)}</div>
-        </div>
-        <div className="row">
-          <div className="col-md-6">{this.renderRegion(this.props.regions.left)}</div>
-          <div className="col-md-6">{this.renderRegion(this.props.regions.right)}</div>
-        </div>
-        <div className="row">
-          <div className="col-md-12">{this.renderRegion(this.props.regions.bottom)}</div>
-        </div>
-      </div>
-    );
   }
 }
 

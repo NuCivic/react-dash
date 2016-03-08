@@ -45,11 +45,11 @@ export var datum = [{
 
 export var state = {
   title: '',
-  layout:'Layout',
+  layout:'Geary',
   regions: {
     left: [
       {
-        title:'Left',
+        header:'Left',
         type: 'Chart',
         settings: {
           id:'lineChart',
@@ -67,7 +67,7 @@ export var state = {
     ],
     right: [
       {
-        title:'Right',
+        header:'Right',
         type: 'Chart',
         settings: {
           id:'barChart',
@@ -76,14 +76,13 @@ export var state = {
           y: 'value'
         },
         data: {
-          datum: 'getData',
-          args: {}
+          datum: 'getData'
         }
       }
     ],
     top: [
       {
-        title:'Top',
+        header:'Top',
         type: 'Chart',
         settings: {
           id:'lineChart2',
@@ -99,9 +98,9 @@ export var state = {
         }
       }
     ],
-    bottom: [
+    middle: [
       {
-        title:'Bottom',
+        header:'Bottom',
         type: 'Chart',
         settings: {
           id:'barChart2',
@@ -111,7 +110,6 @@ export var state = {
         },
         data: {
           datum: 'getData',
-          args: {}
         }
       }
     ],
