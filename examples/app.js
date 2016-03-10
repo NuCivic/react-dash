@@ -5,6 +5,7 @@ import Geary from '../src/layouts/Geary';
 import Table from '../src/Table';
 import {datum} from './datum';
 import {store} from './store';
+import CSV from './csv';
 
 export default class App extends Component {
 
@@ -20,8 +21,13 @@ export default class App extends Component {
   getContext() {
     return {
       getData: (data) => datum,
-      getCSVData: (data) => console.log(data),
       onAutocompleteChange: (value) => console.log(value),
+      getAppData: (args, cb) => {
+        CSV.fetch(args).then(data => {
+          console.log("getAppDate", args);
+          cb(data);
+        });
+      },
       getTableData: () => {
         return [
           {
