@@ -50,19 +50,32 @@ export var store = {
       },
       {
         type: 'Table',
-        rowHeight: 30,
-        width: 800,
-        maxHeight: 5000,
-        headerHeight:50,
         data: {
           type: 'function',
           name: 'getTableData'
         },
         settings: {
           table: {
-            columns: {
-              cells: {
-
+            rowHeight: 50,
+            width: 800,
+            maxHeight: 5000,
+            headerHeight:50
+          },
+          columns: {
+            flexGrow: 1,
+            width: 150,
+            overrides: {
+              a1: {
+                flexGrow: 0.5
+              }
+            }
+          },
+          cells: {
+            height: 50,
+            width: 500,
+            overrides: {
+              1: {
+                height: 60
               }
             }
           }

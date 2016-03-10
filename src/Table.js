@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import {Table as FixedTable, Column, Cell} from 'fixed-data-table';
 import Registry from './Registry';
-import {execute} from './utils';
+import {execute, getProp} from './utils';
 import omit from 'lodash/omit';
-import property from 'lodash/property';
-
 
 export default class Table extends Component {
 
@@ -34,31 +32,33 @@ export default class Table extends Component {
   }
 
   render() {
-    let tableDefaultProps = omit(property('table')(this.props), 'columns');
-    let columnDefaultProps = omit(property('table.columns')(this.props), 'cells');
-    let cellsDefaultProps = property('table.columns.cells')(this.props);
+    let tableDefaultProps = getProp('settings.table', this.props);
+    let columnDefaultProps = getProp('settings.columns', this.props);
+    let cellsDefaultProps = getProp('settings.cells', this.props);
 
     const { gridWidth, gridHeight } = this.state;
     let data = execute(this.props.data, this.props.context);
     let headers = Object.keys(data[0]);
     let columns = headers.map((header) => {
+      let overrides = getProp('overrides.' + header, columnDefaultProps);
       return <Column
         header={<Cell>{header}</Cell>}
         key={header}
         columnKey={header}
-        cell={props => (
-          <Cell {...props}>
+        cell={props => {
+          let overrides = getProp('overrides.' + props.rowIndex, cellsDefaultProps);
+          return <Cell {...props} {...cellsDefaultProps} {...overrides}>
             {data[props.rowIndex][props.columnKey]}
           </Cell>
-        )}
-        flexGrow={1}
-        width={150}
+        }}
+        {...columnDefaultProps}
+        {...overrides}
       />
     });
 
     return (
       <div ref="table">
-        <FixedTable rowsCount={data.length} {...this.props} width={gridWidth}>
+        <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth}>
           {columns}
         </FixedTable>
       </div>

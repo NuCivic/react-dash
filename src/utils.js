@@ -1,3 +1,5 @@
+import property from 'lodash/property';
+
 export function execute(executable, context){
   let fn = context[executable.name];
   return fn(executable.args);
@@ -14,4 +16,8 @@ export function bindListeners(props) {
     }
     return acum;
   }, {});
+}
+
+export function getProp(key, object) {
+  return Object.assign({}, property(key)(object))
 }
