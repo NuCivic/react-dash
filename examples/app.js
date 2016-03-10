@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import Dashboard from '../src/Dashboard';
-import Autocomplete from '../src/Autocomplete';
-import Geary from '../src/layouts/Geary';
-import Table from '../src/Table';
-import {datum} from './datum';
-import {store} from './store';
+import {Dashboard, Geary, utils} from '../src/ReactDashboard';
+import { datum } from './datum';
+import { store } from './store';
 
 export default class App extends Component {
 

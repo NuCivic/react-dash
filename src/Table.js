@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {Table as FixedTable, Column, Cell} from 'fixed-data-table';
 import Registry from './Registry';
 import {execute, getProp} from './utils';
-import omit from 'lodash/omit';
 
 export default class Table extends Component {
 
@@ -32,11 +31,10 @@ export default class Table extends Component {
   }
 
   render() {
+    const { gridWidth, gridHeight } = this.state;
     let tableDefaultProps = getProp('settings.table', this.props);
     let columnDefaultProps = getProp('settings.columns', this.props);
     let cellsDefaultProps = getProp('settings.cells', this.props);
-
-    const { gridWidth, gridHeight } = this.state;
     let data = execute(this.props.data, this.props.context);
     let headers = Object.keys(data[0]);
     let columns = headers.map((header) => {
