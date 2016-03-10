@@ -20,14 +20,30 @@ export default class App extends Component {
 
   getContext() {
     return {
-      getData: (data) => datum,
+      /**
+       * This should call getAppData with appropriate args
+       * @@TODO flux/redux actions
+       */
       onAutocompleteChange: (value) => console.log(value),
+      /**
+       * Define initial configs
+       **/
+      initConfig: {url: 'http://demo.getdkan.com/sites/default/files/us_foreclosures_j    an_2012_by_state_0.csv'},
+      /**
+       * Define a method to retrieve app data
+       **/
       getAppData: (args, cb) => {
         CSV.fetch(args).then(data => {
           console.log("getAppDate", args);
           cb(data);
         });
       },
+      
+      /**
+       * Add cardDataHandlers here
+       * cardDataHandlers are called in store.js
+       * and can access appData
+       **/
       getTableData: () => {
         return [
           {
@@ -41,6 +57,93 @@ export default class App extends Component {
             c1: 'c3',
           }
         ];
+      },
+      getChartTopData: function (args, data) {
+        console.log('Top', args, data);    
+        return [{
+          key: 'Foobar',
+          values: [
+            {
+              label: 'foo',
+              value: 10
+            },
+            {
+              label: 'foo',
+              value: 11
+            },
+            {
+              label: 'foo',
+              value: 12
+            },
+            {
+              label: 'foo',
+              value: 13
+            },
+            {
+              label: 'foo',
+              value: 14
+            }
+          ]
+        }];
+      },
+      getChartLeftData: function (args, data) {
+        console.log('Left', this, args, data);
+        return [{
+          key: 'Foobar',
+          values: [
+            {
+              label: 'foo',
+              value: 100
+            },
+            {
+              label: 'foo',
+              value: 110
+            },
+            {
+              label: 'foo',
+              value: 120
+            },
+            {
+              label: 'foo',
+              value: 130
+            },
+            {
+              label: 'foo',
+              value: 140
+            }
+          ]
+        }];
+      },
+      getChartRightData: function (args, data) {
+        console.log('Right', args, data);
+        return [{
+          key: 'Foobar',
+          values: [
+            {
+              label: 'foo',
+              value: 1000
+            },
+            {
+              label: 'foo',
+              value: 2000
+            },
+            {
+              label: 'foo',
+              value: 3000
+            },
+            {
+              label: 'foo',
+              value: 4000
+            },
+            {
+              label: 'foo',
+              value: 5000
+            }
+          ]
+        }];
+      },
+      getChartBottomData: function (args, data) {
+        console.log('Bottom', args, data);
       }
     }
   }

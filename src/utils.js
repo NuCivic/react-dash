@@ -1,3 +1,4 @@
+// Pass config args and appData to cardDataHandlers
 export function execute(executable, context){
   let fn = context[executable.name];
   return fn(executable.args);

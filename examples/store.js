@@ -14,7 +14,7 @@ export var store = {
         },
         data: {
           type: 'function',
-          name: 'getData',
+          name: 'getChartTopData',
           args: [
             'http://data.com/data.json'
           ]
@@ -33,7 +33,7 @@ export var store = {
         },
         data: {
           type: 'function',
-          name: 'getData',
+          name: 'getChartLeftData',
         }
       }
     ],
@@ -80,7 +80,7 @@ export var store = {
         },
         data: {
           type: 'function',
-          name: 'getData',
+          name: 'getChartRightData',
           args: [
             ['value', 'label']
           ]
@@ -99,7 +99,7 @@ export var store = {
         },
         data: {
           type: 'function',
-          name: 'getData',
+          name: 'getChartBottomData',
         }
       }
     ],
