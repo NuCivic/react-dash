@@ -3,10 +3,9 @@ import Registry from './Registry';
 
 export default class Card extends Component {
   render() {
-    console.log(this.props);
     return (
       <div className="card">
-        <div className="header">{this.props.header}</div>
+        <h3 className="header">{this.props.header}</h3>
         {this.props.children}
         <div className="footer">{this.props.footer}</div>
       </div>

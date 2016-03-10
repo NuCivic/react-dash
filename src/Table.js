@@ -1,41 +1,69 @@
-import React from 'react';
-import {FixedTable, Column, Cell} from 'fixed-data-table';
+import React, { Component } from 'react';
+import {Table as FixedTable, Column, Cell} from 'fixed-data-table';
+import Registry from './Registry';
+import {execute} from './utils';
+import omit from 'lodash/omit';
+import property from 'lodash/property';
 
-// Table data as a list of array.
-const rows = [
-  ['a1', 'b1', 'c1'],
-  ['a2', 'b2', 'c2'],
-  ['a3', 'b3', 'c3'],
-];
 
 export default class Table extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      gridWidth: 1,
+      gridHeight: 1
+    };
+  }
+
+  componentDidMount(){
+    this.attachResize();
+    this.setSize();
+  }
+
+  setSize() {
+    const { offsetWidth, offsetHeight } = this.refs.table;
+    this.setState({
+      gridWidth: offsetWidth,
+      gridHeight: offsetHeight
+    });
+  }
+
+  attachResize() {
+    window.addEventListener('resize', this.setSize.bind(this), false);
+  }
+
   render() {
-    (<FixedTable
-      rowHeight={50}
-      rowsCount={rows.length}
-      width={5000}
-      height={5000}
-      headerHeight={50}>
-      <Column
-        header={<Cell>Col 1</Cell>}
-        cell={<Cell>Column 1 static content</Cell>}
-        width={2000}
-      />
-      <Column
-        header={<Cell>Col 2</Cell>}
-        cell={<MyCustomCell mySpecialProp="column2" />}
-        width={1000}
-      />
-      <Column
-        header={<Cell>Col 3</Cell>}
-        cell={({rowIndex, ...props}) => (
+    let tableDefaultProps = omit(property('table')(this.props), 'columns');
+    let columnDefaultProps = omit(property('table.columns')(this.props), 'cells');
+    let cellsDefaultProps = property('table.columns.cells')(this.props);
+
+    const { gridWidth, gridHeight } = this.state;
+    let data = execute(this.props.data, this.props.context);
+    let headers = Object.keys(data[0]);
+    let columns = headers.map((header) => {
+      return <Column
+        header={<Cell>{header}</Cell>}
+        key={header}
+        columnKey={header}
+        cell={props => (
           <Cell {...props}>
-            Data for column 3: {rows[rowIndex][2]}
+            {data[props.rowIndex][props.columnKey]}
           </Cell>
         )}
-        width={2000}
+        flexGrow={1}
+        width={150}
       />
-    </Table>
+    });
+
+    return (
+      <div ref="table">
+        <FixedTable rowsCount={data.length} {...this.props} width={gridWidth}>
+          {columns}
+        </FixedTable>
+      </div>
     );
   }
 }
+
+Registry.set('Table', Table);

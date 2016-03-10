@@ -13,6 +13,7 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import Registry from './Registry';
+import {bindListeners, execute} from './utils';
 
 export default class Autocomplete extends Component {
 
@@ -22,10 +23,20 @@ export default class Autocomplete extends Component {
   }
 
   onChange(value) {
+
+    // The default behavior for us is change the value
+    // of the input to reflect current selections
     this.setState({
       value: value
     });
-    if(this.props.onChange) this.props.onChange(value);
+
+    // This allow developers to set an onChange event to
+    // change the state of the dashboard.
+    if(this.props.onChange) {
+      let executable = this.props.onChange;
+      executable.args = [value];
+      execute(executable, this.props.context);
+    }
   }
 
   /**
@@ -46,8 +57,9 @@ export default class Autocomplete extends Component {
   }
 
   render(){
+    let props = bindListeners(this.props);
     return (
-      <Select.Async value={this.state.value} loadOptions={this.loadOptions.bind(this)} {...this.props} onChange={this.onChange.bind(this)}/>
+      <Select.Async value={this.state.value} loadOptions={this.loadOptions.bind(this)} {...props} onChange={this.onChange.bind(this)}/>
     );
   }
 }
