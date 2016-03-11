@@ -28,7 +28,7 @@ export default class App extends Component {
       /**
        * Define initial configs
        **/
-      initConfig: {url: 'http://demo.getdkan.com/sites/default/files/us_foreclosures_j    an_2012_by_state_0.csv'},
+      initConfig: {url: 'http://localhost:3000/testData/us_foreclosures_jan_2012_by_state_0.csv'},
       /**
        * Define a method to retrieve app data
        **/

@@ -1,7 +1,8 @@
 // Pass config args and appData to cardDataHandlers
 export function execute(executable, context){
+  console.log('execute', context);
   let fn = context[executable.name];
-  return fn(executable.args);
+  return fn(executable.args, context.appData);
 }
 
 export function bindListeners(props) {

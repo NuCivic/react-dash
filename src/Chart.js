@@ -4,8 +4,8 @@ import NVD3Chart from 'react-nvd3';
 import {execute, bindListeners} from './utils';
 
 let Chart = React.createClass({
-  getInitialState: function () {
-    console.log('Chart1', this);
+  componentDidMount: function () {
+    console.log('Chart didMount', this);
   },
   render: function () {
     let props = bindListeners(this.props);

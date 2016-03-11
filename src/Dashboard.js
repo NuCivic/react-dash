@@ -13,7 +13,10 @@ let Dashboard = React.createClass({
    console.log('Dash didMount', this);
    this.state.context.getAppData(this.state.context.initConfig, data => {
       console.log('CSV cb', data);
-      this.setState({appData: data, loading: false});
+      let newState = Object.assign({}, this.state);
+      newState.context.appData = data;
+      newState.loading = false;
+      this.setState(newState);
    });
   },
   render: function () {
