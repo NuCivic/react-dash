@@ -1,42 +1,6 @@
 export var store = {
   title: '',
-  layout:'Geary',
   regions: {
-    left: [
-      {
-        header:'Left',
-        type: 'Chart',
-        settings: {
-          id:'lineChart',
-          type: 'discreteBarChart',
-          x: 'label',
-          y: 'value'
-        },
-        data: {
-          type: 'function',
-          name: 'getData',
-          args: [
-            'http://data.com/data.json'
-          ]
-        }
-      },
-    ],
-    right: [
-      {
-        header:'Right',
-        type: 'Chart',
-        settings: {
-          id:'barChart',
-          type: 'discreteBarChart',
-          x: 'label',
-          y: 'value'
-        },
-        data: {
-          type: 'function',
-          name: 'getData',
-        }
-      }
-    ],
     top: [
       {
         type: 'Autocomplete',
@@ -89,7 +53,10 @@ export var store = {
           type: 'discreteBarChart',
           x: 'label',
           y: 'value',
-          height: 400
+          height: 340,
+          margin: {
+            left: 38
+          }
         },
         data: {
           type: 'function',
@@ -100,15 +67,42 @@ export var store = {
         }
       }
     ],
-    middle: [
+    left: [
       {
-        header:'Bottom',
+        header:'Left',
         type: 'Chart',
         settings: {
-          id:'barChart2',
+          id:'lineChart',
           type: 'discreteBarChart',
           x: 'label',
-          y: 'value'
+          y: 'value',
+          height: 300,
+          margin: {
+            left: 38
+          }
+        },
+        data: {
+          type: 'function',
+          name: 'getData',
+          args: [
+            'http://data.com/data.json'
+          ]
+        }
+      },
+    ],
+    right: [
+      {
+        header:'Right',
+        type: 'Chart',
+        settings: {
+          id:'barChart',
+          type: 'discreteBarChart',
+          x: 'label',
+          y: 'value',
+          height: 300,
+          margin: {
+            left: 38
+          }
         },
         data: {
           type: 'function',
