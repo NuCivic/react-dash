@@ -11,7 +11,7 @@ let Dashboard = React.createClass({
   },
   componentDidMount: function () {
    console.log('Dash didMount', this);
-   this.state.context.getAppData(this.state.content.initConfig, data => {
+   this.state.context.getAppData(this.state.context.initConfig, data => {
       console.log('CSV cb', data);
       this.setState({appData: data, loading: false});
    });
@@ -19,7 +19,7 @@ let Dashboard = React.createClass({
   render: function () {
     // @@ I think we want to call our cardDataHandlers here hmm
     var layout = (typeof this.props.layout === 'string') ? Registry.get(this.props.layout) : this.props.layout;
-    console.log('Dash render', React.createElement(layout, this.props));
+    console.log('Dash render', this);
     return (
       React.createElement(layout, this.props)
     );
