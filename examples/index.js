@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './app';
+import App from './App';
 
 import '../bower_components/bootstrap/dist/css/bootstrap.min.css';
 import 'nvd3/build/nv.d3.min.css';

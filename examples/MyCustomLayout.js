@@ -5,9 +5,15 @@ import Registry from '../src/Registry';
 export default class MyCustomLayout extends Layout {
   render() {
     return (
-      <div className="container">
+      <div>
         <div className="row">
           <div className="col-md-12">{this.renderRegion(this.props.regions.top)}</div>
+        </div>
+        <div className="row">
+          <div className="col-md-3">{this.renderRegion(this.props.regions.middleFirst)}</div>
+          <div className="col-md-3">{this.renderRegion(this.props.regions.middleSecond)}</div>
+          <div className="col-md-3">{this.renderRegion(this.props.regions.middleThird)}</div>
+          <div className="col-md-3">{this.renderRegion(this.props.regions.middleFourth)}</div>
         </div>
         <div className="row">
           <div className="col-md-6">{this.renderRegion(this.props.regions.left)}</div>

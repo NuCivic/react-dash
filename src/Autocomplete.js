@@ -35,7 +35,7 @@ export default class Autocomplete extends Component {
     if(this.props.onChange) {
       let executable = this.props.onChange;
       executable.args = [value];
-      execute(executable, this.props.context);
+      this.props.context.execute(executable);
     }
   }
 

@@ -1,10 +1,5 @@
 import property from 'lodash/property';
 
-export function execute(executable, context){
-  let fn = context[executable.name];
-  return fn(executable.args);
-}
-
 export function bindListeners(props) {
   // Replace serialized functions with real functions
   return Object.keys(props).reduce((acum, key) => {

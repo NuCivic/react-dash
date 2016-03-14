@@ -1,5 +1,5 @@
 export var store = {
-  title: '',
+  title: 'Georgia Reports',
   regions: {
     top: [
       {
@@ -12,6 +12,103 @@ export var store = {
           name: 'onAutocompleteChange'
         },
         cardStyle: 'none'
+      },
+      {
+        header:'Top',
+        type: 'Chart',
+        iconClass: 'glyphicon glyphicon-tree-conifer',
+        settings: {
+          id:'lineChart2',
+          type: 'discreteBarChart',
+          x: 'label',
+          y: 'value',
+          height: 340,
+          margin: {
+            left: 38
+          },
+          color: ['#EA7E7E']
+        },
+        cardStyle: 'card',
+        data: {
+          type: 'function',
+          name: 'getData',
+          args: [
+            ['value', 'label']
+          ]
+        }
+      }
+    ],
+    middleFirst: [
+      {
+        type:'Metric',
+        cardStyle: 'metric',
+        background: '#9F3E69',
+        number: {
+          type: 'function',
+          name: 'getRandomMetric'
+        },
+        caption: 'New Users',
+      }
+    ],
+    middleSecond: [
+      {
+        type:'Metric',
+        cardStyle: 'metric',
+        background: '#F3BA4F',
+        number: {
+          type: 'function',
+          name: 'getRandomMetric'
+        },
+        caption: 'Visitors',
+      }
+    ],
+    middleThird: [
+      {
+        type:'Metric',
+        cardStyle: 'metric',
+        background: '#3EB1AE',
+        number: {
+          type: 'function',
+          name: 'getRandomMetric'
+        },
+        caption: 'Page views',
+      }
+    ],
+    middleFourth: [
+      {
+        type:'Metric',
+        cardStyle: 'metric',
+        background: '#0B90B1',
+        number: {
+          type: 'function',
+          name: 'getRandomMetric'
+        },
+        caption: 'Unique Visitors',
+      }
+    ],
+    left: [
+      {
+        header:'Left',
+        iconClass: 'glyphicon glyphicon-fire',
+        type: 'Chart',
+        settings: {
+          id:'lineChart',
+          type: 'discreteBarChart',
+          x: 'label',
+          y: 'value',
+          height: 300,
+          margin: {
+            left: 38
+          },
+        },
+        cardStyle: 'card',
+        data: {
+          type: 'function',
+          name: 'getData',
+          args: [
+            'http://data.com/data.json'
+          ]
+        }
       },
       {
         type: 'Table',
@@ -47,54 +144,6 @@ export var store = {
           }
         }
       },
-      {
-        header:'Top',
-        type: 'Chart',
-        iconClass: 'glyphicon glyphicon-tree-conifer',
-        settings: {
-          id:'lineChart2',
-          type: 'discreteBarChart',
-          x: 'label',
-          y: 'value',
-          height: 340,
-          margin: {
-            left: 38
-          }
-        },
-        cardStyle: 'card',
-        data: {
-          type: 'function',
-          name: 'getData',
-          args: [
-            ['value', 'label']
-          ]
-        }
-      }
-    ],
-    left: [
-      {
-        header:'Left',
-        iconClass: 'glyphicon glyphicon-fire',
-        type: 'Chart',
-        settings: {
-          id:'lineChart',
-          type: 'discreteBarChart',
-          x: 'label',
-          y: 'value',
-          height: 300,
-          margin: {
-            left: 38
-          }
-        },
-        cardStyle: 'card',
-        data: {
-          type: 'function',
-          name: 'getData',
-          args: [
-            'http://data.com/data.json'
-          ]
-        }
-      },
     ],
     right: [
       {
@@ -109,7 +158,8 @@ export var store = {
           height: 300,
           margin: {
             left: 38
-          }
+          },
+          color: ['#82899B']
         },
         cardStyle: 'card',
         data: {
