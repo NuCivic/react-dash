@@ -2,15 +2,15 @@
 ===============
 
 ## What's <React Dashboard>
-We created this library to speed up dashboards creation with the flexibility only code could give.
+We created this library to speed up dashboard creation with the flexibility only code could give.
 
 ## Install
 ```
 npm install <React Dashboard> (--save)
 ```
 
-## Require
-Once you have installed this library you need to require it and create an entry point:
+## Create App file
+Create an App.js file as an entry point to the application:
 
 ```javascript
 import React, { Component } from 'react';
@@ -30,13 +30,8 @@ export default class App extends Component {
 }
 
 ```
-
-## Dashboard are composed of two main things: configuration and context
-
-### Configuration 
-
-The configuration is a plain javascript object with all the settings needed to create a dashboard. It looks like this:
-
+## Configuration 
+Create a file called *store.js* that contains the following configuration object:
 ```javascript
 var configuration = {
   title: 'Dashboard title',
@@ -68,16 +63,12 @@ var configuration = {
   }
 }
 ```
+(See Components, below, for how to configure individual components).
+## Contexts
+_Contexts_ are javascript classes that contain method implementations for handling data and other actions. 
 
-### Contexts
-Contexts holds the implementation of methods referenced from the store. 
-
-Technically they are javascript classes and it needs to be passed to the dashboard component during the instantiation.
-
-To create a new context you need to extend the base class context by adding all the methods you need and then pass it to the dashboard during the instantiation.
-
+Create a new _context_ by extending the _context_ base class. You can add methods to the new context.
 ```javascript
-
 import Context from 'react-dashboard/Context';
 
 export default class AppContext extends Context {
@@ -91,25 +82,26 @@ export default class AppContext extends Context {
   }
 }
 ```
-
+Context methods will be invoked in components once they have been defined in _store.js_ 
 ```javascript
-export default class App extends Component {
-  render() {
-    return (
-      <div>
-        <Dashboard context={new AppContext(this)} ... />
-      </div>
-    );
-  }
-}
+      {
+        type: 'Autocomplete',
+        name: 'some-name',
+        multi: true,
+        url: 'http://localhost:3004/options?q={{keyword}}',
+        onChange: {
+          type: 'function',
+          name: 'onAutocompleteChange'
+        },
+        cardStyle: 'none'
+      },
 ```
 
 
 ## Layouts
-Even when <React Dashboard> provides some basic layout classes by default you probably would like to create your own layouts. 
+<React Dashboard> provides a default layout ``layouts/Geary.js`` but you can also create your own layouts. 
 
-In order to achieve this you need to extend the base class Layout:
-
+To create your own layout add a file to your example project such as the following:
 ```javascript
 import React from 'react';
 import Layout from 'react-dashboard/Layout';
@@ -143,16 +135,22 @@ export default class MyCustomLayout extends Layout {
 Registry.set('MyCustomLayout', MyCustomLayout); 
 ```
 
-Layouts are composed of regions. You can arbitrary create any number of regions by calling the renderRegion method with the region object: 
-
-Note that we are registering the component using the Registry set method. This is a requirement to make Components available inside layouts. Every time you create a new component you'll need to register it.
-
+Layouts are composed of regions. You can create any number of regions by calling the renderRegion method with the region object: 
 ```javascript
 {this.renderRegion(this.props.regions.myCustomRegion)}
 ```
+Note that we are registering the component using the Registry set method. This is a requirement to make Components available inside layouts. Every time you create a new component you'll need to register it.
 
-## Function references
-Since we don't want to store function references because security concerns then all the function calls are stored using this signature:
+## Context Functions
+Context functions are functions which are stored in a context object. 
+Their primary use is as _data handlers_ to fetch and process data, and as _callback functions_ for handling actions triggered by your components.
+
+A _context function_ can be added to the _context_ like this:
+
+```javascript
+  //@@ TODO Snippet for adding context function
+```
+They can be accessed within your component's configuration as follows:
 
 ```
 {
@@ -162,7 +160,12 @@ Since we don't want to store function references because security concerns then 
 }
 ```
 
-Later you can call this function references from your components by using the execute function available in all the conexts which extends from the base Context class:
+### Data handlers
+Data handlers are functions used for instantiating data and preprocessing data for your components.
+
+
+### Callback functions
+The function is called from within your component by using the _execute_ function available in all the conexts which extend from the base Context class:
 
 ```
 this.props.context.execute({
@@ -171,8 +174,6 @@ this.props.context.execute({
   args: []
 });
 ```
-
-## Built-in Layout
 
 ## Components
 ### Built-in Components
@@ -183,6 +184,13 @@ this.props.context.execute({
 #### Metric
 #### Table
 #### Text
+### Mixins
+Components can extend available _Mixins_ in order to inherit specific functionality.
+```javascript
+
+```
+####fetchData
+The fetchData mixin provides methods for fetching data via _Data Handlers_. Data Handlers return either a _Promise_ or data. Once the _Data Handler_ has  returned, the _fetchData_ mixin calls _setState_ on the component which triggers a re-render.  
 
 ## Development
 ```
@@ -191,3 +199,4 @@ $ npm install
 $ bower install
 $ npm start
 ```
+
