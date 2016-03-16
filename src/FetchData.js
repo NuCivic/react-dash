@@ -16,7 +16,7 @@ export var FetchData = ComposedComponent => class extends Component {
   }
 
   getData() {
-    Promise.resolve(this.props.context.execute(this.props.data)).then(this.onData.bind(this));
+    Promise.resolve(this.props.context.execute(this.props.fetchData)).then(this.onData.bind(this));
   }
 
   render() {

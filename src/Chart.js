@@ -4,6 +4,7 @@ import NVD3Chart from 'react-nvd3';
 import {execute, bindListeners} from './utils';
 import {FetchData} from './FetchData';
 class Chart extends Component {
+
   constructor(props){
     super(props);
     let _props = bindListeners(this.props);
@@ -17,6 +18,7 @@ class Chart extends Component {
       React.createElement(NVD3Chart, this.state.settings)
     );
   }
+
 }
 
 let AsyncChart = FetchData(Chart);

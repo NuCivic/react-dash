@@ -1,5 +1,10 @@
-export var store = {
+export var initialState = {
   title: 'Georgia Reports',
+  context: 'AppContext',
+  fetchData: {
+    type: 'function',
+    name: 'bla',
+  },
   regions: {
     top: [
       {
@@ -7,9 +12,10 @@ export var store = {
         name: 'some-name',
         multi: true,
         url: 'http://localhost:3004/options?q={{keyword}}',
+        context: 'AutocompleteContext',
         onChange: {
-          type: 'function',
-          name: 'onAutocompleteChange'
+          type: 'action',
+          actionType: 'AUTOCOMPLETE_CHANGE'
         },
         cardStyle: 'none'
       },
@@ -29,7 +35,7 @@ export var store = {
           color: ['#EA7E7E']
         },
         cardStyle: 'card',
-        data: {
+        fetchData: {
           type: 'function',
           name: 'getData',
           args: [
@@ -102,7 +108,7 @@ export var store = {
           },
         },
         cardStyle: 'card',
-        data: {
+        fetchData: {
           type: 'function',
           name: 'getData',
           args: [
@@ -112,8 +118,7 @@ export var store = {
       },
       {
         type: 'Table',
-        data: {
-          type: 'function',
+        fetchData: {
           name: 'getTableData'
         },
         cardStyle: 'table',
@@ -162,7 +167,7 @@ export var store = {
           color: ['#82899B']
         },
         cardStyle: 'card',
-        data: {
+        fetchData: {
           type: 'function',
           name: 'getData',
         }

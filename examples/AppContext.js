@@ -3,8 +3,8 @@ import Context from '../src/Context';
 export default class AppContext extends Context {
   constructor(component) {
     super(component);
-
   }
+
   getData(data) {
     return this.component.state.data;
   }
@@ -18,7 +18,7 @@ export default class AppContext extends Context {
   }
 
   onAutocompleteChange(value) {
-    console.log(value)
+    // console.log(value)
   }
 
   getTableData() {
@@ -35,5 +35,4 @@ export default class AppContext extends Context {
       }
     ];
   }
-
 }

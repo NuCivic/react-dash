@@ -14,6 +14,7 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import Registry from './Registry';
 import {bindListeners, execute} from './utils';
+import AppDispatcher from './AppDispatcher';
 
 export default class Autocomplete extends Component {
 
@@ -33,9 +34,7 @@ export default class Autocomplete extends Component {
     // This allow developers to set an onChange event to
     // change the state of the dashboard.
     if(this.props.onChange) {
-      let executable = this.props.onChange;
-      executable.args = [value];
-      this.props.context.execute(executable);
+      AppDispatcher.handleViewAction({actionType: 'AUTOCOMPLETE_CHANGE', value: value});
     }
   }
 
