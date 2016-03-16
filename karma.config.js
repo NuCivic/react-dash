@@ -4,6 +4,7 @@ module.exports = function (config) {
   config.set({
     frameworks: [ 'jasmine' ],
     files: [
+      './node_modules/babel-polyfill/dist/polyfill.js',
       './node_modules/phantomjs-polyfill/bind-polyfill.js',
       'tests/**/*_spec.js'
     ],
@@ -26,7 +27,8 @@ module.exports = function (config) {
       module: {
         loaders: [{
           test: /\.(js|jsx)$/, exclude: /(bower_components|node_modules)/,
-          loader: 'babel-loader'
+          loader: 'babel-loader',
+          query: {compact: false}
         }]
       }
     },
