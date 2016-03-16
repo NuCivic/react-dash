@@ -19,6 +19,9 @@
     "d3"
   ],
   "author": "Mariano Carballal <marianocarballal@gmail.com> (http://github.com/topicus)",
+  "contributors": [
+    "Paul Walker <pjwalker76@gmail.com> (http://github.com/starsinmypockets@gmail.com)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Nucivic/react-dashboard/issues"
