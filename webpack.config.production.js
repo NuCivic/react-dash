@@ -4,18 +4,19 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'eval',
   entry: [
-    './src/index.js'
+    './src/ReactDashboard.js'
   ],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
+    libraryTarget: 'umd',
     publicPath: '/static/'
   },
   module: {
     loaders: [
       {
         test: /\.js$/,
-        loaders: ['babel'],
+        loaders: ['babel-loader'],
         include: [
           path.join(__dirname, 'src')
         ]
