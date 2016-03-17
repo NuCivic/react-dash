@@ -7,7 +7,7 @@ export {default as Metric } from './components/Metric';
 export {default as Registry } from './Registry';
 export {default as Table } from './components/Table';
 export {default as Text } from './components/Text';
-export * as utils from './utils';
 export {default as Geary} from './layouts/Geary';
+export * from './utils';
 
 
