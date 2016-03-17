@@ -57,7 +57,7 @@ class Table extends Component {
     });
 
     return (
-      <div ref="composed">
+      <div ref="table">
         <FixedTable rowsCount={this.props.data.length} {...tableDefaultProps} width={gridWidth}>
           {columns}
         </FixedTable>
