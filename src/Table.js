@@ -3,19 +3,18 @@ import {Table as FixedTable, Column, Cell} from 'fixed-data-table';
 import Registry from './Registry';
 import {execute, getProp} from './utils';
 import {FetchData} from './FetchData';
-
+import isEmpty from 'lodash/isEmpty';
 class Table extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      gridWidth: 200,
-      gridHeight: 200
+      gridWidth: 1,
+      gridHeight: 1
     };
   }
 
   componentDidMount(){
-    console.log(this.refs);
     this.attachResize();
     this.setSize();
   }
@@ -33,7 +32,7 @@ class Table extends Component {
   }
 
   render() {
-    if(!this.props.data.length) return (<div ref="table"></div>);
+    if(isEmpty(this.props.data)) return (<div ref="table"></div>);
 
     const { gridWidth, gridHeight } = this.state;
     let tableDefaultProps = getProp('settings.table', this.props);

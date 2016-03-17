@@ -1,25 +1,18 @@
 import React, { Component } from 'react';
+import EventDispatcher from './EventDispatcher';
+import DashboardConstants from './constants';
 
 export var FetchData = ComposedComponent => class extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = { data: []};
-  }
-
   componentDidMount() {
-    this.getData();
-  }
-
-  onData(data) {
-    this.setState({data: data});
-  }
-
-  getData() {
-    Promise.resolve(this.props.context.execute(this.props.fetchData)).then(this.onData.bind(this));
+    EventDispatcher.handleViewAction({
+      actionType: DashboardConstants.EXECUTE,
+      reference: this.props.fetchData,
+      id: this.props.id
+    });
   }
 
   render() {
-    return <ComposedComponent {...this.props} data={this.state.data}/>;
+    return <ComposedComponent {...this.props} data={this.props.data}/>;
   }
 }

@@ -2,33 +2,32 @@ import React, { Component } from 'react';
 import {Dashboard, Geary, utils} from '../src/ReactDashboard';
 import { datum } from './datum';
 import MyCustomLayout from './MyCustomLayout';
-import AppContext from './AppContext';
-import DashboardStore from './DashboardStore';
+import AppStore from './AppStore';
 import DashboardConstants from '../src/constants';
 
 export default class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = Object.assign({data: datum}, DashboardStore.getState());
+    this.state = Object.assign({data: datum}, AppStore.getState());
   }
 
   componentDidMount() {
-    DashboardStore.addChangeListener(DashboardConstants.DATA_LOADED, this._autocompleteChange);
+    AppStore.addChangeListener(DashboardConstants.STORE_CHANGE, this._storeChange.bind(this));
   }
 
   componentWillUnmount() {
-    DashboardStore.removeChangeListener(DashboardConstants.DATA_LOADED, this._autocompleteChange);
+    AppStore.removeChangeListener(DashboardConstants.STORE_CHANGE, this._storeChange.bind(this));
   }
 
-  _autocompleteChange(){
-    console.log(this.state.data);
+  _storeChange(){
+    this.setState(AppStore.getState());
   }
 
   render() {
     return (
       <div>
-        <Dashboard context={new AppContext(this)} {...this.state} layout={MyCustomLayout}/>
+        <Dashboard {...this.state} layout={MyCustomLayout}/>
       </div>
     );
   }

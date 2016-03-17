@@ -7,15 +7,12 @@ class Chart extends Component {
 
   constructor(props){
     super(props);
-    let _props = bindListeners(this.props);
-    let settings = _props.settings;
-    this.state = {settings: settings};
   }
 
   render() {
-    this.state.settings.datum = this.props.data;
+    let settings = Object.assign({datum: this.props.data}, this.props.settings);
     return (
-      React.createElement(NVD3Chart, this.state.settings)
+      React.createElement(NVD3Chart, settings)
     );
   }
 

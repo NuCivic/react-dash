@@ -8,6 +8,7 @@ export var initialState = {
   regions: {
     top: [
       {
+        id: 'autocomplete',
         type: 'Autocomplete',
         name: 'some-name',
         multi: true,
@@ -20,6 +21,7 @@ export var initialState = {
         cardStyle: 'none'
       },
       {
+        id: 'mainChart',
         header:'Top',
         type: 'Chart',
         iconClass: 'glyphicon glyphicon-tree-conifer',
@@ -46,10 +48,11 @@ export var initialState = {
     ],
     middleFirst: [
       {
+        id: 'newUsers',
         type:'Metric',
         cardStyle: 'metric',
         background: '#9F3E69',
-        number: {
+        getMetric: {
           type: 'function',
           name: 'getRandomMetric'
         },
@@ -58,10 +61,11 @@ export var initialState = {
     ],
     middleSecond: [
       {
+        id: 'visitors',
         type:'Metric',
         cardStyle: 'metric',
         background: '#F3BA4F',
-        number: {
+        getMetric: {
           type: 'function',
           name: 'getRandomMetric'
         },
@@ -70,10 +74,11 @@ export var initialState = {
     ],
     middleThird: [
       {
+        id: 'pageViews',
         type:'Metric',
         cardStyle: 'metric',
         background: '#3EB1AE',
-        number: {
+        getMetric: {
           type: 'function',
           name: 'getRandomMetric'
         },
@@ -82,10 +87,11 @@ export var initialState = {
     ],
     middleFourth: [
       {
+        id: 'uniqueVisitors',
         type:'Metric',
         cardStyle: 'metric',
         background: '#0B90B1',
-        number: {
+        getMetric: {
           type: 'function',
           name: 'getRandomMetric'
         },
@@ -94,6 +100,7 @@ export var initialState = {
     ],
     left: [
       {
+        id: 'leftChart',
         header:'Left',
         iconClass: 'glyphicon glyphicon-fire',
         type: 'Chart',
@@ -110,13 +117,11 @@ export var initialState = {
         cardStyle: 'card',
         fetchData: {
           type: 'function',
-          name: 'getData',
-          args: [
-            'http://data.com/data.json'
-          ]
+          name: 'getData'
         }
       },
       {
+        id: 'table',
         type: 'Table',
         fetchData: {
           name: 'getTableData'
@@ -152,6 +157,7 @@ export var initialState = {
     ],
     right: [
       {
+        id: 'rightChart',
         header:'Right',
         type: 'Chart',
         iconClass: 'glyphicon glyphicon-exclamation-sign',
@@ -173,6 +179,7 @@ export var initialState = {
         }
       },
       {
+        id: 'text',
         header: 'This is an awesome text',
         type: 'Text',
         content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut erat dui, sodales eleifend placerat a, dictum sed tortor.</p><p> Quisque porttitor urna in est vehicula, a molestie nunc pharetra. Cras vehicula nisi dui, ut aliquam nunc vulputate lacinia. Curabitur vitae interdum dolor, sed venenatis tellus. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam volutpat metus et ipsum lobortis, at porttitor nunc laoreet.</p><p>Nullam et ligula at enim pretium accumsan. In et facilisis enim, vel consectetur justo. Duis eleifend sit amet neque eu interdum. Sed ornare orci diam, ac finibus ipsum posuere vel. Duis maximus velit ipsum, et mattis massa tempus sit amet. Suspendisse potenti.</p>',
