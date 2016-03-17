@@ -12,9 +12,9 @@
 
 import React, { Component } from 'react';
 import Select from 'react-select';
-import Registry from './Registry';
-import {bindListeners, execute} from './utils';
-import EventDispatcher from './EventDispatcher';
+import Registry from '../Registry';
+import {bindListeners, execute} from '../utils';
+import EventDispatcher from '../EventDispatcher';
 
 export default class Autocomplete extends Component {
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Chart from './Chart';
 import Card from './Card';
-import Registry from './Registry';
+import Registry from '../Registry';
 
 export default class Layout extends Component {
   renderRegion(elements){

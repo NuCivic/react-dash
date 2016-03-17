@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Geary from './layouts/Geary';
-import Registry from './Registry';
+import Geary from '../layouts/Geary';
+import Registry from '../Registry';
 
 export default class Dashboard extends Component {
 

@@ -1,17 +1,19 @@
 import EventDispatcher from '../src/EventDispatcher';
 import EventEmitter from 'events';
-import DashboardStore from '../src/DashboardStore';
+import DashboardStore from '../src/stores/DashboardStore';
 import DashboardConstants from '../src/constants';
 import {initialState} from './initialState';
 import {datum} from './datum';
 
 class AppStore extends DashboardStore {
+
   fetchData(action) {
     fetch('http://demo.getdkan.com/node/9/download').then((response) => {
       this.state.data = {my:'newData'};
       this.emit(DashboardConstants.STORE_CHANGE);
     });
   }
+
   getRandomMetric(action) {
     let componentState = this.getComponentById(action.id);
     componentState.metric = Math.floor(Math.random() * 1000);

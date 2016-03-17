@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import EventDispatcher from './EventDispatcher';
-import DashboardConstants from './constants';
+import EventDispatcher from '../EventDispatcher';
+import DashboardConstants from '../constants';
 
 export var FetchData = ComposedComponent => class extends Component {
 

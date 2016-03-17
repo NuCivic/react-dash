@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import Registry from './Registry';
-import {execute} from './utils';
-import EventDispatcher from './EventDispatcher';
-import DashboardConstants from './constants';
+import Registry from '../Registry';
+import {execute} from '../utils';
+import EventDispatcher from '../EventDispatcher';
+import DashboardConstants from '../constants';
+
 export default class Metric extends Component {
   componentDidMount() {
     EventDispatcher.handleViewAction({

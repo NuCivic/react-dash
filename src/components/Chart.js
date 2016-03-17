@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Registry from './Registry';
+import Registry from '../Registry';
 import NVD3Chart from 'react-nvd3';
-import {execute, bindListeners} from './utils';
+import {execute, bindListeners} from '../utils';
 import {FetchData} from './FetchData';
 class Chart extends Component {
 

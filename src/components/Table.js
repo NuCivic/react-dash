@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Table as FixedTable, Column, Cell} from 'fixed-data-table';
-import Registry from './Registry';
-import {execute, getProp} from './utils';
+import Registry from '../Registry';
+import {execute, getProp} from '../utils';
 import {FetchData} from './FetchData';
 import isEmpty from 'lodash/isEmpty';
 class Table extends Component {

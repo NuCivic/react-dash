@@ -1,4 +1,4 @@
-import EventDispatcher from './EventDispatcher';
+import EventDispatcher from '../EventDispatcher';
 import EventEmitter from 'events';
 
 export default class DashboardStore  extends EventEmitter {
