@@ -4,43 +4,31 @@ import DashboardStore from '../src/stores/DashboardStore';
 import DashboardConstants from '../src/constants';
 import {initialState} from './initialState';
 import {datum} from './datum';
-
+import Immutable from 'immutable';
 class AppStore extends DashboardStore {
 
   fetchData(action) {
     fetch('http://demo.getdkan.com/node/9/download').then((response) => {
-      this.state.data = {my:'newData'};
+      this.state.data = { my:'newData'};
       this.emit(DashboardConstants.STORE_CHANGE);
     });
   }
 
   getRandomMetric(action) {
-    let componentState = this.getComponentById(action.id);
-    componentState.metric = Math.floor(Math.random() * 1000);
-    this.emit(DashboardConstants.STORE_CHANGE);
+    let metric = Math.floor(Math.random() * 1000);
+    this.updateComponent(action.id, 'metric', metric);
   }
 
   getTableData(action) {
-    let componentState = this.getComponentById(action.id);
-    componentState.data = [
-      {
-        a1: 'a2',
-        b1: 'b2',
-        c1: 'c2',
-      },
-      {
-        a1: 'a3',
-        b1: 'b3',
-        c1: 'c3',
-      }
+    let data = [
+      { a1: 'a2', b1: 'b2', c1: 'c2' },
+      { a1: 'a3', b1: 'b3', c1: 'c3' }
     ];
-    this.emit(DashboardConstants.STORE_CHANGE);
+    this.updateComponent(action.id, 'data', data);
   }
 
   getData(action) {
-    let element = this.getComponentById(action.id);
-    element.data = datum;
-    this.emit(DashboardConstants.STORE_CHANGE);
+    this.updateComponent(action.id, 'data', datum);
   }
 }
 
