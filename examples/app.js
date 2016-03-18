@@ -12,7 +12,7 @@ export default class App extends Component {
     this.state = Object.assign({data: datum}, AppStore.getState());
   }
 
-  componentDidMount() {
+  componentWillMount() {
     AppStore.addChangeListener(DashboardConstants.STORE_CHANGE, this._storeChange.bind(this));
   }
 
