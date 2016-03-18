@@ -1,19 +1,31 @@
-export var store = {
+// This is the initialState of the application. It holds all the
+// required information to create the dashboard. This should be passed
+// to the store constructor.
+
+export var initialState = {
   title: 'Georgia Reports',
+  context: 'AppContext',
+  fetchData: {
+    type: 'function',
+    name: 'bla',
+  },
   regions: {
     top: [
       {
+        id: 'autocomplete',
         type: 'Autocomplete',
         name: 'some-name',
         multi: true,
         url: 'http://localhost:3004/options?q={{keyword}}',
+        context: 'AutocompleteContext',
         onChange: {
-          type: 'function',
-          name: 'onAutocompleteChange'
+          type: 'action',
+          actionType: 'AUTOCOMPLETE_CHANGE'
         },
         cardStyle: 'none'
       },
       {
+        id: 'mainChart',
         header:'Top',
         type: 'Chart',
         iconClass: 'glyphicon glyphicon-tree-conifer',
@@ -29,7 +41,7 @@ export var store = {
           color: ['#EA7E7E']
         },
         cardStyle: 'card',
-        data: {
+        fetchData: {
           type: 'function',
           name: 'getData',
           args: [
@@ -40,10 +52,11 @@ export var store = {
     ],
     middleFirst: [
       {
+        id: 'newUsers',
         type:'Metric',
         cardStyle: 'metric',
         background: '#9F3E69',
-        number: {
+        getMetric: {
           type: 'function',
           name: 'getRandomMetric'
         },
@@ -52,10 +65,11 @@ export var store = {
     ],
     middleSecond: [
       {
+        id: 'visitors',
         type:'Metric',
         cardStyle: 'metric',
         background: '#F3BA4F',
-        number: {
+        getMetric: {
           type: 'function',
           name: 'getRandomMetric'
         },
@@ -64,10 +78,11 @@ export var store = {
     ],
     middleThird: [
       {
+        id: 'pageViews',
         type:'Metric',
         cardStyle: 'metric',
         background: '#3EB1AE',
-        number: {
+        getMetric: {
           type: 'function',
           name: 'getRandomMetric'
         },
@@ -76,10 +91,11 @@ export var store = {
     ],
     middleFourth: [
       {
+        id: 'uniqueVisitors',
         type:'Metric',
         cardStyle: 'metric',
         background: '#0B90B1',
-        number: {
+        getMetric: {
           type: 'function',
           name: 'getRandomMetric'
         },
@@ -88,6 +104,7 @@ export var store = {
     ],
     left: [
       {
+        id: 'leftChart',
         header:'Left',
         iconClass: 'glyphicon glyphicon-fire',
         type: 'Chart',
@@ -102,18 +119,15 @@ export var store = {
           },
         },
         cardStyle: 'card',
-        data: {
+        fetchData: {
           type: 'function',
-          name: 'getData',
-          args: [
-            'http://data.com/data.json'
-          ]
+          name: 'getData'
         }
       },
       {
+        id: 'table',
         type: 'Table',
-        data: {
-          type: 'function',
+        fetchData: {
           name: 'getTableData'
         },
         cardStyle: 'table',
@@ -147,6 +161,7 @@ export var store = {
     ],
     right: [
       {
+        id: 'rightChart',
         header:'Right',
         type: 'Chart',
         iconClass: 'glyphicon glyphicon-exclamation-sign',
@@ -162,12 +177,13 @@ export var store = {
           color: ['#82899B']
         },
         cardStyle: 'card',
-        data: {
+        fetchData: {
           type: 'function',
           name: 'getData',
         }
       },
       {
+        id: 'text',
         header: 'This is an awesome text',
         type: 'Text',
         content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut erat dui, sodales eleifend placerat a, dictum sed tortor.</p><p> Quisque porttitor urna in est vehicula, a molestie nunc pharetra. Cras vehicula nisi dui, ut aliquam nunc vulputate lacinia. Curabitur vitae interdum dolor, sed venenatis tellus. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam volutpat metus et ipsum lobortis, at porttitor nunc laoreet.</p><p>Nullam et ligula at enim pretium accumsan. In et facilisis enim, vel consectetur justo. Duis eleifend sit amet neque eu interdum. Sed ornare orci diam, ac finibus ipsum posuere vel. Duis maximus velit ipsum, et mattis massa tempus sit amet. Suspendisse potenti.</p>',

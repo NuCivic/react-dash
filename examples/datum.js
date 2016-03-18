@@ -1,3 +1,4 @@
+// A bunch of data to feed our charts.
 export var datum = [{
     key: "Cumulative Return",
     values: [
