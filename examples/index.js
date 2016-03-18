@@ -8,4 +8,5 @@ import 'react-select/dist/react-select.min.css';
 import 'fixed-data-table/dist/fixed-data-table.min.css';
 import '../src/css/card.css';
 
+// This will render the app component inside the div with the id root.
 ReactDOM.render(<App />, document.getElementById('root'));

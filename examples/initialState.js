@@ -1,3 +1,7 @@
+// This is the initialState of the application. It holds all the
+// required information to create the dashboard. This should be passed
+// to the store constructor.
+
 export var initialState = {
   title: 'Georgia Reports',
   context: 'AppContext',
