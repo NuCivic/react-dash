@@ -3,7 +3,7 @@ import {Dashboard, Geary, utils} from '../src/ReactDashboard';
 import { datum } from './datum';
 import MyCustomLayout from './MyCustomLayout';
 import AppStore from './AppStore';
-import DashboardConstants from '../src/constants';
+import DashboardConstants from '../src/constants/DashboardConstants';
 
 // This is the main application. Here we render the dashboard and suscribe to
 // all the store events and change this view state accordingly.

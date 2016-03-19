@@ -1,12 +1,14 @@
 import EventDispatcher from '../EventDispatcher';
 import EventEmitter from 'events';
 import Immutable from 'immutable';
-import DashboardConstants from '../constants';
+import DashboardConstants from '../constants/DashboardConstants';
+
 export default class DashboardStore  extends EventEmitter {
 
   constructor(initialState) {
     super(initialState);
     this.state = initialState;
+    this.dispatchToken = EventDispatcher.register(this.onAction.bind(this));
   }
 
   getState() {
@@ -43,7 +45,7 @@ export default class DashboardStore  extends EventEmitter {
   /**
    * Allow to update a component without mutate the state
    */
-  updateComponent(id, property, value, update = false) {
+  updateComponentState(id, property, value, update = false) {
     let op = update ? 'updateIn' : 'setIn';
     let state = Immutable.fromJS(this.state);
     let path = this.getComponentPath(id);
@@ -60,5 +62,11 @@ export default class DashboardStore  extends EventEmitter {
     if(!executable.name) throw Error(`Missing executable name`);
     if(!(executable.name in this)) throw Error(`Method ${executable.name} were not found in the current context.`);
     this[executable.name](action);
+  }
+
+  dispatcherCallback() {
+    /**
+     * Implementations goes in the child classes
+     */
   }
 }

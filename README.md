@@ -185,6 +185,7 @@ this.props.context.execute({
 #### Table
 #### Text
 ### Mixins
+### Extending base components
 Components can extend available _Mixins_ in order to inherit specific functionality.
 ```javascript
 

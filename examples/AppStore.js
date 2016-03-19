@@ -1,7 +1,7 @@
 import EventDispatcher from '../src/EventDispatcher';
 import EventEmitter from 'events';
 import DashboardStore from '../src/stores/DashboardStore';
-import DashboardConstants from '../src/constants';
+import DashboardConstants from '../src/constants/DashboardConstants';
 import {initialState} from './initialState';
 import {datum} from './datum';
 import Immutable from 'immutable';
@@ -30,7 +30,7 @@ class AppStore extends DashboardStore {
   // internally then we don't need to execute that by hand.
   getRandomMetric(action) {
     let metric = Math.floor(Math.random() * 1000);
-    this.updateComponent(action.id, 'metric', metric);
+    this.updateComponentState(action.id, 'metric', metric);
   }
 
   getTableData(action) {
@@ -38,30 +38,28 @@ class AppStore extends DashboardStore {
       { a1: 'a2', b1: 'b2', c1: 'c2' },
       { a1: 'a3', b1: 'b3', c1: 'c3' }
     ];
-    this.updateComponent(action.id, 'data', data);
+    this.updateComponentState(action.id, 'data', data);
   }
 
   getData(action) {
-    this.updateComponent(action.id, 'data', datum);
+    this.updateComponentState(action.id, 'data', datum);
+  }
+
+  // Every event triggered by the dispatcher will be
+  // handled by this function.
+  onAction(payload) {
+    switch(payload.action.actionType) {
+      case DashboardConstants.AUTOCOMPLETE_CHANGE:
+        appStore.fetchData(payload.action);
+        break;
+      case DashboardConstants.EXECUTE:
+        appStore.execute(payload.action);
+        break;
+    }
   }
 }
 
 // Instantiate the store
 let appStore = new AppStore(initialState);
-
-// Every event triggered by the dispatcher will be
-// handled by this arrow function. EventDispatcher is a
-// singleton therefore it's the same instance across
-// the application.
-EventDispatcher.register((payload) => {
-  switch(payload.action.actionType) {
-    case DashboardConstants.AUTOCOMPLETE_CHANGE:
-      appStore.fetchData(payload.action);
-      break;
-    case DashboardConstants.EXECUTE:
-      appStore.execute(payload.action);
-      break;
-  }
-});
 
 export default appStore;
