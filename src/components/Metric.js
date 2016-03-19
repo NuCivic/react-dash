@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Registry from '../Registry';
 import {execute} from '../utils';
 import EventDispatcher from '../EventDispatcher';
-import DashboardConstants from '../constants';
+import DashboardConstants from '../constants/DashboardConstants';
 
 export default class Metric extends Component {
   componentDidMount() {
