@@ -8,6 +8,8 @@ export {default as Registry } from './Registry';
 export {default as Table } from './components/Table';
 export {default as Text } from './components/Text';
 export {default as Geary} from './layouts/Geary';
+export {default as EventDispatcher} from './EventDispatcher'; 
+export {default as DashboardStore} from './stores/DashboardStore';
 export {default as DashboardConstants} from './constants/DashboardConstants';
 export * from './utils';
 
