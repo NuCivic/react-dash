@@ -5,7 +5,8 @@ import Registry from '../Registry';
 
 export default class Layout extends Component {
   renderRegion(elements){
-    if (!elements) return;
+  console.log('R>>', Registry.get('Choropleth'));
+  if (!elements) return;
     return elements.map((element, key) => {
       let props = element;
       props.context = this.props.context;

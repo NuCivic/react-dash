@@ -162,25 +162,10 @@ export var initialState = {
     right: [
       {
         id: 'rightChart',
-        header:'Right',
-        type: 'Chart',
+        header:'Right!',
+        type: 'Choropleth',
         iconClass: 'glyphicon glyphicon-exclamation-sign',
-        settings: {
-          id:'barChart',
-          type: 'discreteBarChart',
-          x: 'label',
-          y: 'value',
-          height: 300,
-          margin: {
-            left: 38
-          },
-          color: ['#82899B']
-        },
-        cardStyle: 'card',
-        fetchData: {
-          type: 'function',
-          name: 'getData',
-        }
+        cardStyle: 'Choropleth'
       },
       {
         id: 'text',
