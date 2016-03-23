@@ -65,6 +65,7 @@
     "immutable": "^3.7.6",
     "lodash": "^4.6.1",
     "react-nvd3": "git+ssh://git@github.com/NuCivic/react-nvd3.git",
-    "react-select": "git+https://github.com/JedWatson/react-select.git"
+    "react-select": "git+https://github.com/JedWatson/react-select.git",
+    "topojson": "^1.6.24"
   }
 }

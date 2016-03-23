@@ -45,6 +45,9 @@ class AppStore extends DashboardStore {
     this.updateComponentState(action.id, 'data', datum);
   }
 
+  getChoroplethData(action) {
+    this.updateComponentState(action.id, '')
+  }
   // Every event triggered by the dispatcher will be
   // handled by this function.
   onAction(payload) {
