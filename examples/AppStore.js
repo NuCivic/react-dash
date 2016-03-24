@@ -58,7 +58,7 @@ class AppStore extends DashboardStore {
 	 */
   getChoroplethData(action) {
 		let datum = {};
-    
+    console.log('getChData1', action); 
 		datum.dataPolygon = topojson.feature(topodata, topodata.objects.counties).features;
     datum.dataMesh = topojson.mesh(topodata, topodata.objects.states, function(a, b) { return a !== b; });
     datum.domain = {
