@@ -5,6 +5,9 @@ import DashboardConstants from '../src/constants/DashboardConstants';
 import {initialState} from './initialState';
 import {datum} from './datum';
 import Immutable from 'immutable';
+import * as topojson from 'topojson';
+import topodata from 'json!./data/us.json';
+import domainData from 'dsv?delimiter=\t!./data/unemployment.tsv';
 
 class AppStore extends DashboardStore {
 
@@ -45,9 +48,29 @@ class AppStore extends DashboardStore {
     this.updateComponentState(action.id, 'data', datum);
   }
 
+	/*
+   * Return an object with needed data to generate choropleth map:
+	 * datum : {
+	 *	dataPolygon: [Object..],
+	 *	dataMesh: [Object..],
+	 *  domain: [Object..]
+   * }
+	 */
   getChoroplethData(action) {
-    this.updateComponentState(action.id, '')
+		let datum = {};
+    
+		datum.dataPolygon = topojson.feature(topodata, topodata.objects.counties).features;
+    datum.dataMesh = topojson.mesh(topodata, topodata.objects.states, function(a, b) { return a !== b; });
+    datum.domain = {
+      scale: 'quantize',
+      domain: [0, .15],
+      range: d3.range(9).map(function(i) { return "q" + i + "-9"; })
+    };
+    datum.domainData = domainData;
+    console.log('getChData', datum, action);
+    this.updateComponentState(action.id, 'data', datum)
   }
+
   // Every event triggered by the dispatcher will be
   // handled by this function.
   onAction(payload) {

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import Registry from '../Registry';
 import * as topojson from 'topojson';
-import topodata from 'json!../../examples/data/us.json';
-import domainData from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv';
 import * as MapChoroplethModule from 'react-d3-map-choropleth';
+import {FetchData} from './FetchData';
 
 let MapChoropleth = MapChoroplethModule.MapChoropleth;
 
@@ -13,9 +12,11 @@ function addStyleString(str) {
     document.body.appendChild(node);
 }
 
+// @@TODO move data fetchers to appStore
+import topodata from 'json!../../examples/data/us.json';
+import domainData from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv';
 
 // https://github.com/react-d3/react-d3-map-choropleth for documentation
-
 class Choropleth extends Component {
 
   constructor(props){
@@ -58,5 +59,6 @@ class Choropleth extends Component {
   }
 }
 
-Registry.set('Choropleth', Choropleth);
-export default Choropleth;
+let AsyncChoropleth = FetchData(Choropleth);
+Registry.set('Choropleth', AsyncChoropleth);
+export default AsyncChoropleth;

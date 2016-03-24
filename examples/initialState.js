@@ -166,6 +166,10 @@ export var initialState = {
         type: 'Choropleth',
         iconClass: 'glyphicon glyphicon-exclamation-sign',
         cardStyle: 'Choropleth',
+				fetchData: {
+					type: 'function',
+          name: 'getChoroplethData'
+				},
         settings: {
           css: '.q0-9 { fill:rgb(247,251,255); } \
            .q1-9 { fill:rgb(222,235,247); } \
