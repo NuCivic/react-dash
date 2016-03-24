@@ -1,4 +1,4 @@
-export var store = {
+export var settings = {
   title: 'Georgia Reports',
   regions: {
     top: [
@@ -7,15 +7,12 @@ export var store = {
         name: 'some-name',
         multi: true,
         url: 'http://localhost:3004/options?q={{keyword}}',
-        onChange: {
-          type: 'function',
-          name: 'onAutocompleteChange'
-        },
+        onChange: 'onAutocompleteChange',
         cardStyle: 'none'
       },
       {
         header:'Top',
-        type: 'Chart',
+        type: 'GAChart',
         iconClass: 'glyphicon glyphicon-tree-conifer',
         settings: {
           id:'lineChart2',
@@ -29,60 +26,42 @@ export var store = {
           color: ['#EA7E7E']
         },
         cardStyle: 'card',
-        data: {
-          type: 'function',
-          name: 'getData',
-          args: [
-            ['value', 'label']
-          ]
-        }
+        fetchData: 'getData'
       }
     ],
     middleFirst: [
       {
-        type:'Metric',
+        type:'GAMetric',
         cardStyle: 'metric',
         background: '#9F3E69',
-        number: {
-          type: 'function',
-          name: 'getRandomMetric'
-        },
+        metric: 'getRandomMetric',
         caption: 'New Users',
       }
     ],
     middleSecond: [
       {
-        type:'Metric',
+        type:'GAMetric',
         cardStyle: 'metric',
         background: '#F3BA4F',
-        number: {
-          type: 'function',
-          name: 'getRandomMetric'
-        },
+        metric: 'getRandomMetric',
         caption: 'Visitors',
       }
     ],
     middleThird: [
       {
-        type:'Metric',
+        type:'GAMetric',
         cardStyle: 'metric',
         background: '#3EB1AE',
-        number: {
-          type: 'function',
-          name: 'getRandomMetric'
-        },
+        metric: 'getRandomMetric',
         caption: 'Page views',
       }
     ],
     middleFourth: [
       {
-        type:'Metric',
+        type:'GAMetric',
         cardStyle: 'metric',
         background: '#0B90B1',
-        number: {
-          type: 'function',
-          name: 'getRandomMetric'
-        },
+        metric: 'getRandomMetric',
         caption: 'Unique Visitors',
       }
     ],
@@ -90,7 +69,7 @@ export var store = {
       {
         header:'Left',
         iconClass: 'glyphicon glyphicon-fire',
-        type: 'Chart',
+        type: 'GAChart',
         settings: {
           id:'lineChart',
           type: 'discreteBarChart',
@@ -102,20 +81,11 @@ export var store = {
           },
         },
         cardStyle: 'card',
-        data: {
-          type: 'function',
-          name: 'getData',
-          args: [
-            'http://data.com/data.json'
-          ]
-        }
+        fetchData: 'getData'
       },
       {
-        type: 'Table',
-        data: {
-          type: 'function',
-          name: 'getTableData'
-        },
+        type: 'GATable',
+        fetchData: 'getData',
         cardStyle: 'table',
         settings: {
           table: {
@@ -148,7 +118,7 @@ export var store = {
     right: [
       {
         header:'Right',
-        type: 'Chart',
+        type: 'GAChart',
         iconClass: 'glyphicon glyphicon-exclamation-sign',
         settings: {
           id:'barChart',
@@ -162,10 +132,7 @@ export var store = {
           color: ['#82899B']
         },
         cardStyle: 'card',
-        data: {
-          type: 'function',
-          name: 'getData',
-        }
+        fetchData: 'getData'
       },
       {
         header: 'This is an awesome text',

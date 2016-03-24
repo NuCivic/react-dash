@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {Table as FixedTable, Column, Cell} from 'fixed-data-table';
 import Registry from './Registry';
-import {execute, getProp} from './utils';
-import {FetchData} from './FetchData';
+import {getProp} from './utils';
+import isEmpty from 'lodash/isEmpty';
 
-class Table extends Component {
+export default class Table extends Component {
 
   constructor(props) {
     super(props);
@@ -15,9 +15,27 @@ class Table extends Component {
   }
 
   componentDidMount(){
-    console.log(this.refs);
     this.attachResize();
     this.setSize();
+    this.fetchData().then(this.onData.bind(this));
+  }
+
+  onData(data) {
+    this.setData(data);
+  }
+
+  fetchData() {
+    return Promise.resolve(this[this.props.fetchData]());
+  }
+
+  setData(data) {
+    const { offsetWidth, offsetHeight } = this.refs.table;
+    let state = Object.assign({}, {
+      gridWidth: offsetWidth,
+      gridHeight: offsetHeight
+    }, {data:data});
+
+    this.setState(state);
   }
 
   setSize() {
@@ -33,13 +51,13 @@ class Table extends Component {
   }
 
   render() {
-    if(!this.props.data.length) return (<div ref="table"></div>);
+    if(isEmpty(this.state.data)) return (<div ref="table"></div>);
 
     const { gridWidth, gridHeight } = this.state;
     let tableDefaultProps = getProp('settings.table', this.props);
     let columnDefaultProps = getProp('settings.columns', this.props);
     let cellsDefaultProps = getProp('settings.cells', this.props);
-    let headers = Object.keys(this.props.data[0]);
+    let headers = Object.keys(this.state.data[0]);
     let columns = headers.map((header) => {
       let overrides = getProp('overrides.' + header, columnDefaultProps);
       return <Column
@@ -49,7 +67,7 @@ class Table extends Component {
         cell={props => {
           let overrides = getProp('overrides.' + props.rowIndex, cellsDefaultProps);
           return <Cell {...props} {...cellsDefaultProps} {...overrides}>
-            {this.props.data[props.rowIndex][props.columnKey]}
+            {this.state.data[props.rowIndex][props.columnKey]}
           </Cell>
         }}
         {...columnDefaultProps}
@@ -58,8 +76,8 @@ class Table extends Component {
     });
 
     return (
-      <div ref="composed">
-        <FixedTable rowsCount={this.props.data.length} {...tableDefaultProps} width={gridWidth}>
+      <div ref="table">
+        <FixedTable rowsCount={this.state.data.length} {...tableDefaultProps} width={gridWidth}>
           {columns}
         </FixedTable>
       </div>
@@ -67,6 +85,4 @@ class Table extends Component {
   }
 }
 
-let AsyncTable = FetchData(Table);
-Registry.set('Table', AsyncTable);
-export default AsyncTable;
+Registry.set('Table', Table);

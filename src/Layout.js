@@ -9,8 +9,6 @@ export default class Layout extends Component {
     return elements.map((element, key) => {
       let props = Object.assign({}, element);
       // Attach global state and contexts to nested components
-      props.sharedState = this.props.sharedState;
-      props.context = this.props.context;
       return (
         <Card key={key} {...element}>
           {React.createElement(Registry.get(element.type), props)}

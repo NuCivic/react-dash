@@ -1,26 +1,15 @@
 import React, { Component } from 'react';
-import {Dashboard, Geary, utils} from '../src/ReactDashboard';
-import { datum } from './datum';
-import { store } from './store';
-import MyCustomLayout from './MyCustomLayout';
-import AppContext from './AppContext';
+import {Dashboard} from '../src/ReactDashboard';
 
-export default class App extends Component {
+export default class GADashboard extends Dashboard {
 
   constructor(props) {
     super(props);
-    this.state = {data: datum};
+    this.state = {data: []};
   }
 
-  onChange(value) {
-    console.log(value);
+  onAutocompleteChange(payload) {
+    console.log(payload.value);
   }
 
-  render() {
-    return (
-      <div>
-        <Dashboard context={new AppContext(this)} sharedState={this.state} {...store} layout={MyCustomLayout}/>
-      </div>
-    );
-  }
 }
