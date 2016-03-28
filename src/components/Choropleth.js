@@ -31,19 +31,15 @@ function addStyleString(str) {
 // @@TODO - we should baseclass the css functions
 // Fetch css
 function fetchStyleSheet(url) {
-  console.log('css00');
   return new Promise((resolve, reject) => {
     fetch(url)
       .then(res => {
-        console.log('css0',res);
         return res.text();
       })
       .then(css => {
-        console.log('CSS!', css);
         resolve(css);  
       })
       .catch(e => {
-        console.log('E!', e);
         reject(e);
       });
   });
@@ -54,13 +50,11 @@ import topodata from 'json!../../examples/data/us.json';
 import domainData from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv';
 
 class Choropleth extends Component {
-
   constructor(props){
 		super(props);
 	}
   
 	render () {
-    console.log('ch1',this); 
     let v;
     
     if (this.props.data) {
@@ -70,7 +64,6 @@ class Choropleth extends Component {
       addStyleString(this.props.settings.css);
       // add stylesheet 
       if (this.props.settings.cssPath) {
-        console.log('ch-r-css-1');
         fetchStyleSheet(this.props.settings.cssPath)
           .then(css => {
             addStyleString(css)
