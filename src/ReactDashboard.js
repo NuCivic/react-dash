@@ -1,6 +1,7 @@
 export {default as Autocomplete } from './components/Autocomplete';
 export {default as Card } from './components/Card';
 export {default as Chart } from './components/Chart';
+export {default as Choropleth} from './components/Choropleth';
 export {default as Dashboard } from './components/Dashboard';
 export {default as Layout } from './components/Layout';
 export {default as Metric } from './components/Metric';

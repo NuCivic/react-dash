@@ -162,24 +162,37 @@ export var initialState = {
     right: [
       {
         id: 'rightChart',
-        header:'Right',
-        type: 'Chart',
+        header:'Right!',
+        type: 'Choropleth',
         iconClass: 'glyphicon glyphicon-exclamation-sign',
+        cardStyle: 'Choropleth',
+				fetchData: {
+					type: 'function',
+          name: 'getChoroplethData'
+				},
         settings: {
-          id:'barChart',
-          type: 'discreteBarChart',
-          x: 'label',
-          y: 'value',
-          height: 300,
-          margin: {
-            left: 38
-          },
-          color: ['#82899B']
-        },
-        cardStyle: 'card',
-        fetchData: {
-          type: 'function',
-          name: 'getData',
+          css: '.q0-9 { fill:rgb(247,251,255); } \
+           .q1-9 { fill:rgb(222,235,247); } \
+           .q2-9 { fill:rgb(198,219,239); } \
+           .q3-9 { fill:rgb(158,202,225); } \
+           .q4-9 { fill:rgb(107,174,214); } \
+           .q5-9 { fill:rgb(66,146,198); } \
+           .q6-9 { fill:rgb(33,113,181); } \
+           .q7-9 { fill:rgb(8,81,156); } \
+           .q8-9 { fill:rgb(8,48,107); }'
+          ,
+          tooltipContent: function (d) { console.log('tt',d.properties[d.id]); return {rate: d.properties[d.id]}; }, 
+          showTooltip: {true},
+					domainValue: function(d) { return +d.rate; },
+					domainKey: function(d) {return +d.id},
+					mapKey: function(d) {return +d.id},
+				  width: 1200,
+				  height: 750,
+				  scale: 1280,
+          cssPath: '/static/choropleth.css',
+				  translate: [1200 / 2, 750 / 2],
+			    projection: 'albersUsa',
+					showGraticule: true
         }
       },
       {
