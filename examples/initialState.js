@@ -181,7 +181,8 @@ export var initialState = {
            .q7-9 { fill:rgb(8,81,156); } \
            .q8-9 { fill:rgb(8,48,107); }'
           ,
-          tooltipContent: function (d) {console.log('tt1',d);return d.id},
+          tooltipContent: function (d) { console.log('tt',d.properties[d.id]); return {rate: d.properties[d.id]}; }, 
+          showTooltip: {true},
 					domainValue: function(d) { return +d.rate; },
 					domainKey: function(d) {return +d.id},
 					mapKey: function(d) {return +d.id},
