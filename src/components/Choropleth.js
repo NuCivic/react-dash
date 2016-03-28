@@ -20,11 +20,33 @@ import {FetchData} from './FetchData';
 
 let MapChoropleth = MapChoroplethModule.MapChoropleth;
 
+// @@TODO - we should baseclass the css functions
 // Whack some css into the page
 function addStyleString(str) {
     var node = document.createElement('style');
     node.innerHTML = str;
     document.body.appendChild(node);
+}
+
+// @@TODO - we should baseclass the css functions
+// Fetch css
+function fetchStyleSheet(url) {
+  console.log('css00');
+  return new Promise((resolve, reject) => {
+    fetch(url)
+      .then(res => {
+        console.log('css0',res);
+        return res.text();
+      })
+      .then(css => {
+        console.log('CSS!', css);
+        resolve(css);  
+      })
+      .catch(e => {
+        console.log('E!', e);
+        reject(e);
+      });
+  });
 }
 
 // @@TODO move data fetchers to appStore
@@ -43,8 +65,20 @@ class Choropleth extends Component {
     
     if (this.props.data) {
       Object.assign(this.props.settings, this.props.data, {type : this.props.type});
+
       // add pallet to heat map
       addStyleString(this.props.settings.css);
+      // add stylesheet 
+      if (this.props.settings.cssPath) {
+        console.log('ch-r-css-1');
+        fetchStyleSheet(this.props.settings.cssPath)
+          .then(css => {
+            addStyleString(css)
+          })
+          .catch(e => {
+            console.log('Trouble fetching component stylesheet', this.props.type, e);
+          });
+      }
       v = <MapChoropleth {...this.props.settings} />;
    } else {
       v = <p class='laoding'>Loading...</p>;

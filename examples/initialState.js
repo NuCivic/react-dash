@@ -189,6 +189,7 @@ export var initialState = {
 				  width: 1200,
 				  height: 750,
 				  scale: 1280,
+          cssPath: '/static/choropleth.css',
 				  translate: [1200 / 2, 750 / 2],
 			    projection: 'albersUsa',
 					showGraticule: true
