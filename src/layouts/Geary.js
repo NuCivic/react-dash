@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import Registry from '../Registry';
+import Registry from '../utils/Registry';
 
 export default class Geary extends Layout {
   render() {

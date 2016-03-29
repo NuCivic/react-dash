@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import Registry from '../Registry';
+import Registry from '../utils/Registry';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
+import BaseComponent from './BaseComponent';
 
-export default class Card extends Component {
+export default class Card extends BaseComponent {
   render() {
     let card = pick(this.props, 'card').card;
     let props = omit(this.props, 'card');
@@ -22,5 +23,3 @@ export default class Card extends Component {
     )
   }
 }
-
-Registry.set('Card', Card);

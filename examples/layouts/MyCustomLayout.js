@@ -1,6 +1,6 @@
 import React from 'react';
-import Layout from '../src/components/Layout';
-import Registry from '../src/Registry';
+import Layout from '../../src/components/Layout';
+import Registry from '../../src/utils/Registry';
 
 export default class MyCustomLayout extends Layout {
   render() {

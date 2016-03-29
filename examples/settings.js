@@ -1,33 +1,18 @@
-// This is the initialState of the application. It holds all the
-// required information to create the dashboard. This should be passed
-// to the store constructor.
-
-export var initialState = {
+export var settings = {
   title: 'Georgia Reports',
-  context: 'AppContext',
-  fetchData: {
-    type: 'function',
-    name: 'bla',
-  },
   regions: {
     top: [
       {
-        id: 'autocomplete',
         type: 'Autocomplete',
         name: 'some-name',
         multi: true,
         url: 'http://localhost:3004/options?q={{keyword}}',
-        context: 'AutocompleteContext',
-        onChange: {
-          type: 'action',
-          actionType: 'AUTOCOMPLETE_CHANGE'
-        },
+        onChange: 'onAutocompleteChange',
         cardStyle: 'none'
       },
       {
-        id: 'mainChart',
         header:'Top',
-        type: 'Chart',
+        type: 'GAChart',
         iconClass: 'glyphicon glyphicon-tree-conifer',
         settings: {
           id:'lineChart2',
@@ -41,73 +26,50 @@ export var initialState = {
           color: ['#EA7E7E']
         },
         cardStyle: 'card',
-        fetchData: {
-          type: 'function',
-          name: 'getData',
-          args: [
-            ['value', 'label']
-          ]
-        }
+        fetchData: 'getData'
       }
     ],
     middleFirst: [
       {
-        id: 'newUsers',
-        type:'Metric',
+        type:'GAMetric',
         cardStyle: 'metric',
         background: '#9F3E69',
-        getMetric: {
-          type: 'function',
-          name: 'getRandomMetric'
-        },
+        metric: 'getRandomMetric',
         caption: 'New Users',
       }
     ],
     middleSecond: [
       {
-        id: 'visitors',
-        type:'Metric',
+        type:'GAMetric',
         cardStyle: 'metric',
         background: '#F3BA4F',
-        getMetric: {
-          type: 'function',
-          name: 'getRandomMetric'
-        },
+        metric: 'getRandomMetric',
         caption: 'Visitors',
       }
     ],
     middleThird: [
       {
-        id: 'pageViews',
-        type:'Metric',
+        type:'GAMetric',
         cardStyle: 'metric',
         background: '#3EB1AE',
-        getMetric: {
-          type: 'function',
-          name: 'getRandomMetric'
-        },
+        metric: 'getRandomMetric',
         caption: 'Page views',
       }
     ],
     middleFourth: [
       {
-        id: 'uniqueVisitors',
-        type:'Metric',
+        type:'GAMetric',
         cardStyle: 'metric',
         background: '#0B90B1',
-        getMetric: {
-          type: 'function',
-          name: 'getRandomMetric'
-        },
+        metric: 'getRandomMetric',
         caption: 'Unique Visitors',
       }
     ],
     left: [
       {
-        id: 'leftChart',
         header:'Left',
         iconClass: 'glyphicon glyphicon-fire',
-        type: 'Chart',
+        type: 'GAChart',
         settings: {
           id:'lineChart',
           type: 'discreteBarChart',
@@ -119,17 +81,11 @@ export var initialState = {
           },
         },
         cardStyle: 'card',
-        fetchData: {
-          type: 'function',
-          name: 'getData'
-        }
+        fetchData: 'getData'
       },
       {
-        id: 'table',
-        type: 'Table',
-        fetchData: {
-          name: 'getTableData'
-        },
+        type: 'GATable',
+        fetchData: 'getData',
         cardStyle: 'table',
         settings: {
           table: {
@@ -161,9 +117,8 @@ export var initialState = {
     ],
     right: [
       {
-        id: 'rightChart',
         header:'Right',
-        type: 'Chart',
+        type: 'GAChart',
         iconClass: 'glyphicon glyphicon-exclamation-sign',
         settings: {
           id:'barChart',
@@ -177,13 +132,9 @@ export var initialState = {
           color: ['#82899B']
         },
         cardStyle: 'card',
-        fetchData: {
-          type: 'function',
-          name: 'getData',
-        }
+        fetchData: 'getData'
       },
       {
-        id: 'text',
         header: 'This is an awesome text',
         type: 'Text',
         content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut erat dui, sodales eleifend placerat a, dictum sed tortor.</p><p> Quisque porttitor urna in est vehicula, a molestie nunc pharetra. Cras vehicula nisi dui, ut aliquam nunc vulputate lacinia. Curabitur vitae interdum dolor, sed venenatis tellus. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam volutpat metus et ipsum lobortis, at porttitor nunc laoreet.</p><p>Nullam et ligula at enim pretium accumsan. In et facilisis enim, vel consectetur justo. Duis eleifend sit amet neque eu interdum. Sed ornare orci diam, ac finibus ipsum posuere vel. Duis maximus velit ipsum, et mattis massa tempus sit amet. Suspendisse potenti.</p>',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EventDispatcher from '../EventDispatcher';
+import EventDispatcher from '../dispatcher/EventDispatcher';
 import DashboardConstants from '../constants/DashboardConstants';
 
 export var FetchData = ComposedComponent => class extends Component {

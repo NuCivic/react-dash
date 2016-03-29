@@ -40,6 +40,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-runtime": "^6.6.1",
     "css-loader": "^0.23.1",
+    "dkan-es6-data-backend": "git+ssh://git@github.com/NuCivic/dkan-es6-data-backend.git",
     "eslint-plugin-react": "^3.6.2",
     "file-loader": "^0.8.5",
     "jasmine-core": "^2.3.4",
@@ -58,6 +59,7 @@
     "webpack-dev-server": "^1.12.1"
   },
   "dependencies": {
+    "csv-es6-data-backend": "git+ssh://git@github.com/NuCivic/csv-es6-data-backend.git",
     "fixed-data-table": "^0.6.0",
     "flux": "^2.1.1",
     "immutable": "^3.7.6",

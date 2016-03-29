@@ -4,13 +4,12 @@ export {default as Chart } from './components/Chart';
 export {default as Dashboard } from './components/Dashboard';
 export {default as Layout } from './components/Layout';
 export {default as Metric } from './components/Metric';
-export {default as Registry } from './Registry';
+export {default as Registry } from './utils/Registry';
 export {default as Table } from './components/Table';
 export {default as Text } from './components/Text';
 export {default as Geary} from './layouts/Geary';
-export {default as EventDispatcher} from './EventDispatcher'; 
-export {default as DashboardStore} from './stores/DashboardStore';
+export {default as EventDispatcher} from './dispatcher/EventDispatcher';
 export {default as DashboardConstants} from './constants/DashboardConstants';
-export * from './utils';
+export * from './utils/utils';
 
 

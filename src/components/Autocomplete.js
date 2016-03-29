@@ -12,11 +12,11 @@
 
 import React, { Component } from 'react';
 import Select from 'react-select';
-import Registry from '../Registry';
-import {bindListeners, execute} from '../utils';
-import EventDispatcher from '../EventDispatcher';
+import Registry from '../utils/Registry';
+import BaseComponent from './BaseComponent';
+import {bindListeners, execute} from '../utils/utils';
 
-export default class Autocomplete extends Component {
+export default class Autocomplete extends BaseComponent {
 
   constructor(props) {
     super(props);
@@ -34,7 +34,11 @@ export default class Autocomplete extends Component {
     // This allow developers to set an onChange event to
     // change the state of the dashboard.
     if(this.props.onChange) {
-      EventDispatcher.handleViewAction({actionType: 'AUTOCOMPLETE_CHANGE', value: value});
+      this.emitChange({
+        actionType: 'CHANGE',
+        callback: this.props.onChange,
+        value: value
+      });
     }
   }
 

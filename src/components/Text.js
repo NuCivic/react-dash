@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Registry from '../Registry';
+import Registry from '../utils/Registry';
 
 export default class Text extends Component {
   render() {

@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
-import Registry from '../Registry';
-import {execute} from '../utils';
-import EventDispatcher from '../EventDispatcher';
-import DashboardConstants from '../constants/DashboardConstants';
+import Registry from '../utils/Registry';
+import BaseComponent from './BaseComponent';
 
-export default class Metric extends Component {
+export default class Metric extends BaseComponent {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      metric: '',
+      caption:props.caption
+    };
+  }
+
   componentDidMount() {
-    EventDispatcher.handleViewAction({
-      actionType: DashboardConstants.EXECUTE,
-      reference: this.props.getMetric,
-      id: this.props.id
-    });
+    this.getMetric().then(this.onData.bind(this));
+  }
+
+  onData(data) {
+    this.setState({metric: data});
+  }
+
+  getMetric() {
+    return Promise.resolve(this[this.props.metric]());
   }
 
   render() {
@@ -25,10 +36,10 @@ export default class Metric extends Component {
         </div>
         <div className="col-md-8">
           <div className="card-metric-number">
-          {this.props.metric}
+          {this.state.metric}
           </div>
           <div className="card-metric-caption">
-          {this.props.caption}
+          {this.state.caption}
           </div>
         </div>
       </div>

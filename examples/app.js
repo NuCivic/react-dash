@@ -1,50 +1,37 @@
 import React, { Component } from 'react';
-import {Dashboard, Geary, utils} from '../src/ReactDashboard';
-import { datum } from './datum';
-import MyCustomLayout from './MyCustomLayout';
-import AppStore from './AppStore';
-import DashboardConstants from '../src/constants/DashboardConstants';
+import {Dashboard} from '../src/ReactDashboard';
+import Dataset from '../src/models/Dataset';
+import CSV from 'csv-es6-data-backend';
+import DKAN from 'dkan-es6-data-backend';
 
-// This is the main application. Here we render the dashboard and suscribe to
-// all the store events and change this view state accordingly.
-export default class App extends Component {
+Dataset.registerBackend('csv', CSV);
+Dataset.registerBackend('dkan', DKAN);
+
+// let dataset = new Dataset({
+//   backend: 'dkan',
+//   endpoint: 'https://data.ok.gov/api',
+//   url: 'https://data.ok.gov/api/action/datastore/search.json?resource_id=59729bed-2dd4-4976-b06f-48def7df6ce3&limit=10&offset=0',
+//   id: '59729bed-2dd4-4976-b06f-48def7df6ce3'
+// });
+
+let dataset = new Dataset({
+  backend: 'csv',
+  url: 'http://demo.getdkan.com/node/9/download'
+});
+
+dataset.fetch().then(() => {
+  dataset.query({size: 100, from: 0, filters:[{type:'term', field: 'price', term:34.73}]}).then((data) => console.log(data) );
+});
+
+export default class GADashboard extends Dashboard {
 
   constructor(props) {
     super(props);
-
-    // Let's set the initial state and populate the data array with
-    // some dummy data.
-    this.state = Object.assign({data: datum}, AppStore.getState());
+    this.state = {data: []};
   }
 
-  componentWillMount() {
-
-    // Suscribe to the STORE_CHANGE just before the component is mounted.
-    AppStore.addChangeListener(DashboardConstants.STORE_CHANGE, this._storeChange.bind(this));
+  onAutocompleteChange(payload) {
+    console.log(payload.value);
   }
 
-  componentWillUnmount() {
-
-    // If the component will be umounted then we remove the listener.
-    AppStore.removeChangeListener(DashboardConstants.STORE_CHANGE, this._storeChange.bind(this));
-  }
-
-  _storeChange(){
-
-    // Change the state when the STORE_CHANGE event happen.
-    // this.setState change the state of the view and NOT the
-    // store state. Because of the hierarchical nature of react
-    // state is passed as props to the nested components.
-    // Every time this state change all the dashboard is
-    // rendered again.
-    this.setState(AppStore.getState());
-  }
-
-  render() {
-    return (
-      <div>
-        <Dashboard {...this.state} layout={MyCustomLayout}/>
-      </div>
-    );
-  }
 }
