@@ -17,4 +17,4 @@ export default class GAChoropleth extends Choropleth {
   }
 }
 
-Registry.set('GAChart', GAChart);
+Registry.set('GAChoropleth', GAChoropleth);
