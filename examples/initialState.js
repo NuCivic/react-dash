@@ -171,25 +171,14 @@ export var initialState = {
           name: 'getChoroplethData'
 				},
         settings: {
-          css: '.q0-9 { fill:rgb(247,251,255); } \
-           .q1-9 { fill:rgb(222,235,247); } \
-           .q2-9 { fill:rgb(198,219,239); } \
-           .q3-9 { fill:rgb(158,202,225); } \
-           .q4-9 { fill:rgb(107,174,214); } \
-           .q5-9 { fill:rgb(66,146,198); } \
-           .q6-9 { fill:rgb(33,113,181); } \
-           .q7-9 { fill:rgb(8,81,156); } \
-           .q8-9 { fill:rgb(8,48,107); }'
-          ,
-          tooltipContent: function (d) { console.log('tt',d.properties[d.id]); return {rate: d.properties[d.id]}; }, 
+          colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'],
+          cssPath: '/static/choropleth.css',
           showTooltip: {true},
-					domainValue: function(d) { return +d.rate; },
-					domainKey: function(d) {return +d.id},
-					mapKey: function(d) {return +d.id},
+					domain: 'rate',
+          domainKey: 'id',// @@TODO use domain and provide function in component
 				  width: 1200,
 				  height: 750,
 				  scale: 1280,
-          cssPath: '/static/choropleth.css',
 				  translate: [1200 / 2, 750 / 2],
 			    projection: 'albersUsa',
 					showGraticule: true

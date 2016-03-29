@@ -16,6 +16,8 @@ import React, { Component } from 'react';
 import Registry from '../Registry';
 import * as MapChoroplethModule from 'react-d3-map-choropleth';
 import {FetchData} from './FetchData';
+import topodata from 'json!../../examples/data/us.json';
+import domainData from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv';
 
 let MapChoropleth = MapChoroplethModule.MapChoropleth;
 
@@ -44,23 +46,71 @@ function fetchStyleSheet(url) {
   });
 }
 
-// @@TODO move data fetchers to appStore
-import topodata from 'json!../../examples/data/us.json';
-import domainData from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv';
+// Dictionary of functions to pass to MapChoropleth 
+// Override these functions to generate custom data for your choropleth
+const choroplethFunctionDict = {
+  tooltipContent: function (d) {
+    return {rate: d.properties[d.id]};
+  },
+
+  domainValue: function (d) {
+    return d[this.props.settings.domainValue];
+  },
+  
+  domainKey: function (d) {
+    return d[this.props.settings.domainKey]; 
+  },
+  
+  mapKey: function (d) {
+    return +d.rate;
+  }
+}
 
 class Choropleth extends Component {
   constructor(props){
 		super(props);
+    this.levels = 9;
+		console.log("chp init",this);
 	}
-  
+
+	onData () {
+    console.log('onData', this);
+    Object.assign(this, {
+			tooltipContent: function (d) {
+				return {rate: d.properties[d.id]};
+			},
+
+			domainValue: function (d) {
+				return d[this.props.settings.domainValue];
+			},
+
+			domainKey: function (d) {
+				return d[this.props.settings.domainKey];
+			},
+
+			mapKey: function (d) {
+				return +d.rate;
+			}
+		});
+	}
+
+  // generate css string from colors array
+  css () {
+    let css;
+    let colors = this.props.settings.colors;
+    for (var i = 0; i < this.levels; i++) {
+      css += `.q${i}-${this.levels} { fill:${colors[i]}; }`;
+    }
+  }
+
 	render () {
     let v;
     
     if (this.props.data) {
-      Object.assign(this.props.settings, this.props.data, {type : this.props.type});
+      Object.assign(this.props.settings, this.props.data, {type : this.props.type}, this.choroplethFunctionDict);
 
       // add pallet to heat map
-      addStyleString(this.props.settings.css);
+      addStyleString(this.css());
       // add stylesheet 
       if (this.props.settings.cssPath) {
         fetchStyleSheet(this.props.settings.cssPath)
@@ -71,7 +121,8 @@ class Choropleth extends Component {
             console.log('Trouble fetching component stylesheet', this.props.type, e);
           });
       }
-      v = <MapChoropleth {...this.props.settings} />;
+     
+     v = <MapChoropleth {...this.props.settings} />;
    } else {
       v = <p class='laoding'>Loading...</p>;
    }

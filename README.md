@@ -176,9 +176,15 @@ this.props.context.execute({
 ```
 
 ## Components
+### CSS & Stylesheets
+Stylesheets can define their own css string or stylesheet url by adding 
 ### Built-in Components
 #### Autocomplete
 #### Card
+### Choropleth Componenet
+Commonly referred to as a heat-map, a choropleth chart maps colors to values.
+Use the following configuration scheme:
+
 #### Dashboard
 #### Layout
 #### Metric
