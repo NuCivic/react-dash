@@ -4,7 +4,7 @@
   "description": "Another react dashboard component",
   "main": "./dist/bundle.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "bash start.sh",
     "build": "./node_modules/.bin/webpack --config webpack.config.production.js",
     "test": "./node_modules/karma/bin/karma start --single-run --no-auto-watch karma.config.js",
     "lint": "eslint src"
@@ -45,6 +45,7 @@
     "eslint-plugin-react": "^3.6.2",
     "file-loader": "^0.8.5",
     "jasmine-core": "^2.3.4",
+    "json-server": "^0.8.9",
     "karma": "^0.13.3",
     "karma-coverage": "^0.4.2",
     "karma-jasmine": "^0.3.6",
