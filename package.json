@@ -32,6 +32,7 @@
     "babel-preset-react": "^6.0.15",
     "babel-preset-stage-0": "^6.0.15",
     "css-loader": "^0.23.1",
+    "dkan-es6-data-backend": "git+ssh://git@github.com/NuCivic/dkan-es6-data-backend.git",
     "eslint-plugin-react": "^3.6.2",
     "file-loader": "^0.8.5",
     "react-hot-loader": "^1.3.0",
@@ -41,6 +42,7 @@
     "webpack-dev-server": "^1.12.1"
   },
   "dependencies": {
+    "csv-es6-data-backend": "git+ssh://git@github.com/NuCivic/csv-es6-data-backend.git",
     "fixed-data-table": "^0.6.0",
     "lodash": "^4.6.1",
     "react": "^0.14.7",

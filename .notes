@@ -1,0 +1,128 @@
+
+
+Componente
+   Behavior
+   State
+   View
+   Children Components
+
+
+####### LIBRARY
+import EventEmitter
+class Component extends Component{
+    $children = array();
+    $state = array();
+
+    function emitChange() {
+      EventEmitter.emit('CHANGE')
+    }
+}
+
+
+###### DESARROLLADOR
+
+class TableComponent extends Component {
+
+  $state.page = 1;
+  $state.num_rows = 10;
+  $state.data;
+
+  function pageNextClicked() {
+    $state.page++;
+    fetchData($state)
+  }
+
+  function onData(data) {
+  alert(th)
+    $state.data = data;
+
+    $this->emitChange();
+  }
+
+  function onChange() {
+
+  }
+  function fetchData($page, $count) {
+    fetch().then(this.onData);
+  }
+
+}
+
+
+class SolAppTable extends TableComponent {
+  override function onData(data) {
+    alert('HOLA');
+    parent->onData();
+  }
+}
+
+
+
+<button onClick = pageNextClicked()>
+
+class DashboardComponent extends Component {
+
+    function setup() {
+      $children['autocomplete'] = array(
+          type = 'autocomplete',
+          onChange = 'autocompleteChanged(),
+      );
+      $children['chart'] =
+
+        type = 'chart',
+        onChange = chartChanged(),
+            );
+      $children['solTable'] =
+
+        type = 'solTable',
+        onChange = chartChanged(),
+    }
+
+  function autocompleteChanged($child) {
+      $this.state.school = $child->state->school;
+      $schildren->render();
+  }
+}
+
+
+
+mew Dataset('csv')
+  .query({size: 100, 0})
+  .then((data) => console.log(data))
+
+
+class Dataset {
+  constructor(format) {
+    this._handler = new Handler();
+  }
+  fetch() {
+    return this._handler.fetch(qo);
+  }
+  query(qo) {
+    return this._handler.query(qo).then(this.handleResult);
+  }
+  handleResult() {
+    this.recordCount = bla
+  }
+}
+
+class Memory {
+
+  fetch() {
+    return query({}).
+  }
+
+  query(qo) {
+    return Promise.resolve()
+  }
+}
+
+class XKAN {
+  fetch() {
+    return this.query({});
+  }
+
+  query(qo) {
+    return fetch(urlwithqo);
+  }
+}
