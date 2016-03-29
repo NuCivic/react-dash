@@ -1,3 +1,4 @@
+console.log('chp');
 /**
  * Choropleth Element for React-Dashboard
  * Author Paul Walker (https://github.com/starsinmypockets)

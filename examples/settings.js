@@ -135,6 +135,24 @@ export var settings = {
         fetchData: 'getData'
       },
       {
+        header: 'Choropleth Test',
+        type: 'Choropleth',
+        settings: {
+          colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'],
+          cssPath: '/static/choropleth.css',
+          showTooltip: {true},
+          domain: 'rate',
+          domainKey: 'id',// @@TODO use domain and provide function in component
+          width: 1200,
+          height: 750,
+          scale: 1280,
+          translate: [1200 / 2, 750 / 2],
+          projection: 'albersUsa',
+          showGraticule: true
+        },
+        cardStyle: 'card',
+      },
+      {
         header: 'This is an awesome text',
         type: 'Text',
         content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut erat dui, sodales eleifend placerat a, dictum sed tortor.</p><p> Quisque porttitor urna in est vehicula, a molestie nunc pharetra. Cras vehicula nisi dui, ut aliquam nunc vulputate lacinia. Curabitur vitae interdum dolor, sed venenatis tellus. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam volutpat metus et ipsum lobortis, at porttitor nunc laoreet.</p><p>Nullam et ligula at enim pretium accumsan. In et facilisis enim, vel consectetur justo. Duis eleifend sit amet neque eu interdum. Sed ornare orci diam, ac finibus ipsum posuere vel. Duis maximus velit ipsum, et mattis massa tempus sit amet. Suspendisse potenti.</p>',
