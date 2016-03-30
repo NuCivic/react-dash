@@ -2,7 +2,7 @@ export var settings = {
   title: 'Georgia Reports',
   regions: {
     top: [
-      {
+     {
         type: 'Autocomplete',
         name: 'some-name',
         multi: true,
@@ -134,6 +134,25 @@ export var settings = {
             left: 38
           },
           color: ['#82899B']
+        },
+        cardStyle: 'card',
+        fetchData: 'getData'
+      },
+      {
+        header: 'GAChoropleth Test',
+        type: 'GAChoropleth',
+        settings: {
+          colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'],
+          cssPath: '/static/choropleth.css',
+          showTooltip: {true},
+          domain: 'rate',
+          domainKey: 'id',// @@TODO use domain and provide function in component
+          width: 1200,
+          height: 750,
+          scale: 1280,
+          translate: [1200 / 2, 750 / 2],
+          projection: 'albersUsa',
+          showGraticule: true
         },
         cardStyle: 'card',
         fetchData: 'getData'
