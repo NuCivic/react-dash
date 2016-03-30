@@ -20,7 +20,9 @@ export default class MemoryStore {
       let numRows = queryObj.size || this.records.length;
       let start = queryObj.from || 0;
       let results = this.records;
-      results = this._filter(results, queryObj);
+      results = this._applyFilters(results, queryObj);
+      results = this._applyFreeTextQuery(results, queryObj);
+
       let out = {
         total: results.length,
         hits: results.slice(start, start + numRows),
@@ -29,7 +31,41 @@ export default class MemoryStore {
     });
   }
 
-  _filter(results, queryObj) {
+  // we OR across fields but AND across terms in query string
+  _applyFreeTextQuery(results, queryObj) {
+    if (queryObj.q) {
+      var terms = queryObj.q.split(' ');
+      var patterns = terms.map(term => {
+        return new RegExp(term.toLowerCase());
+      });
+      results = results.filter(rawdoc => {
+        var matches = true;
+        patterns.forEach(pattern => {
+          var foundmatch = false;
+          this.fields.forEach(field => {
+            var value = rawdoc[field.id];
+            if ((value !== null) && (value !== undefined)) {
+              value = value.toString();
+            } else {
+              // value can be null (apparently in some cases)
+              value = '';
+            }
+            // TODO regexes?
+            foundmatch = foundmatch || (pattern.test(value.toLowerCase()));
+            // TODO: early out (once we are true should break to spare unnecessary testing)
+            // if (foundmatch) return true;
+          });
+          matches = matches && foundmatch;
+          // TODO: early out (once false should break to spare unnecessary testing)
+          // if (!matches) return false;
+        });
+        return matches;
+      });
+    }
+    return results;
+  };
+
+  _applyFilters(results, queryObj) {
     var filters = queryObj.filters || [];
     var filterFunctions = {
       term         : term,
@@ -49,8 +85,6 @@ export default class MemoryStore {
       acum[field.id] = field;
       return acum;
     }, {});
-
-
 
     function getDataParser(filter) {
       var fieldType = keyedFields[filter.field].type || 'string';

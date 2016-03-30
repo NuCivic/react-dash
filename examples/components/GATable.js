@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
 import Registry from '../../src/utils/Registry';
 import Table from '../../src/components/Table';
+import Dataset from '../../src/models/Dataset';
 
 export default class GATable extends Table {
 
   getData() {
-    return [
-      { a1: 'a2', b1: 'b2', c1: 'c2' },
-      { a1: 'a3', b1: 'b3', c1: 'c3'}
-    ];
+    // return new Promise((resolve, reject) => {
+    //   let dataset = new Dataset({
+    //     backend: 'csv',
+    //     url: 'http://demo.getdkan.com/node/9/download'
+    //   });
+    //   return dataset.fetch().then(() => {
+    //     dataset.query({size: 100, from: 0}).then((data) =>{
+    //       resolve(data.hits)
+    //     });
+    //   });
+    // });
+
   }
 }
 

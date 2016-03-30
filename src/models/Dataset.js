@@ -1,6 +1,8 @@
 import omit from 'lodash/omit';
 import MemoryStore from './MemoryStore';
 import uniq from 'lodash/uniq';
+import CSV from 'csv-es6-data-backend';
+import DKAN from 'dkan-es6-data-backend';
 
 export default class Dataset {
 
@@ -57,3 +59,6 @@ export default class Dataset {
     return uniq(fields || []).map( field => ({id: field}));
   }
 }
+
+Dataset.registerBackend('csv', CSV);
+Dataset.registerBackend('dkan', DKAN);
