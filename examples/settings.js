@@ -85,14 +85,17 @@ export var settings = {
       },
       {
         type: 'GATable',
-        fetchData: 'getData',
+        fetchData: {
+          backend: 'csv',
+          url: 'http://demo.getdkan.com/node/9/download',
+        },
         cardStyle: 'table',
         settings: {
           table: {
-            rowHeight: 50,
+            rowHeight: 40,
             width: 800,
-            maxHeight: 5000,
-            headerHeight:50
+            maxHeight: 300,
+            headerHeight:40
           },
           columns: {
             flexGrow: 1,
@@ -104,11 +107,11 @@ export var settings = {
             }
           },
           cells: {
-            height: 50,
+            height: 40,
             width: 500,
             overrides: {
               1: {
-                height: 60
+                height: 40
               }
             }
           }
