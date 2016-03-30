@@ -4,6 +4,7 @@ import Registry from '../utils/Registry';
 import {getProp} from '../utils/utils';
 import Dataset from '../models/Dataset';
 import isString from 'lodash/isString';
+import isEmpty from 'lodash/isEmpty';
 import range from 'lodash/range';
 import partialRight from 'lodash/partialRight';
 
@@ -16,6 +17,8 @@ export default class Table extends Component {
       gridHeight: 1,
       rowsPerPage: 10,
       currentPage: 1,
+      queryObj: {},
+      isFeching: false
     };
     if(props.fetchData) {
       if(isString(props.fetchData)) {
@@ -32,18 +35,19 @@ export default class Table extends Component {
   componentDidMount(){
     this._attachResize();
     this._setSize();
+    this.setState({isFeching: true});
     this.state.dataset.fetch().then(() => {
-      let q = {
+      let query = {
         size: this.state.rowsPerPage,
         from:  (this.state.currentPage * this.state.rowsPerPage) - this.state.rowsPerPage
       };
-
-      this.state.dataset.query(q).then(this.onData.bind(this));
+      this.state.dataset.query(query).then(this.onData.bind(this));
+      this.setState({queryObj: query});
     });
   }
 
   onData(data) {
-    this.setState({data: data.hits, total: data.total});
+    this.setState({data: data.hits, total: data.total, isFeching: false});
   }
 
   fetchData() {
@@ -56,17 +60,22 @@ export default class Table extends Component {
     let centroid = displayedPages / 2;
     let start, end;
 
+    // If range is out of bounds to the left
     if(current - centroid <= 0) {
       start = (current - centroid <= 0) ? 1 : current - centroid;
-      end = Math.min(displayedPages + 1, totalPages);
+      end = Math.min(displayedPages, totalPages);
+
+    // If range is out of bounds to the right
     } else if(current + centroid > totalPages) {
-      start = totalPages - displayedPages;
-      end = (current + centroid > totalPages) ? totalPages + 1 : current + centroid;
+      start = Math.max(totalPages - displayedPages, 1);
+      end = (current + centroid > totalPages) ? totalPages : current + centroid;
+
+    // If range is within bounds
     } else {
       start = current - centroid;
       end = current + centroid;
     }
-    return range(start, end);
+    return range(start, end + 1);
   }
 
   getPageNumbers(size, total, current) {
@@ -119,22 +128,30 @@ export default class Table extends Component {
   _onPageChange(e, id, mouseEvent, pageNumber) {
     e.preventDefault();
     let rpp = this.state.rowsPerPage;
-    let query = {
+    let query =  Object.assign({}, this.state.queryObj, {
       size: rpp,
       from: (pageNumber * rpp) - rpp
-    };
+    });
     this.state.dataset.query(query).then(this.onData.bind(this));
-    this.setState({currentPage: pageNumber});
+    this.setState({currentPage: pageNumber, queryObj: query, isFeching: true});
   }
 
   _onFilterChange(e) {
-    //if (!e.target.value) this.setData(this.data);
     let rpp = this.state.rowsPerPage;
-    let query = {
+    let query = Object.assign({}, this.state.queryObj, {
       size: rpp,
       from: (this.state.currentPage * rpp) - rpp,
       q: e.target.value
-    };
+    });
+    this.state.dataset.query(query).then(this.onData.bind(this));
+    this.setState({currentPage: 1, queryObj: query, isFeching: true});
+  }
+
+  _onRowsPerPageChange(e) {
+    let query = Object.assign({}, this.state.queryObj);
+    query.size = Number(e.target.value);
+    query.from = 0;
+    this.setState({rowsPerPage: Number(e.target.value), queryObj: query, currentPage: 1});
     this.state.dataset.query(query).then(this.onData.bind(this));
   }
 
@@ -145,7 +162,8 @@ export default class Table extends Component {
     let columnDefaultProps = getProp('settings.columns', this.props);
     let cellsDefaultProps = getProp('settings.cells', this.props);
     let headers = Object.keys(data[0] || {});
-    let lastPage = this.getTotalPages(this.state.rowsPerPage, this.state.total);
+    let totalPages = this.getTotalPages(this.state.rowsPerPage, this.state.total);
+    let table, spinner;
 
     // Create the colums
     let columns = headers.map((header) => {
@@ -166,34 +184,77 @@ export default class Table extends Component {
     });
 
     // Create the fixed data table.
-    let table = (
-      <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth}>
-        {columns}
-      </FixedTable>
-    );
-
+    if(!isEmpty(data)) {
+      table = (
+        <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth}>
+          {columns}
+        </FixedTable>
+      );
+    }
+    if(this.state.isFeching) {
+      spinner = <div className="sp sp-slices"></div>;
+    }
     // Return the renderable elements
     return (
       <div ref="table">
-        <input
-          onChange={this._onFilterChange.bind(this)}
-          placeholder="Filter"
-          className="form-control"
-        />
-        {table}
+
+        <div className="row">
+          <div className="col-md-10">
+            <div className="form-group">
+              <input
+                onChange={this._onFilterChange.bind(this)}
+                placeholder="Filter"
+                className="form-control"
+              />
+            </div>
+          </div>
+          <div className="col-md-2">
+            <div onChange={this._onRowsPerPageChange.bind(this)} className="form-group">
+              <select className="form-control">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="500">500</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div className="table-container">
+          {spinner}
+          {table}
+        </div>
+
         <nav>
           <ul className="pagination">
+
+            <li className={(this.state.currentPage === 1) ? 'hide' : ''}>
+              <a onClick={partialRight(this._onPageChange, 1).bind(this)} href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+
             <li className={(this.state.currentPage === 1) ? 'hide' : ''}>
               <a onClick={partialRight(this._onPageChange, this.state.currentPage - 1).bind(this)} href="#" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
+
             {this.getPageNumbers(this.state.rowsPerPage, this.state.total, this.state.currentPage)}
-            <li className={(this.state.currentPage === lastPage ) ? 'hide' : ''}>
+
+            <li className={(!totalPages || this.state.currentPage === totalPages ) ? 'hide' : ''}>
               <a onClick={partialRight(this._onPageChange, this.state.currentPage + 1).bind(this)} href="#" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
+
+            <li className={(!totalPages || this.state.currentPage === totalPages ) ? 'hide' : ''}>
+              <a onClick={partialRight(this._onPageChange, totalPages).bind(this)} href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+
           </ul>
         </nav>
       </div>
