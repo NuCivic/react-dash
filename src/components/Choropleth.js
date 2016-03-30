@@ -12,13 +12,10 @@ console.log('chp');
  * GNU/GPL License https://opensource.org/licenses/GPL-3.0
  *
  **/
-
+import BaseComponent from './BaseComponent';
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import * as MapChoroplethModule from 'react-d3-map-choropleth';
-import {FetchData} from './FetchData';
-import topodata from 'json!../../examples/data/us.json';
-import domainData from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv';
 
 let MapChoropleth = MapChoroplethModule.MapChoropleth;
 
@@ -47,34 +44,14 @@ function fetchStyleSheet(url) {
   });
 }
 
-// Dictionary of functions to pass to MapChoropleth 
-// Override these functions to generate custom data for your choropleth
-const choroplethFunctionDict = {
-  tooltipContent: function (d) {
-    return {rate: d.properties[d.id]};
-  },
-
-  domainValue: function (d) {
-    return d[this.props.settings.domainValue];
-  },
-  
-  domainKey: function (d) {
-    return d[this.props.settings.domainKey]; 
-  },
-  
-  mapKey: function (d) {
-    return +d.rate;
-  }
-}
-
-class Choropleth extends Component {
+export default class Choropleth extends BaseComponent {
   constructor(props){
 		super(props);
     this.levels = 9;
 		console.log("chp init",this);
 	}
-
-	onData () {
+	
+  onData () {
     console.log('onData', this);
     Object.assign(this, {
 			tooltipContent: function (d) {
@@ -132,6 +109,4 @@ class Choropleth extends Component {
   }
 }
 
-let AsyncChoropleth = FetchData(Choropleth);
-Registry.set('Choropleth', AsyncChoropleth);
-export default AsyncChoropleth;
+Registry.set('Choropleth', Choropleth);
