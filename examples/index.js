@@ -6,6 +6,7 @@ import GATable from './components/GATable';
 import GAMetric from './components/GAMetric';
 import MyCustomLayout from './layouts/MyCustomLayout';
 import GADashboard from './app';
+import Choropleth from './components/GAChoropleth';
 
 import '../bower_components/bootstrap/dist/css/bootstrap.min.css';
 import 'nvd3/build/nv.d3.min.css';

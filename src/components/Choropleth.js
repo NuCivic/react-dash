@@ -11,13 +11,15 @@
  * GNU/GPL License https://opensource.org/licenses/GPL-3.0
  *
  **/
-
+import BaseComponent from './BaseComponent';
 import React, { Component } from 'react';
-import Registry from '../Registry';
+import Registry from '../utils/Registry';
 import * as MapChoroplethModule from 'react-d3-map-choropleth';
-import {FetchData} from './FetchData';
-import topodata from 'json!../../examples/data/us.json';
-import domainData from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv';
+
+import t1 from 'json!../../examples/data/us.json';
+import d1 from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv';
+import * as D3 from 'd3';
+import * as topojson from 'topojson';
 
 let MapChoropleth = MapChoroplethModule.MapChoropleth;
 
@@ -38,7 +40,7 @@ function fetchStyleSheet(url) {
         return res.text();
       })
       .then(css => {
-        resolve(css);  
+        resolve(css);
       })
       .catch(e => {
         reject(e);
@@ -46,72 +48,60 @@ function fetchStyleSheet(url) {
   });
 }
 
-// Dictionary of functions to pass to MapChoropleth 
-// Override these functions to generate custom data for your choropleth
-const choroplethFunctionDict = {
-  tooltipContent: function (d) {
-    return {rate: d.properties[d.id]};
-  },
-
-  domainValue: function (d) {
-    return d[this.props.settings.domainValue];
-  },
-  
-  domainKey: function (d) {
-    return d[this.props.settings.domainKey]; 
-  },
-  
-  mapKey: function (d) {
-    return +d.rate;
-  }
-}
-
-class Choropleth extends Component {
+export default class Choropleth extends BaseComponent {
   constructor(props){
 		super(props);
     this.levels = 9;
-		console.log("chp init",this);
+    let domainVal = this.props.settings.domain;
+    let domainKey = this.props.settings.domainKey;
+
+		console.log("chp init",this, 'dv', domainVal, 'dk', domainKey);
+    var self = this;
+    Object.assign(this, { choroplethFunctions : {
+        tooltipContent: function (d) {
+          return {rate: d.properties[d.id]};
+        },
+
+        domainValue: function (d) {
+          return d['rate'];
+        },
+
+        domainKey: function (d) {
+          return d['id'];
+        },
+
+        mapKey: function (d) {
+          return +d.rate;
+        }
+      }
+		});
 	}
 
-	onData () {
-    console.log('onData', this);
-    Object.assign(this, {
-			tooltipContent: function (d) {
-				return {rate: d.properties[d.id]};
-			},
-
-			domainValue: function (d) {
-				return d[this.props.settings.domainValue];
-			},
-
-			domainKey: function (d) {
-				return d[this.props.settings.domainKey];
-			},
-
-			mapKey: function (d) {
-				return +d.rate;
-			}
-		});
+  // fetchData should set topoData and domainData
+  onData (data) {
+    console.log('chp onData', this, data);
+    // @@TODO Maybe we should validate this stuff
+    this.setState({foo: 'bar', data: data});
 	}
 
   // generate css string from colors array
   css () {
-    let css;
+    let _css = '';
     let colors = this.props.settings.colors;
     for (var i = 0; i < this.levels; i++) {
-      css += `.q${i}-${this.levels} { fill:${colors[i]}; }`;
+      _css += `.q${i}-${this.levels} { fill:'${colors[i]}'; }`;
     }
+    return _css;
   }
 
 	render () {
     let v;
-    
-    if (this.props.data) {
-      Object.assign(this.props.settings, this.props.data, {type : this.props.type}, this.choroplethFunctionDict);
+    console.log('chp render 0', this);
+    if (this.state.foo) {
+      console.log('chp render 1',this);
+      Object.assign(this.props.settings, this.state.data, {type : this.props.type}, this.choroplethFunctions);
 
-      // add pallet to heat map
-      addStyleString(this.css());
-      // add stylesheet 
+      // add stylesheet
       if (this.props.settings.cssPath) {
         fetchStyleSheet(this.props.settings.cssPath)
           .then(css => {
@@ -121,16 +111,29 @@ class Choropleth extends Component {
             console.log('Trouble fetching component stylesheet', this.props.type, e);
           });
       }
-     
+
+      this.props.settings.topodata = t1;
+      this.props.settings.domainData = d1;
+      this.props.settings.dataPolygon = topojson.feature(t1, t1.objects.counties).features;
+      this.props.settings.dataMesh = topojson.mesh(t1, t1.objects.states, function(a, b) { return a !== b; });
+
+      this.props.settings.domain = {
+        scale: 'quantize',
+        domain: [0, .15],
+        range: d3.range(9).map(function(i) { return "q" + i + "-9"; })
+      };
+
+      console.log('>>' , this.props.settings);
      v = <MapChoropleth {...this.props.settings} />;
+      // add pallet to heat map
+      console.log('css',this.css());
+      addStyleString(this.css());
    } else {
-      v = <p class='laoding'>Loading...</p>;
+      v = <p className='laoding'>Loading...</p>;
    }
 
    return(v);
   }
 }
 
-let AsyncChoropleth = FetchData(Choropleth);
-Registry.set('Choropleth', AsyncChoropleth);
-export default AsyncChoropleth;
+Registry.set('Choropleth', Choropleth);

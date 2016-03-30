@@ -2,7 +2,7 @@ export var settings = {
   title: 'Georgia Reports',
   regions: {
     top: [
-      {
+     {
         type: 'Autocomplete',
         name: 'some-name',
         multi: true,
@@ -85,14 +85,18 @@ export var settings = {
       },
       {
         type: 'GATable',
-        fetchData: 'getData',
+        header: 'Mi titulo',
+        fetchData: {
+          backend: 'csv',
+          url: 'http://demo.getdkan.com/node/9/download',
+        },
         cardStyle: 'table',
         settings: {
           table: {
-            rowHeight: 50,
+            rowHeight: 40,
             width: 800,
-            maxHeight: 5000,
-            headerHeight:50
+            maxHeight: 300,
+            headerHeight:40
           },
           columns: {
             flexGrow: 1,
@@ -104,11 +108,11 @@ export var settings = {
             }
           },
           cells: {
-            height: 50,
+            height: 40,
             width: 500,
             overrides: {
               1: {
-                height: 60
+                height: 40
               }
             }
           }
@@ -130,6 +134,25 @@ export var settings = {
             left: 38
           },
           color: ['#82899B']
+        },
+        cardStyle: 'card',
+        fetchData: 'getData'
+      },
+      {
+        header: 'GAChoropleth Test',
+        type: 'GAChoropleth',
+        settings: {
+          colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'],
+          cssPath: '/static/choropleth.css',
+          showTooltip: {true},
+          domain: 'rate',
+          domainKey: 'id',// @@TODO use domain and provide function in component
+          width: 1200,
+          height: 750,
+          scale: 1280,
+          translate: [1200 / 2, 750 / 2],
+          projection: 'albersUsa',
+          showGraticule: true
         },
         cardStyle: 'card',
         fetchData: 'getData'

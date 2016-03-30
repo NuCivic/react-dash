@@ -7,6 +7,24 @@ export default class BaseComponent extends Component {
     this.state = {};
   }
 
+  componentDidMount(){
+		if (this.props.fetchData && this[this.props.fetchData]) {
+    	this.fetchData().then(this.onData.bind(this));
+		}
+  }
+
+  onData(data) {
+    this.setData(data);
+  }
+
+  fetchData() {
+   	return Promise.resolve(this[this.props.fetchData]());
+  }
+
+  setData(data) {
+    this.setState({data:data});
+  }
+
   emitChange(payload) {
     EventDispatcher.dispatch(payload);
   }
