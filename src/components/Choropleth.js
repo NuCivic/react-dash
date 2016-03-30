@@ -40,7 +40,7 @@ function fetchStyleSheet(url) {
         return res.text();
       })
       .then(css => {
-        resolve(css);  
+        resolve(css);
       })
       .catch(e => {
         reject(e);
@@ -86,22 +86,22 @@ export default class Choropleth extends BaseComponent {
 
   // generate css string from colors array
   css () {
-    let css = '';
+    let _css = '';
     let colors = this.props.settings.colors;
     for (var i = 0; i < this.levels; i++) {
-      css += `.q${i}-${this.levels} { fill:'${colors[i]}'; }`;
+      _css += `.q${i}-${this.levels} { fill:'${colors[i]}'; }`;
     }
-    return css;
+    return _css;
   }
 
 	render () {
     let v;
-    console.log('chp render 0', this); 
+    console.log('chp render 0', this);
     if (this.state.foo) {
       console.log('chp render 1',this);
       Object.assign(this.props.settings, this.state.data, {type : this.props.type}, this.choroplethFunctions);
 
-      // add stylesheet 
+      // add stylesheet
       if (this.props.settings.cssPath) {
         fetchStyleSheet(this.props.settings.cssPath)
           .then(css => {
