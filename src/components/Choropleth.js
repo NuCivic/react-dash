@@ -16,6 +16,9 @@ import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import * as MapChoroplethModule from 'react-d3-map-choropleth';
 
+import t1 from 'json!../../examples/data/us.json';
+import d1 from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv';
+
 let MapChoropleth = MapChoroplethModule.MapChoropleth;
 
 // @@TODO - we should baseclass the css functions
@@ -47,24 +50,27 @@ export default class Choropleth extends BaseComponent {
   constructor(props){
 		super(props);
     this.levels = 9;
-		console.log("chp init",this);
+    let domainVal = this.props.settings.domain;
+    let domainKey = this.props.settings.domainKey;
 
+		console.log("chp init",this, 'dv', domainVal, 'dk', domainKey);
+    var self = this;
     Object.assign(this, { choroplethFunctions : {
-			tooltipContent: function (d) {
-				return {rate: d.properties[d.id]};
-			},
+        tooltipContent: function (d) {
+          return {rate: d.properties[d.id]};
+        },
 
-			domainValue: function (d) {
-				return d[this.props.settings.domainValue];
-			},
+        domainValue: function (d) {
+          return d['rate'];
+        },
 
-			domainKey: function (d) {
-				return d[this.props.settings.domainKey];
-			},
+        domainKey: function (d) {
+          return d['id'];
+        },
 
-			mapKey: function (d) {
-				return +d.rate;
-			}
+        mapKey: function (d) {
+          return +d.rate;
+        }
       }
 		});
 	}
@@ -78,11 +84,12 @@ export default class Choropleth extends BaseComponent {
 
   // generate css string from colors array
   css () {
-    let css;
+    let css = '';
     let colors = this.props.settings.colors;
     for (var i = 0; i < this.levels; i++) {
-      css += `.q${i}-${this.levels} { fill:${colors[i]}; }`;
+      css += `.q${i}-${this.levels} { fill:'${colors[i]}'; }`;
     }
+    return css;
   }
 
 	render () {
@@ -93,6 +100,7 @@ export default class Choropleth extends BaseComponent {
       Object.assign(this.props.settings, this.state.data, {type : this.props.type}, this.choroplethFunctions);
 
       // add pallet to heat map
+      console.log('css',this.css());
       addStyleString(this.css());
       // add stylesheet 
       if (this.props.settings.cssPath) {
@@ -104,6 +112,11 @@ export default class Choropleth extends BaseComponent {
             console.log('Trouble fetching component stylesheet', this.props.type, e);
           });
       }
+
+      this.props.settings.topodata = t1;
+      this.props.settings.domainData = d1;
+      console.log('ugh',t1,d1);
+      console.log('>>' , this.props.settings);
      v = <MapChoropleth {...this.props.settings} />;
    } else {
       v = <p className='laoding'>Loading...</p>;
