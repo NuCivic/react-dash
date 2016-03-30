@@ -18,6 +18,8 @@ import * as MapChoroplethModule from 'react-d3-map-choropleth';
 
 import t1 from 'json!../../examples/data/us.json';
 import d1 from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv';
+import * as D3 from 'd3';
+import * as topojson from 'topojson';
 
 let MapChoropleth = MapChoroplethModule.MapChoropleth;
 
@@ -99,9 +101,6 @@ export default class Choropleth extends BaseComponent {
       console.log('chp render 1',this);
       Object.assign(this.props.settings, this.state.data, {type : this.props.type}, this.choroplethFunctions);
 
-      // add pallet to heat map
-      console.log('css',this.css());
-      addStyleString(this.css());
       // add stylesheet 
       if (this.props.settings.cssPath) {
         fetchStyleSheet(this.props.settings.cssPath)
@@ -115,9 +114,20 @@ export default class Choropleth extends BaseComponent {
 
       this.props.settings.topodata = t1;
       this.props.settings.domainData = d1;
-      console.log('ugh',t1,d1);
+      this.props.settings.dataPolygon = topojson.feature(t1, t1.objects.counties).features;
+      this.props.settings.dataMesh = topojson.mesh(t1, t1.objects.states, function(a, b) { return a !== b; });
+
+      this.props.settings.domain = {
+        scale: 'quantize',
+        domain: [0, .15],
+        range: d3.range(9).map(function(i) { return "q" + i + "-9"; })
+      };
+
       console.log('>>' , this.props.settings);
      v = <MapChoropleth {...this.props.settings} />;
+      // add pallet to heat map
+      console.log('css',this.css());
+      addStyleString(this.css());
    } else {
       v = <p className='laoding'>Loading...</p>;
    }
