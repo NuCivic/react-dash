@@ -11,7 +11,7 @@ export default class GAChoropleth extends Choropleth {
   getData() {
     console.log('gaCh getData');
     return {
-      topodata: topodata,
+      topoData: topodata,
       domainData: domainData
     }
   }

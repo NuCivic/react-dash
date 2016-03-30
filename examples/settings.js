@@ -135,8 +135,8 @@ export var settings = {
         fetchData: 'getData'
       },
       {
-        header: 'Choropleth Test',
-        type: 'Choropleth',
+        header: 'GAChoropleth Test',
+        type: 'GAChoropleth',
         settings: {
           colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'],
           cssPath: '/static/choropleth.css',

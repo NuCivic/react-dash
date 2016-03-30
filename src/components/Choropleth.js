@@ -1,4 +1,3 @@
-console.log('chp');
 /**
  * Choropleth Element for React-Dashboard
  * Author Paul Walker (https://github.com/starsinmypockets)
@@ -49,11 +48,8 @@ export default class Choropleth extends BaseComponent {
 		super(props);
     this.levels = 9;
 		console.log("chp init",this);
-	}
-	
-  onData () {
-    console.log('onData', this);
-    Object.assign(this, {
+
+    Object.assign(this, { choroplethFunctions : {
 			tooltipContent: function (d) {
 				return {rate: d.properties[d.id]};
 			},
@@ -69,7 +65,15 @@ export default class Choropleth extends BaseComponent {
 			mapKey: function (d) {
 				return +d.rate;
 			}
+      }
 		});
+	}
+
+  // fetchData should set topoData and domainData
+  onData (data) {
+    console.log('chp onData', this, data);
+    // @@TODO Maybe we should validate this stuff
+    this.setState({foo: 'bar', data: data});
 	}
 
   // generate css string from colors array
@@ -83,9 +87,10 @@ export default class Choropleth extends BaseComponent {
 
 	render () {
     let v;
-    
-    if (this.props.data) {
-      Object.assign(this.props.settings, this.props.data, {type : this.props.type}, this.choroplethFunctionDict);
+    console.log('chp render 0', this); 
+    if (this.state.foo) {
+      console.log('chp render 1',this);
+      Object.assign(this.props.settings, this.state.data, {type : this.props.type}, this.choroplethFunctions);
 
       // add pallet to heat map
       addStyleString(this.css());
@@ -99,10 +104,9 @@ export default class Choropleth extends BaseComponent {
             console.log('Trouble fetching component stylesheet', this.props.type, e);
           });
       }
-     
      v = <MapChoropleth {...this.props.settings} />;
    } else {
-      v = <p class='laoding'>Loading...</p>;
+      v = <p className='laoding'>Loading...</p>;
    }
 
    return(v);
