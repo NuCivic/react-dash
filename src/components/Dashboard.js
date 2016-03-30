@@ -22,9 +22,7 @@ export default class Dashboard extends BaseComponent {
     if(!layout) throw new Error(`Missing layout class ${this.props.layout}`);
     return (
       <div className="container">
-        <div className="container">
-          <h1 className="dashboard-title">{this.props.title}</h1>
-        </div>
+        <h1 className="dashboard-title">{this.props.title}</h1>
         {React.createElement(layout, this.props)}
       </div>
     );
