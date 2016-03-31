@@ -102,6 +102,7 @@ export var settings = {
       },
       {
         type: 'GATable',
+        header: 'Mi titulo',
         fetchData: {
           backend: 'csv',
           url: 'http://demo.getdkan.com/node/9/download',
