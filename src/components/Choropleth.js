@@ -1,3 +1,4 @@
+console.log('Cho001');
 /**
  * Choropleth Element for React-Dashboard
  * Author Paul Walker (https://github.com/starsinmypockets)
@@ -28,7 +29,7 @@ let MapChoropleth = MapChoroplethModule.MapChoropleth;
 function addStyleString(str) {
     var node = document.createElement('style');
     node.innerHTML = str;
-    document.body.appendChild(node);
+    document.head.appendChild(node);
 }
 
 // @@TODO - we should baseclass the css functions
@@ -55,23 +56,22 @@ export default class Choropleth extends BaseComponent {
     let domainVal = this.props.settings.domain;
     let domainKey = this.props.settings.domainKey;
 
-		console.log("chp init",this, 'dv', domainVal, 'dk', domainKey);
     var self = this;
     Object.assign(this, { choroplethFunctions : {
         tooltipContent: function (d) {
-          return {rate: d.properties[d.id]};
+          return {rate: d.properties[d[domainKey]]};
         },
 
         domainValue: function (d) {
-          return d['rate'];
+          return +d[domainVal];
         },
 
         domainKey: function (d) {
-          return d['id'];
+          return +d[domainKey];
         },
 
         mapKey: function (d) {
-          return +d.rate;
+          return +d[domainKey];
         }
       }
 		});
@@ -79,7 +79,6 @@ export default class Choropleth extends BaseComponent {
 
   // fetchData should set topoData and domainData
   onData (data) {
-    console.log('chp onData', this, data);
     // @@TODO Maybe we should validate this stuff
     this.setState({foo: 'bar', data: data});
 	}
@@ -89,16 +88,14 @@ export default class Choropleth extends BaseComponent {
     let css = '';
     let colors = this.props.settings.colors;
     for (var i = 0; i < this.levels; i++) {
-      css += `.q${i}-${this.levels} { fill:'${colors[i]}'; }`;
+      css += `.q${i}-${this.levels} { fill:${colors[i]}; }`;
     }
     return css;
   }
 
 	render () {
     let v;
-    console.log('chp render 0', this); 
     if (this.state.foo) {
-      console.log('chp render 1',this);
       Object.assign(this.props.settings, this.state.data, {type : this.props.type}, this.choroplethFunctions);
 
       // add stylesheet 
