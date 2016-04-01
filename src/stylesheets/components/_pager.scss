@@ -12,6 +12,6 @@
 	color: $link-color;
 	&:focus,
 	&:hover {
-		color: darken($link-color, 10%);
+		color: $hover-color;
 	}
 }
