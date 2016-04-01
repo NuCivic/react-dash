@@ -1,0 +1,7 @@
+@mixin header {
+	font-size: 1.75em;
+  padding: 0;
+  color: $header_color;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+}

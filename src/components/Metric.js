@@ -31,10 +31,10 @@ export default class Metric extends BaseComponent {
     style = Object.assign({}, style, this.props.style);
     return (
       <div className="metric" style={style}>
-        <div className="col-md-4">
+        <div className="col-sm-3 col-lg-4">
           <div className="card-metric-icon"><span className="glyphicon glyphicon-user"></span></div>
         </div>
-        <div className="col-md-8">
+        <div className="col-sm-9 col-lg-8">
           <div className="card-metric-number">
           {this.state.metric}
           </div>

@@ -1,0 +1,19 @@
+body {
+	font-family: $font-family;
+}
+h1 {
+	@include header;
+	border: none;
+	color: $title-color;
+	font-size: 36px;
+	margin: 25px 0;
+}
+
+h2 {
+	@include header;
+}
+h3 {
+	@include header;
+	border: none;
+	font-size: 1.15em;
+}
