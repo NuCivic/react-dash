@@ -13,25 +13,31 @@
  **/
 import BaseComponent from './BaseComponent';
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import * as D3Core from 'react-d3-core';
 import Registry from '../utils/Registry';
 import * as MapChoroplethModule from 'react-d3-map-choropleth';
-
 import t1 from 'json!../../examples/data/us.json';
 import d1 from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv';
 import * as D3 from 'd3';
 import * as topojson from 'topojson';
 
+let Legend = D3Core.Legend;
 let MapChoropleth = MapChoroplethModule.MapChoropleth;
+let legendWidth = 500,
+  legendHeight = 400,
+  legendMargins = {top: 40, right: 50, bottom: 40, left: 50},
+  legendClassName = "test-legend-class",
+  legendPosition = 'left',
+  legendOffset = 90;
 
-// @@TODO - we should baseclass the css functions
 // Whack some css into the page
 function addStyleString(str) {
     var node = document.createElement('style');
     node.innerHTML = str;
-    document.body.appendChild(node);
+    document.head.appendChild(node);
 }
 
-// @@TODO - we should baseclass the css functions
 // Fetch css
 function fetchStyleSheet(url) {
   return new Promise((resolve, reject) => {
@@ -52,26 +58,26 @@ export default class Choropleth extends BaseComponent {
   constructor(props){
 		super(props);
     this.levels = 9;
-    let domainVal = this.props.settings.domain;
+    let domainField = this.props.settings.domainField;
     let domainKey = this.props.settings.domainKey;
-
-		console.log("chp init",this, 'dv', domainVal, 'dk', domainKey);
+    console.log('domains', domainKey, domainField);
     var self = this;
     Object.assign(this, { choroplethFunctions : {
         tooltipContent: function (d) {
-          return {rate: d.properties[d.id]};
+          console.log(d, domainField, d[domainKey]);
+          return {rate: d.properties[d[domainKey]]};
         },
 
         domainValue: function (d) {
-          return d['rate'];
+          return +d[domainField];
         },
 
         domainKey: function (d) {
-          return d['id'];
+          return +d[domainKey];
         },
 
         mapKey: function (d) {
-          return +d.rate;
+          return +d[domainKey];
         }
       }
 		});
@@ -79,31 +85,66 @@ export default class Choropleth extends BaseComponent {
 
   // fetchData should set topoData and domainData
   onData (data) {
-    console.log('chp onData', this, data);
     // @@TODO Maybe we should validate this stuff
     this.setState({foo: 'bar', data: data});
 	}
+  componentDidMount () {
+    this._attachResize();
+    this._setSize();
+    if (this.props.fetchData && this[this.props.fetchData]) {
+      this.fetchData().then(this.onData.bind(this));
+    }
+  }
+
+  _setSize() {
+    const { offsetWidth, offsetHeight } = this.refs.choropleth;
+    this.setState({
+      gridWidth: offsetWidth,
+      gridHeight: offsetHeight
+    });
+  }
+
+  _attachResize() {
+    window.addEventListener('resize', this._setSize.bind(this), false);
+  }
 
   // generate css string from colors array
   css () {
     let _css = '';
     let colors = this.props.settings.colors;
     for (var i = 0; i < this.levels; i++) {
-      _css += `.q${i}-${this.levels} { fill:'${colors[i]}'; }`;
+      _css += `.q${i}-${this.levels} { fill:${colors[i]}; }`;
     }
     return _css;
   }
 
-	render () {
+  legendSeries () {
+    let series = [];
+    let domainVal = .015;
+    for (var i = 0; i < this.levels; i++) {
+      let lower = domainVal*i.toFixed(2);
+      let upper = domainVal*(i+1).toFixed(2);
+      let item = {
+        field: `${lower} -- ${upper}`,
+        name: `${lower} -- ${upper}`,
+        color: this.props.settings.colors[i]
+      }
+      series.push(item);
+    }
+    return series;
+  }
+	
+  render () {
     let v;
-    console.log('chp render 0', this);
+    let settings = Object.assign({}, this.props.settings);
+
+      console.log('>', settings);
     if (this.state.foo) {
-      console.log('chp render 1',this);
-      Object.assign(this.props.settings, this.state.data, {type : this.props.type}, this.choroplethFunctions);
+      Object.assign(settings, this.state.data, {type : this.props.type}, this.choroplethFunctions);
 
       // add stylesheet
-      if (this.props.settings.cssPath) {
-        fetchStyleSheet(this.props.settings.cssPath)
+      if (settings.cssPath) {
+        fetchStyleSheet(settings.cssPath)
           .then(css => {
             addStyleString(css)
           })
@@ -111,25 +152,35 @@ export default class Choropleth extends BaseComponent {
             console.log('Trouble fetching component stylesheet', this.props.type, e);
           });
       }
-
-      this.props.settings.topodata = t1;
-      this.props.settings.domainData = d1;
-      this.props.settings.dataPolygon = topojson.feature(t1, t1.objects.counties).features;
-      this.props.settings.dataMesh = topojson.mesh(t1, t1.objects.states, function(a, b) { return a !== b; });
-
-      this.props.settings.domain = {
+      settings.topodata = t1;
+      settings.domainData = d1;
+      settings.dataPolygon = topojson.feature(t1, t1.objects.counties).features;
+      settings.dataMesh = topojson.mesh(t1, t1.objects.states, function(a, b) { return a !== b; });
+      settings.scale = this.state.gridWidth;
+      settings.domain = {
         scale: 'quantize',
-        domain: [0, .15],
-        range: d3.range(9).map(function(i) { return "q" + i + "-9"; })
+        domain: [settings.domainLower, settings.domainUpper],
+        range: d3.range(settings.levels).map(function(i) { return `q${i}-${settings.levels}`; })
       };
 
-      console.log('>>' , this.props.settings);
-     v = <MapChoropleth {...this.props.settings} />;
+     console.log('>>', settings);
+     v = <div className="choropleth-container"> 
+            <MapChoropleth ref="choropleth" {...settings} />
+            <Legend
+              width= {legendWidth}
+              height= {legendHeight}
+              margins= {legendMargins}
+              legendClassName= {legendClassName}
+              legendPosition= {legendPosition}
+              legendOffset= {legendOffset}
+              chartSeries = {this.legendSeries()}
+            />
+         </div>;
       // add pallet to heat map
       console.log('css',this.css());
       addStyleString(this.css());
    } else {
-      v = <p className='laoding'>Loading...</p>;
+      v = <p ref="choropleth" className='laoding'>Loading...</p>;
    }
 
    return(v);

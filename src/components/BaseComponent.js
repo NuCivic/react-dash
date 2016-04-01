@@ -8,9 +8,11 @@ export default class BaseComponent extends Component {
   }
 
   componentDidMount(){
+    // fetch
 		if (this.props.fetchData && this[this.props.fetchData]) {
     	this.fetchData().then(this.onData.bind(this));
 		}
+    console.log('[base]',this);
   }
 
   onData(data) {
