@@ -4,14 +4,14 @@
 .pagination>.active>span, 
 .pagination>.active>span:focus, 
 .pagination>.active>span:hover {
-	background-color: $primary-color;
-	border-color: $primary-color;
+	background-color: $link-color;
+	border-color: $link-color;
 }
 .pagination>li>a, 
 .pagination>li>span {
-	color: $primary-color;
+	color: $link-color;
 	&:focus,
 	&:hover {
-		color: darken($primary-color, 10%);
+		color: darken($link-color, 10%);
 	}
 }

@@ -1,7 +1,14 @@
 body {
-	font-family: $font-family;
 	background: $background;
 }
 .glyphicon {
 	top: 3px;
+}
+
+a {
+	color: $link_color;
+	&:hover,
+	&:focus {
+		color: darken($link_color, 10%);
+	}
 }

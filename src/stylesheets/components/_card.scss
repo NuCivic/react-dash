@@ -1,18 +1,11 @@
 /* Styles for cards*/
 
 .card-header {
-  font-size: 1.75em;
-  padding: 12px 0;
-  color: #333;
-  border-bottom: 1px solid #eee;
-  margin-bottom: 10px;
+  @include header;
+  .glyphicon {
+    margin-right: 12px;
+  }
 }
-.card-header-content {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-
 
 .card-card {
   margin: 20px 0px;
