@@ -84,16 +84,14 @@ export default class Choropleth extends BaseComponent {
 	}
 
   // fetchData should set topoData and domainData
-  onData (data) {
+  onDataReady(data) {
     // @@TODO Maybe we should validate this stuff
-    this.setState({foo: 'bar', data: data});
+    this.setState({foo: 'bar'});
 	}
   componentDidMount () {
     this._attachResize();
     this._setSize();
-    if (this.props.fetchData && this[this.props.fetchData]) {
-      this.fetchData().then(this.onData.bind(this));
-    }
+    super.componentDidMount();
   }
 
   _setSize() {
@@ -133,7 +131,7 @@ export default class Choropleth extends BaseComponent {
     }
     return series;
   }
-	
+
   render () {
     let v;
     let settings = Object.assign({}, this.props.settings);
@@ -164,7 +162,7 @@ export default class Choropleth extends BaseComponent {
       };
 
      console.log('>>', settings);
-     v = <div className="choropleth-container"> 
+     v = <div className="choropleth-container">
             <MapChoropleth ref="choropleth" {...settings} />
             <Legend
               width= {legendWidth}

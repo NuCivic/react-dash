@@ -13,15 +13,18 @@ export default class Metric extends BaseComponent {
   }
 
   componentDidMount() {
-    this.getMetric().then(this.onData.bind(this));
+    super.componentDidMount();
+
+    // If doesn't need to fetch data then use the global data
+    if(!this.props.fetchData) this.onDataReady(this.props.globalData);
   }
 
-  onData(data) {
-    this.setState({metric: data});
+  onDataReady(data) {
+    this.setState({metric: this.getMetric(data)});
   }
 
-  getMetric() {
-    return Promise.resolve(this[this.props.metric]());
+  getMetric(data) {
+    return this[this.props.metric](data);
   }
 
   render() {

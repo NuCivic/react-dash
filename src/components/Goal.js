@@ -19,15 +19,14 @@ export default class Goal extends BaseComponent {
   }
 
   componentDidMount() {
-    this.fetchData().then(this.onData.bind(this));
+    super.componentDidMount();
+
+    // If doesn't need to fetch data then use the global data
+    if(!this.props.fetchData) this.onDataReady(this.props.globalData);
   }
 
-  onData(data) {
-    this.setState({data: data, metric: this.getMetric(data)});
-  }
-
-  fetchData() {
-    return Promise.resolve(this[this.props.fetchData]());
+  onDataReady(data) {
+    this.setState({metric: this.getMetric(data)});
   }
 
   getMetric(data) {

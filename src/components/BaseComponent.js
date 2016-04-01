@@ -60,6 +60,11 @@ export default class BaseComponent extends Component {
       this.state.dataset = new Dataset({records: data});
     }
     this.setData(data);
+    this.onDataReady(data);
+  }
+
+  onDataReady(data) {
+    /* IMPLEMENT */
   }
 
   fetchData() {
