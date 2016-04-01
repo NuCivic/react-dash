@@ -162,9 +162,11 @@ export default class Choropleth extends BaseComponent {
     let series = [];
     let domainVal = .15;
     for (var i = 0; i < this.levels; i++) {
-      var item = {
-        field: `${domainVal * i} -- ${domainVal * (i+1)}`,
-        name: `${domainVal * i} -- ${domainVal * (i+1)}`,
+      let lower = domainVal*i.toFixed(2);
+      let upper = domainVal*(i+1).toFixed(2);
+      let item = {
+        field: `${lower} -- ${upper}`,
+        name: `${lower} -- ${upper}`,
         color: this.props.settings.colors[i]
       }
       series.push(item);
