@@ -1,0 +1,14 @@
+body {
+	background: $background;
+}
+.glyphicon {
+	top: 3px;
+}
+
+a {
+	color: $link_color;
+	&:hover,
+	&:focus {
+		color: $hover_color;
+	}
+}

@@ -1,91 +1,101 @@
-.table-container{
-    position:relative;
-    min-height: 40px;
+// Override bootstrap
+.public_fixedDataTable_header, 
+.public_fixedDataTable_header .public_fixedDataTableCell_main {
+	background: #eee;
+}
+.fixedDataTableLayout_hasBottomBorder {
+	border: none;
+}
+
+// Tables
+.table-container {
+  position:relative;
+  min-height: 40px;
 }
 .sp {
-    width: 32px;
-    height: 32px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top:-16px;
-    margin-left:-16px;
-    z-index: 2;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top:-16px;
+  margin-left:-16px;
+  z-index: 2;
 }
 
 /* Spinner Slices */
 $spCol: #000;
 
 .sp.sp-slices {
-    border-radius: 50%;
-    border-top: 16px rgba($spCol,0.75) solid;
-    border-left: 16px rgba($spCol,0.25) solid;
-    border-bottom: 16px rgba($spCol,0.25) solid;
-    border-right: 16px rgba($spCol,0.25) solid;
-    -webkit-animation: spSlices 1s infinite linear;
-    animation: spSlices 1s infinite linear;
+  border-radius: 50%;
+  border-top: 16px rgba($spCol,0.75) solid;
+  border-left: 16px rgba($spCol,0.25) solid;
+  border-bottom: 16px rgba($spCol,0.25) solid;
+  border-right: 16px rgba($spCol,0.25) solid;
+  -webkit-animation: spSlices 1s infinite linear;
+  animation: spSlices 1s infinite linear;
 }
 @-webkit-keyframes spSlices {
-    0% {
-        border-top: 16px rgba($spCol,0.75) solid;
-        border-right: 16px rgba($spCol,0.25) solid;
-        border-bottom: 16px rgba($spCol,0.25) solid;
-        border-left: 16px rgba($spCol,0.25) solid;
-    }
-    25% {
-        border-top: 16px rgba($spCol,0.25) solid;
-        border-right: 16px rgba($spCol,0.75) solid;
-        border-bottom: 16px rgba($spCol,0.25) solid;
-        border-left: 16px rgba($spCol,0.25) solid;
-    }
-    50% {
-        border-top: 16px rgba($spCol,0.25) solid;
-        border-right: 16px rgba($spCol,0.25) solid;
-        border-bottom: 16px rgba($spCol,0.75) solid;
-        border-left: 16px rgba($spCol,0.25) solid;
-    }
-    75% {
-        border-top: 16px rgba($spCol,0.25) solid;
-        border-right: 16px rgba($spCol,0.25) solid;
-        border-bottom: 16px rgba($spCol,0.25) solid;
-        border-left: 16px rgba($spCol,0.75) solid;
-    }
-    100% {
-        border-top: 16px rgba($spCol,0.75) solid;
-        border-right: 16px rgba($spCol,0.25) solid;
-        border-bottom: 16px rgba($spCol,0.25) solid;
-        border-left: 16px rgba($spCol,0.25) solid;
-    }
+  0% {
+    border-top: 16px rgba($spCol,0.75) solid;
+    border-right: 16px rgba($spCol,0.25) solid;
+    border-bottom: 16px rgba($spCol,0.25) solid;
+    border-left: 16px rgba($spCol,0.25) solid;
+  }
+  25% {
+    border-top: 16px rgba($spCol,0.25) solid;
+    border-right: 16px rgba($spCol,0.75) solid;
+    border-bottom: 16px rgba($spCol,0.25) solid;
+    border-left: 16px rgba($spCol,0.25) solid;
+  }
+  50% {
+    border-top: 16px rgba($spCol,0.25) solid;
+    border-right: 16px rgba($spCol,0.25) solid;
+    border-bottom: 16px rgba($spCol,0.75) solid;
+    border-left: 16px rgba($spCol,0.25) solid;
+  }
+  75% {
+    border-top: 16px rgba($spCol,0.25) solid;
+    border-right: 16px rgba($spCol,0.25) solid;
+    border-bottom: 16px rgba($spCol,0.25) solid;
+    border-left: 16px rgba($spCol,0.75) solid;
+  }
+  100% {
+    border-top: 16px rgba($spCol,0.75) solid;
+    border-right: 16px rgba($spCol,0.25) solid;
+    border-bottom: 16px rgba($spCol,0.25) solid;
+    border-left: 16px rgba($spCol,0.25) solid;
+  }
 }
 @keyframes spSlices {
-    0% {
-        border-top: 16px rgba($spCol,0.75) solid;
-        border-right: 16px rgba($spCol,0.25) solid;
-        border-bottom: 16px rgba($spCol,0.25) solid;
-        border-left: 16px rgba($spCol,0.25) solid;
-    }
-    25% {
-        border-top: 16px rgba($spCol,0.25) solid;
-        border-right: 16px rgba($spCol,0.75) solid;
-        border-bottom: 16px rgba($spCol,0.25) solid;
-        border-left: 16px rgba($spCol,0.25) solid;
-    }
-    50% {
-        border-top: 16px rgba($spCol,0.25) solid;
-        border-right: 16px rgba($spCol,0.25) solid;
-        border-bottom: 16px rgba($spCol,0.75) solid;
-        border-left: 16px rgba($spCol,0.25) solid;
-    }
-    75% {
-        border-top: 16px rgba($spCol,0.25) solid;
-        border-right: 16px rgba($spCol,0.25) solid;
-        border-bottom: 16px rgba($spCol,0.25) solid;
-        border-left: 16px rgba($spCol,0.75) solid;
-    }
-    100% {
-        border-top: 16px rgba($spCol,0.75) solid;
-        border-right: 16px rgba($spCol,0.25) solid;
-        border-bottom: 16px rgba($spCol,0.25) solid;
-        border-left: 16px rgba($spCol,0.25) solid;
-    }
+  0% {
+    border-top: 16px rgba($spCol,0.75) solid;
+    border-right: 16px rgba($spCol,0.25) solid;
+    border-bottom: 16px rgba($spCol,0.25) solid;
+    border-left: 16px rgba($spCol,0.25) solid;
+  }
+  25% {
+    border-top: 16px rgba($spCol,0.25) solid;
+    border-right: 16px rgba($spCol,0.75) solid;
+    border-bottom: 16px rgba($spCol,0.25) solid;
+    border-left: 16px rgba($spCol,0.25) solid;
+  }
+  50% {
+    border-top: 16px rgba($spCol,0.25) solid;
+    border-right: 16px rgba($spCol,0.25) solid;
+    border-bottom: 16px rgba($spCol,0.75) solid;
+    border-left: 16px rgba($spCol,0.25) solid;
+  }
+  75% {
+    border-top: 16px rgba($spCol,0.25) solid;
+    border-right: 16px rgba($spCol,0.25) solid;
+    border-bottom: 16px rgba($spCol,0.25) solid;
+    border-left: 16px rgba($spCol,0.75) solid;
+  }
+  100% {
+    border-top: 16px rgba($spCol,0.75) solid;
+    border-right: 16px rgba($spCol,0.25) solid;
+    border-bottom: 16px rgba($spCol,0.25) solid;
+    border-left: 16px rgba($spCol,0.25) solid;
+  }
 }
