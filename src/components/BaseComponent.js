@@ -35,6 +35,13 @@ export default class BaseComponent extends Component {
         this.setData(this.props.fetchData);
       }
     }
+
+    // Register to all the actions
+    EventDispatcher.register(this.onAction.bind(this));
+  }
+
+  onAction() {
+    /* IMPLEMENT */
   }
 
   query(query) {
