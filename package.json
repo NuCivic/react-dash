@@ -1,6 +1,6 @@
 {
   "name": "react-dashboard",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Another react dashboard component",
   "main": "./dist/bundle.js",
   "scripts": {
@@ -71,7 +71,8 @@
     "flux": "^2.1.1",
     "immutable": "^3.7.6",
     "lodash": "^4.6.1",
-    "moment": "^2.12.0",
+	"moment": "^2.12.0",
+    "react-d3-core": "^1.2.8",
     "react-d3-map-choropleth": "^0.5.1",
     "react-nvd3": "git+ssh://git@github.com/NuCivic/react-nvd3.git",
     "react-select": "git+https://github.com/JedWatson/react-select.git",
