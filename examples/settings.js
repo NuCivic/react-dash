@@ -35,10 +35,13 @@ export var settings = {
           colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'pink','violet', 'darkmagenta'],
           cssPath: '/static/choropleth.css',
           showTooltip: {true},
-          domain: 'rate',
+          domainField: 'rate',
+          levels: 9,
+          domainLower: 0,
+          domainUpper: .15,
           width: 1200,
           height: 600,
-          domainKey: 'id',// @@TODO use domain and provide function in component
+          domainKey: 'id',
           projection: 'albersUsa',
           showGraticule: true
         },
