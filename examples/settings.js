@@ -91,7 +91,7 @@ export var settings = {
         title: '',
         caption: '',
         link: 'http://tootherplace.com',
-        icon: '',
+        icon: 'glyphicon-leaf',
         startDate: '03/24/2016',
         endDate: '04/24/2016',
         startNumber: 0,
@@ -101,7 +101,7 @@ export var settings = {
         // trackStatus: 'function',
         tolerance: [
           {from: 0, to: 2, label: 'On Track', color: 'green'},
-          {from: 2, to: 5, label: 'Sighlty Off Track', color: 'orange'},
+          {from: 2, to: 5, label: 'Needs Improvement', color: 'orange'},
           {from: 5, to: Infinity, label: 'Off Track', color: 'red'},
         ],
         spline: {
@@ -117,7 +117,7 @@ export var settings = {
         title: '',
         caption: '',
         link: 'http://tootherplace.com',
-        icon: '',
+        icon: 'glyphicon-shopping-cart',
         startDate: '03/24/2016',
         endDate: '04/24/2016',
         startNumber: 0,
@@ -127,7 +127,7 @@ export var settings = {
         // trackStatus: 'function',
         tolerance: [
           {from: 0, to: 2, label: 'On Track', color: 'green'},
-          {from: 2, to: 5, label: 'Sighlty Off Track', color: 'orange'},
+          {from: 2, to: 5, label: 'Needs Improvement', color: 'orange'},
           {from: 5, to: Infinity, label: 'Off Track', color: 'red'},
         ],
         spline: {
@@ -143,7 +143,7 @@ export var settings = {
         title: '',
         caption: '',
         link: 'http://tootherplace.com',
-        icon: '',
+        icon: 'glyphicon-gbp',
         startDate: '03/24/2016',
         endDate: '04/24/2016',
         startNumber: 0,
@@ -153,7 +153,7 @@ export var settings = {
         // trackStatus: 'function',
         tolerance: [
           {from: 0, to: 2, label: 'On Track', color: 'green'},
-          {from: 2, to: 5, label: 'Sighlty Off Track', color: 'orange'},
+          {from: 2, to: 5, label: 'Needs Improvement', color: 'orange'},
           {from: 5, to: Infinity, label: 'Off Track', color: 'red'},
         ],
         spline: {

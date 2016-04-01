@@ -4,6 +4,9 @@ import BaseComponent from './BaseComponent';
 import head from 'lodash/head';
 import NVD3Chart from 'react-nvd3';
 import moment from 'moment';
+import * as d3 from 'd3';
+import capitalize from 'lodash/capitalize';
+import classnames from 'classnames';
 
 export default class Goal extends BaseComponent {
 
@@ -15,6 +18,8 @@ export default class Goal extends BaseComponent {
         color: 'black',
         background: 'white',
       },
+      dateFormat: this.props.dateFormat || 'MMMM Do YYYY',
+      numberFormat: this.props.numberFormat || '.0f'
     };
   }
 
@@ -67,6 +72,33 @@ export default class Goal extends BaseComponent {
     }
   }
 
+  formatNumber(n) {
+    let format = d3.format(this.state.numberFormat);
+    return format(n);
+  }
+
+  formatDate(date) {
+    return moment((date).toISOString()).format(this.state.dateFormat);
+  }
+
+  getCaption() {
+    let caption = capitalize(this.props.action);
+
+    switch(this.props.action) {
+      case 'increase':
+      case 'decrease':
+        caption +=' ' + this.props.caption + ' to ' + this.formatNumber(this.props.endNumber) + ' by ' + this.formatDate(new Date(this.props.endDate));
+        break;
+      case 'maintain':
+        caption +=' ' + this.props.caption + ' at ' + this.formatNumber(this.props.endNumber) + ' by ' + this.formatDate(new Date(this.props.endDate));
+        break;
+      case 'mesure':
+        caption +=' ' + this.props.caption;
+        break;
+    }
+    return caption;
+  }
+
   render() {
     let status = Object.assign({}, head(this.trackStatus()));
     let style = {
@@ -81,30 +113,37 @@ export default class Goal extends BaseComponent {
     }
     style = Object.assign({}, style, this.props.style);
     return (
-      <div className="metric" style={style}>
-          <div className="col-md-6">
-            <div className="card-metric-number">
-            {this.state.metric}
+      <div className="goal" style={style}>
+          <div className="row">
+            <div className="col-md-3">
+              <div className="card-goal-icon">
+                <span className={classnames('glyphicon', this.props.icon)}></span>
+              </div>
             </div>
-            <div className="card-metric-caption">
-            {moment((new Date()).toISOString()).format('MMMM Do YYYY')}
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="card-metric-number">
-            {this.props.endNumber}
-            </div>
-            <div className="card-metric-caption">
-            {moment((new Date(this.props.endDate)).toISOString()).format('MMMM Do YYYY')}
-            </div>
-            <div className="card-metric-caption">
-            {status.label}
-            <div><span className="glyphicon glyphicon-user"></span></div>
+            <div className="col-md-9">
+              <div className="card-goal-caption">{this.getCaption()}</div>
             </div>
           </div>
-          <div className="col-md-12">
-            <div className="spline">
-            {spline}
+          <div className="row">
+            <div className="col-md-6">
+              <div className="card-goal-progress">
+              {this.formatNumber(this.state.metric)} / {this.formatNumber(this.props.endNumber)}
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="card-goal-status">
+              {status.label}
+              </div>
+              <div className="card-goal-end-date">
+              {this.formatDate(new Date(this.props.endDate))}
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-12">
+              <div className="spline">
+              {spline}
+              </div>
             </div>
           </div>
       </div>

@@ -1,0 +1,57 @@
+.goal {
+  background: #9F3E69;
+  color: white;
+  padding-bottom: 17px;
+  padding-top: 17px;
+  margin: 20px 0;
+  overflow: auto;
+}
+.card-goal-icon {
+  text-align: center;
+  background: rgba(0,0,0,0.1);
+  border-radius: 50%;
+  height: 70px;
+  width: 70px;
+  margin-left: 10px;
+  span {
+    height: 70px;
+    width: 70px;
+    line-height: 2em;
+    font-size: 2em;
+  }
+  .glyphicon:before {
+    position: absolute;
+    left: 20px;
+    height: 30px;
+    width: 30px;
+    top: 18px;
+    line-height: 30px;
+  }
+  @media all and (max-width:767px) {
+    margin: 0 auto;
+  }
+}
+.card-goal-progress {
+  font-size: 2.5em;
+  font-weight: bold;
+  @media all and (max-width:767px) {
+    text-align: center;
+  }
+}
+.card-goal-status {
+  font-size:1.2em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.card-goal-end-date {
+  font-size:0.9em;
+  font-weight: bold;
+  color: #666;
+}
+.card-goal-caption {
+  opacity: 0.7;
+  @media all and (max-width:767px) {
+    text-align: center;
+  }
+}
