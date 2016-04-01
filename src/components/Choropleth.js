@@ -115,7 +115,7 @@ export default class Choropleth extends BaseComponent {
       this.props.settings.topodata = t1;
       this.props.settings.domainData = d1;
       this.props.settings.dataPolygon = topojson.feature(t1, t1.objects.counties).features;
-      this.props.settings.dataMesh = topojson.mesh(t1, t1.objects.states, function(a, b) { return a !== b; });
+      this.props.settings.dataMesh = topojson.mesh(t1, t1.objects.states, (a, b) => a !== b);
 
       this.props.settings.domain = {
         scale: 'quantize',

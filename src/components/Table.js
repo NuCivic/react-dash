@@ -7,8 +7,9 @@ import isString from 'lodash/isString';
 import isEmpty from 'lodash/isEmpty';
 import range from 'lodash/range';
 import partialRight from 'lodash/partialRight';
+import BaseComponent from './BaseComponent';
 
-export default class Table extends Component {
+export default class Table extends BaseComponent {
 
   constructor(props) {
     super(props);
@@ -17,41 +18,19 @@ export default class Table extends Component {
       gridHeight: 1,
       rowsPerPage: 10,
       currentPage: 1,
-      queryObj: {},
+      queryObj: {
+        size: 10,
+        from: 0
+      },
       isFeching: false
     };
-    if(props.fetchData) {
-      if(isString(props.fetchData)) {
-        let records = this[this.props.fetchData]();
-        let backend = {records: records};
-        this.state.dataset = new Dataset(backend);
-      } else {
-        let backend = props.fetchData;
-        this.state.dataset = new Dataset(backend);
-      }
-    }
+
   }
 
   componentDidMount(){
     this._attachResize();
     this._setSize();
-    this.setState({isFeching: true});
-    this.state.dataset.fetch().then(() => {
-      let query = {
-        size: this.state.rowsPerPage,
-        from:  (this.state.currentPage * this.state.rowsPerPage) - this.state.rowsPerPage
-      };
-      this.state.dataset.query(query).then(this.onData.bind(this));
-      this.setState({queryObj: query});
-    });
-  }
-
-  onData(data) {
-    this.setState({data: data.hits, total: data.total, isFeching: false});
-  }
-
-  fetchData() {
-    return Promise.resolve(this[this.props.fetchData]());
+    super.componentDidMount();
   }
 
   getPages(size, total, current) {
@@ -103,16 +82,6 @@ export default class Table extends Component {
     return Math.ceil(total / size);
   }
 
-  setData(data) {
-    const { offsetWidth, offsetHeight } = this.refs.table;
-    let state = Object.assign({}, {
-      gridWidth: offsetWidth,
-      gridHeight: offsetHeight
-    }, {data:data});
-
-    this.setState(state);
-  }
-
   _setSize() {
     const { offsetWidth, offsetHeight } = this.refs.table;
     this.setState({
@@ -132,8 +101,8 @@ export default class Table extends Component {
       size: rpp,
       from: (pageNumber * rpp) - rpp
     });
-    this.state.dataset.query(query).then(this.onData.bind(this));
-    this.setState({currentPage: pageNumber, queryObj: query, isFeching: true});
+    this.query(query);
+    this.setState({currentPage: pageNumber, queryObj: query});
   }
 
   _onFilterChange(e) {
@@ -143,16 +112,16 @@ export default class Table extends Component {
       from: (this.state.currentPage * rpp) - rpp,
       q: e.target.value
     });
-    this.state.dataset.query(query).then(this.onData.bind(this));
-    this.setState({currentPage: 1, queryObj: query, isFeching: true});
+    this.query(query);
+    this.setState({currentPage: 1, queryObj: query});
   }
 
   _onRowsPerPageChange(e) {
     let query = Object.assign({}, this.state.queryObj);
     query.size = Number(e.target.value);
     query.from = 0;
+    this.query(query);
     this.setState({rowsPerPage: Number(e.target.value), queryObj: query, currentPage: 1});
-    this.state.dataset.query(query).then(this.onData.bind(this));
   }
 
   render() {
