@@ -14,9 +14,10 @@ console.log('Cho001');
  **/
 import BaseComponent from './BaseComponent';
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import Legend from 'react-d3-core';
 import Registry from '../utils/Registry';
 import * as MapChoroplethModule from 'react-d3-map-choropleth';
-
 import t1 from 'json!../../examples/data/us.json';
 import d1 from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv';
 import * as D3 from 'd3';
@@ -82,13 +83,32 @@ export default class Choropleth extends BaseComponent {
     // @@TODO Maybe we should validate this stuff
     this.setState({foo: 'bar', data: data});
 	}
+  componentDidMount () {
+    this._attachResize();
+    this._setSize();
+    if (this.props.fetchData && this[this.props.fetchData]) {
+      this.fetchData().then(this.onData.bind(this));
+    }
+  }
+
+  _setSize() {
+    const { offsetWidth, offsetHeight } = this.refs.choropleth;
+    this.setState({
+      gridWidth: offsetWidth,
+      gridHeight: offsetHeight
+    });
+  }
+
+  _attachResize() {
+    window.addEventListener('resize', this._setSize.bind(this), false);
+  }
 
   // generate css string from colors array
   css () {
     let _css = '';
     let colors = this.props.settings.colors;
     for (var i = 0; i < this.levels; i++) {
-      css += `.q${i}-${this.levels} { fill:${colors[i]}; }`;
+      _css += `.q${i}-${this.levels} { fill:${colors[i]}; }`;
     }
     return _css;
   }
@@ -113,7 +133,8 @@ export default class Choropleth extends BaseComponent {
       this.props.settings.domainData = d1;
       this.props.settings.dataPolygon = topojson.feature(t1, t1.objects.counties).features;
       this.props.settings.dataMesh = topojson.mesh(t1, t1.objects.states, function(a, b) { return a !== b; });
-
+      this.props.settings.scale = this.state.gridWidth;
+//      this.props.settings.height = this.state.gridHeight;
       this.props.settings.domain = {
         scale: 'quantize',
         domain: [0, .15],
@@ -121,16 +142,76 @@ export default class Choropleth extends BaseComponent {
       };
 
       console.log('>>' , this.props.settings);
-     v = <MapChoropleth {...this.props.settings} />;
+     v = <div className="choropleth-container">
+          <MapChoropleth ref="choropleth" {...this.props.settings} />
+          <div id="choropleth-legend"></div>
+         </div>;
       // add pallet to heat map
       console.log('css',this.css());
       addStyleString(this.css());
    } else {
-      v = <p className='laoding'>Loading...</p>;
+      v = <p ref="choropleth" className='laoding'>Loading...</p>;
    }
 
    return(v);
   }
 }
 
+let width = 500,
+  height = 400,
+  margins = {top: 40, right: 50, bottom: 40, left: 50},
+  legendClassName = "test-legend-class",
+  legendPosition = 'left',
+  legendOffset = 90,
+  chartSeries = [
+    {
+      field: 'Under 5 Years',
+      name: 'Under 5 Years',
+      color: '#1f77b4'
+    },
+    {
+      field: '5 to 13 Years',
+      name: '5 to 13 Years',
+      color: '#ff7f0e'
+    },
+    {
+      field: '14 to 17 Years',
+      name: '14 to 17 Years',
+      color: '#2ca02c'
+    },
+    {
+      field: '18 to 24 Years',
+      name: '18 to 24 Years',
+      color: '#d62728'
+    },
+    {
+      field: '25 to 44 Years',
+      name: '25 to 44 Years',
+      color: '#9467bd'
+    },
+    {
+      field: '45 to 64 Years',
+      name: '45 to 64 Years',
+      color: '#8c564b'
+    },
+    {
+      field: '65 Years and Over',
+      name: '65 Years and Over',
+      color: '#e377c2'
+    },
+
+  ]
+
+/*ReactDOM.render(
+  <Legend
+    width= {width}
+    height= {height}
+    margins= {margins}
+    legendClassName= {legendClassName}
+    legendPosition= {legendPosition}
+    legendOffset= {legendOffset}
+    chartSeries = {chartSeries}
+  />
+, document.getElementById('choropleth-legend')
+)*/
 Registry.set('Choropleth', Choropleth);
