@@ -85,6 +85,84 @@ export var settings = {
         caption: 'Unique Visitors',
       }
     ],
+    goalsFirst: [
+      {
+        type: 'GAGoal',
+        title: '',
+        caption: '',
+        link: 'http://tootherplace.com',
+        icon: '',
+        startDate: '03/24/2016',
+        endDate: '04/24/2016',
+        startNumber: 0,
+        endNumber: 200,
+        action: 'increase',
+        background: 'white',
+        // trackStatus: 'function',
+        tolerance: [
+          {from: 0, to: 2, label: 'On Track', color: 'green'},
+          {from: 2, to: 5, label: 'Sighlty Off Track', color: 'orange'},
+          {from: 5, to: Infinity, label: 'Off Track', color: 'red'},
+        ],
+        spline: {
+          height: 50,
+        },
+        fetchData: 'getData',
+        metric: 'getRandomMetric'
+      }
+    ],
+    goalsSecond: [
+      {
+        type: 'GAGoal',
+        title: '',
+        caption: '',
+        link: 'http://tootherplace.com',
+        icon: '',
+        startDate: '03/24/2016',
+        endDate: '04/24/2016',
+        startNumber: 0,
+        endNumber: 200,
+        action: 'increase',
+        background: 'white',
+        // trackStatus: 'function',
+        tolerance: [
+          {from: 0, to: 2, label: 'On Track', color: 'green'},
+          {from: 2, to: 5, label: 'Sighlty Off Track', color: 'orange'},
+          {from: 5, to: Infinity, label: 'Off Track', color: 'red'},
+        ],
+        spline: {
+          height: 50,
+        },
+        fetchData: 'getData',
+        metric: 'getRandomMetric'
+      }
+    ],
+    goalsThird: [
+      {
+        type: 'GAGoal',
+        title: '',
+        caption: '',
+        link: 'http://tootherplace.com',
+        icon: '',
+        startDate: '03/24/2016',
+        endDate: '04/24/2016',
+        startNumber: 0,
+        endNumber: 200,
+        action: 'increase',
+        background: 'white',
+        // trackStatus: 'function',
+        tolerance: [
+          {from: 0, to: 2, label: 'On Track', color: 'green'},
+          {from: 2, to: 5, label: 'Sighlty Off Track', color: 'orange'},
+          {from: 5, to: Infinity, label: 'Off Track', color: 'red'},
+        ],
+        spline: {
+          height: 50,
+        },
+        fetchData: 'getData',
+        metric: 'getRandomMetric'
+      }
+    ],
     left: [
       {
         header:'Left',
