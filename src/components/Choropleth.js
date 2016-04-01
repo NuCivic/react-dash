@@ -15,7 +15,7 @@ console.log('Cho001');
 import BaseComponent from './BaseComponent';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Legend from 'react-d3-core';
+import * as D3Core from 'react-d3-core';
 import Registry from '../utils/Registry';
 import * as MapChoroplethModule from 'react-d3-map-choropleth';
 import t1 from 'json!../../examples/data/us.json';
@@ -23,7 +23,52 @@ import d1 from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv';
 import * as D3 from 'd3';
 import * as topojson from 'topojson';
 
+let Legend = D3Core.Legend;
 let MapChoropleth = MapChoroplethModule.MapChoropleth;
+let legendWidth = 500,
+  legendHeight = 400,
+  legendMargins = {top: 40, right: 50, bottom: 40, left: 50},
+  legendClassName = "test-legend-class",
+  legendPosition = 'left',
+  legendOffset = 90,
+  chartSeries = [
+    {
+      field: 'Under 5 Years',
+      name: 'Under 5 Years',
+      color: '#1f77b4'
+    },
+    {
+      field: '5 to 13 Years',
+      name: '5 to 13 Years',
+      color: '#ff7f0e'
+    },
+    {
+      field: '14 to 17 Years',
+      name: '14 to 17 Years',
+      color: '#2ca02c'
+    },
+    {
+      field: '18 to 24 Years',
+      name: '18 to 24 Years',
+      color: '#d62728'
+    },
+    {
+      field: '25 to 44 Years',
+      name: '25 to 44 Years',
+      color: '#9467bd'
+    },
+    {
+      field: '45 to 64 Years',
+      name: '45 to 64 Years',
+      color: '#8c564b'
+    },
+    {
+      field: '65 Years and Over',
+      name: '65 Years and Over',
+      color: '#e377c2'
+    },
+
+  ]
 
 // @@TODO - we should baseclass the css functions
 // Whack some css into the page
@@ -113,7 +158,21 @@ export default class Choropleth extends BaseComponent {
     return _css;
   }
 
-	render () {
+  legendSeries () {
+    let series = [];
+    let domainVal = .15;
+    for (var i = 0; i < this.levels; i++) {
+      var item = {
+        field: `${domainVal * i} -- ${domainVal * (i+1)}`,
+        name: `${domainVal * i} -- ${domainVal * (i+1)}`,
+        color: this.props.settings.colors[i]
+      }
+      series.push(item);
+    }
+    return series;
+  }
+	
+  render () {
     let v;
     if (this.state.foo) {
       Object.assign(this.props.settings, this.state.data, {type : this.props.type}, this.choroplethFunctions);
@@ -134,7 +193,7 @@ export default class Choropleth extends BaseComponent {
       this.props.settings.dataPolygon = topojson.feature(t1, t1.objects.counties).features;
       this.props.settings.dataMesh = topojson.mesh(t1, t1.objects.states, function(a, b) { return a !== b; });
       this.props.settings.scale = this.state.gridWidth;
-//      this.props.settings.height = this.state.gridHeight;
+
       this.props.settings.domain = {
         scale: 'quantize',
         domain: [0, .15],
@@ -144,7 +203,15 @@ export default class Choropleth extends BaseComponent {
       console.log('>>' , this.props.settings);
      v = <div className="choropleth-container">
           <MapChoropleth ref="choropleth" {...this.props.settings} />
-          <div id="choropleth-legend"></div>
+  <Legend
+    width= {legendWidth}
+    height= {legendHeight}
+    margins= {legendMargins}
+    legendClassName= {legendClassName}
+    legendPosition= {legendPosition}
+    legendOffset= {legendOffset}
+    chartSeries = {this.legendSeries()}
+  />
          </div>;
       // add pallet to heat map
       console.log('css',this.css());
@@ -157,61 +224,4 @@ export default class Choropleth extends BaseComponent {
   }
 }
 
-let width = 500,
-  height = 400,
-  margins = {top: 40, right: 50, bottom: 40, left: 50},
-  legendClassName = "test-legend-class",
-  legendPosition = 'left',
-  legendOffset = 90,
-  chartSeries = [
-    {
-      field: 'Under 5 Years',
-      name: 'Under 5 Years',
-      color: '#1f77b4'
-    },
-    {
-      field: '5 to 13 Years',
-      name: '5 to 13 Years',
-      color: '#ff7f0e'
-    },
-    {
-      field: '14 to 17 Years',
-      name: '14 to 17 Years',
-      color: '#2ca02c'
-    },
-    {
-      field: '18 to 24 Years',
-      name: '18 to 24 Years',
-      color: '#d62728'
-    },
-    {
-      field: '25 to 44 Years',
-      name: '25 to 44 Years',
-      color: '#9467bd'
-    },
-    {
-      field: '45 to 64 Years',
-      name: '45 to 64 Years',
-      color: '#8c564b'
-    },
-    {
-      field: '65 Years and Over',
-      name: '65 Years and Over',
-      color: '#e377c2'
-    },
-
-  ]
-
-/*ReactDOM.render(
-  <Legend
-    width= {width}
-    height= {height}
-    margins= {margins}
-    legendClassName= {legendClassName}
-    legendPosition= {legendPosition}
-    legendOffset= {legendOffset}
-    chartSeries = {chartSeries}
-  />
-, document.getElementById('choropleth-legend')
-)*/
 Registry.set('Choropleth', Choropleth);
