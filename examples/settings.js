@@ -89,14 +89,15 @@ export var settings = {
       {
         type: 'GAGoal',
         title: '',
-        caption: '',
+        caption: 'number of schools enrollments',
         link: 'http://tootherplace.com',
         icon: 'glyphicon-leaf',
         startDate: '03/24/2016',
         endDate: '04/24/2016',
         startNumber: 0,
         endNumber: 200,
-        action: 'increase',
+        percentaje: true,
+        action: 'maintain_above',
         background: 'white',
         // trackStatus: 'function',
         tolerance: [
@@ -115,7 +116,7 @@ export var settings = {
       {
         type: 'GAGoal',
         title: '',
-        caption: '',
+        caption: 'number of schools enrollments',
         link: 'http://tootherplace.com',
         icon: 'glyphicon-shopping-cart',
         startDate: '03/24/2016',
@@ -141,7 +142,7 @@ export var settings = {
       {
         type: 'GAGoal',
         title: '',
-        caption: '',
+        caption: 'number of schools enrollments',
         link: 'http://tootherplace.com',
         icon: 'glyphicon-gbp',
         startDate: '03/24/2016',

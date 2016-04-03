@@ -1,10 +1,18 @@
 // Override bootstrap
-.public_fixedDataTable_header, 
+.public_fixedDataTable_header,
 .public_fixedDataTable_header .public_fixedDataTableCell_main {
 	background: #eee;
 }
 .fixedDataTableLayout_hasBottomBorder {
 	border: none;
+}
+.card-table .pagination > li a {
+  color: #333;
+}
+.card-table .pagination > li.active a {
+  background-color: #777;
+  color: white;
+  border: 1px solid #666;
 }
 
 // Tables

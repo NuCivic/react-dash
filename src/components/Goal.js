@@ -19,8 +19,12 @@ export default class Goal extends BaseComponent {
         background: 'white',
       },
       dateFormat: this.props.dateFormat || 'MMMM Do YYYY',
-      numberFormat: this.props.numberFormat || '.0f'
+      numberFormat: this.props.numberFormat || '.0f',
     };
+  }
+
+  getNumberFormat() {
+
   }
 
   componentDidMount() {
@@ -56,16 +60,18 @@ export default class Goal extends BaseComponent {
     let distance = projection - this.state.metric;
     let actionContitions = {
       increase: distance <= 0,
-      decrease: distance > 0,
+      decrease: distance >= 0,
+      maintain_above: distance <= 0,
+      maintain_below: distance >= 0,
       maintain: true,
       mesure: true
     };
-
     return this.getTolerance(distance, actionContitions[this.props.action]);
   }
 
   getTracker(startDate, endDate, startNumber,  endNumber){
     return function (date){
+      // Straight line equation
       let m = (endNumber - startNumber) / (endDate - startDate);
       let y = m * (date - startDate);
       return y;
@@ -81,8 +87,12 @@ export default class Goal extends BaseComponent {
     return moment((date).toISOString()).format(this.state.dateFormat);
   }
 
+  formatActionName(action) {
+    return capitalize(this.props.action.replace('_', ' '));
+  }
+
   getCaption() {
-    let caption = capitalize(this.props.action);
+    let caption = this.formatActionName(this.props.action);
 
     switch(this.props.action) {
       case 'increase':
@@ -92,6 +102,12 @@ export default class Goal extends BaseComponent {
       case 'maintain':
         caption +=' ' + this.props.caption + ' at ' + this.formatNumber(this.props.endNumber) + ' by ' + this.formatDate(new Date(this.props.endDate));
         break;
+      case 'maintain_above':
+        caption +=' ' + this.formatNumber(this.props.endNumber) + ' ' + this.props.caption  + ' by ' + this.formatDate(new Date(this.props.endDate));
+        break;
+      case 'maintain_below':
+        caption +=' ' + this.formatNumber(this.props.endNumber) + ' ' + this.props.caption + ' by ' + this.formatDate(new Date(this.props.endDate));
+        break;
       case 'mesure':
         caption +=' ' + this.props.caption;
         break;
@@ -99,19 +115,25 @@ export default class Goal extends BaseComponent {
     return caption;
   }
 
+  getDivider() {
+    let action = this.props.action;
+    let actionWithDivider = ['increase', 'decrease', 'maintain', 'maintain_above', 'maintain_below'];
+    return actionWithDivider.includes(action) ? ' / ' : '';
+  }
+
   render() {
     let status = Object.assign({}, head(this.trackStatus()));
     let style = {
-      background: this.props.background,
-      color: status.color
+      background: this.props.background
     };
-    let spline;
+    let spline, divider;
 
     if(this.props.spline) {
       let splineSettings = Object.assign({}, this.props.spline);
       spline = <NVD3Chart type="sparklinePlus" datum={this.state.data} showLastValue={false} color={['#333333']}{...splineSettings}/>
     }
     style = Object.assign({}, style, this.props.style);
+    divider = this.getDivider();
     return (
       <div className="goal" style={style}>
           <div className="row">
@@ -120,19 +142,20 @@ export default class Goal extends BaseComponent {
                 <span className={classnames('glyphicon', this.props.icon)}></span>
               </div>
             </div>
-            <div className="col-md-9">
+            <div className="col-md-8">
               <div className="card-goal-caption">{this.getCaption()}</div>
             </div>
           </div>
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-5">
               <div className="card-goal-progress">
-              {this.formatNumber(this.state.metric)} / {this.formatNumber(this.props.endNumber)}
+               <span className="card-goal-metric">{this.formatNumber(this.state.metric)}</span>
+               <span className="card-goal-end-number">{divider}{this.formatNumber(this.props.endNumber)}</span>
               </div>
             </div>
-            <div className="col-md-6">
+            <div className="col-md-7">
               <div className="card-goal-status">
-              {status.label}
+                <a style={{color: status.color}} href={this.props.link}>{status.label}</a>
               </div>
               <div className="card-goal-end-date">
               {this.formatDate(new Date(this.props.endDate))}

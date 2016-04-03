@@ -1,12 +1,14 @@
 .goal {
+  color: #333;
   background: #9F3E69;
-  color: white;
   padding-bottom: 17px;
   padding-top: 17px;
   margin: 20px 0;
   overflow: auto;
 }
+
 .card-goal-icon {
+
   text-align: center;
   background: rgba(0,0,0,0.1);
   border-radius: 50%;
@@ -31,6 +33,7 @@
     margin: 0 auto;
   }
 }
+
 .card-goal-progress {
   font-size: 2.5em;
   font-weight: bold;
@@ -38,6 +41,7 @@
     text-align: center;
   }
 }
+
 .card-goal-status {
   font-size:1.2em;
   font-weight: bold;
@@ -46,12 +50,16 @@
 
 .card-goal-end-date {
   font-size:0.9em;
-  font-weight: bold;
-  color: #666;
 }
+
 .card-goal-caption {
-  opacity: 0.7;
+  font-weight: bold;
   @media all and (max-width:767px) {
     text-align: center;
   }
+}
+
+.card-goal-end-number {
+  font-size:0.7em;
+  color: #999;
 }
