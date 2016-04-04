@@ -17,13 +17,13 @@ import ReactDOM from 'react-dom';
 import {Legend} from 'react-d3-core';
 import Registry from '../utils/Registry';
 import {MapChoropleth} from 'react-d3-map-choropleth';
-//import t1 from 'json!../../examples/data/us.json'; @@ Move to config
-//import d1 from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv'; @@ Move to config
 import {mesh, feature} from 'topojson';
-// @@TODO Add geojson implementation
+import {range} from 'd3';
 import CSV from 'csv-es6-data-backend';
 
-// @@TODO - this 
+
+// @@TODO Add geojson implementation
+
 let legendWidth = 500,
   legendHeight = 400,
   legendMargins = {top: 40, right: 50, bottom: 40, left: 50},
@@ -195,7 +195,7 @@ export default class Choropleth extends BaseComponent {
       settings.domain = {
         scale: 'quantize',
         domain: [settings.domainLower, settings.domainUpper],
-        range: d3.range(settings.levels).map(function(i) { return `q${i}-${settings.levels}`; })
+        range: range(settings.levels).map(function(i) { return `q${i}-${settings.levels}`; })
       };
 
      console.log('>>', settings);
