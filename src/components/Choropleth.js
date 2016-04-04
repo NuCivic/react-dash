@@ -69,15 +69,15 @@ export default class Choropleth extends BaseComponent {
         },
 
         domainValue: function (d) {
-          return +d[domainField];
+          return Number(d[domainField]);
         },
 
         domainKey: function (d) {
-          return +d[domainKey];
+          return Number(d[domainKey]);
         },
 
         mapKey: function (d) {
-          return +d[domainKey];
+          return Number(d[domainKey]);
         }
       }
 		});
