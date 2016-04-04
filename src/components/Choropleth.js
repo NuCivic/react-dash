@@ -87,7 +87,7 @@ export default class Choropleth extends BaseComponent {
   onDataReady(data) {
     // @@TODO Maybe we should validate this stuff
     console.log('on Data', data);
-    this.setState({domaindata: data.domaindata, topodata: data.topodata});
+    this.setState({domainData: data.domainData, topodata: data.topodata});
 	}
 
   componentDidMount () {
@@ -124,10 +124,10 @@ export default class Choropleth extends BaseComponent {
       })
       .then(data => {
         response.topodata = data;
-        CSV.fetch({url: this.props.settings.domainDataUrl})
+        CSV.fetch({url: this.props.settings.domainDataUrl, delimiter: '\t'})
           .then(data => {
             console.log('CSV response', data);
-            response.domaindata = data.records;
+            response.domainData = data.records;
             return resolve(response);
           })
           .catch(e => {
@@ -183,11 +183,11 @@ export default class Choropleth extends BaseComponent {
     let settings = Object.assign({}, this.props.settings);
 
       console.log('>', settings, this.state);
-    if (this.state.domaindata) {
+    if (this.state.domainData) {
       Object.assign(settings, this.state.data, {type : this.props.type}, this.choroplethFunctions);
 
       settings.topodata = this.state.topodata;
-      settings.domainData = this.state.domaindata;
+      settings.domainData = this.state.domainData;
       console.log('>1',settings);
       settings.dataPolygon = feature(this.state.topodata, this.state.topodata.objects.counties).features;
       settings.dataMesh = mesh(this.state.topodata, this.state.topodata.objects.states, function(a, b) { return a !== b; });
