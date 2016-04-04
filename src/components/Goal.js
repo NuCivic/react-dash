@@ -142,7 +142,7 @@ export default class Goal extends BaseComponent {
                 <span className={classnames('glyphicon', this.props.icon)}></span>
               </div>
             </div>
-            <div className="col-md-8">
+            <div className="col-md-9">
               <div className="card-goal-caption">{this.getCaption()}</div>
             </div>
           </div>

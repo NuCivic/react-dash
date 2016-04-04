@@ -67,11 +67,12 @@
   "dependencies": {
     "csv-es6-data-backend": "git+ssh://git@github.com/NuCivic/csv-es6-data-backend.git",
     "dsv": "0.0.5",
+    "extract-text-webpack-plugin": "^1.0.1",
     "fixed-data-table": "^0.6.0",
     "flux": "^2.1.1",
     "immutable": "^3.7.6",
     "lodash": "^4.6.1",
-	"moment": "^2.12.0",
+    "moment": "^2.12.0",
     "react-d3-core": "^1.2.8",
     "react-d3-map-choropleth": "^0.5.1",
     "react-nvd3": "git+ssh://git@github.com/NuCivic/react-nvd3.git",
