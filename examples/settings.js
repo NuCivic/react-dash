@@ -26,7 +26,7 @@ export var settings = {
           color: ['#EA7E7E']
         },
         cardStyle: 'card',
-        fetchData: 'getData'
+        fetchData: {type:'function', name: 'getData'},
       },
       {
         header: 'GAChoropleth Test',
@@ -46,7 +46,7 @@ export var settings = {
           showGraticule: true
         },
         cardStyle: 'card',
-        fetchData: 'getData'
+        fetchData: {type:'function', name: 'getData'},
       },
     ],
     middleFirst: [
@@ -96,9 +96,12 @@ export var settings = {
         endDate: '04/24/2016',
         startNumber: 0,
         endNumber: 200,
-        percentaje: true,
+        showEndNumber: false,
         action: 'maintain_above',
         background: 'white',
+        captionTemplates: {
+          maintain_above: 'yo quiero mi template',
+        },
         // trackStatus: 'function',
         tolerance: [
           {from: 0, to: 2, label: 'On Track', color: 'green'},
@@ -108,7 +111,7 @@ export var settings = {
         spline: {
           height: 50,
         },
-        fetchData: 'getData',
+        fetchData: {type:'function', name: 'getData'},
         metric: 'getRandomMetric'
       }
     ],
@@ -134,7 +137,7 @@ export var settings = {
         spline: {
           height: 50,
         },
-        fetchData: 'getData',
+        fetchData: {type:'function', name: 'getData'},
         metric: 'getRandomMetric'
       }
     ],
@@ -160,7 +163,7 @@ export var settings = {
         spline: {
           height: 50,
         },
-        fetchData: 'getData',
+        fetchData: {type:'function', name: 'getData'},
         metric: 'getRandomMetric'
       }
     ],
@@ -180,12 +183,13 @@ export var settings = {
           },
         },
         cardStyle: 'card',
-        fetchData: 'getData'
+        fetchData: {type:'function', name: 'getData'},
       },
       {
         type: 'GATable',
         header: 'Mi titulo',
         fetchData: {
+          type:'backend',
           backend: 'csv',
           url: 'http://demo.getdkan.com/node/9/download',
         },
@@ -235,7 +239,7 @@ export var settings = {
           color: ['#82899B']
         },
         cardStyle: 'card',
-        fetchData: 'getData'
+        fetchData: {type:'function', name: 'getData'},
       },
       {
         header: 'This is an awesome text',
