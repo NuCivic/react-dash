@@ -45,8 +45,8 @@ export var settings = {
           topoJson: '/data/us.json',
           domainDataUrl: '/data/unemployment.tsv',
           domainDataSep: '\t',
-          polygonQuery: 'feature(t1, t1.objects.counties).features',
-          meshQuery: '',
+          polygonFeature: 'counties',
+          meshFeature: 'states',
           projection: 'albersUsa',
           showGraticule: true
         },

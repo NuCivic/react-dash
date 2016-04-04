@@ -189,8 +189,8 @@ export default class Choropleth extends BaseComponent {
       settings.topodata = this.state.topodata;
       settings.domainData = this.state.domainData;
       console.log('>1',settings);
-      settings.dataPolygon = feature(this.state.topodata, this.state.topodata.objects.counties).features;
-      settings.dataMesh = mesh(this.state.topodata, this.state.topodata.objects.states, function(a, b) { return a !== b; });
+      settings.dataPolygon = feature(this.state.topodata, this.state.topodata.objects[settings.polygonFeature]).features;
+      settings.dataMesh = mesh(this.state.topodata, this.state.topodata.objects[settings.meshFeature], function(a, b) { return a !== b; });
       settings.scale = this.state.gridWidth;
       settings.domain = {
         scale: 'quantize',
