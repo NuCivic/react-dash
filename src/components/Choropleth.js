@@ -17,10 +17,13 @@ import ReactDOM from 'react-dom';
 import * as D3Core from 'react-d3-core';
 import Registry from '../utils/Registry';
 import * as MapChoroplethModule from 'react-d3-map-choropleth';
-import t1 from 'json!../../examples/data/us.json';
-import d1 from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv';
+//import t1 from 'json!../../examples/data/us.json'; @@ Move to config
+//import d1 from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv'; @@ Move to config
 import * as D3 from 'd3';
 import * as topojson from 'topojson';
+import CSV from 'csv-es6-data-backend';
+
+console.log('csv',CSV);
 
 let Legend = D3Core.Legend;
 let MapChoropleth = MapChoroplethModule.MapChoropleth;
@@ -86,14 +89,44 @@ export default class Choropleth extends BaseComponent {
   // fetchData should set topoData and domainData
   onData (data) {
     // @@TODO Maybe we should validate this stuff
-    this.setState({foo: 'bar', data: data});
+    console.log('on Data', data);
+    this.setState({domaindata: data.domaindata, topodata: data.topodata});
 	}
+
   componentDidMount () {
     this._attachResize();
     this._setSize();
+    
     if (this.props.fetchData && this[this.props.fetchData]) {
-      this.fetchData().then(this.onData.bind(this));
+      this.fetchData().then(this.onData.bind(this)).catch(e => {console.log('Error fetching data', e)});
     }
+  }
+
+  fetchData() {
+    console.log('fetfch!');
+    return new Promise((resolve, reject) => {
+    
+    let response = {};
+    fetch(this.props.settings.topoJson)
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        response.topodata = data;
+        CSV.fetch({url: this.props.settings.domainDataUrl})
+          .then(data => {
+            console.log('CSV response', data);
+            response.domaindata = data.records;
+            return resolve(response);
+          })
+          .catch(e => {
+            return reject(e);
+          })
+      })
+      .catch(e => {
+        return reject(e); 
+      });
+    });
   }
 
   _setSize() {
@@ -138,8 +171,8 @@ export default class Choropleth extends BaseComponent {
     let v;
     let settings = Object.assign({}, this.props.settings);
 
-      console.log('>', settings);
-    if (this.state.foo) {
+      console.log('>', settings, this.state);
+    if (this.state.domaindata) {
       Object.assign(settings, this.state.data, {type : this.props.type}, this.choroplethFunctions);
 
       // add stylesheet
@@ -152,10 +185,11 @@ export default class Choropleth extends BaseComponent {
             console.log('Trouble fetching component stylesheet', this.props.type, e);
           });
       }
-      settings.topodata = t1;
-      settings.domainData = d1;
-      settings.dataPolygon = topojson.feature(t1, t1.objects.counties).features;
-      settings.dataMesh = topojson.mesh(t1, t1.objects.states, function(a, b) { return a !== b; });
+      settings.topodata = this.state.topodata;
+      settings.domainData = this.state.domaindata;
+      console.log('>1',settings);
+      settings.dataPolygon = topojson.feature(this.state.topodata, this.state.topodata.objects.counties).features;
+      settings.dataMesh = topojson.mesh(this.state.topodata, this.state.topodata.objects.states, function(a, b) { return a !== b; });
       settings.scale = this.state.gridWidth;
       settings.domain = {
         scale: 'quantize',

@@ -42,6 +42,11 @@ export var settings = {
           width: 1200,
           height: 600,
           domainKey: 'id',
+          topoJson: '/data/us.json',
+          domainDataUrl: '/data/unemployment.tsv',
+          domainDataSep: '\t',
+          polygonQuery: 'feature(t1, t1.objects.counties).features',
+          meshQuery: '',
           projection: 'albersUsa',
           showGraticule: true
         },
