@@ -6,27 +6,13 @@
   margin: 20px 0;
 }
 .card-goal-icon {
-
+  position: relative;
   text-align: center;
   background: rgba(0,0,0,0.1);
   border-radius: 50%;
   height: 70px;
   width: 70px;
   margin-left: 10px;
-  span {
-    height: 70px;
-    width: 70px;
-    line-height: 2em;
-    font-size: 2em;
-  }
-  .glyphicon:before {
-    position: absolute;
-    left: 20px;
-    height: 30px;
-    width: 30px;
-    top: 18px;
-    line-height: 30px;
-  }
   @media all and (max-width:767px) {
     margin: 0 auto;
   }
