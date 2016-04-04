@@ -7,7 +7,7 @@ export default class Layout extends Component {
   renderRegion(elements){
     if (!elements) return;
     return elements.map((element, key) => {
-      let props = Object.assign({}, element);
+      let props = Object.assign({globalData: this.props.globalData}, element);
       // Attach global state and contexts to nested components
       return (
         <Card key={key} {...element}>

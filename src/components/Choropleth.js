@@ -14,19 +14,16 @@
 import BaseComponent from './BaseComponent';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import * as D3Core from 'react-d3-core';
+import {Legend} from 'react-d3-core';
 import Registry from '../utils/Registry';
-import * as MapChoroplethModule from 'react-d3-map-choropleth';
+import {MapChoropleth} from 'react-d3-map-choropleth';
 //import t1 from 'json!../../examples/data/us.json'; @@ Move to config
 //import d1 from 'dsv?delimiter=\t!../../examples/data/unemployment.tsv'; @@ Move to config
-import * as D3 from 'd3';
-import * as topojson from 'topojson';
+import {mesh, feature} from 'topojson';
+// @@TODO Add geojson implementation
 import CSV from 'csv-es6-data-backend';
 
-console.log('csv',CSV);
-
-let Legend = D3Core.Legend;
-let MapChoropleth = MapChoroplethModule.MapChoropleth;
+// @@TODO - this 
 let legendWidth = 500,
   legendHeight = 400,
   legendMargins = {top: 40, right: 50, bottom: 40, left: 50},
@@ -87,7 +84,7 @@ export default class Choropleth extends BaseComponent {
 	}
 
   // fetchData should set topoData and domainData
-  onData (data) {
+  onDataReady(data) {
     // @@TODO Maybe we should validate this stuff
     console.log('on Data', data);
     this.setState({domaindata: data.domaindata, topodata: data.topodata});
@@ -96,10 +93,24 @@ export default class Choropleth extends BaseComponent {
   componentDidMount () {
     this._attachResize();
     this._setSize();
-    
+  
+    // add stylesheet
+    if (this.props.settings.cssPath) {
+      fetchStyleSheet(this.props.settings.cssPath)
+        .then(css => {
+          addStyleString(css)
+        })
+        .catch(e => {
+          console.log('Trouble fetching component stylesheet', this.props.type, e);
+        });
+    }
+
     if (this.props.fetchData && this[this.props.fetchData]) {
       this.fetchData().then(this.onData.bind(this)).catch(e => {console.log('Error fetching data', e)});
     }
+
+    addStyleString(this.css());
+    super.componentDidMount();
   }
 
   fetchData() {
@@ -166,7 +177,7 @@ export default class Choropleth extends BaseComponent {
     }
     return series;
   }
-	
+
   render () {
     let v;
     let settings = Object.assign({}, this.props.settings);
@@ -175,21 +186,11 @@ export default class Choropleth extends BaseComponent {
     if (this.state.domaindata) {
       Object.assign(settings, this.state.data, {type : this.props.type}, this.choroplethFunctions);
 
-      // add stylesheet
-      if (settings.cssPath) {
-        fetchStyleSheet(settings.cssPath)
-          .then(css => {
-            addStyleString(css)
-          })
-          .catch(e => {
-            console.log('Trouble fetching component stylesheet', this.props.type, e);
-          });
-      }
       settings.topodata = this.state.topodata;
       settings.domainData = this.state.domaindata;
       console.log('>1',settings);
-      settings.dataPolygon = topojson.feature(this.state.topodata, this.state.topodata.objects.counties).features;
-      settings.dataMesh = topojson.mesh(this.state.topodata, this.state.topodata.objects.states, function(a, b) { return a !== b; });
+      settings.dataPolygon = feature(this.state.topodata, this.state.topodata.objects.counties).features;
+      settings.dataMesh = mesh(this.state.topodata, this.state.topodata.objects.states, function(a, b) { return a !== b; });
       settings.scale = this.state.gridWidth;
       settings.domain = {
         scale: 'quantize',
@@ -198,7 +199,7 @@ export default class Choropleth extends BaseComponent {
       };
 
      console.log('>>', settings);
-     v = <div className="choropleth-container"> 
+     v = <div className="choropleth-container">
             <MapChoropleth ref="choropleth" {...settings} />
             <Legend
               width= {legendWidth}
@@ -210,9 +211,6 @@ export default class Choropleth extends BaseComponent {
               chartSeries = {this.legendSeries()}
             />
          </div>;
-      // add pallet to heat map
-      console.log('css',this.css());
-      addStyleString(this.css());
    } else {
       v = <p ref="choropleth" className='laoding'>Loading...</p>;
    }

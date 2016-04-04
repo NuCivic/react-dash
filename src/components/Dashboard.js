@@ -5,6 +5,11 @@ import BaseComponent from './BaseComponent';
 import EventDispatcher from '../dispatcher/EventDispatcher';
 
 export default class Dashboard extends BaseComponent {
+  constructor(props) {
+    super(props);
+    this.state = {data: []};
+  }
+
   componentWillMount() {
     EventDispatcher.register(this.onAction.bind(this));
   }
@@ -18,14 +23,14 @@ export default class Dashboard extends BaseComponent {
   }
 
   render() {
-    var layout = (typeof this.props.layout === 'string') ? Registry.get(this.props.layout) : this.props.layout;
+    let layout = (typeof this.props.layout === 'string') ? Registry.get(this.props.layout) : this.props.layout;
     if(!layout) throw new Error(`Missing layout class ${this.props.layout}`);
+    let props = Object.assign({globalData: this.state.data || []}, this.props);
+
     return (
       <div className="container">
-        <div className="container">
-          <h1 className="dashboard-title">{this.props.title}</h1>
-        </div>
-        {React.createElement(layout, this.props)}
+        <h1 className="dashboard-title">{this.props.title}</h1>
+        {React.createElement(layout, props)}
       </div>
     );
   }
