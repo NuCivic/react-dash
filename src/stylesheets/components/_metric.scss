@@ -17,6 +17,26 @@
   @media all and (max-width:767px) {
     margin: 0 auto;
   }
+  &[class$="-icon"] {
+    .glyphicon {
+      position: absolute;
+      height: 70px;
+      width: 70px;
+      line-height: 2em;
+      font-size: 30px;
+      text-align: center;
+      top: 0;
+      left: 0;
+    }
+    .glyphicon:before {
+      position: absolute;
+      left: 20px;
+      height: 30px;
+      width: 30px;
+      top: 20px;
+      line-height: 30px;
+    }
+  }
 }
 .card-metric-number {
   font-size: 2.5em;
@@ -33,3 +53,4 @@
     text-align: center;
   }
 }
+

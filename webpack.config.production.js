@@ -56,7 +56,7 @@ module.exports = {
       commonjs2: 'moment',
       amd: 'moment',
     },
-    'react-nvd3': {
+    NVD3Chart: {
       root: 'NVD3Chart',
       commonjs: 'NVD3Chart',
       commonjs2: 'NVD3Chart',
