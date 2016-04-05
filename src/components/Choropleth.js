@@ -16,6 +16,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {Legend} from 'react-d3-core';
 import Registry from '../utils/Registry';
+import {makeKey} from '../utils/utils';
 import {MapChoropleth} from 'react-d3-map-choropleth';
 import {mesh, feature} from 'topojson';
 import {range} from 'd3';
@@ -57,7 +58,9 @@ function fetchStyleSheet(url) {
 export default class Choropleth extends BaseComponent {
   constructor(props){
 		super(props);
-    this.levels = 9;
+    this.levels = this.props.settings.levels;
+    this.randKey = makeKey(4);
+    console.log('k', this.randKey);
     let domainField = this.props.settings.domainField;
     let domainKey = this.props.settings.domainKey;
     console.log('domains', domainKey, domainField);

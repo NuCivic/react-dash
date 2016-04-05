@@ -183,6 +183,9 @@ this.props.context.execute({
 #### Layout
 #### Metric
 #### Table
+#### Choropleth Map
+##### COLORS
+http://colorbrewer2.org/
 #### Text
 ### Mixins
 ### Extending base components
