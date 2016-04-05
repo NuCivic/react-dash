@@ -1,6 +1,10 @@
+testServerPort=3200
+
 # Run dev server
-echo 'Start dev server'
-node server.js --port=3200 &
+# echo "Kill running dev servers"
+# kill `lsof -i:$testServerPort -t`
+# echo 'Start dev server'
+# node server.js --port=$testServerPort --hot=false &
 
 # Now run tests
 echo 'Running karma tests...'
