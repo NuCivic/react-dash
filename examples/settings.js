@@ -39,6 +39,7 @@ export var settings = {
           levels: 9,
           domainLower: 0,
           domainUpper: .15,
+          legendHeader: "Per Cent Unemploytment by U.S. County",
           width: 1200,
           height: 600,
           domainKey: 'id',
@@ -62,6 +63,7 @@ export var settings = {
           showTooltip: {true},
           domainField: 'zone',
           levels: 10,
+          legendHeader: '*][*-----*][*',
           domainLower: 0, //      @@TODO - it might make sense in some circumstance to use fixed bounds 
           domainUpper: 500, //    @@       but we probably just want to programatically get the ranges
           width: 1200,

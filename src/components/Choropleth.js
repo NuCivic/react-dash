@@ -60,7 +60,6 @@ export default class Choropleth extends BaseComponent {
 		super(props);
     this.levels = this.props.settings.levels;
     this.randKey = makeKey(4);
-    console.log('k', this.randKey);
     let domainField = this.props.settings.domainField;
     let domainKey = this.props.settings.domainKey;
     console.log('domains', domainKey, domainField);
@@ -88,8 +87,6 @@ export default class Choropleth extends BaseComponent {
 
   // fetchData should set topoData and domainData
   onDataReady(data) {
-    // @@TODO Maybe we should validate this stuff
-    console.log('on Data', data);
     this.setState({domainData: data.domainData, topodata: data.topodata});
 	}
 
@@ -200,19 +197,21 @@ export default class Choropleth extends BaseComponent {
         domain: [settings.domainLower, settings.domainUpper],
         range: range(settings.levels).map(function(i) { return `q${i}-${settings.levels}`; })
       };
-
      console.log('>>', settings);
      v = <div className="choropleth-container">
             <MapChoropleth ref="choropleth" {...settings} />
-            <Legend
-              width= {legendWidth}
-              height= {legendHeight}
-              margins= {legendMargins}
-              legendClassName= {legendClassName}
-              legendPosition= {legendPosition}
-              legendOffset= {legendOffset}
-              chartSeries = {this.legendSeries()}
-            />
+            <div className="legend-container">
+              <h3 className="legend-header">{settings.legendHeader}</h3>
+              <Legend
+                width= {legendWidth}
+                height= {legendHeight}
+                margins= {legendMargins}
+                legendClassName= {legendClassName}
+                legendPosition= {legendPosition}
+                legendOffset= {legendOffset}
+                chartSeries = {this.legendSeries()}
+              />
+            </div>
          </div>;
    } else {
       v = <p ref="choropleth" className='laoding'>Loading...</p>;
