@@ -64,6 +64,7 @@ export default class Choropleth extends BaseComponent {
     console.log('domains', domainKey, domainField);
     var self = this;
     Object.assign(this, { choroplethFunctions : {
+        // @@TODO move this function to a configurable context
         tooltipContent: function (d) {
           console.log(d, domainField, d[domainKey]);
           return {rate: d.properties[d[domainKey]]};
@@ -199,11 +200,11 @@ export default class Choropleth extends BaseComponent {
       settings.domainData = this.state.domainData;
       console.log('>1',settings);
 
-      if (settings.topojson) {
-        console.log('render topo', this.state.topodata);
-        settings.dataPolygon = feature(this.state.topodata, this.state.topodata.objects[settings.polygonFeature]).features;
-        settings.dataMesh = mesh(this.state.topodata, this.state.topodata.objects[settings.meshFeature], function(a, b) { return a !== b; });
-      } else if (settings.geojson) {
+      if (settings.mapFormat === 'topojson') {
+        console.log('render topo', settings.topodata);
+        settings.dataPolygon = feature(settings.topodata, settings.topodata.objects[settings.polygon]).features;
+        settings.dataMesh = mesh(settings.topodata, settings.topodata.objects[settings.mesh], function(a, b) { return a !== b; });
+      } else if (settings.mapFormat === 'geojson') {
         console.log('render geo');
        //  @@TODO geojson implementation
       }
