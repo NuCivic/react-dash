@@ -1,8 +1,7 @@
-import omit from 'lodash/omit';
 import MemoryStore from './MemoryStore';
-import uniq from 'lodash/uniq';
 import CSV from 'csv-es6-data-backend';
 import DKAN from 'dkan-es6-data-backend';
+import {omit, uniq} from 'lodash';
 
 export default class Dataset {
 

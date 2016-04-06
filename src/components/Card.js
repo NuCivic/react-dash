@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
-import omit from 'lodash/omit';
-import pick from 'lodash/pick';
 import BaseComponent from './BaseComponent';
+import {omit, pick} from 'lodash';
 
 export default class Card extends BaseComponent {
   render() {

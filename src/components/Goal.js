@@ -18,7 +18,7 @@ export default class Goal extends BaseComponent {
       'maintain_below': '${action} ${endNumber} ${caption} by ${endDate}',
       'mesure': '${caption}',
     },
-    'divider': ' / ',
+    divider: ' / ',
     style: {
       color: 'black',
       background: 'white',

@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import EventDispatcher from '../dispatcher/EventDispatcher';
-import isFunction from 'lodash/isFunction';
-import isPlainObject from 'lodash/isPlainObject';
-import isString from 'lodash/isString';
 import Dataset from '../models/Dataset';
-import omit from 'lodash/omit';
+import {omit, isFunction, isPlainObject, isString} from 'lodash';
 
 export default class BaseComponent extends Component {
   constructor(props) {

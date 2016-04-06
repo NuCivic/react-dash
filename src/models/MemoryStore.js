@@ -1,7 +1,4 @@
-import every from 'lodash/every';
-import identity from 'lodash/identity';
-import isUndefined from 'lodash/isUndefined';
-import uniq from 'lodash/uniq';
+import {uniq, identity, isUndefined, every} from 'lodash';
 
 export default class MemoryStore {
   constructor(records, fields) {

@@ -5,7 +5,7 @@ export {default as Autocomplete } from './components/Autocomplete';
 export {default as BaseComponent } from './components/BaseComponent';
 export {default as Card } from './components/Card';
 export {default as Chart } from './components/Chart';
-// export {default as Choropleth } from './components/Choropleth';
+export {default as Choropleth } from './components/Choropleth';
 export {default as Dashboard } from './components/Dashboard';
 export {default as Goal } from './components/Goal';
 export {default as Layout } from './components/Layout';

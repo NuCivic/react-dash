@@ -3,11 +3,8 @@ import {Table as FixedTable, Column, Cell} from 'fixed-data-table';
 import Registry from '../utils/Registry';
 import {getProp} from '../utils/utils';
 import Dataset from '../models/Dataset';
-import isString from 'lodash/isString';
-import isEmpty from 'lodash/isEmpty';
-import range from 'lodash/range';
-import partialRight from 'lodash/partialRight';
 import BaseComponent from './BaseComponent';
+import {isString, isEmpty, range, partialRight} from 'lodash';
 
 export default class Table extends BaseComponent {
 
