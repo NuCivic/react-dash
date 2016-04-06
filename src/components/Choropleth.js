@@ -13,14 +13,13 @@
  **/
 import BaseComponent from './BaseComponent';
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import {Legend} from 'react-d3-core';
 import Registry from '../utils/Registry';
 import {makeKey} from '../utils/utils';
 import {MapChoropleth} from 'react-d3-map-choropleth';
 import {mesh, feature} from 'topojson';
 import {range} from 'd3';
-import CSV from 'csv-es6-data-backend';
+import Dataset from '../models/Dataset';
 
 
 // @@TODO Add geojson implementation
@@ -87,6 +86,7 @@ export default class Choropleth extends BaseComponent {
 
   // fetchData should set topoData and domainData
   onDataReady(data) {
+    console.log('onData', data);
     this.setState({domainData: data.domainData, topodata: data.topodata});
 	}
 
@@ -106,6 +106,7 @@ export default class Choropleth extends BaseComponent {
     }
 
     if (this.props.fetchData && this[this.props.fetchData]) {
+      console.log('cp-f1',this.props);
       this.fetchData().then(this.onData.bind(this)).catch(e => {console.log('Error fetching data', e)});
     }
 
@@ -114,29 +115,37 @@ export default class Choropleth extends BaseComponent {
   }
 
   fetchData() {
-    console.log('fetfch!');
     return new Promise((resolve, reject) => {
-    
-    let response = {};
-    fetch(this.props.settings.topoJson)
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        response.topodata = data;
-        CSV.fetch({url: this.props.settings.domainDataUrl, delimiter: '\t'})
-          .then(data => {
-            console.log('CSV response', data);
-            response.domainData = data.records;
-            return resolve(response);
-          })
-          .catch(e => {
-            return reject(e);
-          })
-      })
-      .catch(e => {
-        return reject(e); 
-      });
+      
+      let dataset = new Dataset(this.props.settings.dataset);
+      let response = {};
+      fetch(this.props.settings.mapDataUrl)
+        .then(res => {
+          let d = res.json();
+          console.log('***Dataset fetch res', res, d);
+          return d;
+        })
+        .then(data => {
+          console.log('fetch 2', data);
+          response.topodata = data;
+          dataset.fetch()
+            .then(data => {
+              console.log('Ch-df-1',data);
+              dataset.query({})
+                .then(data => {
+                  console.log('Dataset response', data);
+                  response.domainData = data.hits;
+                  return resolve(response);
+                })
+            })
+            .catch(e => {
+              console.log('Dataset fetch failed', e);
+              return reject(e);
+            })
+        })
+        .catch(e => {
+          return reject(e); 
+        });
     });
   }
 
@@ -189,8 +198,16 @@ export default class Choropleth extends BaseComponent {
       settings.topodata = this.state.topodata;
       settings.domainData = this.state.domainData;
       console.log('>1',settings);
-      settings.dataPolygon = feature(this.state.topodata, this.state.topodata.objects[settings.polygonFeature]).features;
-      settings.dataMesh = mesh(this.state.topodata, this.state.topodata.objects[settings.meshFeature], function(a, b) { return a !== b; });
+
+      if (settings.topojson) {
+        console.log('render topo', this.state.topodata);
+        settings.dataPolygon = feature(this.state.topodata, this.state.topodata.objects[settings.polygonFeature]).features;
+        settings.dataMesh = mesh(this.state.topodata, this.state.topodata.objects[settings.meshFeature], function(a, b) { return a !== b; });
+      } else if (settings.geojson) {
+        console.log('render geo');
+       //  @@TODO geojson implementation
+      }
+      
       settings.scale = this.state.gridWidth;
       settings.domain = {
         scale: 'quantize',

@@ -43,18 +43,22 @@ export var settings = {
           width: 1200,
           height: 600,
           domainKey: 'id',
-          topoJson: '/data/us.json',
-          domainDataUrl: '/data/unemployment.tsv',
-          domainDataSep: '\t',
-          polygonFeature: 'counties',
-          meshFeature: 'states',
+          dataset: {
+            backend: 'csv',
+            url: '/data/unemployment.tsv',
+            delimiter: '\t'
+          },
+          mapFormat: 'topojson',
+          mapDataUrl: '/data/us.json',
+          polygon: 'counties',
+          mesh: 'states',
           projection: 'albersUsa',
           showGraticule: true
         },
         cardStyle: 'card',
         fetchData: 'getData'
       },
-      {
+/*      {
         header: 'GAChoropleth Test ][ - GEOJSON',
         type: 'GAChoropleth',
         settings: {
@@ -73,13 +77,15 @@ export var settings = {
           domainDataUrl: '/data/apollo-parsed-1737-325_0.csv',
           geoJson: '/data/zones.geojson',
           domainDataSep: ',',
-          polygonFeature: 'zone',
+          geojson: {
+            polygonFeature: 'zone',
+          },
           projection: 'albersUsa',
           showGraticule: true
         },
         cardStyle: 'card',
         fetchData: 'getData'
-      },
+      },*/
     ],
     middleFirst: [
       {
