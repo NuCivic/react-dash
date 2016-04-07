@@ -30,7 +30,7 @@ export var settings = {
       },
       {
         header: 'GAChoropleth Test',
-        type: 'GAChoropleth',
+        type: 'Choropleth',
         settings: {
           colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'pink','violet', 'darkmagenta'],
           cssPath: '/static/choropleth.css',
@@ -53,12 +53,12 @@ export var settings = {
           polygon: 'counties',
           mesh: 'states',
           projection: 'albersUsa',
-          showGraticule: true
+          showGraticule: true,
         },
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getData'},
       },
-      {
+/*      {
         header: 'GAChoropleth Test ][ - GEOJSON',
         type: 'GAChoropleth',
         settings: {
@@ -87,7 +87,7 @@ export var settings = {
         },
         cardStyle: 'card',
         fetchData: 'getData'
-      },
+      },*/
     ],
     middleFirst: [
       {

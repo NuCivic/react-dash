@@ -100,7 +100,7 @@ export default class Choropleth extends BaseComponent {
         });
     }
 
-    if (this.props.fetchData && this[this.props.fetchData]) {
+    if (this.props.fetchData) {
       this.fetchData().then(this.onData.bind(this)).catch(e => {console.log('Error fetching data', e)});
     }
 
@@ -197,7 +197,7 @@ export default class Choropleth extends BaseComponent {
       } else if (settings.mapFormat === 'geojson') {
         settings.dataPolygon = feature(settings.topodata, settings.topodata.objects[settings.polygon]).features;
       }
-      
+
       settings.scale = this.state.gridWidth;
       settings.domain = {
         scale: 'quantize',
