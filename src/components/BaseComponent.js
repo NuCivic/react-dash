@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import EventDispatcher from '../dispatcher/EventDispatcher';
-import isFunction from 'lodash/isFunction';
-import isPlainObject from 'lodash/isPlainObject';
-import isString from 'lodash/isString';
 import Dataset from '../models/Dataset';
+import {omit, isFunction, isPlainObject, isString} from 'lodash';
 
 export default class BaseComponent extends Component {
   constructor(props) {
@@ -15,24 +13,31 @@ export default class BaseComponent extends Component {
     };
   }
 
+  getFetchType() {
+    return this.props.fetchData && this.props.fetchData.type;
+  }
+
   componentDidMount(){
-    if(this.props.fetchData){
+    let type = this.getFetchType();
+
+    if(type){
+
       // fetch data is a function in the subcomponent
-      if(isString(this.props.fetchData) && isFunction(this[this.props.fetchData])) {
+      if(type === 'function' && isFunction(this[this.props.fetchData.name])) {
         this.setState({isFeching: true});
         this.fetchData().then(this.onData.bind(this));
 
       // fetch data is a backend
-      } else if(isPlainObject(this.props.fetchData)) {
-        let dataset = new Dataset(this.props.fetchData);
+      } else if(type === 'backend') {
+        let dataset = new Dataset(omit(this.props.fetchData, 'type'));
         this.setState({isFeching: true, dataset: dataset});
         dataset.fetch().then(() => {
           this.query(this.state.queryObj);
         });
 
       // fetch data is an array
-      } else if(Array.isArray(this.props.fetchData)){
-        this.setData(this.props.fetchData);
+      } else if(type === 'inline'){
+        this.setData(this.props.fetchData.records);
       }
     }
 
@@ -68,7 +73,7 @@ export default class BaseComponent extends Component {
   }
 
   fetchData() {
-   	return Promise.resolve(this[this.props.fetchData]());
+   	return Promise.resolve(this[this.props.fetchData.name]());
   }
 
   setData(data) {

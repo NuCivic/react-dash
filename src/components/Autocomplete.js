@@ -14,7 +14,8 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
-import {bindListeners, execute} from '../utils/utils';
+import {execute} from '../utils/utils';
+
 
 export default class Autocomplete extends BaseComponent {
 
@@ -60,9 +61,8 @@ export default class Autocomplete extends BaseComponent {
   }
 
   render(){
-    let props = bindListeners(this.props);
     return (
-      <Select.Async value={this.state.value} loadOptions={this.loadOptions.bind(this)} {...props} onChange={this.onChange.bind(this)}/>
+      <Select.Async value={this.state.value} loadOptions={this.loadOptions.bind(this)} {...this.props} onChange={this.onChange.bind(this)}/>
     );
   }
 }

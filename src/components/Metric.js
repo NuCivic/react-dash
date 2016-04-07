@@ -7,7 +7,7 @@ export default class Metric extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      metric: '',
+      metric: 0,
       caption:props.caption
     };
   }

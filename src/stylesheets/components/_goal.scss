@@ -4,22 +4,21 @@
   padding-bottom: 17px;
   padding-top: 17px;
   margin: 20px 0;
-  overflow: auto;
 }
 
 .card-goal-icon {
-
   text-align: center;
   background: rgba(0,0,0,0.1);
   border-radius: 50%;
   height: 70px;
   width: 70px;
-  margin-left: 10px;
+  margin: 0 auto;
   span {
     height: 70px;
     width: 70px;
     line-height: 2em;
     font-size: 2em;
+
   }
   .glyphicon:before {
     position: absolute;
@@ -35,8 +34,9 @@
 }
 
 .card-goal-progress {
-  font-size: 2.5em;
+  font-size: 2.4em;
   font-weight: bold;
+  text-align: center;
   @media all and (max-width:767px) {
     text-align: center;
   }
@@ -54,6 +54,9 @@
 
 .card-goal-caption {
   font-weight: bold;
+  height: 70px;
+  vertical-align: middle;
+  display: table-cell;
   @media all and (max-width:767px) {
     text-align: center;
   }

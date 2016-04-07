@@ -6,7 +6,7 @@ export default class GAChart extends Chart {
   getData() {
     return fetch('http://localhost:3004/data');
   }
-  
+
   onData(data) {
     data.json().then((data) => this.setData(data))
   }

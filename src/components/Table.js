@@ -3,24 +3,29 @@ import {Table as FixedTable, Column, Cell} from 'fixed-data-table';
 import Registry from '../utils/Registry';
 import {getProp} from '../utils/utils';
 import Dataset from '../models/Dataset';
-import isString from 'lodash/isString';
-import isEmpty from 'lodash/isEmpty';
-import range from 'lodash/range';
-import partialRight from 'lodash/partialRight';
 import BaseComponent from './BaseComponent';
+import {isString, isEmpty, range, partialRight} from 'lodash';
 
 export default class Table extends BaseComponent {
+
+  static defaultProps = {
+    rowsPerPage: 10,
+    queryObj: {
+      size: 10,
+      from: 0
+    }
+  };
 
   constructor(props) {
     super(props);
     this.state = {
       gridWidth: 1,
       gridHeight: 1,
-      rowsPerPage: 10,
+      rowsPerPage: this.props.rowsPerPage,
       currentPage: 1,
       queryObj: {
-        size: 10,
-        from: 0
+        size: this.props.queryObj.size,
+        from: this.props.queryObj.from
       },
       isFeching: false
     };
