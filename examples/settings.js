@@ -39,14 +39,54 @@ export var settings = {
           levels: 9,
           domainLower: 0,
           domainUpper: .15,
+          legendHeader: "Per Cent Unemploytment by U.S. County",
           width: 1200,
           height: 600,
           domainKey: 'id',
+          dataset: {
+            backend: 'csv',
+            url: '/data/unemployment.tsv',
+            delimiter: '\t'
+          },
+          mapFormat: 'topojson',
+          mapDataUrl: '/data/us.json',
+          polygon: 'counties',
+          mesh: 'states',
           projection: 'albersUsa',
           showGraticule: true
         },
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getData'},
+      },
+      {
+        header: 'GAChoropleth Test ][ - GEOJSON',
+        type: 'GAChoropleth',
+        settings: {
+          colors: ['#f7fcfd','#e5f5f9','#ccece6','#99d8c9','#66c2a4','#41ae76','#238b45','#006d2c','#00441b'],
+          cssPath: '/static/choropleth.css',
+          showTooltip: {true},
+          domainField: 'zone',
+          levels: 10,
+          legendHeader: '*][*-----*][*',
+          domainLower: 0, //      @@TODO - it might make sense in some circumstance to use fixed bounds 
+          domainUpper: 500, //    @@       but we probably just want to programatically get the ranges
+          width: 1200,
+          height: 600,
+          domainKey: 'id',
+          domainField: 'Incidents against Women during Accreditation: No #',
+          dataset: {
+            backend: 'csv',
+            url: '/data/apollo-parsed-1737-325_0.csv',
+            delimiter: ','
+          },
+          mapDataUrl: '/data/zones.geojson',
+          domainDataSep: ',',
+          mapFormat: 'geojson',
+          polygon: 'zone',
+          showGraticule: true
+        },
+        cardStyle: 'card',
+        fetchData: 'getData'
       },
     ],
     middleFirst: [
