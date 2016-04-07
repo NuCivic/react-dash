@@ -58,7 +58,7 @@ export var settings = {
         cardStyle: 'card',
         fetchData: 'getData'
       },
-/*      {
+      {
         header: 'GAChoropleth Test ][ - GEOJSON',
         type: 'GAChoropleth',
         settings: {
@@ -74,18 +74,20 @@ export var settings = {
           height: 600,
           domainKey: 'id',
           domainField: 'Incidents against Women during Accreditation: No #',
-          domainDataUrl: '/data/apollo-parsed-1737-325_0.csv',
-          geoJson: '/data/zones.geojson',
-          domainDataSep: ',',
-          geojson: {
-            polygonFeature: 'zone',
+          dataset: {
+            backend: 'csv',
+            url: '/data/apollo-parsed-1737-325_0.csv',
+            delimiter: ','
           },
-          projection: 'albersUsa',
+          mapDataUrl: '/data/zones.geojson',
+          domainDataSep: ',',
+          mapFormat: 'geojson',
+          polygon: 'zone',
           showGraticule: true
         },
         cardStyle: 'card',
         fetchData: 'getData'
-      },*/
+      },
     ],
     middleFirst: [
       {

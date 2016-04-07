@@ -22,8 +22,6 @@ import {range} from 'd3';
 import Dataset from '../models/Dataset';
 
 
-// @@TODO Add geojson implementation
-
 let legendWidth = 500,
   legendHeight = 400,
   legendMargins = {top: 40, right: 50, bottom: 40, left: 50},
@@ -61,12 +59,10 @@ export default class Choropleth extends BaseComponent {
     this.randKey = makeKey(4);
     let domainField = this.props.settings.domainField;
     let domainKey = this.props.settings.domainKey;
-    console.log('domains', domainKey, domainField);
     var self = this;
     Object.assign(this, { choroplethFunctions : {
         // @@TODO move this function to a configurable context
         tooltipContent: function (d) {
-          console.log(d, domainField, d[domainKey]);
           return {rate: d.properties[d[domainKey]]};
         },
 
@@ -87,7 +83,6 @@ export default class Choropleth extends BaseComponent {
 
   // fetchData should set topoData and domainData
   onDataReady(data) {
-    console.log('onData', data);
     this.setState({domainData: data.domainData, topodata: data.topodata});
 	}
 
@@ -102,12 +97,10 @@ export default class Choropleth extends BaseComponent {
           addStyleString(css)
         })
         .catch(e => {
-          console.log('Trouble fetching component stylesheet', this.props.type, e);
         });
     }
 
     if (this.props.fetchData && this[this.props.fetchData]) {
-      console.log('cp-f1',this.props);
       this.fetchData().then(this.onData.bind(this)).catch(e => {console.log('Error fetching data', e)});
     }
 
@@ -123,18 +116,14 @@ export default class Choropleth extends BaseComponent {
       fetch(this.props.settings.mapDataUrl)
         .then(res => {
           let d = res.json();
-          console.log('***Dataset fetch res', res, d);
           return d;
         })
         .then(data => {
-          console.log('fetch 2', data);
           response.topodata = data;
           dataset.fetch()
             .then(data => {
-              console.log('Ch-df-1',data);
               dataset.query({})
                 .then(data => {
-                  console.log('Dataset response', data);
                   response.domainData = data.hits;
                   return resolve(response);
                 })
@@ -192,21 +181,21 @@ export default class Choropleth extends BaseComponent {
     let v;
     let settings = Object.assign({}, this.props.settings);
 
-      console.log('>', settings, this.state);
     if (this.state.domainData) {
       Object.assign(settings, this.state.data, {type : this.props.type}, this.choroplethFunctions);
 
       settings.topodata = this.state.topodata;
       settings.domainData = this.state.domainData;
-      console.log('>1',settings);
 
       if (settings.mapFormat === 'topojson') {
-        console.log('render topo', settings.topodata);
-        settings.dataPolygon = feature(settings.topodata, settings.topodata.objects[settings.polygon]).features;
-        settings.dataMesh = mesh(settings.topodata, settings.topodata.objects[settings.mesh], function(a, b) { return a !== b; });
+        if (settings.polygon) {
+          settings.dataPolygon = feature(settings.topodata, settings.topodata.objects[settings.polygon]).features;
+        }
+        if (settings.mesh) {
+          settings.dataMesh = mesh(settings.topodata, settings.topodata.objects[settings.mesh], function(a, b) { return a !== b; });
+        }
       } else if (settings.mapFormat === 'geojson') {
-        console.log('render geo');
-       //  @@TODO geojson implementation
+        settings.dataPolygon = feature(settings.topodata, settings.topodata.objects[settings.polygon]).features;
       }
       
       settings.scale = this.state.gridWidth;
@@ -215,7 +204,6 @@ export default class Choropleth extends BaseComponent {
         domain: [settings.domainLower, settings.domainUpper],
         range: range(settings.levels).map(function(i) { return `q${i}-${settings.levels}`; })
       };
-     console.log('>>', settings);
      v = <div className="choropleth-container">
             <MapChoropleth ref="choropleth" {...settings} />
             <div className="legend-container">
