@@ -69,6 +69,7 @@
   },
   "dependencies": {
     "csv-es6-data-backend": "git+ssh://git@github.com/NuCivic/csv-es6-data-backend.git",
+    "dkan-es6-data-backend": "git+ssh://git@github.com/NuCivic/dkan-es6-data-backend.git",
     "dsv": "0.0.5",
     "fixed-data-table": "^0.6.0",
     "flux": "^2.1.1",
