@@ -1,102 +1,230 @@
-<React Dashboard>
+React Dashboard
 ===============
 
-## What's <React Dashboard>
-We created this library to speed up dashboard creation with the flexibility only code could give.
+## What's React Dashboard
+It's a collection of tools (components + utils) that can be used to create dashboards programatically. In other words it's a framework to speed up dashboards creation.
 
-## Install
+## Where is the UI to build dashboards
+There is no UI.
+
+## Why?
+Because the main goal of this library is to be flexible and code give all the flexibility we need.
+
+## Requirements
+* React
+* ReactDOM
+
+## Quick start
+Using the boilerplate repository is the easiest way to start playing with this library.
+
 ```
-npm install <React Dashboard> (--save)
+git clone git@github.com:NuCivic/react-dashboard-example.git
+npm install
+npm run dev_standalone
+open http://localhost:5000
 ```
 
-## Create App file
-Create an App.js file as an entry point to the application:
+## How it works
+All the dashboard configuration is stored in a javascript object inside the file src/settings.js. It's a hierarchical representation of a dashboard. They are composed of regions and each region store elements. This elements contains the required information to instantiate a React component base in the type key.
+
+When a dashboard is created it uses the layout configured in the settings an this layout call the renderRegion method which iterates over all the elements for that region. Then the renderRegion method creates the React component with the name set in the type key of that object. Rest of properties of this object is passed to the component as react props.
+
+
+## Entry point
+The entry point of the application is either the src/standalone.js or src/dkan.js depending on the environment you want to use. All the custom components you create needs to be imported in this file. For example we are importing the custom component GAChart which is a subclass of the Chart component.
+
+With all the custom components imported we need to wait until the dom is ready and then render the dashboard in the target dom element.
 
 ```javascript
-import React, { Component } from 'react';
-import {Dashboard, Geary, utils} from 'react-dashboard/ReactDashboard';
-import Context from './Context';
-import Layout from './Layout';
+import GAChart from './components/GAChart';
+import GAChoropleth from './components/GAChoropleth';
+import GATable from './components/GATable';
+import GAMetric from './components/GAMetric';
+import GAGoal from './components/GAGoal';
+import MyCustomLayout from './layouts/MyCustomLayout';
+import GADashboard from './dashboard';
 
-export default class App extends Component {
+/**
+ * This renders the GADAshboard
+ */
+document.addEventListener('DOMContentLoaded', function(event) {
+  ReactDOM.render(<GADashboard {...settings} layout={MyCustomLayout}/>, document.getElementById('root'));
+});
+```
+
+To start you need to create a class extending the Dashboard base class. In the above example you could notice we are not rendering a <Dashboard/> component but the <GADashboard/> component. This is because most of base components are useless without the custom implementation for the project you are working on.
+They are like abstract classes and you need to provide the bussines logic to make it work.
+
+## Dashboard configuration
+A dashboard configuration looks like this:
+
+```javascript
+export var settings = {
+  title: 'Georgia Reports',
+  regions: {
+    top: [
+      {
+        type: 'Chart'
+        ...
+      }
+      ...
+    ],
+    left: [],
+    ....
+  }
+}
+```
+
+The name of that regions should be available in the layout you are currently using. 
+
+## Layouts
+To define a custom layout you need to extend from the base class Layout. That class provides the renderRegion method you need to use to render regions.
+
+Note at the end the Registry.set call. That's mandatory in order to let it know to the dashboard the existence of a new layout. The same applies to all the custom components you create.
+
+```javascript
+import React from 'react';
+import Layout from '../../src/components/Layout';
+import Registry from '../../src/utils/Registry';
+
+export default class MyCustomLayout extends Layout {
   render() {
     return (
-      let store = {};
       <div>
-        <Dashboard context={new Context(this)} sharedState={this.state} {...store} layout={Layout}/>
+        <div className="row">
+          <div className="col-md-12">{this.renderRegion(this.props.regions.top)}</div>
+        </div>
+        <div className="row">
+          <div className="col-sm-6 col-lg-3">{this.renderRegion(this.props.regions.middleFirst)}</div>
+          <div className="col-sm-6 col-lg-3">{this.renderRegion(this.props.regions.middleSecond)}</div>
+          <div className="col-sm-6 col-lg-3">{this.renderRegion(this.props.regions.middleThird)}</div>
+          <div className="col-sm-6 col-lg-3">{this.renderRegion(this.props.regions.middleFourth)}</div>
+        </div>
+        <div className="row">
+          <div className="col-md-4">{this.renderRegion(this.props.regions.goalsFirst)}</div>
+          <div className="col-md-4">{this.renderRegion(this.props.regions.goalsSecond)}</div>
+          <div className="col-md-4">{this.renderRegion(this.props.regions.goalsThird)}</div>
+        </div>
+        <div className="row">
+          <div className="col-md-6">{this.renderRegion(this.props.regions.left)}</div>
+          <div className="col-md-6">{this.renderRegion(this.props.regions.right)}</div>
+        </div>
+        <div className="row">
+          <div className="col-md-12">{this.renderRegion(this.props.regions.bottom)}</div>
+        </div>
       </div>
     );
   }
 }
 
+Registry.set('MyCustomLayout', MyCustomLayout);
 ```
-## Configuration 
-Create a file called *store.js* that contains the following configuration object:
-```javascript
-var configuration = {
-  title: 'Dashboard title',
-  layout: 'layout', // Layout used to render this dashboard
-  regions: { // Regions should be rendered inside the layout.
+
+In the example we are using a custom layout with the following regions:
+top, middleFirst, middleSecond, middleThird, middleFourth, goalsFirst, goalsSecond, goalsThird, left, right and bottom.
+
+As final step you need to import into the application your just baked layout:
+
+```
+// This should be placed in the entry point
+import MyCustomLayout from './layouts/MyCustomLayout';
+```
+
+## Adding components
+
+Most of components uses data pulled from somewhere to produce an output (there are some exceptions like the Text component which get the data from its configuration). 
+
+Then before start adding components you need to figure out how to get the data to feed the component. 
+
+Let's try to add a chart:
+
+```
+export var settings = {
+  title: 'Georgia Reports',
+  regions: {
     top: [
       {
-        type: 'Autocomplete',
-        multi: true,
-        url: 'http://localhost:3004/options?q={{keyword}}',
-        onChange: {
-          type: 'function',
-          name: 'onAutocompleteChange' // This function should be defined in the context
-        }
-      },
-      {
-        type:'Metric',
-        cardStyle: 'metric',
-        background: '#9F3E69',  // Properties will be passed to the component
-        number: {
-          type: 'function',
-          name: 'getRandomMetric'
+        header:'Left',
+        iconClass: 'glyphicon glyphicon-fire',
+        type: 'GAChart',
+        settings: {
+          id:'lineChart',
+          type: 'discreteBarChart',
+          x: 'label',
+          y: 'value',
+          height: 300,
+          margin: {
+            left: 38
+          },
         },
-        caption: 'New Users',
-      }
+        fetchData: {type:'function', name: 'getCustomData'},
+      },
+      ...
     ],
-    bottom:[...moreelements],
-    ...more regions
+    left: [],
+    ....
   }
 }
 ```
-(See Components, below, for how to configure individual components).
-## Contexts
-_Contexts_ are javascript classes that contain method implementations for handling data and other actions. 
 
-Create a new _context_ by extending the _context_ base class. You can add methods to the new context.
+All the components has the ability to fechData in several ways. In this case we are configuring the GAChart component to use the method getCustomData to fetchData. This method should be implemented in the subclass and must return either a promise or an array with the data.
+
+For example:
+
 ```javascript
-import Context from 'react-dashboard/Context';
-
-export default class AppContext extends Context {
-  constructor(component) {
-    super(component);
+// imports
+class GAChart extends Chart {
+  
+  // Synchronous
+  getCustomData() {
+    return [{key: 'serie1', values: [{x:1, y:1}...] }];
   }
-  onAutocompleteChange(value) {
-    CSV.fetch('http://example.com/data/' + value ).then((data) => {
-      this.setState({data: data});
+
+  // Asynchronous
+  getCustomData2() {
+    return new Promise((resolve, reject) => {
+      let dataset = new Dataset({
+        backend: 'csv',
+        url: 'http://demo.getdkan.com/node/9/download'
+      });
+      return dataset.fetch().then(() => {
+        dataset.query({size: 100, from: 0}).then((data) =>{
+          resolve(data.hits)
+        });
+      });
     });
   }
-}
+} 
+
 ```
-Context methods will be invoked in components once they have been defined in _store.js_ 
+In the above example we have two different methods to fetch data. The first one it's a synchronous call that retrives an array. 
+
+But return an array with data from a function is not very exciting. However we can acces to the data loaded by the dashboard and then process that global data to obtain the data for this element:
+
 ```javascript
-      {
-        type: 'Autocomplete',
-        name: 'some-name',
-        multi: true,
-        url: 'http://localhost:3004/options?q={{keyword}}',
-        onChange: {
-          type: 'function',
-          name: 'onAutocompleteChange'
-        },
-        cardStyle: 'none'
-      },
+  getCustomData() {
+    return this.props.globalData.filter((record) => record.state === 'georgia');
+  }
+
+```
+If the data to be used is static then we can place it in the element configuration at the settings file:
+
+```javascript
+{
+  fetchData: [{key: 'serie1', values: [{x:1, y:1}...] }]
+}
+
 ```
 
+If you look at the method getCustomData2 you'll notice we don't transform the data in any way. We are using the csv as it is. If that your case then you can use the following method:
+
+```javascript
+{
+  fetchData: {type: 'backend', backend: 'csv', url: 'http://example.com/example.csv'}
+}
+
+```
+This is a common scenario for table components.
 
 ## Layouts
 <React Dashboard> provides a default layout ``layouts/Geary.js`` but you can also create your own layouts. 
@@ -136,6 +264,7 @@ Registry.set('MyCustomLayout', MyCustomLayout);
 ```
 
 Layouts are composed of regions. You can create any number of regions by calling the renderRegion method with the region object: 
+
 ```javascript
 {this.renderRegion(this.props.regions.myCustomRegion)}
 ```
@@ -174,33 +303,82 @@ this.props.context.execute({
   args: []
 });
 ```
+## Actions
+Sometimes you need to notify other components about a change that happen in the application. 
 
-## Components
-### Built-in Components
-#### Autocomplete
-#### Card
-#### Dashboard
-#### Layout
-#### Metric
-#### Table
-#### Choropleth Map
-##### COLORS
-http://colorbrewer2.org/
-#### Text
-### Mixins
-### Extending base components
-Components can extend available _Mixins_ in order to inherit specific functionality.
+For example change the underlying dashboard data right after the user added a new selection in the autocomplete. Such communication is handled through actions. 
+
+All the components have a method called emit which purpose is to fire actions and an onAction method that is automatically called when an action is fired from any component.
+
+It's worth mentioning the emit method could fire any javascript object. By convention it should have an actionType but the rest is up to you.
+
 ```javascript
 
+// Component emitting a change
+onClick(){
+  this.emit({
+    actionType: 'CHANGE',
+    data: data
+  });
+}
+
+// Component receiving a change
+onAction(action){
+  switch(action.actionType){
+    case 'CHANGE':
+      // Do some in
+      break;
+  }
+}
 ```
-####fetchData
-The fetchData mixin provides methods for fetching data via _Data Handlers_. Data Handlers return either a _Promise_ or data. Once the _Data Handler_ has  returned, the _fetchData_ mixin calls _setState_ on the component which triggers a re-render.  
+
+## Theming
+If you don't like the default styles or you want to customize them then you need to import the stylesheet you want to use:
+
+```
+// file: entry point 
+// standalone.js or dkan.js
+import 'stylesheets/custom.css'
+```
+
+Currently it accepts either a css or a sass file. You can also add import sentences inside to split the files. It's good to have a separate stylesheet for each component you are overriding. 
+
+## Built-in Components
+### Autocomplete
+
+The autocomplete it's using the react select component https://github.com/JedWatson/react-select. As result all the react select configurations can be passed in the element configuration.
+
+Usually you will not need to extend this component because their behavior is pretty standard and its highly configurable.
+
+
+```javascript     
+{
+  type: 'Autocomplete',
+  name: 'some-name',
+  multi: true,
+  url: 'http://localhost:3004/options?q={{keyword}}',
+},
+```
+**Available settings**
+* **url:** url to fetch the options base on the keyword you typed in the input.
+* **multi:** you can enable multi-value selection by setting multi to true. 
+* **name:** an arbitrary name.
+* **options:** an array with options (e.g.: [{ value: 'one', label: 'One' }])
+
+### Metric
+
+### Card
+### Dashboard
+### Layout
+
+### Table
+### Choropleth Map
+### Text
 
 ## Development
 ```
 $ git clone git@github.com:NuCivic/react-dashboard.git
 $ npm install
-$ bower install
 $ npm start
 ```
 

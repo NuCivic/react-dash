@@ -82,7 +82,7 @@ export default class BaseComponent extends Component {
     this.setState({data: _data, total: _total, isFeching: false});
   }
 
-  emitChange(payload) {
+  emit(payload) {
     EventDispatcher.dispatch(payload);
   }
 }

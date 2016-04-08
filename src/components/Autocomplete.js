@@ -35,9 +35,8 @@ export default class Autocomplete extends BaseComponent {
     // This allow developers to set an onChange event to
     // change the state of the dashboard.
     if(this.props.onChange) {
-      this.emitChange({
+      this.emit({
         actionType: 'CHANGE',
-        callback: this.props.onChange,
         value: value
       });
     }
