@@ -270,39 +270,6 @@ Layouts are composed of regions. You can create any number of regions by calling
 ```
 Note that we are registering the component using the Registry set method. This is a requirement to make Components available inside layouts. Every time you create a new component you'll need to register it.
 
-## Context Functions
-Context functions are functions which are stored in a context object. 
-Their primary use is as _data handlers_ to fetch and process data, and as _callback functions_ for handling actions triggered by your components.
-
-A _context function_ can be added to the _context_ like this:
-
-```javascript
-  //@@ TODO Snippet for adding context function
-```
-They can be accessed within your component's configuration as follows:
-
-```
-{
-  type: 'function',
-  name: 'nameOfMethod'
-  args: []
-}
-```
-
-### Data handlers
-Data handlers are functions used for instantiating data and preprocessing data for your components.
-
-
-### Callback functions
-The function is called from within your component by using the _execute_ function available in all the conexts which extend from the base Context class:
-
-```
-this.props.context.execute({
-  type: 'function',
-  name: 'nameOfMethod'
-  args: []
-});
-```
 ## Actions
 Sometimes you need to notify other components about a change that happen in the application. 
 
