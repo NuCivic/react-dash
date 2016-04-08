@@ -10,7 +10,6 @@ import GAChart from './components/GAChart';
 import GATable from './components/GATable';
 import GAMetric from './components/GAMetric';
 import GAGoal from './components/GAGoal';
-import Choropleth from './components/GAChoropleth';
 import MyCustomLayout from './layouts/MyCustomLayout';
 import GADashboard from './app';
 
