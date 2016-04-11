@@ -4,6 +4,7 @@ import Registry from '../utils/Registry';
 import {getProp} from '../utils/utils';
 import Dataset from '../models/Dataset';
 import BaseComponent from './BaseComponent';
+import Loader from './Loader';
 import {isString, isEmpty, range, partialRight} from 'lodash';
 
 export default class Table extends BaseComponent {
@@ -26,8 +27,7 @@ export default class Table extends BaseComponent {
       queryObj: {
         size: this.props.queryObj.size,
         from: this.props.queryObj.from
-      },
-      isFeching: false
+      }
     };
 
   }
@@ -137,7 +137,7 @@ export default class Table extends BaseComponent {
     let cellsDefaultProps = getProp('settings.cells', this.props);
     let headers = Object.keys(data[0] || {});
     let totalPages = this.getTotalPages(this.state.rowsPerPage, this.state.total);
-    let table, spinner;
+    let content;
 
     // Create the colums
     let columns = headers.map((header) => {
@@ -157,81 +157,72 @@ export default class Table extends BaseComponent {
       />
     });
 
-    // Create the fixed data table.
-    if(!isEmpty(data)) {
-      table = (
-        <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth}>
-          {columns}
-        </FixedTable>
-      );
-    }
-    if(this.state.isFeching) {
-      spinner = <div className="sp sp-slices"></div>;
-    }
     // Return the renderable elements
     return (
-      <div ref="table">
-
-        <div className="row">
-          <div className="col-md-10">
-            <div className="form-group">
-              <input
-                onChange={this._onFilterChange.bind(this)}
-                placeholder="Filter"
-                className="form-control"
-              />
+      <Loader isFeching={this.state.isFeching}>
+        <div ref="table">
+          <div className="row">
+            <div className="col-md-10">
+              <div className="form-group">
+                <input
+                  onChange={this._onFilterChange.bind(this)}
+                  placeholder="Filter"
+                  className="form-control"
+                />
+              </div>
+            </div>
+            <div className="col-md-2">
+              <div onChange={this._onRowsPerPageChange.bind(this)} className="form-group">
+                <select className="form-control">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                  <option value="500">500</option>
+                </select>
+              </div>
             </div>
           </div>
-          <div className="col-md-2">
-            <div onChange={this._onRowsPerPageChange.bind(this)} className="form-group">
-              <select className="form-control">
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-                <option value="500">500</option>
-              </select>
-            </div>
+
+          <div className="table-container">
+            <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth}>
+              {columns}
+            </FixedTable>
           </div>
+
+          <nav>
+            <ul className="pagination">
+
+              <li className={(this.state.currentPage === 1) ? 'hide' : ''}>
+                <a onClick={partialRight(this._onPageChange, 1).bind(this)} href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+
+              <li className={(this.state.currentPage === 1) ? 'hide' : ''}>
+                <a onClick={partialRight(this._onPageChange, this.state.currentPage - 1).bind(this)} href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+
+              {this.getPageNumbers(this.state.rowsPerPage, this.state.total, this.state.currentPage)}
+
+              <li className={(!totalPages || this.state.currentPage === totalPages ) ? 'hide' : ''}>
+                <a onClick={partialRight(this._onPageChange, this.state.currentPage + 1).bind(this)} href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+
+              <li className={(!totalPages || this.state.currentPage === totalPages ) ? 'hide' : ''}>
+                <a onClick={partialRight(this._onPageChange, totalPages).bind(this)} href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+
+            </ul>
+          </nav>
         </div>
-
-        <div className="table-container">
-          {spinner}
-          {table}
-        </div>
-
-        <nav>
-          <ul className="pagination">
-
-            <li className={(this.state.currentPage === 1) ? 'hide' : ''}>
-              <a onClick={partialRight(this._onPageChange, 1).bind(this)} href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-
-            <li className={(this.state.currentPage === 1) ? 'hide' : ''}>
-              <a onClick={partialRight(this._onPageChange, this.state.currentPage - 1).bind(this)} href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-
-            {this.getPageNumbers(this.state.rowsPerPage, this.state.total, this.state.currentPage)}
-
-            <li className={(!totalPages || this.state.currentPage === totalPages ) ? 'hide' : ''}>
-              <a onClick={partialRight(this._onPageChange, this.state.currentPage + 1).bind(this)} href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-
-            <li className={(!totalPages || this.state.currentPage === totalPages ) ? 'hide' : ''}>
-              <a onClick={partialRight(this._onPageChange, totalPages).bind(this)} href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-
-          </ul>
-        </nav>
-      </div>
+      </Loader>
     );
   }
 }

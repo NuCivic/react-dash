@@ -1,5 +1,5 @@
 // Override bootstrap
-.public_fixedDataTable_header, 
+.public_fixedDataTable_header,
 .public_fixedDataTable_header .public_fixedDataTableCell_main {
 	background-color: #eee;
   background-image: none;
@@ -17,9 +17,7 @@
   width: 32px;
   height: 32px;
   position: absolute;
-  top: 50%;
   left: 50%;
-  margin-top:-16px;
   margin-left:-16px;
   z-index: 2;
 }
