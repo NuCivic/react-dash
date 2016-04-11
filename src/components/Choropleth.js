@@ -73,7 +73,6 @@ export default class Choropleth extends BaseComponent {
         },
 
         domainValue: d => {
-          console.log(d[domainField]);
           return Number(d[domainField]);
         },
 
@@ -82,7 +81,6 @@ export default class Choropleth extends BaseComponent {
         },
 
         mapKey: d => {
-          console.log('A>',d[domainKey],d,domainKey);
           return Number(d[domainKey]);
         }
       }
@@ -108,6 +106,7 @@ export default class Choropleth extends BaseComponent {
     if (this.props.fetchData) {
       this.fetchData().then(this.onData.bind(this)).catch(e => {
         console.log('Error fetching data', e);
+        console.trace();
       });
     }
     addStyleString(this.css());
@@ -162,14 +161,12 @@ export default class Choropleth extends BaseComponent {
 
   legendSeries () {
     let series = [];
-    let domainScale = this.domainScale();
+    let domainScale = this.domainScale(this.state.domainData);
     let step = ((domainScale.domain[1] - domainScale.domain[0]) / this.props.settings.levels);
     let r = range(domainScale.domain[0],  domainScale.domain[1], step);
     r.push(domainScale.domain[1]);
-    console.log('r',r);
     let prec = this.props.settings.legendValPrecision;
     for (var i = 0; i < this.levels; i++) {
-      console.log(r[i], r[i+1], prec);
       let lower = r[i].toFixed(prec);
       let upper = r[i+1].toFixed(prec);
       let item = {
@@ -183,15 +180,15 @@ export default class Choropleth extends BaseComponent {
   }
   
   domainScale(data) {
-    console.log('AAA');
      let settings = this.props.settings;
      let randKey = this.randKey;
-     let x = ({
+     let dScale = ({
         scale: 'quantize',
         domain: [Number(settings.domainLower), Number(settings.domainUpper)],
         range: range(settings.levels).map(i => { return `${randKey}${i}-${settings.levels}`; })
      });
-     return x;
+     console.log('AA-s',dScale)
+     return dScale;
   }
 
   render () {
@@ -212,7 +209,7 @@ export default class Choropleth extends BaseComponent {
           settings.dataMesh = mesh(settings.topodata, settings.topodata.objects[settings.mesh], function(a, b) { return a !== b; });
         }
       } else if (settings.mapFormat === 'geojson') {
-        settings.dataPolygon = feature(settings.topodata, settings.topodata.objects[settings.pol]);
+        settings.dataPolygon = settings.topodata.features;
       }
 
       settings.scale = this.state.gridWidth;

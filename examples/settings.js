@@ -89,7 +89,7 @@ export var settings = {
         },
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getData'},
-      }, /*
+      }, 
       {
         header: 'GAChoropleth Test ][ - GEOJSON',
         type: 'GeojsonChoropleth',
@@ -116,7 +116,7 @@ export var settings = {
         },
         cardStyle: 'card',
         fetchData: 'getData'
-      }, */
+      }
     ],
     middleFirst: [
       {
