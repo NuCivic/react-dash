@@ -323,6 +323,13 @@ Currently it accepts either a css or a sass file. You can also add import senten
 
 ## Built-in Components
 
+### Shared settings
+There are some settings that are shared across all the components. This is the complete list of shared settings:
+
+**Available settings**
+* **fetchData:** allow you to define the fetching data strategy to be used in the current component.
+* **queryObj:** the query to be used after data fetching. For example this would allow you to filter the raw dataset for pagination.
+
 
 ### Autocomplete
 
@@ -386,11 +393,14 @@ A card is a html wrapper to keep the styles consistency across elements. This cl
 }
 ```
 
-
 ### Dashboard
 
 This is the top parent element of a dashboard. Commonly you will extend the dashboard class with your custom dashboard subclass. The reason of this is you probably want to provide a custom way to fetch the data. 
 However if your data is just a plain CSV file (or any resource supported by backends) and you don't need to perform transformations on it then you can use the fetchData property.
+
+**Available settings**
+* **title:** the dashboard title.
+* **layout:** layout class name to be used in the dashboard. You can pass this as any other react prop if you want it.
 
 
 ### Text
@@ -404,7 +414,8 @@ Text component allows you to create a block of text by setting the content prope
   content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut erat dui, sodales eleifend placerat a, dictum sed tortor.</p><p> Quisque porttitor urna in est vehicula, a molestie nunc pharetra. Cras vehicula nisi dui, ut aliquam nunc vulputate lacinia. Curabitur vitae interdum dolor, sed venenatis tellus. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam volutpat metus et ipsum lobortis, at porttitor nunc laoreet.</p><p>Nullam et ligula at enim pretium accumsan. In et facilisis enim, vel consectetur justo. Duis eleifend sit amet neque eu interdum. Sed ornare orci diam, ac finibus ipsum posuere vel. Duis maximus velit ipsum, et mattis massa tempus sit amet. Suspendisse potenti.</p>',
 }
 ```
-
+**Available settings**
+* **content:** the html content to display.
 
 ### Table
 
@@ -458,11 +469,6 @@ Table component provides a way to browse, filter, search and display datasets to
 ### Chart
 Chart component is a wrapper of the react-nvd3 library which also is a wrapper of the nvd3 chart library. Therefore all the charts and options available in nvd3 are also available in this component.
 
-#### React NVD3 documentation: 
-https://github.com/NuCivic/react-nvd3
-
-#### NVD3 documentation: 
-https://nvd3-community.github.io/nvd3/examples/documentation.html
 
 ```javascript
 {
@@ -486,6 +492,10 @@ https://nvd3-community.github.io/nvd3/examples/documentation.html
 
 Notice all the chart configuration goes inside the settings object. **id, type, fetchData and height are mandatory.** If your data already have the x and y columns named properly then you don't need to specify the x and y settings. 
 
+**Available settings**
+
+**React NVD3 documentation:** https://github.com/NuCivic/react-nvd3
+**NVD3 documentation:** https://nvd3-community.github.io/nvd3/examples/documentation.html
 
 ### Choropleth Map
 
@@ -520,6 +530,9 @@ Notice all the chart configuration goes inside the settings object. **id, type, 
   fetchData: {type:'function', name: 'getData'},
 },
 ```
+
+**Available settings**
+TODO
 
 
 ### Goal
@@ -586,14 +599,69 @@ class MyComponent extends BaseComponent {
     );
   }
 }
+```
 
 As soon as state.isFetching is true then all the components inside <Loader> and </Loader> will be displayed.
 
 If you are extending from the BaseComponent and using the fetchData property to fetch resources then the isFeching state is handled for you.
 If you aren't using fetchData to fetch resources then you have to switch this variable manually.
 
+## Models and Backends
+
+### Models
+To fetch remote data you can either use the fetchData property, use the dataset models, backends or just the fetch api standard. We recommend to keep the selection in that order where fetchData is the preferred method and the fetch api is the less preffered method.
+
+If you want to use the dataset model then you need to do something like this inside the component you are populating.
+
+```javascript
+
+// Import the dataset model from the library
+import Dataset from 'react-dashboard/Dataset';
+
+// Instantiate the dataset and configure it by passing the backend configuration.
+let dataset = new Dataset({backend: 'csv', url: 'http://example.com/example.csv'});
+
+// Let's set the state to fetching to display a loader and since we already have the dataset object let's save it for future queries.
+this.setState({isFeching: true, dataset: dataset});
+
+// Fetch the resource
+dataset.fetch().then(() => {
+  // Query the dataset for example for pagination purposes
+  dataset.query(query).then( (data) => console.log(data) ); //query e.g. {size: 10, from: 0}
+});
 ```
 
+### Backends
+There are a few backends available but more are comming. 
+
+#### CSV
+This is a port of https://github.com/okfn/csv.js therefore it keeps the same configuration options.
+
+
+```javascript
+let dataset = new Dataset({backend: 'csv', url: 'http://example.com/example.csv'});
+```
+
+**Available settings**
+* **data:** is a string in CSV format. This is passed directly to the CSV parser
+* **url:** a url to an online CSV file that is ajax accessible (note this usually requires either local or on a server that is CORS enabled). The file is then loaded using jQuery.ajax and parsed using the CSV parser (NB: this requires jQuery) All options generates similar data and use the memory store outcome, that is they return something like:
+* **file:** is an HTML5 file object. This is opened and parsed with the CSV parser.
+* **dialect:** hash / dictionary following the same structure as for parse method below.
+
+#### DKAN
+This backend should be used to fetch resources from dkan. You can provide either the url pointing to the resource you want to consume or the id + endpoint pair.
+
+```javascript
+let conf = {
+  url: 'http://demo.getdkan.com/api/3/action/datastore_search?=&resource_id=db114e1f-cf44-4cef-b4a7-b2451b039fb1'
+};
+let dataset = new Dataset(conf);
+```
+
+**Available settings**
+* **endpoint:** the base endpoint your dkan api. e.g. `http://demo.getdkan.com/api`
+* **id:** the id of the resource. e.g. `db114e1f-cf44-4cef-b4a7-b2451b039fb1`
+* **url:** the full url `http://demo.getdkan.com/api/3/action/datastore_search?=&resource_id=db114e1f-cf44-4cef-b4a7-b2451b039fb1` 
 
 
 ## Development and examples
