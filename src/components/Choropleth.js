@@ -73,18 +73,18 @@ export default class Choropleth extends BaseComponent {
         },
 
         domainValue: d => {
-          console.log('domainV', Number(d[domainField]));
           return Number(d[domainField]);
         },
 
         domainKey: d => {
-          console.log('domainK', d[domainKey]);
           return d[domainKey];
         },
 
         mapKey: d => {
-        console.log('mapK', this.props.settings.domainMapKey, d, d.properties[this.props.settings.domainMapKey]);
-        return d.properties[this.props.settings.domainMapKey]; //omainKey;
+          Object.assign(d, d.properties);
+
+          return d[this.props.settings.domainMapKey];
+          return d.properties[this.props.settings.domainMapKey]; //omainKey;
         }
       }
 		});

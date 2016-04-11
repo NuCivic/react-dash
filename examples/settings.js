@@ -28,36 +28,20 @@ export var settings = {
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getData'},
       }, */
-      {
-        header: 'GAChoropleth Test',
-        type: 'Choropleth',
-        settings: {
-          colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'pink','violet', 'darkmagenta'],
-          cssPath: '/static/choropleth.css',
-          showTooltip: {true},
-          domainField: 'rate',
-          levels: 9,
-          domainLower: 0,
-          domainUpper: .15,
-          legendHeader: "Per Cent Unemploytment by U.S. County",
-          width: 1200,
-          height: 600,
-          domainKey: 'id',
-          dataset: {
-            backend: 'csv',
-            url: '/data/unemployment.tsv',
-            delimiter: '\t'
-          },
-          mapFormat: 'topojson',
-          mapDataUrl: '/data/us.json',
-          polygon: 'counties',
-          mesh: 'states',
-          projection: 'albersUsa',
-          showGraticule: true,
-        },
-        cardStyle: 'card',
-        fetchData: {type:'function', name: 'getData'},
-      },   
+      /* Docs:
+       * Domain Data should be formatted:
+       * [
+       *  {
+       *    mapKey: 'PKValue',
+       *    domainField: 'Value',
+       *    ignoredVal: 'foo',
+       *    moreExtraneousData: {...}
+       *  },
+       *  ...
+       * ]
+       *
+       * domainMapKey should be the key for the value representi9ng the map polygon
+       */
       {
         header: 'GAChoropleth Test',
         type: 'Choropleth',
@@ -69,6 +53,7 @@ export var settings = {
           domainLower: 0, // specify domain range - this can also be overridden in the domainScale functionion()
           domainUpper: .15, // ibid.
           domainKey: 'id',
+          domainMapKey: 'id',
           legendHeader: "Per Cent Unemploytment by U.S. County",
           domainField: 'rate', // the data we are comparing
           legendValPrecision: 3, // Defaults to 2
@@ -111,6 +96,8 @@ export var settings = {
           mapDataUrl: '/data/zones.geojson',
           mapFormat: 'geojson',
           showGraticule: false,
+          gridWidth: 600,
+          height: 600,
           projection: 'conicConformal' // https://github.com/mbostock/d3/wiki/Geo-Projections
         },
         cardStyle: 'card',
