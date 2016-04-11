@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'nvd3/build/nv.d3.min.css';
 import 'react-select/dist/react-select.min.css';
 import 'fixed-data-table/dist/fixed-data-table.min.css';
@@ -12,5 +12,6 @@ import GAMetric from './components/GAMetric';
 import GAGoal from './components/GAGoal';
 import MyCustomLayout from './layouts/MyCustomLayout';
 import GADashboard from './app';
+import GeojsonChoropleth from './components/GeojsonChoropleth';
 
 ReactDOM.render(<GADashboard {...settings} layout={MyCustomLayout}/>, document.getElementById('root'));

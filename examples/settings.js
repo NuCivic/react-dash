@@ -2,7 +2,7 @@ export var settings = {
   title: 'Georgia Reports',
   regions: {
     top: [
-     {
+/*     {
         type: 'Autocomplete',
         name: 'some-name',
         multi: true,
@@ -25,67 +25,88 @@ export var settings = {
         },
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getData'},
-      },
-      // {
-      //   header: 'GAChoropleth Test',
-      //   type: 'Choropleth',
-      //   settings: {
-      //     colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'pink','violet', 'darkmagenta'],
-      //     cssPath: '/static/choropleth.css',
-      //     showTooltip: {true},
-      //     domainField: 'rate',
-      //     levels: 9,
-      //     domainLower: 0,
-      //     domainUpper: .15,
-      //     legendHeader: "Per Cent Unemploytment by U.S. County",
-      //     width: 1200,
-      //     height: 600,
-      //     domainKey: 'id',
-      //     dataset: {
-      //       backend: 'csv',
-      //       url: '/data/unemployment.tsv',
-      //       delimiter: '\t'
-      //     },
-      //     mapFormat: 'topojson',
-      //     mapDataUrl: '/data/us.json',
-      //     polygon: 'counties',
-      //     mesh: 'states',
-      //     projection: 'albersUsa',
-      //     showGraticule: true,
-      //   },
-      //   cardStyle: 'card',
-      //   fetchData: {type:'function', name: 'getData'},
-      // },
-/*      {
-        header: 'GAChoropleth Test ][ - GEOJSON',
-        type: 'GAChoropleth',
+      }, */
+      /* Docs:
+       * Domain Data should be formatted:
+       * [
+       *  {
+       *    mapKey: 'PKValue',
+       *    domainField: 'Value',
+       *    ignoredVal: 'foo',
+       *    moreExtraneousData: {...}
+       *  },
+       *  ...
+       * ]
+       *
+       * domainMapKey should be the key for the value representi9ng the map polygon
+       */
+      {
+        header: 'GAChoropleth Test',
+        type: 'Choropleth',
         settings: {
-          colors: ['#f7fcfd','#e5f5f9','#ccece6','#99d8c9','#66c2a4','#41ae76','#238b45','#006d2c','#00441b'],
+          colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'pink','violet', 'darkmagenta'],
           cssPath: '/static/choropleth.css',
           showTooltip: {true},
-          domainField: 'zone',
-          levels: 10,
-          legendHeader: '*][*-----*][*',
-          domainLower: 0, //      @@TODO - it might make sense in some circumstance to use fixed bounds
-          domainUpper: 500, //    @@       but we probably just want to programatically get the ranges
-          width: 1200,
-          height: 600,
+          levels: 9, // number of Choropleth levels
+          domainLower: 0, // specify domain range - this can also be overridden in the domainScale functionion()
+          domainUpper: .15, // ibid.
           domainKey: 'id',
-          domainField: 'Incidents against Women during Accreditation: No #',
+          domainMapKey: 'id',
+          legendHeader: "Per Cent Unemploytment by U.S. County",
+          domainField: 'rate', // the data we are comparing
+          legendValPrecision: 3, // Defaults to 2
+          gridWidth: 900,
+          dataset: {
+            backend: 'csv',
+            url: '/data/unemployment.tsv',
+            delimiter: '\t'
+          },
+          tooltip: {
+            attr: 'rate', 
+            label: 'Unemployment rate'
+          },
+          mapFormat: 'topojson',
+          mapDataUrl: '/data/us.json',
+          polygon: 'counties',
+          mesh: 'states',
+          projection: 'albersUsa',
+          showGraticule: true,
+        },
+        cardStyle: 'card',
+        fetchData: {type:'function', name: 'getData'},
+      }, 
+      {
+        header: 'GAChoropleth Test ][ - GEOJSON',
+        type: 'Choropleth',
+        settings: {
+          colors: ['red','green','yellow','purple','orange','pink','#252525','#000000'],
+          cssPath: '/static/choropleth.css',
+          showTooltip: {true},
+          legendHeader: 'Accred. Time: Before 8 AM #',
+          levels: 5,
+          domainLower: 10,  
+          domainUpper: 80,
+          domainKey: 'Zone', // map key in domain data
+          domainMapKey: 'name', // map key in map data
+          domainField: 'Accred. Time: Before 8 AM #',
           dataset: {
             backend: 'csv',
             url: '/data/apollo-parsed-1737-325_0.csv',
             delimiter: ','
           },
+          tooltip: {
+            label: 'Accred',
+            attr: 'Accred. Time: Before 8 AM #'
+          },
           mapDataUrl: '/data/zones.geojson',
-          domainDataSep: ',',
           mapFormat: 'geojson',
-          polygon: 'zone',
-          showGraticule: true
+          showGraticule: false,
+          gridWidth: 600,
+          projection: 'conicConformal' // https://github.com/mbostock/d3/wiki/Geo-Projections
         },
         cardStyle: 'card',
         fetchData: 'getData'
-      },*/
+      } 
     ],
     middleFirst: [
       {

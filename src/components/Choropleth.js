@@ -22,6 +22,7 @@ import {range} from 'd3';
 import Dataset from '../models/Dataset';
 
 
+// @@TODO we need dynamic values here
 let legendWidth = 500,
   legendHeight = 400,
   legendMargins = {top: 40, right: 50, bottom: 40, left: 50},
@@ -57,39 +58,48 @@ export default class Choropleth extends BaseComponent {
 		super(props);
     this.levels = this.props.settings.levels;
     this.randKey = makeKey(4);
+    this.assignChoroplethFunctions();
+	}
+
+  /**
+   * Override in sublass to customize behavior
+   **/
+  assignChoroplethFunctions() {
     let domainField = this.props.settings.domainField;
     let domainKey = this.props.settings.domainKey;
-    var self = this;
     Object.assign(this, { choroplethFunctions : {
-        // @@TODO move this function to a configurable context
-        tooltipContent: function (d) {
-          return {rate: d.properties[d[domainKey]]};
+        tooltipContent: d => {
+          let label = this.props.settings.tooltip.label;
+          let val = d[d[this.props.settings.domainMapKey]];
+          let tt = {};
+          tt[label] = val;
+          return tt;
         },
 
-        domainValue: function (d) {
+        domainValue: d => {
           return Number(d[domainField]);
         },
 
-        domainKey: function (d) {
-          return Number(d[domainKey]);
+        domainKey: d => {
+          return d[domainKey];
         },
 
-        mapKey: function (d) {
-          return Number(d[domainKey]);
+        mapKey: d => {
+          Object.assign(d, d.properties);
+
+          return d[this.props.settings.domainMapKey];
+          return d.properties[this.props.settings.domainMapKey]; //omainKey;
         }
       }
 		});
-	}
+  }
 
   // fetchData should set topoData and domainData
   onDataReady(data) {
     this.setState({domainData: data.domainData, topodata: data.topodata});
 	}
-
+    
   componentDidMount () {
-    this._attachResize();
-    this._setSize();
-  
     // add stylesheet
     if (this.props.settings.cssPath) {
       fetchStyleSheet(this.props.settings.cssPath)
@@ -101,9 +111,10 @@ export default class Choropleth extends BaseComponent {
     }
 
     if (this.props.fetchData) {
-      this.fetchData().then(this.onData.bind(this)).catch(e => {console.log('Error fetching data', e)});
+      this.fetchData().then(this.onData.bind(this)).catch(e => {
+        console.log('Error fetching data', e);
+      });
     }
-
     addStyleString(this.css());
     super.componentDidMount();
   }
@@ -139,14 +150,6 @@ export default class Choropleth extends BaseComponent {
     });
   }
 
-  _setSize() {
-    const { offsetWidth, offsetHeight } = this.refs.choropleth;
-    this.setState({
-      gridWidth: offsetWidth,
-      gridHeight: offsetHeight
-    });
-  }
-
   _attachResize() {
     window.addEventListener('resize', this._setSize.bind(this), false);
   }
@@ -154,19 +157,24 @@ export default class Choropleth extends BaseComponent {
   // generate css string from colors array
   css () {
     let _css = '';
+    let randKey = this.randKey;
     let colors = this.props.settings.colors;
     for (var i = 0; i < this.levels; i++) {
-      _css += `.q${i}-${this.levels} { fill:${colors[i]}; }`;
+      _css += `.${randKey}${i}-${this.levels} { fill:${colors[i]}; }`;
     }
     return _css;
   }
 
   legendSeries () {
     let series = [];
-    let domainVal = .015;
+    let domainScale = this.domainScale(this.state.domainData);
+    let step = ((domainScale.domain[1] - domainScale.domain[0]) / this.props.settings.levels);
+    let r = range(domainScale.domain[0],  domainScale.domain[1], step);
+    r.push(domainScale.domain[1]);
+    let prec = this.props.settings.legendValPrecision;
     for (var i = 0; i < this.levels; i++) {
-      let lower = domainVal*i.toFixed(2);
-      let upper = domainVal*(i+1).toFixed(2);
+      let lower = r[i].toFixed(prec);
+      let upper = r[i+1].toFixed(prec);
       let item = {
         field: `${lower} -- ${upper}`,
         name: `${lower} -- ${upper}`,
@@ -175,6 +183,17 @@ export default class Choropleth extends BaseComponent {
       series.push(item);
     }
     return series;
+  }
+  
+  domainScale(data) {
+     let settings = this.props.settings;
+     let randKey = this.randKey;
+     let dScale = ({
+        scale: 'quantize',
+        domain: [Number(settings.domainLower), Number(settings.domainUpper)],
+        range: range(settings.levels).map(i => { return `${randKey}${i}-${settings.levels}`; })
+     });
+     return dScale;
   }
 
   render () {
@@ -195,15 +214,12 @@ export default class Choropleth extends BaseComponent {
           settings.dataMesh = mesh(settings.topodata, settings.topodata.objects[settings.mesh], function(a, b) { return a !== b; });
         }
       } else if (settings.mapFormat === 'geojson') {
-        settings.dataPolygon = feature(settings.topodata, settings.topodata.objects[settings.polygon]).features;
+        settings.dataPolygon = settings.topodata.features;
       }
 
-      settings.scale = this.state.gridWidth;
-      settings.domain = {
-        scale: 'quantize',
-        domain: [settings.domainLower, settings.domainUpper],
-        range: range(settings.levels).map(function(i) { return `q${i}-${settings.levels}`; })
-      };
+      settings.scale = this.props.settings.gridWidth;
+
+      settings.domain = this.domainScale(this.state.domainData);
      v = <div className="choropleth-container">
             <MapChoropleth ref="choropleth" {...settings} />
             <div className="legend-container">
