@@ -57,7 +57,7 @@ export var settings = {
         },
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getData'},
-      }, */ 
+      }, */  
       {
         header: 'GAChoropleth Test',
         type: 'Choropleth',
@@ -65,16 +65,16 @@ export var settings = {
           colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'pink','violet', 'darkmagenta'],
           cssPath: '/static/choropleth.css',
           showTooltip: {true},
-          domainField: 'rate',
-          levels: 9,
-          domainLower: 0,
-          domainUpper: .15,
+          levels: 9, // number of Choropleth levels
+          domainLower: 0, // specify domain range - this can also be overridden in the domainScale functionion()
+          domainUpper: .15, // ibid.
+          domainKey: 'id',
+          domainKeyName: 'id',
           legendHeader: "Per Cent Unemploytment by U.S. County",
+          domainField: 'rate', // the data we are comparing
           legendValPrecision: 3, // Defaults to 2
           width: 1200,
           height: 600,
-          domainKey: 'id',
-          domainKeyName: 'id',
           dataset: {
             backend: 'csv',
             url: '/data/unemployment.tsv',
@@ -94,15 +94,15 @@ export var settings = {
         header: 'GAChoropleth Test ][ - GEOJSON',
         type: 'GeojsonChoropleth',
         settings: {
-          colors: ['#ffffff','#f0f0f0','#d9d9d9','#bdbdbd','#969696','#737373','#525252','#252525','#000000'],
+          colors: ['red','green','yellow','purple','orange','pink','#252525','#000000'],
           cssPath: '/static/choropleth.css',
           showTooltip: {true},
           legendHeader: 'Accred. Time: Before 8 AM #',
+          levels: 8,
+          domainLower: 0,  
+          domainUpper: 400,
           domainKey: 'Zone',
-          domainKeyName: 'name',
-          levels: 10,
-          domainLower: 64, //      @@TODO - it might make sense in some circumstance to use fixed bounds 
-          domainUpper: 328, //    @@       but we probably just want to programatically get the ranges
+          domainKeyName: 'Zone',
           domainField: 'Accred. Time: Before 8 AM #',
           dataset: {
             backend: 'csv',
@@ -116,7 +116,7 @@ export var settings = {
         },
         cardStyle: 'card',
         fetchData: 'getData'
-      }
+      } 
     ],
     middleFirst: [
       {

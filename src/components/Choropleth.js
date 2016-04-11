@@ -215,6 +215,7 @@ export default class Choropleth extends BaseComponent {
       settings.scale = this.state.gridWidth;
 
       settings.domain = this.domainScale(this.state.domainData);
+      console.log('>>', settings);
      v = <div className="choropleth-container">
             <MapChoropleth ref="choropleth" {...settings} />
             <div className="legend-container">
