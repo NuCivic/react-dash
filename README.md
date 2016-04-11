@@ -2,10 +2,16 @@ React Dashboard
 ===============
 
 ## What's React Dashboard
-It's a collection of tools (components + utils) that can be used to create dashboards programatically. In other words it's a framework to speed up dashboards creation.
+* It's a collection of tools (components + utils) that can be used to create dashboards programatically.
+* It's a framework to speed up dashboards creation.
+* components + configurations + data
+
+## What's not React Dashboard
+* Is not a tool to transform data.
+* Is not an end user tool.
 
 ## Where is the UI to build dashboards
-There is no UI.
+There is no UI. All is created from code.
 
 ## Why?
 Because the main goal of this library is to be flexible and code give all the flexibility we need.
@@ -25,6 +31,7 @@ open http://localhost:5000
 ```
 
 ## How it works
+
 All the dashboard configuration is stored in a javascript object inside the file src/settings.js. It's a hierarchical representation of a dashboard. They are composed of regions and each region store elements. This elements contains the required information to instantiate a React component base in the type key.
 
 When a dashboard is created it uses the layout configured in the settings an this layout call the renderRegion method which iterates over all the elements for that region. Then the renderRegion method creates the React component with the name set in the type key of that object. Rest of properties of this object is passed to the component as react props.
@@ -333,19 +340,207 @@ Usually you will not need to extend this component because their behavior is pre
 * **options:** an array with options (e.g.: [{ value: 'one', label: 'One' }])
 
 ### Metric
+Metrics are intended to display a computed single value to the end user. The basic class Metric should be extended to the methods to get each metric. 
+Normally you will compute metrics derived from the globalData prop by performing some aggregations. 
+
+If you want to get the metric from a different resource that globalData then you can add the fetchData property and configure it to fecth the data you want.
+
+```
+{
+  type:'GAMetric',
+  background: '#9F3E69',
+  metric: 'getRandomMetric',
+  caption: 'New Users',
+  fetchData: {type: 'function', name: 'externalData'}
+}
+```
+
+**Available settings**
+* **background:** the background color to be used for this metric. 
+* **metric:** a function defined in the subclass component that retrives the metric number. 
+* **caption:** a description to be displayed 
+* **options:** an array with options (e.g.: [{ value: 'one', label: 'One' }])
 
 ### Card
+A card is a html wrapper to keep the styles consistency across elements. This class can't be override it. 
+
+Card can't be configured but it display the header and footer configured in the element configuration object.
+
+For example:
+
+```javascript
+{
+  header: 'Hello Metric',
+  type:'GAMetric',
+  metric: 'getRandomMetric',
+  caption: 'New Users',
+  footer: 'This is a footer text',
+}
+```
+
 ### Dashboard
-### Layout
+
+This is the top parent element of a dashboard. Commonly you will extend the dashboard class with your custom dashboard subclass. The reason of this is you probably want to provide a custom way to fetch the data. 
+However if your data is just a plain CSV file (or any resource supported by backends) and you don't need to perform transformations on it then you can use the fetchData property.
+
+### Text
+Text component allows you to create a block of text by setting the content property with the desired html.
+
+```
+{
+  header: 'This is an awesome text',
+  type: 'Text',
+  content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut erat dui, sodales eleifend placerat a, dictum sed tortor.</p><p> Quisque porttitor urna in est vehicula, a molestie nunc pharetra. Cras vehicula nisi dui, ut aliquam nunc vulputate lacinia. Curabitur vitae interdum dolor, sed venenatis tellus. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam volutpat metus et ipsum lobortis, at porttitor nunc laoreet.</p><p>Nullam et ligula at enim pretium accumsan. In et facilisis enim, vel consectetur justo. Duis eleifend sit amet neque eu interdum. Sed ornare orci diam, ac finibus ipsum posuere vel. Duis maximus velit ipsum, et mattis massa tempus sit amet. Suspendisse potenti.</p>',
+}
+```
 
 ### Table
+Table component provides a way to browse, filter, search and display datasets to end users. 
+
+```      
+{
+  type: 'GATable',
+  header: 'Mi titulo',
+  fetchData: {
+    type:'backend',
+    backend: 'csv',
+    url: 'http://demo.getdkan.com/node/9/download',
+  },
+  settings: {
+    table: {
+      rowHeight: 40,
+      width: 800,
+      maxHeight: 300,
+      headerHeight:40
+    },
+    columns: {
+      flexGrow: 1,
+      width: 150,
+      overrides: {
+        a1: {
+          flexGrow: 0.5
+        }
+      }
+    },
+    cells: {
+      height: 40,
+      width: 500,
+      overrides: {
+        1: {
+          height: 40
+        }
+      }
+    }
+  }
+},
+```
+**Available settings**
+* **settings**:
+  - **settings.table:** allows to configure all the properties for a table
+  - **settings.columns:** allows to configure all the properties for columns
+    - **overrides:** allows to override configurations for the column name number used as key.
+  - **settings.cells:** allows to configure all the properties for cells
+  - **overrides:** allows to override configurations for the cell in the row number used as key.
+
+### Chart
+
+```javascript
+{
+  header:'Top',
+  type: 'GAChart',
+  iconClass: 'glyphicon glyphicon-tree-conifer',
+  settings: {
+    id:'lineChart2',
+    type: 'discreteBarChart',
+    x: 'label',
+    y: 'value',
+    height: 340,
+    margin: {
+      left: 38
+    },
+    color: ['#EA7E7E']
+  },
+  fetchData: {type:'function', name: 'getData'},
+}
+```
 ### Choropleth Map
-### Text
+
+```javascript
+{
+  header: 'GAChoropleth Test',
+  type: 'Choropleth',
+  settings: {
+    colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'pink','violet', 'darkmagenta'],
+    cssPath: '/static/choropleth.css',
+    showTooltip: {true},
+    domainField: 'rate',
+    levels: 9,
+    domainLower: 0,
+    domainUpper: .15,
+    legendHeader: "Per Cent Unemploytment by U.S. County",
+    width: 1200,
+    height: 600,
+    domainKey: 'id',
+    dataset: {
+      backend: 'csv',
+      url: '/data/unemployment.tsv',
+      delimiter: '\t'
+    },
+    mapFormat: 'topojson',
+    mapDataUrl: '/data/us.json',
+    polygon: 'counties',
+    mesh: 'states',
+    projection: 'albersUsa',
+    showGraticule: true,
+  },
+  fetchData: {type:'function', name: 'getData'},
+},
+```
+
+### Goal
+
+```javascript
+{
+  type: 'GAGoal',
+  title: '',
+  caption: 'number of schools enrollments',
+  link: 'http://tootherplace.com',
+  icon: 'glyphicon-gbp',
+  startDate: '03/24/2016',
+  endDate: '04/24/2016',
+  startNumber: 0,
+  endNumber: 200,
+  action: 'increase',
+  background: 'white',
+  // trackStatus: 'function',
+  tolerance: [
+    {from: 0, to: 2, label: 'On Track', color: 'green'},
+    {from: 2, to: 5, label: 'Needs Improvement', color: 'orange'},
+    {from: 5, to: Infinity, label: 'Off Track', color: 'red'},
+  ],
+  spline: {
+    height: 50,
+  },
+  fetchData: {type:'function', name: 'getData'},
+  metric: 'getRandomMetric'
+}
+```
 
 ## Development
 ```
 $ git clone git@github.com:NuCivic/react-dashboard.git
 $ npm install
 $ npm start
+$ open http://localhost:3000
 ```
 
+## Builds
+### Standalone Development
+### Standalone Production
+### DKAN Development
+### DKAN Production
+
+## To-do
+- Pass global data and arguments to default data handlers
+- Allow to rename columns in tables
+- Allow to pass strings instead of functions as tick formaters for charts
