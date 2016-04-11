@@ -21,6 +21,8 @@ import {mesh, feature} from 'topojson';
 import {range} from 'd3';
 import Dataset from '../models/Dataset';
 
+
+// @@TODO we need dynamic values here
 let legendWidth = 500,
   legendHeight = 400,
   legendMargins = {top: 40, right: 50, bottom: 40, left: 50},
@@ -161,13 +163,15 @@ export default class Choropleth extends BaseComponent {
   legendSeries () {
     let series = [];
     let domainScale = this.domainScale();
-//    let r = range(domainScale.domain[0], this.props.settings.levels, domainScale.domain[1]);
     let step = ((domainScale.domain[1] - domainScale.domain[0]) / this.props.settings.levels);
     let r = range(domainScale.domain[0],  domainScale.domain[1], step);
-    console.log('R...',r, this.props.settings.levels);
+    r.push(domainScale.domain[1]);
+    console.log('r',r);
+    let prec = this.props.settings.legendValPrecision;
     for (var i = 0; i < this.levels; i++) {
-      let lower = r[i];
-      let upper = r[i+1];
+      console.log(r[i], r[i+1], prec);
+      let lower = r[i].toFixed(prec);
+      let upper = r[i+1].toFixed(prec);
       let item = {
         field: `${lower} -- ${upper}`,
         name: `${lower} -- ${upper}`,

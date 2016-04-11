@@ -70,6 +70,7 @@ export var settings = {
           domainLower: 0,
           domainUpper: .15,
           legendHeader: "Per Cent Unemploytment by U.S. County",
+          legendValPrecision: 3, // Defaults to 2
           width: 1200,
           height: 600,
           domainKey: 'id',
@@ -88,7 +89,7 @@ export var settings = {
         },
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getData'},
-      }, 
+      }, /*
       {
         header: 'GAChoropleth Test ][ - GEOJSON',
         type: 'GeojsonChoropleth',
@@ -115,7 +116,7 @@ export var settings = {
         },
         cardStyle: 'card',
         fetchData: 'getData'
-      },
+      }, */
     ],
     middleFirst: [
       {
