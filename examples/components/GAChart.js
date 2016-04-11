@@ -8,7 +8,8 @@ export default class GAChart extends Chart {
   }
 
   onData(data) {
-    data.json().then((data) => this.setData(data))
+    setTimeout(() => data.json().then((data) => this.setData(data)), 2000);
+
   }
 }
 

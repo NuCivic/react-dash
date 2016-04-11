@@ -7,7 +7,7 @@ export default class Loader extends Component {
     let content;
 
     if(this.props.isFeching) {
-      content = <div className="sp sp-slices"></div>;
+      content = <div className="loader"><div className="sp sp-slices"></div></div>;
     } else {
       content = <span>{this.props.children}</span>
     }

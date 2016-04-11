@@ -5,7 +5,7 @@
   "main": "./dist/react-dashboard.min.js",
   "scripts": {
     "start": "bash start.sh",
-    "build": "./node_modules/.bin/webpack --config webpack.config.production.js",
+    "build": "webpack --config webpack.config.production.js",
     "test": "bash runtests.sh",
     "lint": "eslint src"
   },
