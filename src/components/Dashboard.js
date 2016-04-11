@@ -10,18 +10,6 @@ export default class Dashboard extends BaseComponent {
     this.state = {data: []};
   }
 
-  componentWillMount() {
-    EventDispatcher.register(this.onAction.bind(this));
-  }
-
-  onAction(payload) {
-    switch(payload.actionType) {
-      case 'CHANGE':
-        this[payload.callback](payload);
-        break;
-    }
-  }
-
   render() {
     let layout = (typeof this.props.layout === 'string') ? Registry.get(this.props.layout) : this.props.layout;
     if(!layout) throw new Error(`Missing layout class ${this.props.layout}`);
