@@ -174,6 +174,9 @@ export var settings = {
 }
 ```
 
+
+### Fetch Data
+
 All the components has the ability to fechData in several ways. In this case we are configuring the GAChart component to use the method getCustomData to fetchData. This method should be implemented in the subclass and must return either a promise or an array with the data.
 
 For example:
@@ -317,7 +320,10 @@ import 'stylesheets/custom.css'
 
 Currently it accepts either a css or a sass file. You can also add import sentences inside to split the files. It's good to have a separate stylesheet for each component you are overriding. 
 
+
 ## Built-in Components
+
+
 ### Autocomplete
 
 The autocomplete it's using the react select component https://github.com/JedWatson/react-select. As result all the react select configurations can be passed in the element configuration.
@@ -339,7 +345,9 @@ Usually you will not need to extend this component because their behavior is pre
 * **name:** an arbitrary name.
 * **options:** an array with options (e.g.: [{ value: 'one', label: 'One' }])
 
+
 ### Metric
+
 Metrics are intended to display a computed single value to the end user. The basic class Metric should be extended to the methods to get each metric. 
 Normally you will compute metrics derived from the globalData prop by performing some aggregations. 
 
@@ -361,12 +369,12 @@ If you want to get the metric from a different resource that globalData then you
 * **caption:** a description to be displayed 
 * **options:** an array with options (e.g.: [{ value: 'one', label: 'One' }])
 
+
 ### Card
-A card is a html wrapper to keep the styles consistency across elements. This class can't be override it. 
 
-Card can't be configured but it display the header and footer configured in the element configuration object.
+A card is a html wrapper to keep the styles consistency across elements. This class can't be override it and will never be used directly. All the card configuration properties should be passed to the element you are rendering.
 
-For example:
+**For example:**
 
 ```javascript
 {
@@ -378,12 +386,15 @@ For example:
 }
 ```
 
+
 ### Dashboard
 
 This is the top parent element of a dashboard. Commonly you will extend the dashboard class with your custom dashboard subclass. The reason of this is you probably want to provide a custom way to fetch the data. 
 However if your data is just a plain CSV file (or any resource supported by backends) and you don't need to perform transformations on it then you can use the fetchData property.
 
+
 ### Text
+
 Text component allows you to create a block of text by setting the content property with the desired html.
 
 ```javascript
@@ -394,7 +405,9 @@ Text component allows you to create a block of text by setting the content prope
 }
 ```
 
+
 ### Table
+
 Table component provides a way to browse, filter, search and display datasets to end users. 
 
 ```javascript    
@@ -473,6 +486,7 @@ https://nvd3-community.github.io/nvd3/examples/documentation.html
 
 Notice all the chart configuration goes inside the settings object. **id, type, fetchData and height are mandatory.** If your data already have the x and y columns named properly then you don't need to specify the x and y settings. 
 
+
 ### Choropleth Map
 
 ```javascript
@@ -507,8 +521,10 @@ Notice all the chart configuration goes inside the settings object. **id, type, 
 },
 ```
 
+
 ### Goal
 
+It allows to define goals to accomplish. Those could be increase, decrease, maintain or messure something. 
 
 ```javascript
 {
@@ -553,9 +569,34 @@ Notice all the chart configuration goes inside the settings object. **id, type, 
 
 Let's take a look at the above example. In that case if your deviation is between 0 and 2 then the OnTrack label will be displayed because the first item of tolerance will be selected.
 Deviation is computed by projecting the number of units base on the startDate, endDate and endNumber and using a linear function. You can override the getTracker and the trackStatus functions if this projection doesn't fit with your needs.
+* spline: specify if display or not an spline chart below the goal. If you choose to display the goal then you can set an object with the configuration needed to display the spline (e.g.: height).
+
+### Loader
+
+This component allow components to display a loader while they are fetching data. If you are going to create a completely new component (it inherits eiter from Component or BaseComponent) then you can use it in this way:
+
+```javascript
+
+class MyComponent extends BaseComponent {
+  render(){
+    return (
+      <Loader isFeching={this.state.isFeching}>
+
+      </Loader>
+    );
+  }
+}
+
+As soon as state.isFetching is true then all the components inside <Loader> and </Loader> will be displayed.
+
+If you are extending from the BaseComponent and using the fetchData property to fetch resources then the isFeching state is handled for you.
+If you aren't using fetchData to fetch resources then you have to switch this variable manually.
+
+```
 
 
-## Development
+
+## Development and examples
 ```
 $ git clone git@github.com:NuCivic/react-dashboard.git
 $ npm install
@@ -563,13 +604,12 @@ $ npm start
 $ open http://localhost:3000
 ```
 
-## Builds
-### Standalone Development
-### Standalone Production
-### DKAN Development
-### DKAN Production
+## Boilerplate
+If you don't want to start from scratch you can use the react dashboard boilerplate https://github.com/NuCivic/react-dashboard-boilerplate
+
+It includes a working example with charts, a table, metrics, goals and a choropleth map. It also demonstrate how to fetch data and transform data from remote resources 
+
 
 ## To-do
-- Pass global data and arguments to default data handlers
 - Allow to rename columns in tables
 - Allow to pass strings instead of functions as tick formaters for charts
