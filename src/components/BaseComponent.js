@@ -42,8 +42,9 @@ export default class BaseComponent extends Component {
 
       // fetch data is a function in the subcomponent
       if(type === 'function' && isFunction(this[this.props.fetchData.name])) {
+        let args = this.props.fetchData.args || [];
         this.setState({isFeching: true});
-        this.fetchData().then(this.onData.bind(this));
+        this.fetchData(...args).then(this.onData.bind(this));
 
       // fetch data is a backend
       } else if(type === 'backend') {
@@ -100,7 +101,7 @@ export default class BaseComponent extends Component {
     this.setState({data: _data, total: _total, isFeching: false});
   }
 
-  emitChange(payload) {
+  emit(payload) {
     EventDispatcher.dispatch(payload);
   }
 }

@@ -14,7 +14,7 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
-import {execute} from '../utils/utils';
+import DashboardConstants from '../constants/DashboardConstants';
 
 
 export default class Autocomplete extends BaseComponent {
@@ -25,22 +25,16 @@ export default class Autocomplete extends BaseComponent {
   }
 
   onChange(value) {
-
     // The default behavior for us is change the value
     // of the input to reflect current selections
     this.setState({
       value: value
     });
 
-    // This allow developers to set an onChange event to
-    // change the state of the dashboard.
-    if(this.props.onChange) {
-      this.emitChange({
-        actionType: 'CHANGE',
-        callback: this.props.onChange,
-        value: value
-      });
-    }
+    this.emit({
+      actionType: DashboardConstants.AUTOCOMPLETE_CHANGE,
+      value: value
+    });
   }
 
   /**
@@ -51,13 +45,17 @@ export default class Autocomplete extends BaseComponent {
    */
   loadOptions(input, cb){
     let re = /\{\{(.+)\}\}/;
-    if(!this.props.url) cb(new Error("A url should be provided"), null);
-    return fetch(this.props.url.replace(re, input))
-      .then((response) => {
-        return response.json();
-      }).then((json) => {
-        return { options: json };
-      });
+    if(this.props.url) {
+      return fetch(this.props.url.replace(re, input))
+        .then((response) => {
+          return response.json();
+        }).then((json) => {
+          return { options: json };
+        });
+    } else if(this.props.options) {
+      return Promise.resolve({options: this.props.options, isLoading: false});
+    }
+    return  Promise.resolve({options: [], isLoading: false});
   }
 
   render(){

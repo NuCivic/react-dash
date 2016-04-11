@@ -3,12 +3,13 @@ import Registry from '../../src/utils/Registry';
 import Chart from '../../src/components/Chart';
 
 export default class GAChart extends Chart {
-  getData() {
+  getData(globalData) {
     return fetch('http://localhost:3004/data');
   }
 
   onData(data) {
-    data.json().then((data) => this.setData(data))
+    setTimeout(() => data.json().then((data) => this.setData(data)), 2000);
+
   }
 }
 
