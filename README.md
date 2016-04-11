@@ -312,7 +312,7 @@ onAction(action){
 ## Theming
 If you don't like the default styles or you want to customize them then you need to import the stylesheet you want to use:
 
-```
+```javascript
 // file: entry point 
 // standalone.js or dkan.js
 import 'stylesheets/custom.css'
