@@ -69,7 +69,11 @@ export default class Choropleth extends BaseComponent {
     let domainKey = this.props.settings.domainKey;
     Object.assign(this, { choroplethFunctions : {
         tooltipContent: d => {
-          return {rate: d.properties[d[domainKey]]};
+          let label = this.props.settings.tooltip.label;
+          let val = d[d[this.props.settings.domainMapKey]];
+          let tt = {};
+          tt[label] = val;
+          return tt;
         },
 
         domainValue: d => {
@@ -109,7 +113,6 @@ export default class Choropleth extends BaseComponent {
     if (this.props.fetchData) {
       this.fetchData().then(this.onData.bind(this)).catch(e => {
         console.log('Error fetching data', e);
-        console.trace();
       });
     }
     addStyleString(this.css());
@@ -190,7 +193,6 @@ export default class Choropleth extends BaseComponent {
         domain: [Number(settings.domainLower), Number(settings.domainUpper)],
         range: range(settings.levels).map(i => { return `${randKey}${i}-${settings.levels}`; })
      });
-     console.log('AA-s',dScale)
      return dScale;
   }
 
@@ -215,10 +217,9 @@ export default class Choropleth extends BaseComponent {
         settings.dataPolygon = settings.topodata.features;
       }
 
-      settings.scale = this.state.gridWidth;
+      settings.scale = this.props.settings.gridWidth;
 
       settings.domain = this.domainScale(this.state.domainData);
-      console.log('>>', settings);
      v = <div className="choropleth-container">
             <MapChoropleth ref="choropleth" {...settings} />
             <div className="legend-container">

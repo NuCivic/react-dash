@@ -57,12 +57,15 @@ export var settings = {
           legendHeader: "Per Cent Unemploytment by U.S. County",
           domainField: 'rate', // the data we are comparing
           legendValPrecision: 3, // Defaults to 2
-          width: 1200,
-          height: 600,
+          gridWidth: 900,
           dataset: {
             backend: 'csv',
             url: '/data/unemployment.tsv',
             delimiter: '\t'
+          },
+          tooltip: {
+            attr: 'rate', 
+            label: 'Unemployment rate'
           },
           mapFormat: 'topojson',
           mapDataUrl: '/data/us.json',
@@ -93,11 +96,14 @@ export var settings = {
             url: '/data/apollo-parsed-1737-325_0.csv',
             delimiter: ','
           },
+          tooltip: {
+            label: 'Accred',
+            attr: 'Accred. Time: Before 8 AM #'
+          },
           mapDataUrl: '/data/zones.geojson',
           mapFormat: 'geojson',
           showGraticule: false,
           gridWidth: 600,
-          height: 600,
           projection: 'conicConformal' // https://github.com/mbostock/d3/wiki/Geo-Projections
         },
         cardStyle: 'card',
