@@ -24,7 +24,7 @@ Because the main goal of this library is to be flexible and code give all the fl
 Using the boilerplate repository is the easiest way to start playing with this library.
 
 ```
-git clone git@github.com:NuCivic/react-dashboard-example.git
+git clone git@github.com:NuCivic/react-dashboard-boilerplate.git
 npm install
 npm run dev_standalone
 open http://localhost:5000
