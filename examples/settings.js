@@ -27,7 +27,7 @@ export var settings = {
         },
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getData'},
-      },
+      }, */
       {
         header: 'GAChoropleth Test',
         type: 'Choropleth',
@@ -57,7 +57,7 @@ export var settings = {
         },
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getData'},
-      }, */  
+      },   
       {
         header: 'GAChoropleth Test',
         type: 'Choropleth',
@@ -69,7 +69,6 @@ export var settings = {
           domainLower: 0, // specify domain range - this can also be overridden in the domainScale functionion()
           domainUpper: .15, // ibid.
           domainKey: 'id',
-          domainKeyName: 'id',
           legendHeader: "Per Cent Unemploytment by U.S. County",
           domainField: 'rate', // the data we are comparing
           legendValPrecision: 3, // Defaults to 2
@@ -92,17 +91,17 @@ export var settings = {
       }, 
       {
         header: 'GAChoropleth Test ][ - GEOJSON',
-        type: 'GeojsonChoropleth',
+        type: 'Choropleth',
         settings: {
           colors: ['red','green','yellow','purple','orange','pink','#252525','#000000'],
           cssPath: '/static/choropleth.css',
           showTooltip: {true},
           legendHeader: 'Accred. Time: Before 8 AM #',
-          levels: 8,
-          domainLower: 0,  
-          domainUpper: 400,
-          domainKey: 'Zone',
-          domainKeyName: 'Zone',
+          levels: 5,
+          domainLower: 10,  
+          domainUpper: 80,
+          domainKey: 'Zone', // map key in domain data
+          domainMapKey: 'name', // map key in map data
           domainField: 'Accred. Time: Before 8 AM #',
           dataset: {
             backend: 'csv',
