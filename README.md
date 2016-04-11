@@ -132,7 +132,7 @@ top, middleFirst, middleSecond, middleThird, middleFourth, goalsFirst, goalsSeco
 
 As final step you need to import into the application your just baked layout:
 
-```
+```javascript
 // This should be placed in the entry point
 import MyCustomLayout from './layouts/MyCustomLayout';
 ```
@@ -145,7 +145,7 @@ Then before start adding components you need to figure out how to get the data t
 
 Let's try to add a chart:
 
-```
+```javascript
 export var settings = {
   title: 'Georgia Reports',
   regions: {
@@ -345,7 +345,7 @@ Normally you will compute metrics derived from the globalData prop by performing
 
 If you want to get the metric from a different resource that globalData then you can add the fetchData property and configure it to fecth the data you want.
 
-```
+```javascript
 {
   type:'GAMetric',
   background: '#9F3E69',
@@ -386,7 +386,7 @@ However if your data is just a plain CSV file (or any resource supported by back
 ### Text
 Text component allows you to create a block of text by setting the content property with the desired html.
 
-```
+```javascript
 {
   header: 'This is an awesome text',
   type: 'Text',
@@ -397,7 +397,7 @@ Text component allows you to create a block of text by setting the content prope
 ### Table
 Table component provides a way to browse, filter, search and display datasets to end users. 
 
-```      
+```javascript    
 {
   type: 'GATable',
   header: 'Mi titulo',
@@ -443,6 +443,13 @@ Table component provides a way to browse, filter, search and display datasets to
   - **overrides:** allows to override configurations for the cell in the row number used as key.
 
 ### Chart
+Chart component is a wrapper of the react-nvd3 library which also is a wrapper of the nvd3 chart library. Therefore all the charts and options available in nvd3 are also available in this component.
+
+#### React NVD3 documentation: 
+https://github.com/NuCivic/react-nvd3
+
+#### NVD3 documentation: 
+https://nvd3-community.github.io/nvd3/examples/documentation.html
 
 ```javascript
 {
@@ -463,6 +470,9 @@ Table component provides a way to browse, filter, search and display datasets to
   fetchData: {type:'function', name: 'getData'},
 }
 ```
+
+Notice all the chart configuration goes inside the settings object. **id, type, fetchData and height are mandatory.** If your data already have the x and y columns named properly then you don't need to specify the x and y settings. 
+
 ### Choropleth Map
 
 ```javascript
@@ -499,6 +509,7 @@ Table component provides a way to browse, filter, search and display datasets to
 
 ### Goal
 
+
 ```javascript
 {
   type: 'GAGoal',
@@ -525,6 +536,24 @@ Table component provides a way to browse, filter, search and display datasets to
   metric: 'getRandomMetric'
 }
 ```
+**Available settings**
+* **caption:** caption text using in the component. Only plain text is allowed. 
+* **link:** a url to redirect users when they click in the goal.
+* **startDate:** date when you start to messure your goal
+* **endDate:** date when you needs to reach the goal.
+* **startNumber:** amount of units you start with. 
+* **endNumber:** amout of units you want to reach.
+* **action:** the action you want to accomplish. There are 6 possible values:
+  -  increase: your goal is to increase the number of units. If the number of units are equal or greater than the endNumber then goal is on track.
+  -  decrease: your goal is to decrease the number of units. If the number of units are equal or lower than the endNumber then goal is on track.
+  - maintain_above: this action is very similar to the increase action except  startNumber and endNumber should be set at the same number.
+  - maintain_below: this action is very similar to the decrease action except  startNumber and endNumber should be set at the same number.
+  - mesure: in this case you don't want to reach a goal but just display a mesure.
+* tolerance: allow you to define a tolerance to define the status of your goal. 
+
+Let's take a look at the above example. In that case if your deviation is between 0 and 2 then the OnTrack label will be displayed because the first item of tolerance will be selected.
+Deviation is computed by projecting the number of units base on the startDate, endDate and endNumber and using a linear function. You can override the getTracker and the trackStatus functions if this projection doesn't fit with your needs.
+
 
 ## Development
 ```
