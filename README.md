@@ -17,8 +17,8 @@ There is no UI to create **React Dashboards**. Everything is generated from code
 The main goal of this library is to be flexible for developers, and using code provides the greatest flexibility.
 
 ## Requirements
-* React (add links to these resources)
-* *ReactDOM*
+* React (https://facebook.github.io/react/)
+* ReactDOM
 
 ## Quick start
 Using the boilerplate repository is the easiest way to start playing with this library.
@@ -64,6 +64,32 @@ To start, you need to create a class extending the **Dashboard** base class.
 In the above example, notice we're the <GADashboard/> component, **not** a <Dashboard/> component. That's because most of the base components are useless without the custom implementation for the project you're working on.
 
 They're like abstract classes, and you need to provide the business logic to make it work.
+
+```javascript
+import React, { Component } from 'react';
+import {Dashboard} from '../src/ReactDashboard';
+import Dataset from '../src/models/Dataset';
+
+
+export default class GADashboard extends Dashboard {
+
+  constructor(props) {
+    super(props);
+    this.state = {data: []};
+  }
+
+  onAction(payload) {
+    switch(payload.actionType) {
+      case 'AUTOCOMPLETE_CHANGE':
+        console.log('AUTOCOMPLETE_CHANGE');
+        break;
+    }
+  }
+
+}
+```
+
+
 
 ## Dashboard configuration
 A dashboard configuration looks like this:
@@ -679,6 +705,11 @@ dataset.fetch().then(() => {
 });
 ```
 
+#### Query
+Since models were ported from recline the query object keeps the same shape. However you **don't** need to create a QueryState object, you can use plain javascript objects instead.
+
+To see the full list of available options see http://okfnlabs.org/recline/docs/models.html#query
+
 ### Backends
 There are a few backends available but more are coming. 
 
@@ -713,11 +744,19 @@ let dataset = new Dataset(conf);
 
 
 ## Development and examples
+
+To run examples:
 ```
 $ git clone git@github.com:NuCivic/react-dashboard.git
 $ npm install
 $ npm start
 $ open http://localhost:3000
+```
+
+Before commit please run:
+
+```javascript
+npm build
 ```
 
 ## Boilerplate
