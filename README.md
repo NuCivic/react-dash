@@ -1,6 +1,5 @@
 React Dashboard
 ===============
-
 ## What's React Dashboard
 * A collection of tools (components + utils) that can be used to create dashboards programatically.
 * A a framework to speed up dashboards creation.
@@ -9,6 +8,40 @@ React Dashboard
 ## What React Dashboard is not
 * Not a tool to transform data.
 * Not an end-user tool.
+
+## Features
+* **Extreme customizable components**
+* **Component communication through actions**
+* **Ability to fetch data in different formats** like: CSV, DKAN resources, CartoDB tables, etc. (in progress: XLSX, CKAN resources, Google Spreadsheets)
+* **Ability to query data:** filter, paginate, facets, etc.
+* **Fully serializable:** then you can save a dashboard in a database.
+* **Themeable**
+* **A lot of available charts provided by NVD3**
+  - boxPlot
+  - bullet
+  - candlestickBar
+  - cumulativeLine
+  - discreteBar
+  - historicalBar
+  - line
+  - line with bar
+  - line with focus widget
+  - multiBar
+  - multiBarHorizontal
+  - ohlcBar
+  - parallelCoordinates
+  - pie
+  - scatter / bubble
+  - stackedArea
+  - sunburst
+* **A lot of components ready to use:**
+  - Table
+  - Autocomplete
+  - Goal
+  - Metric
+  - Tex
+  - Choropleth
+* **Extensible:** you can add new react components. In fact you can include any react component and pass the properties as settings.
 
 ### Where is the UI to build dashboards?
 There is no UI to create **React Dashboards**. Everything is generated from code.
