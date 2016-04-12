@@ -26,11 +26,14 @@ module.exports = function (config) {
     },
     webpack: {
       module: {
-        loaders: [{
-          test: /\.(js|jsx)$/, exclude: /(bower_components|node_modules)/,
-          loader: 'babel-loader',
-          query: {compact: false}
-        }]
+        loaders: [
+          {
+            test: /\.(js|jsx)$/, exclude: /(bower_components|node_modules)/,
+            loader: 'babel-loader',
+            query: {compact: false}
+          },
+          { test: /\.css$/, loader: "style-loader!css-loader" }
+        ]
       }
     },
     webpackMiddleware: { noInfo: true }

@@ -55,6 +55,7 @@ function fetchStyleSheet(url) {
 
 export default class Choropleth extends BaseComponent {
   constructor(props){
+    console.log('loady');
 		super(props);
     this.levels = this.props.settings.levels;
     this.randKey = makeKey(4);
