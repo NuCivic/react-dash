@@ -65,13 +65,13 @@ open http://localhost:5000
 
 ## How it works
 
-All the dashboard configuration is stored in a javascript object inside the file *src/settings.js*. It's a hierarchical representation of a dashboard. They are composed of regions and each region stores elements. These elements contain the required information to instantiate a *React* component base in the type key.
+Dashboard configuration is stored as a javascript object inside the file *src/settings.js*. It's a hierarchical representation of a dashboard. Each dashboard is composed of regions and each region stores elements. These elements contain the required information to instantiate a *React* component based on the _type_ key.
 
-When a dashboard is created it uses the layout configured in the settings. This layout calls the *renderRegion* method, which iterates over all the elements for that region. Then the *renderRegion* method creates the *React* component with the name set in the type key of that object. The rest of properties of this object are passed to the component as *React* props.
+When a dashboard is created it uses the _layout_ configured in the settings. The _layout_ is then loaded by the *renderRegion* method, which iterates over all the elements for that region. Then the *renderRegion* method creates the *React* component with the name set in the _type_ key of that settings object. The rest of the properties of this object are passed to the component as *React* _props_.
 
 
 ## Entry point
-The entry point of the application is either the *src/standalone.js* or *src/dkan.js* depending on the environment you want to use. All the custom components you create need to be imported into this file. For example, we're importing the custom component *GAChart* which is a subclass of the *Chart* component.
+The entry point to the application is either the *src/standalone.js* or *src/dkan.js* file, depending on which environment you are using. **_All of the custom components you create need to be imported into this file._** For example, we're importing the custom component *GAChart* which is a subclass of the *Chart* component.
 
 Once the custom components are imported we need to wait until the *dom* is ready and then render the dashboard in the *target dom* element.
 
@@ -83,6 +83,7 @@ import GAMetric from './components/GAMetric';
 import GAGoal from './components/GAGoal';
 import MyCustomLayout from './layouts/MyCustomLayout';
 import GADashboard from './dashboard';
+import settings from 'settings';
 
 /**
  * This renders the GADAshboard
@@ -92,11 +93,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
 });
 ```
 
-To start, you need to create a class extending the **Dashboard** base class. 
+To start, create a class that extends the **Dashboard** base class. 
 
-In the above example, notice we're the <GADashboard/> component, **not** a <Dashboard/> component. That's because most of the base components are useless without the custom implementation for the project you're working on.
+In the above example, notice that we use the <GADashboard/> component, **not** a <Dashboard/> component. That's because most of the base components are useless without the custom implementation for the project you're working on.
 
-They're like abstract classes, and you need to provide the business logic to make it work.
+They're like abstract classes, and you need to provide the business logic to make them work.
 
 ```javascript
 import React, { Component } from 'react';
@@ -144,14 +145,15 @@ export var settings = {
 }
 ```
 
-The name of that region should be available in the layout you are currently using. 
+The name of each region should be available in the layout you are currently using. 
 
 ## Layouts
-To define a custom layout you need to extend from the base class layout. That class provides the *renderRegion* method you need to use to render regions.
+To define a custom layout you need to extend from the base class *layout*. That class provides the *renderRegion* method you need to use to render regions.
 
-**Note**: This must come at the end the *Registry.set* call. 
+**Note**: You must call *Registry.set* after defining and exporting the layout. 
 
-That's mandatory to register a new layout in the dashboard. The same applies to any custom components you create.
+It is mandatory to register a new layout in the dashboard. 
+The same applies to any custom components you create.
 
 ```javascript
 import React from 'react';
@@ -290,7 +292,7 @@ But returning an array with data from a function is not very exciting. However w
   }
 
 ```
-If the data to be used is static then we can place it in the element configuration at the settings file:
+If the data to be used is static then we can place it in the element's configuration in the settings file:
 
 ```javascript
 {
@@ -369,7 +371,7 @@ This is handled through **actions**.
 
 All components have a method called *emit*. Emit triggers actions and an *onAction method* that is automatically called when an action is fired from any component.
 
-It's worth mentioning the *emit method* can fire any javascript object. By convention it should have an *actionType* but the rest is up to you.
+It's worth mentioning the *emit method* returns a regular javascript object. By convention it should have an *actionType* but the rest is up to you.
 
 ```javascript
 
@@ -409,7 +411,7 @@ Currently you can use either a *css* or a *sass* file. You can also add import s
 Some settings are shared across all the components. This is the complete list of shared settings:
 
 **Available settings**
-* **fetchData:** allow you to define the fetching data strategy to be used in the current component.
+* **fetchData:** define the fetch data strategy used in the current component.
 * **queryObj:** the query to be used after data fetching. For example this would allow you to filter the raw dataset for pagination.
 
 
@@ -434,14 +436,96 @@ Usually you won't need to extend this component. Autocomplete has standard behav
 * **name:** an arbitrary name.
 * **options:** an array with options (e.g.: [{ value: 'one', label: 'One' }])
 
+### Choropleth
+The **Choropleth** element provides a choropleth map (also known as a "heat map") and a legend. The component uses a set of functions (*choroplethFunctions*) to map domain data to map polygons. The following elements are required to generate the Choropleth:
+
+#### Map Data
+Map data provides features suitable for rendering a d3 map. Two formats are supported: **topojson** and **geojson**. 
+**Required topojson settings**
+* **polygon:** [_string_] dictates what objects to use to map polygons
+* **mesh:** [_string_] key to topojson mesh object
+
+#### Domain Data
+Domain data provides the statistical data necessary to calculate the levels of the choropleth. As with all components, this can be provided by the *globalData* paramter, or fetched via *getData*.
+In order to play well with the default choropleth functions, *domain  data* should be formatted so that a 
+
+#### Settings
+**Required settings**
+* **mapDataUrl:** A url to a valid geojson or topojson object
+* **mapFormat:** Either **topojson** or **geojson**
+* **dataset:** [_object_] an object containing paramaters to instantiate a data backend (see backends)
+* **legendHeader:** Header text appears above Legend
+* **levels:** [_int_] Number of levels to calculate for choropleth
+* **domainLower:** Lower limit when calculating levels
+* **domainUpper:** Upper limit when calculating levels
+* **domainKey:** A key value to associate a row of domain data with a map polygon
+* **domainMapKey:** The map polygon associated with the domain data key above
+* **domainField:** The field in a domain data row which contains the value to compare
+* **tooltip:** [_object_] An object contain a **label** attribute and an *attr* attribute which contains the key to an element in domain data row
+* **showTooltip:** [_boolean_]
+
+#### Internals
+Internally, the **choropleth component** uses the **getChoroplethFunctions** method to create a dictionary of functions which determine the choropleth behavior:
+```javascript
+roplethFunctions() {
+    let domainField = this.props.settings.domainField;
+    let domainKey = this.props.settings.domainKey;
+    let dict = {
+	/**
+	 * Returns an object to be rendered as tooltip content
+         * {
+         *  someKeyName : theValue
+         * }
+         */
+        tooltipContent: d => {
+          let label = this.props.settings.tooltip.label;
+          let val = d[d[this.props.settings.domainMapKey]];
+          let tt = {};
+          tt[label] = val;
+          return tt;
+        },
+
+        /**
+         * The item from a domainData row to evaluate
+         **/
+        domainValue: d => {
+          return Number(d[domainField]);
+        },
+
+        /**
+         * The domainData key associated with a map arrea
+         **/
+        domainKey: d => {
+          return d[domainKey];
+        },
+
+        /**
+         * The map area key associated with a row of domain data
+         **/
+        mapKey: d => {
+          Object.assign(d, d.properties);
+
+          return d[this.props.settings.domainMapKey];
+          return d.properties[this.props.settings.domainMapKey]; //omainKey;
+        }
+
+    };
+
+    return dict;
+  }
+```
+**Choropleth functions**
+* **domainValue:** The function, when applied to a row **d** of domain data should return a value for evaluation in the choropleth (for instance, the unemployment rate of a county, birth rate of a state, etc)
+* **domainKey:** This function should return a value that will associate the row of data with a map region.
+* **mapKey:** Should return a value equal to domainKey, above.
+* **tooltipContent:** Return a key/value pair which is displayed as tooltip on hover. **d** is the current row of data. (example: {unemploymentRate : d[rate]})
 
 ### Metrics
 
-**Metrics** are intended to display a computed single value to the end-user. The basic class **Metrics** should be extended to the methods to get each metric. 
+**Metrics** are intended to display a computed single value to the end-user. The basic class **Metrics** should be extended in order to override the base component's _getMetric_ function. 
 
-You'll compute metrics derived from the *globalData* prop by performing some aggregations. 
-
-To get the metric from a resource other than *globalData*, you can add the *fetchData* property and configure it to fecth the data you want.
+Your custom _getMetric_ function can compute metrics derived from the *globalData* prop.
+As with all components you can override the *fetchData* property to fecth external data.
 
 ```javascript
 {
