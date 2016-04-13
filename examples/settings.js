@@ -53,6 +53,7 @@ export var settings = {
           domainKey: 'id',
           domainMapKey: 'id',
           legendHeader: "Per Cent Unemploytment by U.S. County",
+          legendValFormat: '%', // format string for d3.format function
           domainField: 'rate', // the data we are comparing
           legendValPrecision: 3, // Defaults to 2
           gridWidth: 900,
