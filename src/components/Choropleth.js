@@ -18,7 +18,7 @@ import Registry from '../utils/Registry';
 import {makeKey} from '../utils/utils';
 import {MapChoropleth} from 'react-d3-map-choropleth';
 import {mesh, feature} from 'topojson';
-import {range} from 'd3';
+import {range, format} from 'd3';
 import Dataset from '../models/Dataset';
 
 
@@ -55,19 +55,20 @@ function fetchStyleSheet(url) {
 
 export default class Choropleth extends BaseComponent {
   constructor(props){
+    console.log('loady');
 		super(props);
     this.levels = this.props.settings.levels;
     this.randKey = makeKey(4);
-    this.assignChoroplethFunctions();
+    Object.assign(this, this.getChoroplethFunctions());
 	}
 
   /**
    * Override in sublass to customize behavior
    **/
-  assignChoroplethFunctions() {
+  getChoroplethFunctions() {
     let domainField = this.props.settings.domainField;
     let domainKey = this.props.settings.domainKey;
-    Object.assign(this, { choroplethFunctions : {
+    let dict = { choroplethFunctions : {
         tooltipContent: d => {
           let label = this.props.settings.tooltip.label;
           let val = d[d[this.props.settings.domainMapKey]];
@@ -91,7 +92,9 @@ export default class Choropleth extends BaseComponent {
           return d.properties[this.props.settings.domainMapKey]; //omainKey;
         }
       }
-		});
+		};
+
+    return dict;
   }
 
   // fetchData should set topoData and domainData
@@ -169,12 +172,14 @@ export default class Choropleth extends BaseComponent {
     let series = [];
     let domainScale = this.domainScale(this.state.domainData);
     let step = ((domainScale.domain[1] - domainScale.domain[0]) / this.props.settings.levels);
+    let formatString = this.props.settings.legendValFormat || 'f';
+    let formatPrecision = this.props.settings.legendValPrecision || 2;
+    let formatter = format(formatString, formatPrecision);
     let r = range(domainScale.domain[0],  domainScale.domain[1], step);
     r.push(domainScale.domain[1]);
-    let prec = this.props.settings.legendValPrecision;
     for (var i = 0; i < this.levels; i++) {
-      let lower = r[i].toFixed(prec);
-      let upper = r[i+1].toFixed(prec);
+      let lower = formatter(r[i]);
+      let upper = formatter(r[i+1]);
       let item = {
         field: `${lower} -- ${upper}`,
         name: `${lower} -- ${upper}`,
