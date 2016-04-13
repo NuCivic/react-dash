@@ -1,30 +1,63 @@
 React Dashboard
 ===============
-
 ## What's React Dashboard
-* It's a collection of tools (components + utils) that can be used to create dashboards programatically.
-* It's a framework to speed up dashboards creation.
+* A collection of tools (components + utils) that can be used to create dashboards programatically.
+* A a framework to speed up dashboards creation.
 * components + configurations + data
 
-## What's not React Dashboard
-* Is not a tool to transform data.
-* Is not an end user tool.
+## What React Dashboard is not
+* Not a tool to transform data.
+* Not an end-user tool.
 
-## Where is the UI to build dashboards
-There is no UI. All is created from code.
+## Features
+* **Extreme customizable components**
+* **Component communication through actions**
+* **Ability to fetch data in different formats** like: CSV, DKAN resources, CartoDB tables, etc. (in progress: XLSX, CKAN resources, Google Spreadsheets)
+* **Ability to query data:** filter, paginate, facets, etc.
+* **Fully serializable:** then you can save a dashboard in a database.
+* **Themeable**
+* **A lot of available charts provided by NVD3**
+  - boxPlot
+  - bullet
+  - candlestickBar
+  - cumulativeLine
+  - discreteBar
+  - historicalBar
+  - line
+  - line with bar
+  - line with focus widget
+  - multiBar
+  - multiBarHorizontal
+  - ohlcBar
+  - parallelCoordinates
+  - pie
+  - scatter / bubble
+  - stackedArea
+  - sunburst
+* **A lot of components ready to use:**
+  - Table
+  - Autocomplete
+  - Goal
+  - Metric
+  - Tex
+  - Choropleth
+* **Extensible:** you can add new react components. In fact you can include any react component and pass the properties as settings.
 
-## Why?
-Because the main goal of this library is to be flexible and code give all the flexibility we need.
+### Where is the UI to build dashboards?
+There is no UI to create **React Dashboards**. Everything is generated from code.
+
+### Why?
+The main goal of this library is to be flexible for developers, and using code provides the greatest flexibility.
 
 ## Requirements
-* React
+* React (https://facebook.github.io/react/)
 * ReactDOM
 
 ## Quick start
 Using the boilerplate repository is the easiest way to start playing with this library.
 
 ```
-git clone git@github.com:NuCivic/react-dashboard-example.git
+git clone git@github.com:NuCivic/react-dashboard-boilerplate.git
 npm install
 npm run dev_standalone
 open http://localhost:5000
@@ -32,15 +65,15 @@ open http://localhost:5000
 
 ## How it works
 
-All the dashboard configuration is stored in a javascript object inside the file src/settings.js. It's a hierarchical representation of a dashboard. They are composed of regions and each region store elements. This elements contains the required information to instantiate a React component base in the type key.
+All the dashboard configuration is stored in a javascript object inside the file *src/settings.js*. It's a hierarchical representation of a dashboard. They are composed of regions and each region stores elements. These elements contain the required information to instantiate a *React* component base in the type key.
 
-When a dashboard is created it uses the layout configured in the settings an this layout call the renderRegion method which iterates over all the elements for that region. Then the renderRegion method creates the React component with the name set in the type key of that object. Rest of properties of this object is passed to the component as react props.
+When a dashboard is created it uses the layout configured in the settings. This layout calls the *renderRegion* method, which iterates over all the elements for that region. Then the *renderRegion* method creates the *React* component with the name set in the type key of that object. The rest of properties of this object are passed to the component as *React* props.
 
 
 ## Entry point
-The entry point of the application is either the src/standalone.js or src/dkan.js depending on the environment you want to use. All the custom components you create needs to be imported in this file. For example we are importing the custom component GAChart which is a subclass of the Chart component.
+The entry point of the application is either the *src/standalone.js* or *src/dkan.js* depending on the environment you want to use. All the custom components you create need to be imported into this file. For example, we're importing the custom component *GAChart* which is a subclass of the *Chart* component.
 
-With all the custom components imported we need to wait until the dom is ready and then render the dashboard in the target dom element.
+Once the custom components are imported we need to wait until the *dom* is ready and then render the dashboard in the *target dom* element.
 
 ```javascript
 import GAChart from './components/GAChart';
@@ -59,8 +92,37 @@ document.addEventListener('DOMContentLoaded', function(event) {
 });
 ```
 
-To start you need to create a class extending the Dashboard base class. In the above example you could notice we are not rendering a <Dashboard/> component but the <GADashboard/> component. This is because most of base components are useless without the custom implementation for the project you are working on.
-They are like abstract classes and you need to provide the bussines logic to make it work.
+To start, you need to create a class extending the **Dashboard** base class. 
+
+In the above example, notice we're the <GADashboard/> component, **not** a <Dashboard/> component. That's because most of the base components are useless without the custom implementation for the project you're working on.
+
+They're like abstract classes, and you need to provide the business logic to make it work.
+
+```javascript
+import React, { Component } from 'react';
+import {Dashboard} from '../src/ReactDashboard';
+import Dataset from '../src/models/Dataset';
+
+
+export default class GADashboard extends Dashboard {
+
+  constructor(props) {
+    super(props);
+    this.state = {data: []};
+  }
+
+  onAction(payload) {
+    switch(payload.actionType) {
+      case 'AUTOCOMPLETE_CHANGE':
+        console.log('AUTOCOMPLETE_CHANGE');
+        break;
+    }
+  }
+
+}
+```
+
+
 
 ## Dashboard configuration
 A dashboard configuration looks like this:
@@ -82,12 +144,14 @@ export var settings = {
 }
 ```
 
-The name of that regions should be available in the layout you are currently using. 
+The name of that region should be available in the layout you are currently using. 
 
 ## Layouts
-To define a custom layout you need to extend from the base class Layout. That class provides the renderRegion method you need to use to render regions.
+To define a custom layout you need to extend from the base class layout. That class provides the *renderRegion* method you need to use to render regions.
 
-Note at the end the Registry.set call. That's mandatory in order to let it know to the dashboard the existence of a new layout. The same applies to all the custom components you create.
+**Note**: This must come at the end the *Registry.set* call. 
+
+That's mandatory to register a new layout in the dashboard. The same applies to any custom components you create.
 
 ```javascript
 import React from 'react';
@@ -127,10 +191,19 @@ export default class MyCustomLayout extends Layout {
 Registry.set('MyCustomLayout', MyCustomLayout);
 ```
 
-In the example we are using a custom layout with the following regions:
-top, middleFirst, middleSecond, middleThird, middleFourth, goalsFirst, goalsSecond, goalsThird, left, right and bottom.
+In our example, we're using a custom layout with the following regions:
 
-As final step you need to import into the application your just baked layout:
+* top 
+* middleFirst 
+* middleSecond 
+* middleThird 
+* middleFourth 
+* goalsFirst 
+* goalsSecond 
+* goalsThird 
+* left, right and bottom
+
+As the final step, import your new layout into the dashboard:
 
 ```javascript
 // This should be placed in the entry point
@@ -139,11 +212,11 @@ import MyCustomLayout from './layouts/MyCustomLayout';
 
 ## Adding components
 
-Most of components uses data pulled from somewhere to produce an output (there are some exceptions like the Text component which get the data from its configuration). 
+Most components pull data from an external source to produce an output (there are some exceptions like the *Text* component, which pulls data from its configuration). 
 
-Then before start adding components you need to figure out how to get the data to feed the component. 
+Before you start adding components, you'll need to determine the data source that will feed the component. 
 
-Let's try to add a chart:
+### Let's try to add a chart:
 
 ```javascript
 export var settings = {
@@ -177,7 +250,7 @@ export var settings = {
 
 ### Fetch Data
 
-All the components has the ability to fechData in several ways. In this case we are configuring the GAChart component to use the method getCustomData to fetchData. This method should be implemented in the subclass and must return either a promise or an array with the data.
+All components have the ability to fech data in several ways. In this case, we're configuring the *GAChart* component to use the method *getCustomData* to fetch data. This method should be implemented in the subclass and must return either a promise or an array with the data.
 
 For example:
 
@@ -207,9 +280,9 @@ class GAChart extends Chart {
 } 
 
 ```
-In the above example we have two different methods to fetch data. The first one it's a synchronous call that retrives an array. 
+In the example above we have two different methods to fetch data. The first one is a synchronous call that retrieves an array. 
 
-But return an array with data from a function is not very exciting. However we can acces to the data loaded by the dashboard and then process that global data to obtain the data for this element:
+But returning an array with data from a function is not very exciting. However we can access the data loaded by the dashboard and then process that global data to get the data for this element:
 
 ```javascript
   getCustomData() {
@@ -226,7 +299,10 @@ If the data to be used is static then we can place it in the element configurati
 
 ```
 
-If you look at the method getCustomData2 you'll notice we don't transform the data in any way. We are using the csv as it is. If that your case then you can use the following method:
+
+If you look at the method *getCustomData2* you'll notice we don't transform the data in any way. We're using the csv as-is. If that's your case then you can use the following method:
+
+
 
 ```javascript
 {
@@ -273,21 +349,27 @@ export default class MyCustomLayout extends Layout {
 Registry.set('MyCustomLayout', MyCustomLayout); 
 ```
 
-Layouts are composed of regions. You can create any number of regions by calling the renderRegion method with the region object: 
+### Creating a region
+
+Layouts are composed of regions. You can create any number of regions by calling the *renderRegion* method with the region object: 
+
 
 ```javascript
 {this.renderRegion(this.props.regions.myCustomRegion)}
 ```
-Note that we are registering the component using the Registry set method. This is a requirement to make Components available inside layouts. Every time you create a new component you'll need to register it.
+
+**Note**: We're registering the component using the *Registry set* method. 
+
+This is a requirement to make components available inside layouts. Every time you create a new component you'll need to register it.
 
 ## Actions
-Sometimes you need to notify other components about a change that happen in the application. 
+Sometimes you need to tell other components about a change that happened in your dashboard. For example, a change in the underlying dashboard data after adding a new selection in the autocomplete. 
 
-For example change the underlying dashboard data right after the user added a new selection in the autocomplete. Such communication is handled through actions. 
+This is handled through **actions**. 
 
-All the components have a method called emit which purpose is to fire actions and an onAction method that is automatically called when an action is fired from any component.
+All components have a method called *emit*. Emit triggers actions and an *onAction method* that is automatically called when an action is fired from any component.
 
-It's worth mentioning the emit method could fire any javascript object. By convention it should have an actionType but the rest is up to you.
+It's worth mentioning the *emit method* can fire any javascript object. By convention it should have an *actionType* but the rest is up to you.
 
 ```javascript
 
@@ -310,25 +392,32 @@ onAction(action){
 ```
 
 ## Theming
-If you don't like the default styles or you want to customize them then you need to import the stylesheet you want to use:
+The **React Dashboard** comes with default styles, but you can also customize them by importing a stylesheet. 
 
-```
+```javascript
 // file: entry point 
 // standalone.js or dkan.js
 import 'stylesheets/custom.css'
 ```
 
-Currently it accepts either a css or a sass file. You can also add import sentences inside to split the files. It's good to have a separate stylesheet for each component you are overriding. 
+Currently you can use either a *css* or a *sass* file. You can also add import sentences inside to split the files. It's good to have a separate stylesheet for each component you are overriding. 
 
 
 ## Built-in Components
 
+### Shared settings
+Some settings are shared across all the components. This is the complete list of shared settings:
+
+**Available settings**
+* **fetchData:** allow you to define the fetching data strategy to be used in the current component.
+* **queryObj:** the query to be used after data fetching. For example this would allow you to filter the raw dataset for pagination.
+
 
 ### Autocomplete
 
-The autocomplete it's using the react select component https://github.com/JedWatson/react-select. As result all the react select configurations can be passed in the element configuration.
+Autocomplete uses the *react select component* https://github.com/JedWatson/react-select. As a result all the *react select* configurations can be passed in the element configuration.
 
-Usually you will not need to extend this component because their behavior is pretty standard and its highly configurable.
+Usually you won't need to extend this component. Autocomplete has standard behavior and is highly configurable.
 
 
 ```javascript     
@@ -346,12 +435,13 @@ Usually you will not need to extend this component because their behavior is pre
 * **options:** an array with options (e.g.: [{ value: 'one', label: 'One' }])
 
 
-### Metric
+### Metrics
 
-Metrics are intended to display a computed single value to the end user. The basic class Metric should be extended to the methods to get each metric. 
-Normally you will compute metrics derived from the globalData prop by performing some aggregations. 
+**Metrics** are intended to display a computed single value to the end-user. The basic class **Metrics** should be extended to the methods to get each metric. 
 
-If you want to get the metric from a different resource that globalData then you can add the fetchData property and configure it to fecth the data you want.
+You'll compute metrics derived from the *globalData* prop by performing some aggregations. 
+
+To get the metric from a resource other than *globalData*, you can add the *fetchData* property and configure it to fecth the data you want.
 
 ```javascript
 {
@@ -372,7 +462,7 @@ If you want to get the metric from a different resource that globalData then you
 
 ### Card
 
-A card is a html wrapper to keep the styles consistency across elements. This class can't be override it and will never be used directly. All the card configuration properties should be passed to the element you are rendering.
+A **Card** is a html wrapper to keep the styles consistent across elements. This class can't be overridden, and it will never be used directly. All the card configuration properties should be passed to the element you are rendering.
 
 **For example:**
 
@@ -386,16 +476,21 @@ A card is a html wrapper to keep the styles consistency across elements. This cl
 }
 ```
 
-
 ### Dashboard
 
-This is the top parent element of a dashboard. Commonly you will extend the dashboard class with your custom dashboard subclass. The reason of this is you probably want to provide a custom way to fetch the data. 
-However if your data is just a plain CSV file (or any resource supported by backends) and you don't need to perform transformations on it then you can use the fetchData property.
+This is the top parent element of a **Dashboard**. You'll typically extend the dashboard class with your custom dashboard subclass so that you can create a custom way to fetch data. 
+
+If your data is a plain CSV file (or any resource supported by backends) and you don't need to perform transformations on it then you can use the *fetchData* property.
+
+**Available settings**
+* **title:** Dashboard title.
+* **layout:** Layout class name to be used in the dashboard. You can pass this as any other *react prop* if you want.
 
 
 ### Text
 
-Text component allows you to create a block of text by setting the content property with the desired html.
+**Text** component allows you to create a block of text by setting the content property with the desired html.
+
 
 ```javascript
 {
@@ -406,9 +501,12 @@ Text component allows you to create a block of text by setting the content prope
 ```
 
 
+**Available settings**
+* **content:** the html content to display.
+
 ### Table
 
-Table component provides a way to browse, filter, search and display datasets to end users. 
+**Table** component provides a way to browse, filter, search and display datasets to end-users. 
 
 ```javascript    
 {
@@ -455,14 +553,10 @@ Table component provides a way to browse, filter, search and display datasets to
   - **settings.cells:** allows to configure all the properties for cells
   - **overrides:** allows to override configurations for the cell in the row number used as key.
 
+
 ### Chart
-Chart component is a wrapper of the react-nvd3 library which also is a wrapper of the nvd3 chart library. Therefore all the charts and options available in nvd3 are also available in this component.
+**Chart** component is a wrapper of the *react-nvd3* library, which is also a wrapper of the *nvd3* chart library. That meanas all the charts and options available in nvd3 are also available in this component.
 
-#### React NVD3 documentation: 
-https://github.com/NuCivic/react-nvd3
-
-#### NVD3 documentation: 
-https://nvd3-community.github.io/nvd3/examples/documentation.html
 
 ```javascript
 {
@@ -484,10 +578,19 @@ https://nvd3-community.github.io/nvd3/examples/documentation.html
 }
 ```
 
-Notice all the chart configuration goes inside the settings object. **id, type, fetchData and height are mandatory.** If your data already have the x and y columns named properly then you don't need to specify the x and y settings. 
+Notice that all the chart configuration goes inside the settings object. 
 
+**id, type, fetchData and height are mandatory.** 
+
+If the x and y columns on your data already have the names you want, then you don't need to specify the x and y settings. 
+
+**Available settings**
+
+**React NVD3 documentation:** https://github.com/NuCivic/react-nvd3
+**NVD3 documentation:** https://nvd3-community.github.io/nvd3/examples/documentation.html
 
 ### Choropleth Map
+
 
 ```javascript
 {
@@ -521,10 +624,14 @@ Notice all the chart configuration goes inside the settings object. **id, type, 
 },
 ```
 
+**Available settings**
+TODO
+
 
 ### Goal
 
-It allows to define goals to accomplish. Those could be increase, decrease, maintain or messure something. 
+**React Dashboard** allows you to define goals to accomplish and are measured against the data. Goals be displayed by *increase*, *decrease*, *maintain* or *measure*. 
+
 
 ```javascript
 {
@@ -552,6 +659,7 @@ It allows to define goals to accomplish. Those could be increase, decrease, main
   metric: 'getRandomMetric'
 }
 ```
+
 **Available settings**
 * **caption:** caption text using in the component. Only plain text is allowed. 
 * **link:** a url to redirect users when they click in the goal.
@@ -559,21 +667,32 @@ It allows to define goals to accomplish. Those could be increase, decrease, main
 * **endDate:** date when you needs to reach the goal.
 * **startNumber:** amount of units you start with. 
 * **endNumber:** amout of units you want to reach.
-* **action:** the action you want to accomplish. There are 6 possible values:
-  -  increase: your goal is to increase the number of units. If the number of units are equal or greater than the endNumber then goal is on track.
-  -  decrease: your goal is to decrease the number of units. If the number of units are equal or lower than the endNumber then goal is on track.
-  - maintain_above: this action is very similar to the increase action except  startNumber and endNumber should be set at the same number.
-  - maintain_below: this action is very similar to the decrease action except  startNumber and endNumber should be set at the same number.
-  - mesure: in this case you don't want to reach a goal but just display a mesure.
+* **action:** the action you want to accomplish. 
+
+There are 6 possible values:
+
+  -  *increase*: your goal is to increase the number of units. If the number of units are equal or greater than the endNumber then goal is on track.
+  
+  -  *decrease*: your goal is to decrease the number of units. If the number of units are equal or lower than the endNumber then goal is on track.
+   
+  - *maintain_above*: this action is very similar to the increase action except  startNumber and endNumber should be set at the same number.
+  
+  - *maintain_below*: this action is very similar to the decrease action except  startNumber and endNumber should be set at the same number.
+  
+  - *measure*: in this case you don't want to reach a goal but just display a mesure.
+  
 * tolerance: allow you to define a tolerance to define the status of your goal. 
 
-Let's take a look at the above example. In that case if your deviation is between 0 and 2 then the OnTrack label will be displayed because the first item of tolerance will be selected.
-Deviation is computed by projecting the number of units base on the startDate, endDate and endNumber and using a linear function. You can override the getTracker and the trackStatus functions if this projection doesn't fit with your needs.
-* spline: specify if display or not an spline chart below the goal. If you choose to display the goal then you can set an object with the configuration needed to display the spline (e.g.: height).
+Let's take a look at the above example. In that case if your deviation is between 0 and 2 then the *OnTrack* label will be displayed because the first item of tolerance will be selected.
+
+Deviation is computed by projecting the number of units based on the *startDate*, *endDate* and *endNumber* and using a linear function. You can override the *getTracker* and the *trackStatus* functions if this projection doesn't fit with your needs.
+
+* spline: you can choose to additionally show a spline chart below the goal. If you choose to display the goal then you can set an object with the configuration needed to display the spline (e.g.: height).
 
 ### Loader
 
-This component allow components to display a loader while they are fetching data. If you are going to create a completely new component (it inherits eiter from Component or BaseComponent) then you can use it in this way:
+**Loader** allows components to display a loader while they are fetching data. If you create a completely new component (it inherits either from *Component* or *BaseComponent*) then you can use it in this way:
+
 
 ```javascript
 
@@ -586,17 +705,80 @@ class MyComponent extends BaseComponent {
     );
   }
 }
-
-As soon as state.isFetching is true then all the components inside <Loader> and </Loader> will be displayed.
-
-If you are extending from the BaseComponent and using the fetchData property to fetch resources then the isFeching state is handled for you.
-If you aren't using fetchData to fetch resources then you have to switch this variable manually.
-
 ```
 
+As soon as *state.isFetching* is true then all the components inside <Loader> and </Loader> will display.
+
+If you are extending from the *BaseComponent* and using the *fetchData* property to fetch resources then the *isFeching* state is handled for you.
+
+If you aren't using *fetchData* to fetch resources then you need to switch this variable manually.
+
+## Models and Backends
+
+### Models
+To fetch remote data you can either use the *fetchData* property, the dataset models, backends or just the *fetch api* standard. We recommend keeping the selection in that order, where *fetchData* is the preferred method and the *fetch api* is the less preffered method.
+
+If you want to use the dataset model then you'll need to do something like this inside the component you are populating:
+
+```javascript
+
+// Import the dataset model from the library
+import Dataset from 'react-dashboard/Dataset';
+
+// Instantiate the dataset and configure it by passing the backend configuration.
+let dataset = new Dataset({backend: 'csv', url: 'http://example.com/example.csv'});
+
+// Let's set the state to fetching to display a loader and since we already have the dataset object let's save it for future queries.
+this.setState({isFeching: true, dataset: dataset});
+
+// Fetch the resource
+dataset.fetch().then(() => {
+  // Query the dataset for example for pagination purposes
+  dataset.query(query).then( (data) => console.log(data) ); //query e.g. {size: 10, from: 0}
+});
+```
+
+#### Query
+Since models were ported from recline the query object keeps the same shape. However you **don't** need to create a QueryState object, you can use plain javascript objects instead.
+
+To see the full list of available options see http://okfnlabs.org/recline/docs/models.html#query
+
+### Backends
+There are a few backends available but more are coming. 
+
+#### CSV
+This is a port of https://github.com/okfn/csv.js so it keeps the same configuration options.
+
+
+```javascript
+let dataset = new Dataset({backend: 'csv', url: 'http://example.com/example.csv'});
+```
+
+**Available settings**
+* **data:** is a string in CSV format. This is passed directly to the CSV parser. 
+* **url:** a url to an online CSV file that is ajax accessible (note this usually requires either local or on a server that is CORS enabled). The file is then loaded using jQuery.ajax and parsed using the CSV parser (**NB: this requires jQuery**) All options generate similar data and use the memory store outcome. 
+* **file:** is an HTML5 file object. This is opened and parsed with the CSV parser.
+* **dialect:** hash / dictionary following the same structure as for the parse method below.
+
+#### DKAN
+This backend should be used to fetch resources from *dkan*. You can provide either the url pointing to the resource you want to consume or the id + endpoint pair.
+
+```javascript
+let conf = {
+  url: 'http://demo.getdkan.com/api/3/action/datastore_search?=&resource_id=db114e1f-cf44-4cef-b4a7-b2451b039fb1'
+};
+let dataset = new Dataset(conf);
+```
+
+**Available settings**
+* **endpoint:** the base endpoint your dkan api. e.g. `http://demo.getdkan.com/api`
+* **id:** the id of the resource. e.g. `db114e1f-cf44-4cef-b4a7-b2451b039fb1`
+* **url:** the full url `http://demo.getdkan.com/api/3/action/datastore_search?=&resource_id=db114e1f-cf44-4cef-b4a7-b2451b039fb1` 
 
 
 ## Development and examples
+
+To run examples:
 ```
 $ git clone git@github.com:NuCivic/react-dashboard.git
 $ npm install
@@ -604,12 +786,18 @@ $ npm start
 $ open http://localhost:3000
 ```
 
+Before commit please run:
+
+```javascript
+npm build
+```
+
 ## Boilerplate
 If you don't want to start from scratch you can use the react dashboard boilerplate https://github.com/NuCivic/react-dashboard-boilerplate
 
-It includes a working example with charts, a table, metrics, goals and a choropleth map. It also demonstrate how to fetch data and transform data from remote resources 
+It includes a working example with charts, a table, metrics, goals and a choropleth map. It also shows how to fetch data and transform data from remote resources.  
 
 
 ## To-do
-- Allow to rename columns in tables
-- Allow to pass strings instead of functions as tick formaters for charts
+- Make it possible to rename columns in tables.
+- Make it possible to pass strings instead of functions as tick formaters for charts.
