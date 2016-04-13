@@ -1,0 +1,16 @@
+[
+    {
+        "Zone": "North East",
+        "SomeVal": 123
+    },
+    {
+        "Zone": "South West",
+        "SomeVal" : 234,
+        "Ignore": true
+    },
+    {
+        "Zone": "North West",
+        "SomeVal": 50,
+        "noTieneQueVer" : [ "nada", 0, "ignore", "A string" ]
+    }
+]
