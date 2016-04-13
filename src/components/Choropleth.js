@@ -59,16 +59,16 @@ export default class Choropleth extends BaseComponent {
 		super(props);
     this.levels = this.props.settings.levels;
     this.randKey = makeKey(4);
-    this.assignChoroplethFunctions();
+    Object.assign(this, this.getChoroplethFunctions());
 	}
 
   /**
    * Override in sublass to customize behavior
    **/
-  assignChoroplethFunctions() {
+  getChoroplethFunctions() {
     let domainField = this.props.settings.domainField;
     let domainKey = this.props.settings.domainKey;
-    Object.assign(this, { choroplethFunctions : {
+    let dict = { choroplethFunctions : {
         tooltipContent: d => {
           let label = this.props.settings.tooltip.label;
           let val = d[d[this.props.settings.domainMapKey]];
@@ -92,7 +92,9 @@ export default class Choropleth extends BaseComponent {
           return d.properties[this.props.settings.domainMapKey]; //omainKey;
         }
       }
-		});
+		};
+
+    return dict;
   }
 
   // fetchData should set topoData and domainData
