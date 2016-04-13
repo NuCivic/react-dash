@@ -40,41 +40,41 @@ export var settings = {
        *
        * domainMapKey should be the key for the value representi9ng the map polygon
        */
-      {
-        header: 'GAChoropleth Test',
-        type: 'Choropleth',
-        settings: {
-          colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'pink','violet', 'darkmagenta'],
-          cssPath: '/static/choropleth.css',
-          showTooltip: {true},
-          levels: 9, // number of Choropleth levels
-          domainLower: 0, // specify domain range - this can also be overridden in the domainScale functionion()
-          domainUpper: .15, // ibid.
-          domainKey: 'id',
-          domainMapKey: 'id',
-          legendHeader: "Per Cent Unemploytment by U.S. County",
-          domainField: 'rate', // the data we are comparing
-          legendValPrecision: 3, // Defaults to 2
-          gridWidth: 900,
-          dataset: {
-            backend: 'csv',
-            url: '/data/unemployment.tsv',
-            delimiter: '\t'
-          },
-          tooltip: {
-            attr: 'rate', 
-            label: 'Unemployment rate'
-          },
-          mapFormat: 'topojson',
-          mapDataUrl: '/data/us.json',
-          polygon: 'counties',
-          mesh: 'states',
-          projection: 'albersUsa',
-          showGraticule: true,
-        },
-        cardStyle: 'card',
-        fetchData: {type:'function', name: 'getData'},
-      }, 
+      // {
+      //   header: 'GAChoropleth Test',
+      //   type: 'Choropleth',
+      //   settings: {
+      //     colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'pink','violet', 'darkmagenta'],
+      //     cssPath: '/static/choropleth.css',
+      //     showTooltip: {true},
+      //     levels: 9, // number of Choropleth levels
+      //     domainLower: 0, // specify domain range - this can also be overridden in the domainScale functionion()
+      //     domainUpper: .15, // ibid.
+      //     domainKey: 'id',
+      //     domainMapKey: 'id',
+      //     legendHeader: "Per Cent Unemploytment by U.S. County",
+      //     domainField: 'rate', // the data we are comparing
+      //     legendValPrecision: 3, // Defaults to 2
+      //     gridWidth: 900,
+      //     dataset: {
+      //       backend: 'csv',
+      //       url: '/data/unemployment.tsv',
+      //       delimiter: '\t'
+      //     },
+      //     tooltip: {
+      //       attr: 'rate',
+      //       label: 'Unemployment rate'
+      //     },
+      //     mapFormat: 'topojson',
+      //     mapDataUrl: '/data/us.json',
+      //     polygon: 'counties',
+      //     mesh: 'states',
+      //     projection: 'albersUsa',
+      //     showGraticule: true,
+      //   },
+      //   cardStyle: 'card',
+      //   fetchData: {type:'function', name: 'getData'},
+      // },
       {
         header: 'GAChoropleth Test ][ - GEOJSON',
         type: 'Choropleth',
@@ -84,7 +84,7 @@ export var settings = {
           showTooltip: {true},
           legendHeader: 'Accred. Time: Before 8 AM #',
           levels: 5,
-          domainLower: 10,  
+          domainLower: 10,
           domainUpper: 80,
           domainKey: 'Zone', // map key in domain data
           domainMapKey: 'name', // map key in map data
@@ -106,7 +106,7 @@ export var settings = {
         },
         cardStyle: 'card',
         fetchData: 'getData'
-      } 
+      }
     ],
     middleFirst: [
       {
