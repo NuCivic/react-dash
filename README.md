@@ -449,6 +449,18 @@ Map data provides features suitable for rendering a d3 map. Two formats are supp
 Domain data provides the statistical data necessary to calculate the levels of the choropleth. As with all components, this can be provided by the *globalData* paramter, or fetched via *getData*.
 In order to play well with the default choropleth functions, *domain  data* should be formatted so that a 
 
+Domain data should be formatted as follows
+```javascript
+   [
+    {
+      mapKey: 'PKValue', // required
+      domainField: 'Value', // required
+      ignoredVal: 'foo',
+      moreExtraneousData: {...}
+    },
+    // ... etc ...
+   ]
+```
 #### Settings
 **Required settings**
 * **mapDataUrl:** A url to a valid geojson or topojson object
