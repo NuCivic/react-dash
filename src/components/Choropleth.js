@@ -71,7 +71,8 @@ export default class Choropleth extends BaseComponent {
     let dict = { choroplethFunctions : {
         tooltipContent: d => {
           let label = this.props.settings.tooltip.label;
-          let val = d[d[this.props.settings.domainMapKey]];
+          Object.assign(d, d.properties);
+          let val = d[d[this.props.settings.domainMapKey]] || ''; //catch pre-load undefined
           let tt = {};
           tt[label] = val;
           return tt;
