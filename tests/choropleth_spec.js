@@ -66,11 +66,11 @@ describe('Instantiate Choropleth component', () => {
   });
 
   it('Should quack like a duck', () => {
-    expect(typeof Component.assignChoroplethFunctions).toBe('function');
+    expect(typeof Component.componentDidMount).toBe('function');
   });
 });
 
-describe('Test Choropleth methods', () => {
+describe('Test Component methods', () => {
   it('Legend series should be sane', () => {
     expect(typeof Component.legendSeries).toBe('function');
   });
@@ -81,5 +81,16 @@ describe('Test Choropleth methods', () => {
 
   it('Domain scale schould be sane', () => {
     expect(typeof Component.domainScale).toBe('function');  
+  });
+});
+
+describe('Test Choropleth functions', () => {
+  let row = { 'Accred. Time: Before 8 AM #' : 1000, 'foo' : 'bar' };
+  console.log('SS', row);
+  Component = new Choropleth(settings);
+  it('_domainValue should return proper value', () => {
+    expect(typeof Component._domainValue).toBe('function');
+    expect(Component._domainValue(row)).toBe(1000);
+    console.log(Component._domainValue(row));
   });
 });
