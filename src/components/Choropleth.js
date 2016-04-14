@@ -55,47 +55,35 @@ function fetchStyleSheet(url) {
 
 export default class Choropleth extends BaseComponent {
   constructor(props){
-    console.log('loady');
 		super(props);
     this.levels = this.props.settings.levels;
     this.randKey = makeKey(4);
-    Object.assign(this, this.getChoroplethFunctions());
 	}
 
   /**
    * Override in sublass to customize behavior
    **/
-  getChoroplethFunctions() {
-    let domainField = this.props.settings.domainField;
-    let domainKey = this.props.settings.domainKey;
-    let dict = { choroplethFunctions : {
-        tooltipContent: d => {
-          let label = this.props.settings.tooltip.label;
-          Object.assign(d, d.properties);
-          let val = d[d[this.props.settings.domainMapKey]] || ''; //catch pre-load undefined
-          let tt = {};
-          tt[label] = val;
-          return tt;
-        },
+  _tooltipContent(d) {
+    let label = this.props.settings.tooltip.label;
+    Object.assign(d, d.properties);
+    let val = d[d[this.props.settings.domainMapKey]] || ''; //catch pre-load undefined
+    let tt = {};
+    tt[label] = val;
+    return tt;
+  }
 
-        domainValue: d => {
-          return Number(d[domainField]);
-        },
+  _domainValue(d)  {
+    return Number(d[this.props.settings.domainField]);
+  }
 
-        domainKey: d => {
-          return d[domainKey];
-        },
+  _domainKey(d) {
+    return d[this.props.settings.domainKey];
+  }
 
-        mapKey: d => {
-          Object.assign(d, d.properties);
-
-          return d[this.props.settings.domainMapKey];
-          return d.properties[this.props.settings.domainMapKey]; //omainKey;
-        }
-      }
-		};
-
-    return dict;
+  _mapKey(d) {
+    Object.assign(d, d.properties);
+    return d[this.props.settings.domainMapKey];
+    return d.properties[this.props.settings.domainMapKey]; //omainKey;
   }
 
   // fetchData should set topoData and domainData
@@ -207,10 +195,14 @@ export default class Choropleth extends BaseComponent {
     let settings = Object.assign({}, this.props.settings);
 
     if (this.state.domainData) {
-      Object.assign(settings, this.state.data, {type : this.props.type}, this.choroplethFunctions);
-
+      Object.assign(settings, this.state.data, {type : this.props.type});
+      
       settings.topodata = this.state.topodata;
       settings.domainData = this.state.domainData;
+      settings.tooltipContent = this._tooltipContent.bind(this);
+      settings.domainValue = this._domainValue.bind(this);
+      settings.domainKey = this._domainKey.bind(this);
+      settings.mapKey = this._mapKey.bind(this);
 
       if (settings.mapFormat === 'topojson') {
         if (settings.polygon) {

@@ -479,58 +479,14 @@ Domain data should be formatted as follows
 #### Internals
 Internally, the **choropleth component** uses the **getChoroplethFunctions** method to create a dictionary of functions which determine the choropleth behavior:
 ```javascript
-roplethFunctions() {
-    let domainField = this.props.settings.domainField;
-    let domainKey = this.props.settings.domainKey;
-    let dict = {
-	/**
-	 * Returns an object to be rendered as tooltip content
-         * {
-         *  someKeyName : theValue
-         * }
-         */
-        tooltipContent: d => {
-          let label = this.props.settings.tooltip.label;
-          let val = d[d[this.props.settings.domainMapKey]];
-          let tt = {};
-          tt[label] = val;
-          return tt;
-        },
-
-        /**
-         * The item from a domainData row to evaluate
-         **/
-        domainValue: d => {
-          return Number(d[domainField]);
-        },
-
-        /**
-         * The domainData key associated with a map arrea
-         **/
-        domainKey: d => {
-          return d[domainKey];
-        },
-
-        /**
-         * The map area key associated with a row of domain data
-         **/
-        mapKey: d => {
-          Object.assign(d, d.properties);
-
-          return d[this.props.settings.domainMapKey];
-          return d.properties[this.props.settings.domainMapKey]; //omainKey;
-        }
-
-    };
-
-    return dict;
-  }
 ```
-**Choropleth functions**
-* **domainValue:** The function, when applied to a row **d** of domain data should return a value for evaluation in the choropleth (for instance, the unemployment rate of a county, birth rate of a state, etc)
-* **domainKey:** This function should return a value that will associate the row of data with a map region.
-* **mapKey:** Should return a value equal to domainKey, above.
-* **tooltipContent:** Return a key/value pair which is displayed as tooltip on hover. **d** is the current row of data. (example: {unemploymentRate : d[rate]})
+
+#### Choropleth functions
+The following functions determine how domain data, at the row/record level, is processed. The functions are bound to the component class context and are passed the variable 'd' which contains the row of data being processed. They can be overridden in your implementation in order to perform preprocessing, formatting, etc.
+* **_domainValue:** The function, when applied to a row **d** of domain data should return a value for evaluation in the choropleth (for instance, the unemployment rate of a county, birth rate of a state, etc)
+* **_domainKey:** This function should return a value that will associate the row of data with a map region.
+* **_mapKey:** Should return a value equal to domainKey, above.
+* **_tooltipContent:** Return a key/value pair which is displayed as tooltip on hover. **d** is the current row of data. (example: {unemploymentRate : d[rate]})
 
 ### Metrics
 
