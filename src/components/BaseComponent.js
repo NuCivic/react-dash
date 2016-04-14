@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import {findDOMNode} from 'react-dom';
 import EventDispatcher from '../dispatcher/EventDispatcher';
 import Dataset from '../models/Dataset';
 import {omit, isFunction, isPlainObject, isString} from 'lodash';
@@ -19,7 +19,7 @@ export default class BaseComponent extends Component {
   }
 
   handleResize() {
-    let componentWidth = ReactDOM.findDOMNode(this).getBoundingClientRect().width;
+    let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     this.setState({ componentWidth : componentWidth});
     console.log('width', this.state.componentWidth);
     this.onResize();
@@ -27,14 +27,13 @@ export default class BaseComponent extends Component {
 
   onResize() {
     // noop
-    console.log('onresize');
   }
 
   componentDidMount(){
     let type = this.getFetchType();
     
     // resize magic
-    let componentWidth = ReactDOM.findDOMNode(this).getBoundingClientRect().width;
+    let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     this.setState({ componentWidth : componentWidth});
     window.addEventListener('resize', this.handleResize);
 
