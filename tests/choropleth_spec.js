@@ -3,6 +3,7 @@ import TestUtils from 'react/lib/ReactTestUtils';
 import Choropleth from '../src/components/Choropleth.js';
 import geo from './fixtures/zones.geojson';
 import testData from './fixtures/zones_test_data.json';
+import ReactTestUtils from 'react-addons-test-utils';
 // import settings from './fixtures/choropleth_settings.json';
 
 let Component;
@@ -70,27 +71,20 @@ describe('Instantiate Choropleth component', () => {
   });
 });
 
-describe('Test Component methods', () => {
-  it('Legend series should be sane', () => {
-    expect(typeof Component.legendSeries).toBe('function');
-  });
-
-  it('CSS string should be valid', () => {
-    expect(typeof Component.css).toBe('function');
-  });
-
-  it('Domain scale schould be sane', () => {
-    expect(typeof Component.domainScale).toBe('function');  
-  });
-});
-
+// @@TODO - complete coverage for choropleth functions
 describe('Test Choropleth functions', () => {
   let row = { 'Accred. Time: Before 8 AM #' : 1000, 'foo' : 'bar' };
-  console.log('SS', row);
-  Component = new Choropleth(settings);
+  let Component = new Choropleth(settings);
   it('_domainValue should return proper value', () => {
     expect(typeof Component._domainValue).toBe('function');
     expect(Component._domainValue(row)).toBe(1000);
-    console.log(Component._domainValue(row));
   });
+});
+
+describe('Test Choropleth Component Render', () => {
+  let Component = new Choropleth(settings);
+  let el = Component.render();
+  it('Should render a real react component', () => {
+    expect(ReactTestUtils.isElement(el)).toBeTruthy();
+  })
 });
