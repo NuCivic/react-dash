@@ -21,21 +21,20 @@ export default class BaseComponent extends Component {
   handleResize() {
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     this.setState({ componentWidth : componentWidth});
-    console.log('width', this.state.componentWidth);
     this.onResize();
   }
 
   onResize() {
-    // noop
+    /* IMPLEMENT */
   }
 
   componentDidMount(){
     let type = this.getFetchType();
-    
+
     // resize magic
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     this.setState({ componentWidth : componentWidth});
-    window.addEventListener('resize', this.handleResize);
+    window.addEventListener('resize', this.handleResize.bind(this));
 
     if(type){
 
