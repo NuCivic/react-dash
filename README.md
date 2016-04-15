@@ -447,7 +447,6 @@ Map data provides features suitable for rendering a d3 map. Two formats are supp
 
 #### Domain Data
 Domain data provides the statistical data necessary to calculate the levels of the choropleth. As with all components, this can be provided by the *globalData* paramter, or fetched via *getData*.
-In order to play well with the default choropleth functions, *domain  data* should be formatted so that a 
 
 Domain data should be formatted as follows
 ```javascript
@@ -476,10 +475,6 @@ Domain data should be formatted as follows
 * **tooltip:** [_object_] An object contain a **label** attribute and an *attr* attribute which contains the key to an element in domain data row
 * **showTooltip:** [_boolean_]
 
-#### Internals
-Internally, the **choropleth component** uses the **getChoroplethFunctions** method to create a dictionary of functions which determine the choropleth behavior:
-```javascript
-```
 
 #### Choropleth functions
 The following functions determine how domain data, at the row/record level, is processed. The functions are bound to the component class context and are passed the variable 'd' which contains the row of data being processed. They can be overridden in your implementation in order to perform preprocessing, formatting, etc.
@@ -640,45 +635,6 @@ If the x and y columns on your data already have the names you want, then you do
 
 **React NVD3 documentation:** https://github.com/NuCivic/react-nvd3
 **NVD3 documentation:** https://nvd3-community.github.io/nvd3/examples/documentation.html
-
-### Choropleth Map
-
-
-```javascript
-{
-  header: 'GAChoropleth Test',
-  type: 'Choropleth',
-  settings: {
-    colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'pink','violet', 'darkmagenta'],
-    cssPath: '/static/choropleth.css',
-    showTooltip: {true},
-    domainField: 'rate',
-    levels: 9,
-    domainLower: 0,
-    domainUpper: .15,
-    legendHeader: "Per Cent Unemploytment by U.S. County",
-    width: 1200,
-    height: 600,
-    domainKey: 'id',
-    dataset: {
-      backend: 'csv',
-      url: '/data/unemployment.tsv',
-      delimiter: '\t'
-    },
-    mapFormat: 'topojson',
-    mapDataUrl: '/data/us.json',
-    polygon: 'counties',
-    mesh: 'states',
-    projection: 'albersUsa',
-    showGraticule: true,
-  },
-  fetchData: {type:'function', name: 'getData'},
-},
-```
-
-**Available settings**
-TODO
-
 
 ### Goal
 

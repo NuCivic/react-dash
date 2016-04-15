@@ -234,7 +234,7 @@ export default class Choropleth extends BaseComponent {
             </div>
          </div>;
    } else {
-      v = <p ref="choropleth" className='laoding'>Loading...</p>;
+      v = <p ref="choropleth" className='loading'>Loading...</p>;
    }
 
    return(v);
