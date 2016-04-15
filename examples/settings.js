@@ -1,8 +1,13 @@
+
+import colorbrewer from 'colorbrewer';
+import {timeFormat as d3_timeFormat} from 'd3-time-format';
+
+
 export var settings = {
   title: 'Georgia Reports',
   regions: {
     top: [
-/*     {
+     {
         type: 'Autocomplete',
         name: 'some-name',
         multi: true,
@@ -14,18 +19,22 @@ export var settings = {
         iconClass: 'glyphicon glyphicon-tree-conifer',
         settings: {
           id:'lineChart2',
-          type: 'discreteBarChart',
-          x: 'label',
-          y: 'value',
+          type: 'lineChart',
+          x: 'date',
+          y: 'price',
           height: 340,
           margin: {
             left: 38
           },
-          color: ['#EA7E7E']
+          color: ['#EA7E7E'],
+          xAxis: {
+            tickFormat: d3_timeFormat('%Y')
+          }
         },
         cardStyle: 'card',
-        fetchData: {type:'function', name: 'getData'},
-      }, */
+        fetchData: {type:'function', name: 'getTopChartData'},
+
+      },
       /* Docs:
        * Domain Data should be formatted:
        * [
@@ -44,7 +53,7 @@ export var settings = {
         header: 'GAChoropleth Test',
         type: 'Choropleth',
         settings: {
-          colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'pink','violet', 'darkmagenta'],
+          colors:colorbrewer.OrRd[9],
           cssPath: '/static/choropleth.css',
           showTooltip: {true},
           levels: 9, // number of Choropleth levels
@@ -56,14 +65,14 @@ export var settings = {
           legendValFormat: '%', // format string for d3.format function
           domainField: 'rate', // the data we are comparing
           legendValPrecision: 3, // Defaults to 2
-          gridWidth: 900,
+          gridWidth: 1100,
           dataset: {
             backend: 'csv',
             url: '/data/unemployment.tsv',
             delimiter: '\t'
           },
           tooltip: {
-            attr: 'rate', 
+            attr: 'rate',
             label: 'Unemployment rate'
           },
           mapFormat: 'topojson',
@@ -75,39 +84,39 @@ export var settings = {
         },
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getData'},
-      }, 
-      {
-        header: 'GAChoropleth Test ][ - GEOJSON',
-        type: 'Choropleth',
-        settings: {
-          colors: ['red','green','yellow','purple','orange','pink','#252525','#000000'],
-          cssPath: '/static/choropleth.css',
-          showTooltip: {true},
-          legendHeader: 'Accred. Time: Before 8 AM #',
-          levels: 5,
-          domainLower: 10,  
-          domainUpper: 80,
-          domainKey: 'Zone', // map key in domain data
-          domainMapKey: 'name', // map key in map data
-          domainField: 'Accred. Time: Before 8 AM #',
-          dataset: {
-            backend: 'csv',
-            url: '/data/apollo-parsed-1737-325_0.csv',
-            delimiter: ','
-          },
-          tooltip: {
-            label: 'Accred',
-            attr: 'Accred. Time: Before 8 AM #'
-          },
-          mapDataUrl: '/data/zones.geojson',
-          mapFormat: 'geojson',
-          showGraticule: false,
-          gridWidth: 600,
-          projection: 'conicConformal' // https://github.com/mbostock/d3/wiki/Geo-Projections
-        },
-        cardStyle: 'card',
-        fetchData: 'getData'
-      } 
+      },
+      // {
+      //   header: 'GAChoropleth Test ][ - GEOJSON',
+      //   type: 'Choropleth',
+      //   settings: {
+      //     colors: ['red','green','yellow','purple','orange','pink','#252525','#000000'],
+      //     cssPath: '/static/choropleth.css',
+      //     showTooltip: {true},
+      //     legendHeader: 'Accred. Time: Before 8 AM #',
+      //     levels: 5,
+      //     domainLower: 10,
+      //     domainUpper: 80,
+      //     domainKey: 'Zone', // map key in domain data
+      //     domainMapKey: 'name', // map key in map data
+      //     domainField: 'Accred. Time: Before 8 AM #',
+      //     dataset: {
+      //       backend: 'csv',
+      //       url: '/data/apollo-parsed-1737-325_0.csv',
+      //       delimiter: ','
+      //     },
+      //     tooltip: {
+      //       label: 'Accred',
+      //       attr: 'Accred. Time: Before 8 AM #'
+      //     },
+      //     mapDataUrl: '/data/zones.geojson',
+      //     mapFormat: 'geojson',
+      //     showGraticule: false,
+      //     gridWidth: 600,
+      //     projection: 'conicConformal' // https://github.com/mbostock/d3/wiki/Geo-Projections
+      //   },
+      //   cardStyle: 'card',
+      //   fetchData: 'getData'
+      // }
     ],
     middleFirst: [
       {
@@ -116,6 +125,7 @@ export var settings = {
         background: '#9F3E69',
         metric: 'getRandomMetric',
         caption: 'New Users',
+        iconClass: 'glyphicon glyphicon-user'
       }
     ],
     middleSecond: [
@@ -125,6 +135,7 @@ export var settings = {
         background: '#F3BA4F',
         metric: 'getRandomMetric',
         caption: 'Visitors',
+        iconClass: 'glyphicon glyphicon-heart'
       }
     ],
     middleThird: [
@@ -134,6 +145,7 @@ export var settings = {
         background: '#3EB1AE',
         metric: 'getRandomMetric',
         caption: 'Page views',
+        iconClass: 'glyphicon glyphicon-star'
       }
     ],
     middleFourth: [
@@ -143,6 +155,7 @@ export var settings = {
         background: '#0B90B1',
         metric: 'getRandomMetric',
         caption: 'Unique Visitors',
+        iconClass: 'glyphicon glyphicon-road'
       }
     ],
     goalsFirst: [

@@ -895,5 +895,7 @@ It includes a working example with charts, a table, metrics, goals and a choropl
 
 
 ## To-do
+- Filter component to allow users filter global dashboard data base on fields.
+- Map component to display pins in a map.
 - Make it possible to rename columns in tables.
 - Make it possible to pass strings instead of functions as tick formaters for charts.

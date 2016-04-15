@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {findDOMNode} from 'react-dom';
 import EventDispatcher from '../dispatcher/EventDispatcher';
 import Dataset from '../models/Dataset';
-import {omit, isFunction, isPlainObject, isString} from 'lodash';
+import {omit, isFunction, isPlainObject, isString, debounce} from 'lodash';
 
 export default class BaseComponent extends Component {
   constructor(props) {
@@ -34,7 +34,7 @@ export default class BaseComponent extends Component {
     // resize magic
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     this.setState({ componentWidth : componentWidth});
-    window.addEventListener('resize', this.handleResize.bind(this));
+    window.addEventListener('resize', debounce(this.handleResize.bind(this), 500));
 
     if(type){
 
@@ -77,12 +77,18 @@ export default class BaseComponent extends Component {
 
   onData(data) {
 
-    // We create a dataset then we can perform queries against.
-    if(!this.state.dataset){
-      this.state.dataset = new Dataset({records: data});
+    // If it's a fetch response.
+    if(data.json) {
+      data.json().then((data) => this.setData(data));
+    } else {
+
+      // We create a dataset then we can perform queries against.
+      if(!this.state.dataset){
+        this.state.dataset = new Dataset({records: data});
+      }
+      this.setData(data);
     }
-    this.setData(data);
-    this.onDataReady(data);
+
   }
 
   onDataReady(data) {
@@ -97,6 +103,7 @@ export default class BaseComponent extends Component {
     let _data = data.hits || data;
     let _total = data.total || data.length;
     this.setState({data: _data, total: _total, isFeching: false});
+    this.onDataReady(data);
   }
 
   emit(payload) {

@@ -118,7 +118,7 @@ export default class Table extends BaseComponent {
       q: e.target.value
     });
     this.query(query);
-    this.setState({currentPage: 1, queryObj: query});
+    this.setState({currentPage: 1});
   }
 
   _onRowsPerPageChange(e) {
@@ -126,7 +126,7 @@ export default class Table extends BaseComponent {
     query.size = Number(e.target.value);
     query.from = 0;
     this.query(query);
-    this.setState({rowsPerPage: Number(e.target.value), queryObj: query, currentPage: 1});
+    this.setState({rowsPerPage: Number(e.target.value), currentPage: 1});
   }
 
   render() {
@@ -159,7 +159,7 @@ export default class Table extends BaseComponent {
 
     // Return the renderable elements
     return (
-      <Loader isFeching={this.state.isFeching}>
+
         <div ref="table">
           <div className="row">
             <div className="col-md-10">
@@ -183,46 +183,47 @@ export default class Table extends BaseComponent {
               </div>
             </div>
           </div>
+          <Loader isFeching={this.state.isFeching}>
+            <div className="table-container">
+              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth}>
+                {columns}
+              </FixedTable>
+            </div>
 
-          <div className="table-container">
-            <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth}>
-              {columns}
-            </FixedTable>
-          </div>
+            <nav>
+              <ul className="pagination">
 
-          <nav>
-            <ul className="pagination">
+                <li className={(this.state.currentPage === 1) ? 'hide' : ''}>
+                  <a onClick={partialRight(this._onPageChange, 1).bind(this)} href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
 
-              <li className={(this.state.currentPage === 1) ? 'hide' : ''}>
-                <a onClick={partialRight(this._onPageChange, 1).bind(this)} href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
+                <li className={(this.state.currentPage === 1) ? 'hide' : ''}>
+                  <a onClick={partialRight(this._onPageChange, this.state.currentPage - 1).bind(this)} href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
 
-              <li className={(this.state.currentPage === 1) ? 'hide' : ''}>
-                <a onClick={partialRight(this._onPageChange, this.state.currentPage - 1).bind(this)} href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
+                {this.getPageNumbers(this.state.rowsPerPage, this.state.total, this.state.currentPage)}
 
-              {this.getPageNumbers(this.state.rowsPerPage, this.state.total, this.state.currentPage)}
+                <li className={(!totalPages || this.state.currentPage === totalPages ) ? 'hide' : ''}>
+                  <a onClick={partialRight(this._onPageChange, this.state.currentPage + 1).bind(this)} href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
 
-              <li className={(!totalPages || this.state.currentPage === totalPages ) ? 'hide' : ''}>
-                <a onClick={partialRight(this._onPageChange, this.state.currentPage + 1).bind(this)} href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
+                <li className={(!totalPages || this.state.currentPage === totalPages ) ? 'hide' : ''}>
+                  <a onClick={partialRight(this._onPageChange, totalPages).bind(this)} href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
 
-              <li className={(!totalPages || this.state.currentPage === totalPages ) ? 'hide' : ''}>
-                <a onClick={partialRight(this._onPageChange, totalPages).bind(this)} href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-
-            </ul>
-          </nav>
+              </ul>
+            </nav>
+          </Loader>
         </div>
-      </Loader>
+
     );
   }
 }

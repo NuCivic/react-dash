@@ -8,8 +8,7 @@ export default class Metric extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      metric: 0,
-      caption:props.caption
+      metric: 0
     };
   }
 
@@ -37,14 +36,14 @@ export default class Metric extends BaseComponent {
       <Loader isFeching={this.state.isFeching}>
         <div className="metric" style={style}>
           <div className="col-sm-3 col-lg-4">
-            <div className="card-metric-icon"><span className="glyphicon glyphicon-user"></span></div>
+            <div className="card-metric-icon"><span className={this.props.iconClass}></span></div>
           </div>
           <div className="col-sm-9 col-lg-8">
             <div className="card-metric-number">
             {this.state.metric}
             </div>
             <div className="card-metric-caption">
-            {this.state.caption}
+            {this.props.caption}
             </div>
           </div>
         </div>
