@@ -4,6 +4,9 @@
   padding-bottom: 17px;
   padding-top: 17px;
   margin: 20px 0;
+  @media all and (max-width:991px) {
+    text-align: center;
+  }
 }
 
 .card-goal-icon {
@@ -37,7 +40,7 @@
   font-size: 2.4em;
   font-weight: bold;
   text-align: center;
-  @media all and (max-width:767px) {
+  @media all and (max-width:991px) {
     text-align: center;
   }
 }
@@ -53,12 +56,15 @@
 }
 
 .card-goal-caption {
+  display: table-cell;
   font-weight: bold;
   height: 70px;
   vertical-align: middle;
-  display: table-cell;
-  @media all and (max-width:767px) {
+  @media all and (max-width:991px) {
+    display: block;
+    margin: 1em 0;
     text-align: center;
+    height: auto;
   }
 }
 

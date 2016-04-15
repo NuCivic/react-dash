@@ -447,7 +447,6 @@ Map data provides features suitable for rendering a d3 map. Two formats are supp
 
 #### Domain Data
 Domain data provides the statistical data necessary to calculate the levels of the choropleth. As with all components, this can be provided by the *globalData* paramter, or fetched via *getData*.
-In order to play well with the default choropleth functions, *domain  data* should be formatted so that a 
 
 Domain data should be formatted as follows
 ```javascript
@@ -476,61 +475,13 @@ Domain data should be formatted as follows
 * **tooltip:** [_object_] An object contain a **label** attribute and an *attr* attribute which contains the key to an element in domain data row
 * **showTooltip:** [_boolean_]
 
-#### Internals
-Internally, the **choropleth component** uses the **getChoroplethFunctions** method to create a dictionary of functions which determine the choropleth behavior:
-```javascript
-roplethFunctions() {
-    let domainField = this.props.settings.domainField;
-    let domainKey = this.props.settings.domainKey;
-    let dict = {
-	/**
-	 * Returns an object to be rendered as tooltip content
-         * {
-         *  someKeyName : theValue
-         * }
-         */
-        tooltipContent: d => {
-          let label = this.props.settings.tooltip.label;
-          let val = d[d[this.props.settings.domainMapKey]];
-          let tt = {};
-          tt[label] = val;
-          return tt;
-        },
 
-        /**
-         * The item from a domainData row to evaluate
-         **/
-        domainValue: d => {
-          return Number(d[domainField]);
-        },
-
-        /**
-         * The domainData key associated with a map arrea
-         **/
-        domainKey: d => {
-          return d[domainKey];
-        },
-
-        /**
-         * The map area key associated with a row of domain data
-         **/
-        mapKey: d => {
-          Object.assign(d, d.properties);
-
-          return d[this.props.settings.domainMapKey];
-          return d.properties[this.props.settings.domainMapKey]; //omainKey;
-        }
-
-    };
-
-    return dict;
-  }
-```
-**Choropleth functions**
-* **domainValue:** The function, when applied to a row **d** of domain data should return a value for evaluation in the choropleth (for instance, the unemployment rate of a county, birth rate of a state, etc)
-* **domainKey:** This function should return a value that will associate the row of data with a map region.
-* **mapKey:** Should return a value equal to domainKey, above.
-* **tooltipContent:** Return a key/value pair which is displayed as tooltip on hover. **d** is the current row of data. (example: {unemploymentRate : d[rate]})
+#### Choropleth functions
+The following functions determine how domain data, at the row/record level, is processed. The functions are bound to the component class context and are passed the variable 'd' which contains the row of data being processed. They can be overridden in your implementation in order to perform preprocessing, formatting, etc.
+* **_domainValue:** The function, when applied to a row **d** of domain data should return a value for evaluation in the choropleth (for instance, the unemployment rate of a county, birth rate of a state, etc)
+* **_domainKey:** This function should return a value that will associate the row of data with a map region.
+* **_mapKey:** Should return a value equal to domainKey, above.
+* **_tooltipContent:** Return a key/value pair which is displayed as tooltip on hover. **d** is the current row of data. (example: {unemploymentRate : d[rate]})
 
 ### Metrics
 
@@ -684,45 +635,6 @@ If the x and y columns on your data already have the names you want, then you do
 
 **React NVD3 documentation:** https://github.com/NuCivic/react-nvd3
 **NVD3 documentation:** https://nvd3-community.github.io/nvd3/examples/documentation.html
-
-### Choropleth Map
-
-
-```javascript
-{
-  header: 'GAChoropleth Test',
-  type: 'Choropleth',
-  settings: {
-    colors:['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'pink','violet', 'darkmagenta'],
-    cssPath: '/static/choropleth.css',
-    showTooltip: {true},
-    domainField: 'rate',
-    levels: 9,
-    domainLower: 0,
-    domainUpper: .15,
-    legendHeader: "Per Cent Unemploytment by U.S. County",
-    width: 1200,
-    height: 600,
-    domainKey: 'id',
-    dataset: {
-      backend: 'csv',
-      url: '/data/unemployment.tsv',
-      delimiter: '\t'
-    },
-    mapFormat: 'topojson',
-    mapDataUrl: '/data/us.json',
-    polygon: 'counties',
-    mesh: 'states',
-    projection: 'albersUsa',
-    showGraticule: true,
-  },
-  fetchData: {type:'function', name: 'getData'},
-},
-```
-
-**Available settings**
-TODO
-
 
 ### Goal
 
