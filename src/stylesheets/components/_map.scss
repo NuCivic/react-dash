@@ -1,3 +1,7 @@
 .legend {
-	width: 120px;
+	width: auto;
+	min-width: 120px;
+}
+.legend-container div {
+	text-align: left !important;
 }
