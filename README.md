@@ -407,6 +407,31 @@ Currently you can use either a *css* or a *sass* file. You can also add import s
 
 ## Built-in Components
 
+### Overriding base components
+Components can be extended to provide custom behavior:
+
+```javascript
+import React, { Component } from 'react';
+import Registry from '../../src/utils/Registry';
+import Chart from '../../src/components/Chart';e
+
+export default class CustomChart extends Chart {
+  // ... do custom stuff here
+}
+
+// make sure to register the component!!
+Registry.set('GAChart', CustomChart);
+```
+
+The chart can now be used in your layouts.
+
+Javascript alllows you to override any method of a parent class, but...
+
+** Functions commonly overridden in custom components: **
+* **fetchData:** Provide logic for gatherin data
+* **onData:** Preprocess the fetched data, when available
+* **onResize:** Add a post-hook to a resize event. (this.state.componentWidth should always be available, and is updated after resize, but before onResize is called)
+
 ### Shared settings
 Some settings are shared across all the components. This is the complete list of shared settings:
 
@@ -414,6 +439,8 @@ Some settings are shared across all the components. This is the complete list of
 * **fetchData:** define the fetch data strategy used in the current component.
 * **queryObj:** the query to be used after data fetching. For example this would allow you to filter the raw dataset for pagination.
 
+### Extending components
+Components can and should be extended to  be extended
 
 ### Autocomplete
 
