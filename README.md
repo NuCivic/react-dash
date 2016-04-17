@@ -475,6 +475,14 @@ Domain data should be formatted as follows
 * **tooltip:** [_object_] An object contain a **label** attribute and an *attr* attribute which contains the key to an element in domain data row
 * **showTooltip:** [_boolean_]
 
+#### Available settings
+* **scale:** Set width of map
+* **projection:** The cartographic projection to use. ([see here](https://github.com/mbostock/d3/wiki/Geo-Projections) for a list of projections and more on projections)
+* **precision:** [see here](https://github.com/mbostock/d3/wiki/Geo-Projections#clipExtent)
+* **rotate:** [see here](https://github.com/mbostock/d3/wiki/Geo-Projections#rotate)
+* **center:** [see here](https://github.com/mbostock/d3/wiki/Geo-Projections#center)
+* **clipAngle:** [see here](://github.com/mbostock/d3/wiki/Geo-Projections#center)
+* **parallels:** [see here](https://github.com/mbostock/d3/wiki/Geo-Projections#conicConformal_parallels)
 
 #### Choropleth functions
 The following functions determine how domain data, at the row/record level, is processed. The functions are bound to the component class context and are passed the variable 'd' which contains the row of data being processed. They can be overridden in your implementation in order to perform preprocessing, formatting, etc.

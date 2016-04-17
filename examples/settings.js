@@ -56,7 +56,6 @@ export var settings = {
           legendValFormat: '%', // format string for d3.format function
           domainField: 'rate', // the data we are comparing
           legendValPrecision: 3, // Defaults to 2
-          gridWidth: 900,
           dataset: {
             backend: 'csv',
             url: '/data/unemployment.tsv',
@@ -72,6 +71,11 @@ export var settings = {
           mesh: 'states',
           projection: 'albersUsa',
           showGraticule: true,
+					legendHeight : 400,
+					legendMargins : {top: 40, right: 50, bottom: 40, left: 50},
+					legendClassName : "test-legend-class",
+					legendPosition : 'left',
+					legendOffset : 90
         },
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getData'},
@@ -102,8 +106,11 @@ export var settings = {
           mapDataUrl: '/data/zones.geojson',
           mapFormat: 'geojson',
           showGraticule: false,
-          gridWidth: 600,
-          projection: 'conicConformal' // https://github.com/mbostock/d3/wiki/Geo-Projections
+					legendHeight : 400,
+					legendMargins : {top: 40, right: 50, bottom: 40, left: 50},
+					legendClassName : "test-legend-class",
+					legendPosition : 'left',
+					legendOffset : 90
         },
         cardStyle: 'card',
         fetchData: 'getData'
