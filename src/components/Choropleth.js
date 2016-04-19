@@ -22,14 +22,6 @@ import {range, format} from 'd3';
 import Dataset from '../models/Dataset';
 
 
-// @@TODO we need dynamic values here
-let legendWidth = 500,
-  legendHeight = 400,
-  legendMargins = {top: 40, right: 50, bottom: 40, left: 50},
-  legendClassName = "test-legend-class",
-  legendPosition = 'left',
-  legendOffset = 90;
-
 // Whack some css into the page
 function addStyleString(str) {
     var node = document.createElement('style');
@@ -193,7 +185,7 @@ export default class Choropleth extends BaseComponent {
   render () {
     let v;
     let settings = Object.assign({}, this.props.settings);
-
+    
     if (this.state.domainData) {
       Object.assign(settings, this.state.data, {type : this.props.type});
       
@@ -203,6 +195,11 @@ export default class Choropleth extends BaseComponent {
       settings.domainValue = this._domainValue.bind(this);
       settings.domainKey = this._domainKey.bind(this);
       settings.mapKey = this._mapKey.bind(this);
+      settings.domain = this.domainScale(this.state.domainData);
+      settings.scale = this.state.componentWidth;
+      
+      // Add some sensible defaults
+      settings.projection = settings.projection || 'azimuthalEqualArea';
 
       if (settings.mapFormat === 'topojson') {
         if (settings.polygon) {
@@ -215,20 +212,17 @@ export default class Choropleth extends BaseComponent {
         settings.dataPolygon = settings.topodata.features;
       }
 
-      settings.scale = this.props.settings.gridWidth;
-
-      settings.domain = this.domainScale(this.state.domainData);
      v = <div className="choropleth-container">
             <MapChoropleth ref="choropleth" {...settings} />
             <div className="legend-container">
               <h3 className="legend-header">{settings.legendHeader}</h3>
               <Legend
-                width= {legendWidth}
-                height= {legendHeight}
-                margins= {legendMargins}
-                legendClassName= {legendClassName}
-                legendPosition= {legendPosition}
-                legendOffset= {legendOffset}
+                width= {this.state.componentWidth}
+                height= {settings.legendHeight}
+                margins= {settings.legendMargins}
+                legendClassName= {settings.legendClassName}
+                legendPosition= {settings.legendPosition}
+                legendOffset= {settings.legendOffset}
                 chartSeries = {this.legendSeries()}
               />
             </div>

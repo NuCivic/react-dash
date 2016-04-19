@@ -407,6 +407,31 @@ Currently you can use either a *css* or a *sass* file. You can also add import s
 
 ## Built-in Components
 
+### Overriding base components
+Components can be extended to provide custom behavior:
+
+```javascript
+import React, { Component } from 'react';
+import Registry from '../../src/utils/Registry';
+import Chart from '../../src/components/Chart';e
+
+export default class CustomChart extends Chart {
+  // ... do custom stuff here
+}
+
+// make sure to register the component!!
+Registry.set('GAChart', CustomChart);
+```
+
+The chart can now be used in your layouts.
+
+Javascript alllows you to override any method of a parent class, but...
+
+** Functions commonly overridden in custom components: **
+* **fetchData:** Provide logic for gatherin data
+* **onData:** Preprocess the fetched data, when available
+* **onResize:** Add a post-hook to a resize event. (this.state.componentWidth should always be available, and is updated after resize, but before onResize is called)
+
 ### Shared settings
 Some settings are shared across all the components. This is the complete list of shared settings:
 
@@ -414,6 +439,8 @@ Some settings are shared across all the components. This is the complete list of
 * **fetchData:** define the fetch data strategy used in the current component.
 * **queryObj:** the query to be used after data fetching. For example this would allow you to filter the raw dataset for pagination.
 
+### Extending components
+Components can and should be extended to  be extended
 
 ### Autocomplete
 
@@ -475,6 +502,14 @@ Domain data should be formatted as follows
 * **tooltip:** [_object_] An object contain a **label** attribute and an *attr* attribute which contains the key to an element in domain data row
 * **showTooltip:** [_boolean_]
 
+#### Available settings
+* **scale:** Set width of map
+* **projection:** The cartographic projection to use. ([see here](https://github.com/mbostock/d3/wiki/Geo-Projections) for a list of projections and more on projections)
+* **precision:** [see here](https://github.com/mbostock/d3/wiki/Geo-Projections#clipExtent)
+* **rotate:** [see here](https://github.com/mbostock/d3/wiki/Geo-Projections#rotate)
+* **center:** [see here](https://github.com/mbostock/d3/wiki/Geo-Projections#center)
+* **clipAngle:** [see here](://github.com/mbostock/d3/wiki/Geo-Projections#center)
+* **parallels:** [see here](https://github.com/mbostock/d3/wiki/Geo-Projections#conicConformal_parallels)
 
 #### Choropleth functions
 The following functions determine how domain data, at the row/record level, is processed. The functions are bound to the component class context and are passed the variable 'd' which contains the row of data being processed. They can be overridden in your implementation in order to perform preprocessing, formatting, etc.

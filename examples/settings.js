@@ -65,7 +65,6 @@ export var settings = {
           legendValFormat: '%', // format string for d3.format function
           domainField: 'rate', // the data we are comparing
           legendValPrecision: 3, // Defaults to 2
-          gridWidth: 1100,
           dataset: {
             backend: 'csv',
             url: '/data/unemployment.tsv',
@@ -81,42 +80,50 @@ export var settings = {
           mesh: 'states',
           projection: 'albersUsa',
           showGraticule: true,
+					legendHeight : 400,
+					legendMargins : {top: 40, right: 50, bottom: 40, left: 50},
+					legendClassName : "test-legend-class",
+					legendPosition : 'left',
+					legendOffset : 90
         },
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getData'},
-      },
-      // {
-      //   header: 'GAChoropleth Test ][ - GEOJSON',
-      //   type: 'Choropleth',
-      //   settings: {
-      //     colors: ['red','green','yellow','purple','orange','pink','#252525','#000000'],
-      //     cssPath: '/static/choropleth.css',
-      //     showTooltip: {true},
-      //     legendHeader: 'Accred. Time: Before 8 AM #',
-      //     levels: 5,
-      //     domainLower: 10,
-      //     domainUpper: 80,
-      //     domainKey: 'Zone', // map key in domain data
-      //     domainMapKey: 'name', // map key in map data
-      //     domainField: 'Accred. Time: Before 8 AM #',
-      //     dataset: {
-      //       backend: 'csv',
-      //       url: '/data/apollo-parsed-1737-325_0.csv',
-      //       delimiter: ','
-      //     },
-      //     tooltip: {
-      //       label: 'Accred',
-      //       attr: 'Accred. Time: Before 8 AM #'
-      //     },
-      //     mapDataUrl: '/data/zones.geojson',
-      //     mapFormat: 'geojson',
-      //     showGraticule: false,
-      //     gridWidth: 600,
-      //     projection: 'conicConformal' // https://github.com/mbostock/d3/wiki/Geo-Projections
-      //   },
-      //   cardStyle: 'card',
-      //   fetchData: 'getData'
-      // }
+      }, 
+      {
+        header: 'GAChoropleth Test ][ - GEOJSON',
+        type: 'Choropleth',
+        settings: {
+          colors: ['red','green','yellow','purple','orange','pink','#252525','#000000'],
+          cssPath: '/static/choropleth.css',
+          showTooltip: {true},
+          legendHeader: 'Accred. Time: Before 8 AM #',
+          levels: 5,
+          domainLower: 10,  
+          domainUpper: 80,
+          domainKey: 'Zone', // map key in domain data
+          domainMapKey: 'name', // map key in map data
+          domainField: 'Accred. Time: Before 8 AM #',
+          dataset: {
+            backend: 'csv',
+            url: '/data/apollo-parsed-1737-325_0.csv',
+            delimiter: ','
+          },
+          tooltip: {
+            label: 'Accred',
+            attr: 'Accred. Time: Before 8 AM #'
+          },
+          mapDataUrl: '/data/zones.geojson',
+          mapFormat: 'geojson',
+          showGraticule: false,
+					legendHeight : 400,
+					legendMargins : {top: 40, right: 50, bottom: 40, left: 50},
+					legendClassName : "test-legend-class",
+					legendPosition : 'left',
+					legendOffset : 90
+        },
+        cardStyle: 'card',
+        fetchData: 'getData'
+      } 
     ],
     middleFirst: [
       {
