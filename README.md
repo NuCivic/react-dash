@@ -789,6 +789,18 @@ To see the full list of available options see http://okfnlabs.org/recline/docs/m
 ### Backends
 There are a few backends available but more are coming. 
 
+#### Inline
+A backend to provide and array of data.
+
+```javascript
+let dataset = new Dataset({
+  backend: 'inline', 
+  records: [{x: 1, y:2}, {x:3, y:20}]
+});
+```
+**Available settings**
+* **records:** an array with the data you want to use.
+
 #### CSV
 This is a port of https://github.com/okfn/csv.js so it keeps the same configuration options.
 
