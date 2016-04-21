@@ -131,7 +131,7 @@ export default class Table extends BaseComponent {
 
   render() {
     const { gridWidth, gridHeight } = this.state;
-    let data = this.state.data || [];
+    let data = this.getData() || [];
     let tableDefaultProps = getProp('settings.table', this.props);
     let columnDefaultProps = getProp('settings.columns', this.props);
     let cellsDefaultProps = getProp('settings.cells', this.props);

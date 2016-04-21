@@ -6,7 +6,7 @@ import Loader from './Loader';
 
 export default class Chart extends BaseComponent {
   render() {
-    let data = this.state.data || [];
+    let data = this.getData() || [];
     let settings = Object.assign({datum: data}, this.props.settings);
 
     return (

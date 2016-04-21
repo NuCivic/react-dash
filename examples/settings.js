@@ -87,8 +87,8 @@ export var settings = {
 					legendOffset : 90
         },
         cardStyle: 'card',
-        fetchData: {type:'function', name: 'getData'},
-      }, 
+        fetchData: {type:'function', name: 'getCustomData'},
+      },
       {
         header: 'GAChoropleth Test ][ - GEOJSON',
         type: 'Choropleth',
@@ -98,7 +98,7 @@ export var settings = {
           showTooltip: {true},
           legendHeader: 'Accred. Time: Before 8 AM #',
           levels: 5,
-          domainLower: 10,  
+          domainLower: 10,
           domainUpper: 80,
           domainKey: 'Zone', // map key in domain data
           domainMapKey: 'name', // map key in map data
@@ -122,8 +122,8 @@ export var settings = {
 					legendOffset : 90
         },
         cardStyle: 'card',
-        fetchData: 'getData'
-      } 
+        fetchData: 'getCustomData'
+      }
     ],
     middleFirst: [
       {
@@ -160,9 +160,10 @@ export var settings = {
         type:'GAMetric',
         cardStyle: 'metric',
         background: '#0B90B1',
-        metric: 'getRandomMetric',
+        metric: 'getAVGPrice',
         caption: 'Unique Visitors',
-        iconClass: 'glyphicon glyphicon-road'
+        iconClass: 'glyphicon glyphicon-road',
+        fetchData: {type: 'function', name: 'getCustomData'}
       }
     ],
     goalsFirst: [
@@ -191,7 +192,7 @@ export var settings = {
         spline: {
           height: 50,
         },
-        fetchData: {type:'function', name: 'getData'},
+        fetchData: {type:'function', name: 'getCustomData'},
         metric: 'getRandomMetric'
       }
     ],
@@ -217,7 +218,7 @@ export var settings = {
         spline: {
           height: 50,
         },
-        fetchData: {type:'function', name: 'getData'},
+        fetchData: {type:'function', name: 'getCustomData'},
         metric: 'getRandomMetric'
       }
     ],
@@ -243,7 +244,7 @@ export var settings = {
         spline: {
           height: 50,
         },
-        fetchData: {type:'function', name: 'getData'},
+        fetchData: {type:'function', name: 'getCustomData'},
         metric: 'getRandomMetric'
       }
     ],
@@ -263,7 +264,7 @@ export var settings = {
           },
         },
         cardStyle: 'card',
-        fetchData: {type:'function', name: 'getData'},
+        fetchData: {type:'function', name: 'getCustomData'},
       },
       {
         type: 'GATable',
@@ -319,7 +320,7 @@ export var settings = {
           color: ['#82899B']
         },
         cardStyle: 'card',
-        fetchData: {type:'function', name: 'getData'},
+        fetchData: {type:'function', name: 'getCustomData'},
       },
       {
         header: 'This is an awesome text',

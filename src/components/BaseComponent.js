@@ -5,13 +5,16 @@ import Dataset from '../models/Dataset';
 import {omit, isFunction, isPlainObject, isString, debounce} from 'lodash';
 
 export default class BaseComponent extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
+      data: [],
       dataset: null,
       queryObj: Object.assign({size: 10, from: 0}, this.props.queryObj),
       isFeching: false
     };
+
   }
 
   getFetchType() {
@@ -29,13 +32,12 @@ export default class BaseComponent extends Component {
   }
 
   componentDidMount(){
-    let type = this.getFetchType();
-
     // resize magic
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     this.setState({ componentWidth : componentWidth});
     window.addEventListener('resize', debounce(this.handleResize.bind(this), 500));
 
+    let type = this.getFetchType();
     if(type){
 
       // fetch data is a function in the subcomponent
@@ -76,7 +78,6 @@ export default class BaseComponent extends Component {
   }
 
   onData(data) {
-
     // If it's a fetch response.
     if(data.json) {
       data.json().then((data) => this.setData(data));
@@ -88,10 +89,9 @@ export default class BaseComponent extends Component {
       }
       this.setData(data);
     }
-
   }
 
-  onDataReady(data) {
+  onDataChange(data) {
     /* IMPLEMENT */
   }
 
@@ -103,10 +103,25 @@ export default class BaseComponent extends Component {
     let _data = data.hits || data;
     let _total = data.total || data.length;
     this.setState({data: _data, total: _total, isFeching: false});
-    this.onDataReady(data);
+    this.onDataChange(data);
   }
 
   emit(payload) {
     EventDispatcher.dispatch(payload);
+  }
+
+  getData() {
+    if(this.props.fetchData && this.props.fetchData.type === 'function') {
+      let data = this[this.props.fetchData.name](this.props.fetchData.args);
+      if(data.then) {
+        return this.state.data || [];
+      }
+      return data;
+    }
+    return this.state.data || [];
+  }
+
+  getGlobalData() {
+    return this.props.globalData || [];
   }
 }

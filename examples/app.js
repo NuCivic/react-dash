@@ -10,6 +10,17 @@ export default class GADashboard extends Dashboard {
     this.state = {data: []};
   }
 
+  componentDidMount() {
+    let dataset = new Dataset({
+      backend: 'csv',
+      url: 'http://demo.getdkan.com/node/9/download'
+    });
+    dataset.fetch().then(() => {
+      dataset.query({size: 100, from: 0}).then((data) =>{
+        this.setData({globalData: data.hits});
+      });
+    });
+  }
   onAction(payload) {
     switch(payload.actionType) {
       case 'AUTOCOMPLETE_CHANGE':

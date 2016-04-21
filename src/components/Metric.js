@@ -7,23 +7,17 @@ export default class Metric extends BaseComponent {
 
   constructor(props) {
     super(props);
-    this.state = {
-      metric: 0
-    };
+    this.state = Object.assign({}, {
+      metric: 0,
+    }, this.state);
   }
 
   componentDidMount() {
     super.componentDidMount();
-
-    // If doesn't need to fetch data then use the global data
-    if(!this.props.fetchData) this.onDataReady(this.props.globalData);
-  }
-
-  onDataReady(data) {
-    this.setState({metric: this.getMetric(data)});
   }
 
   getMetric(data) {
+    console.log(this.props.metric);
     return this[this.props.metric](data);
   }
 
@@ -40,7 +34,7 @@ export default class Metric extends BaseComponent {
           </div>
           <div className="col-sm-9 col-lg-8">
             <div className="card-metric-number">
-            {this.state.metric}
+            {this.getMetric(this.getData())}
             </div>
             <div className="card-metric-caption">
             {this.props.caption}

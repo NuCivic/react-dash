@@ -5,7 +5,7 @@ import last from 'lodash/last';
 
 export default class GAGoal extends Goal {
 
-  getData() {
+  getCustomData() {
     return this.randomData(50.0, 0.02);
   }
 

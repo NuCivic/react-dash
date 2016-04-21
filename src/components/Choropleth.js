@@ -79,10 +79,10 @@ export default class Choropleth extends BaseComponent {
   }
 
   // fetchData should set topoData and domainData
-  onDataReady(data) {
+  onDataChange(data) {
     this.setState({domainData: data.domainData, topodata: data.topodata});
 	}
-    
+
   componentDidMount () {
     // add stylesheet
     if (this.props.settings.cssPath) {
@@ -105,7 +105,7 @@ export default class Choropleth extends BaseComponent {
 
   fetchData() {
     return new Promise((resolve, reject) => {
-      
+
       let dataset = new Dataset(this.props.settings.dataset);
       let response = {};
       fetch(this.props.settings.mapDataUrl)
@@ -129,7 +129,7 @@ export default class Choropleth extends BaseComponent {
             })
         })
         .catch(e => {
-          return reject(e); 
+          return reject(e);
         });
     });
   }
@@ -170,7 +170,7 @@ export default class Choropleth extends BaseComponent {
     }
     return series;
   }
-  
+
   domainScale(data) {
      let settings = this.props.settings;
      let randKey = this.randKey;
@@ -185,10 +185,10 @@ export default class Choropleth extends BaseComponent {
   render () {
     let v;
     let settings = Object.assign({}, this.props.settings);
-    
+
     if (this.state.domainData) {
       Object.assign(settings, this.state.data, {type : this.props.type});
-      
+
       settings.topodata = this.state.topodata;
       settings.domainData = this.state.domainData;
       settings.tooltipContent = this._tooltipContent.bind(this);
@@ -197,7 +197,7 @@ export default class Choropleth extends BaseComponent {
       settings.mapKey = this._mapKey.bind(this);
       settings.domain = this.domainScale(this.state.domainData);
       settings.scale = this.state.componentWidth;
-      
+
       // Add some sensible defaults
       settings.projection = settings.projection || 'azimuthalEqualArea';
 

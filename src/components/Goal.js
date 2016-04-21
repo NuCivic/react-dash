@@ -36,17 +36,6 @@ export default class Goal extends BaseComponent {
     };
   }
 
-  componentDidMount() {
-    super.componentDidMount();
-
-    // If doesn't need to fetch data then use the global data
-    if(!this.props.fetchData) this.onDataReady(this.props.globalData);
-  }
-
-  onDataReady(data) {
-    this.setState({metric: this.getMetric(data)});
-  }
-
   getMetric(data) {
     return this[this.props.metric](data);
   }
@@ -66,7 +55,7 @@ export default class Goal extends BaseComponent {
     let endNumber = Number(this.props.endNumber);
     let tracker = this.getTracker(startDate, endDate, startNumber, endNumber);
     let projection = tracker(Date.now());
-    let distance = projection - this.state.metric;
+    let distance = projection - this.getMetric(this.getData());
     let actionContitions = {
       increase: distance <= 0,
       decrease: distance >= 0,
@@ -125,7 +114,7 @@ export default class Goal extends BaseComponent {
     // Adds the spline chart
     if(this.props.spline) {
       let splineSettings = Object.assign({}, this.props.spline);
-      spline = <NVD3Chart type="sparklinePlus" datum={this.state.data} showLastValue={false} color={['#333333']}{...splineSettings}/>
+      spline = <NVD3Chart type="sparklinePlus" datum={this.getData()} showLastValue={false} color={['#333333']}{...splineSettings}/>
     }
 
     // This allows to show either a single number or a progress in the following format: number / total
@@ -149,7 +138,7 @@ export default class Goal extends BaseComponent {
           <div className="row">
             <div className="col-md-4">
               <div className="card-goal-progress">
-               <span className="card-goal-metric">{this.formatNumber(this.state.metric)}</span>
+               <span className="card-goal-metric">{this.formatNumber(this.getMetric(this.getData()))}</span>
                {endNumber}
               </div>
             </div>
