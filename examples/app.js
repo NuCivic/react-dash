@@ -5,11 +5,6 @@ import Dataset from '../src/models/Dataset';
 
 export default class GADashboard extends Dashboard {
 
-  constructor(props) {
-    super(props);
-    this.state = {data: []};
-  }
-
   componentDidMount() {
     let dataset = new Dataset({
       backend: 'csv',
@@ -17,7 +12,7 @@ export default class GADashboard extends Dashboard {
     });
     dataset.fetch().then(() => {
       dataset.query({size: 100, from: 0}).then((data) =>{
-        this.setData({globalData: data.hits});
+        this.setState({data: data.hits});
       });
     });
   }
