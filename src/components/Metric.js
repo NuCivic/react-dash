@@ -12,10 +12,6 @@ export default class Metric extends BaseComponent {
     }, this.state);
   }
 
-  componentDidMount() {
-    super.componentDidMount();
-  }
-
   getMetric(data) {
     console.log(this.props.metric);
     return this[this.props.metric](data);
