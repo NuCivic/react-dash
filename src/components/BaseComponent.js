@@ -17,6 +17,11 @@ export default class BaseComponent extends Component {
 
   }
 
+  componentWillMount() {
+    // Register to all the actions
+    EventDispatcher.register(this.onAction.bind(this));
+  }
+
   getFetchType() {
     return this.props.fetchData && this.props.fetchData.type;
   }
@@ -60,8 +65,6 @@ export default class BaseComponent extends Component {
       }
     }
 
-    // Register to all the actions
-    EventDispatcher.register(this.onAction.bind(this));
   }
 
   onAction() {
