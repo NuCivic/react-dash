@@ -13,6 +13,7 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import Registry from '../utils/Registry';
+import {makeKey} from '../utils/utils';
 import BaseComponent from './BaseComponent';
 import DashboardConstants from '../constants/DashboardConstants';
 
