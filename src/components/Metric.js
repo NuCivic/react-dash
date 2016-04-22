@@ -13,7 +13,6 @@ export default class Metric extends BaseComponent {
   }
 
   getMetric(data) {
-    console.log(this.props.metric);
     return this[this.props.metric](data);
   }
 
