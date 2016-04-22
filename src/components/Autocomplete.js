@@ -33,7 +33,8 @@ export default class Autocomplete extends BaseComponent {
 
     this.emit({
       actionType: DashboardConstants.AUTOCOMPLETE_CHANGE,
-      value: value
+      value: value,
+      id: this.props.id || makeKey(5)
     });
   }
 
