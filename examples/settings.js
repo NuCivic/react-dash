@@ -92,7 +92,7 @@ export var settings = {
       },
       {
         header: 'GAChoropleth Test ][ - GEOJSON',
-        type: 'Choropleth',
+        type: 'GAChoropleth',
         settings: {
           colors: ['red','green','yellow','purple','orange','pink','#252525','#000000'],
           cssPath: '/static/choropleth.css',
@@ -121,10 +121,9 @@ export var settings = {
           type: 'backend',
           backend: 'csv',
           url: '/data/apollo-parsed-1737-325_0.csv',
-          delimiter: ','
         },
-        cardStyle: 'card',
-        fetchData: 'getCustomData'
+        queryObj: {size: 10000000, from: 0},
+        cardStyle: 'card'
       }
     ],
     middleFirst: [
