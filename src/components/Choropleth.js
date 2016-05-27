@@ -20,7 +20,7 @@ import {MapChoropleth} from 'react-d3-map-choropleth';
 import {mesh, feature} from 'topojson';
 import {range, format} from 'd3';
 import Dataset from '../models/Dataset';
-
+import FilterSelect from './FilterSelect';
 
 // Whack some css into the page
 function addStyleString(str) {
@@ -226,7 +226,9 @@ export default class Choropleth extends BaseComponent {
         settings.dataPolygon = settings.topodata.features;
       }
 
+    let choices = {a: 'AAA', b: 'BBB'};
      v = <div className="choropleth-container">
+            <FilterSelect {...choices} />
             <MapChoropleth ref="choropleth" {...settings} />
             <div className="legend-container">
               <h3 className="legend-header">{settings.legendHeader}</h3>
