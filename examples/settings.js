@@ -51,7 +51,7 @@ export var settings = {
        */
       {
         header: 'GAChoropleth Test',
-        type: 'Choropleth',
+        type: 'GAChoropleth',
         settings: {
           colors:colorbrewer.OrRd[9],
           cssPath: '/static/choropleth.css',
@@ -65,11 +65,6 @@ export var settings = {
           legendValFormat: '%', // format string for d3.format function
           domainField: 'rate', // the data we are comparing
           legendValPrecision: 3, // Defaults to 2
-          dataset: {
-            backend: 'csv',
-            url: '/data/unemployment.tsv',
-            delimiter: '\t'
-          },
           tooltip: {
             attr: 'rate',
             label: 'Unemployment rate'
@@ -86,8 +81,14 @@ export var settings = {
 					legendPosition : 'left',
 					legendOffset : 90
         },
+        fetchData: {
+           type: 'backend',
+           backend: 'csv',
+           url: '/data/unemployment.tsv',
+           delimiter: '\t',
+        },
+        queryObj: {size: 10000000, from:0}, // we want them all
         cardStyle: 'card',
-        fetchData: {type:'function', name: 'getCustomData'},
       },
       {
         header: 'GAChoropleth Test ][ - GEOJSON',
@@ -103,11 +104,6 @@ export var settings = {
           domainKey: 'Zone', // map key in domain data
           domainMapKey: 'name', // map key in map data
           domainField: 'Accred. Time: Before 8 AM #',
-          dataset: {
-            backend: 'csv',
-            url: '/data/apollo-parsed-1737-325_0.csv',
-            delimiter: ','
-          },
           tooltip: {
             label: 'Accred',
             attr: 'Accred. Time: Before 8 AM #'
@@ -120,6 +116,12 @@ export var settings = {
 					legendClassName : "test-legend-class",
 					legendPosition : 'left',
 					legendOffset : 90
+        },
+        fetchData: {
+          type: 'backend',
+          backend: 'csv',
+          url: '/data/apollo-parsed-1737-325_0.csv',
+          delimiter: ','
         },
         cardStyle: 'card',
         fetchData: 'getCustomData'

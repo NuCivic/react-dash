@@ -78,11 +78,6 @@ export default class Choropleth extends BaseComponent {
     return d.properties[this.props.settings.domainMapKey]; //omainKey;
   }
 
-  // fetchData should set topoData and domainData
-  onDataChange(data) {
-    this.setState({domainData: data.domainData, topodata: data.topodata});
-	}
-
   componentDidMount () {
     // add stylesheet
     if (this.props.settings.cssPath) {
@@ -94,16 +89,35 @@ export default class Choropleth extends BaseComponent {
         });
     }
 
-    if (this.props.fetchData) {
-      this.fetchData().then(this.onData.bind(this)).catch(e => {
-        console.log('Error fetching data', e);
-      });
-    }
     addStyleString(this.css());
     super.componentDidMount();
   }
+  
+  // fetchData should set topoData and domainData
+  onDataChange(data) {
+    this.fetchMapData().then(mapData => {
+      this.setState({domainData: data, topodata: mapData});
+    });
+	}
 
-  fetchData() {
+  fetchMapData() {
+    return new Promise((resolve, reject) => {
+      let url = this.props.settings.mapDataUrl;
+      fetch(url)
+        .then(res => {
+          return res.json();
+        })
+        .then(d => {
+          resolve(d);   
+        })
+        .catch(e => {
+          console.error('Map Data fetch failed', e);
+          reject(e);
+      });
+    });
+  }
+  
+/*  fetchData() {
     return new Promise((resolve, reject) => {
 
       let dataset = new Dataset(this.props.settings.dataset);
@@ -133,7 +147,7 @@ export default class Choropleth extends BaseComponent {
         });
     });
   }
-
+*/
   _attachResize() {
     window.addEventListener('resize', this._setSize.bind(this), false);
   }

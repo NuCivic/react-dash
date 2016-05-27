@@ -53,10 +53,12 @@ export default class BaseComponent extends Component {
 
       // fetch data is a backend
       } else if(type === 'backend') {
+        let queryObj = this.state.queryObj || {};
         let dataset = new Dataset(omit(this.props.fetchData, 'type'));
-        this.setState({isFeching: true, dataset: dataset});
+        this.setState({isFetching: true, dataset: dataset});
         dataset.fetch().then(() => {
-          this.query(this.state.queryObj);
+          dataset.query(queryObj);
+          this.setData(dataset.records);
         });
 
       // fetch data is an array
