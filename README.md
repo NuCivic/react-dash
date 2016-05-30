@@ -1,5 +1,6 @@
 React Dashboard
 ===============
+![ScreenCapture example](https://github.com/NuCivic/react-dashboard/raw/master/static/example.gif)
 ## What's React Dashboard
 * A collection of tools (components + utils) that can be used to create dashboards programatically.
 * A a framework to speed up dashboards creation.
