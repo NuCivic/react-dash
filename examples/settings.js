@@ -65,6 +65,16 @@ export var settings = {
           legendValFormat: '%', // format string for d3.format function
           domainField: 'rate', // the data we are comparing
           legendValPrecision: 3, // Defaults to 2
+          filters: [
+            {
+              field: 'rate',
+              title: 'Unemployent Rate'
+            },
+            {
+              field: 'foo',
+              title: 'Arbitrary (Field for testing)'
+            }
+          ],
           tooltip: {
             attr: 'rate',
             label: 'Unemployment rate'
@@ -84,8 +94,7 @@ export var settings = {
         fetchData: {
            type: 'backend',
            backend: 'csv',
-           url: '/data/unemployment.tsv',
-           delimiter: '\t',
+           url: '/data/unemployment.csv',
         },
         queryObj: {size: 10000000, from:0}, // we want them all
         cardStyle: 'card',

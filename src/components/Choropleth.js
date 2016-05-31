@@ -67,7 +67,8 @@ export default class Choropleth extends BaseComponent {
   _domainValue(d)  {
     return Number(d[this.props.settings.domainField]);
   }
-
+  
+  // Used by choropleth to calculate the key for each row of data
   _domainKey(d) {
     return d[this.props.settings.domainKey];
   }
@@ -170,12 +171,24 @@ export default class Choropleth extends BaseComponent {
    */
   filterChoropleth (e) {
     console.log('change', e.target.value, this);
-    this.data.map(obj => {
-      return obj[this.props.settings.domainKey] = obj[e.target.value];
-    }); 
+    let key = this.props.settings.domainKey;
+    let val = e.target.value;
+    console.log('ch.1',key,val);
+    let filteredData = [];
+    this.state.data.forEach(obj => {
+      let row = {};
+      row[key] = obj[key];
+      row[val] = obj[val];
+      filteredData.push(row);
+    });
+    this.props.settings.legendHeader = val;
+    this.props.settings.domainField = val;
+    this.setState({domainData : filteredData});
+    console.log('change2',this);
   }
 
   render () {
+    console.log('meh', this);
     let v;
     let settings = Object.assign({}, this.props.settings);
 
@@ -204,7 +217,7 @@ export default class Choropleth extends BaseComponent {
       } else if (settings.mapFormat === 'geojson') {
         settings.dataPolygon = settings.topodata.features;
       }
-      
+      console.log('settings', settings) 
       // @@STUB for settings values
       let choices =  [{val: 'AAA', title: 'Option A'}, {val: 'BBB', title: 'Options B'}];
       
@@ -212,8 +225,8 @@ export default class Choropleth extends BaseComponent {
             <div class="choropleth-select">
               <select class="filter-select" onChange={this.filterChoropleth.bind(this)} value={this.state.filterValue}>
                 {
-                  choices.map(row => {
-                    return <option value={row.val}>{row.title}</option>
+                  settings.filters.map(filter => {
+                    return <option value={filter.field}>{filter.title}</option>
                   })
                 }
               </select>
