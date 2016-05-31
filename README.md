@@ -497,7 +497,7 @@ Domain data should be formatted as follows
 * **domainLower:** Lower limit when calculating levels
 * **domainUpper:** Upper limit when calculating levels
 * **domainKey:** A key value to associate a row of domain data with a map polygon
-* **domainMapKey:** The map polygon associated with the domain data key above
+* **mapKey:** The map polygon associated with the domain data key above
 * **domainField:** The field in a domain data row which contains the value to compare
 * **tooltip:** [_object_] An object contain a **label** attribute and an *attr* attribute which contains the key to an element in domain data row
 * **showTooltip:** [_boolean_]

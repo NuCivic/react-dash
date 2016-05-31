@@ -58,7 +58,7 @@ export default class Choropleth extends BaseComponent {
   _tooltipContent(d) {
     let label = this.props.settings.tooltip.label;
     Object.assign(d, d.properties);
-    let val = d[d[this.props.settings.domainMapKey]] || ''; //catch pre-load undefined
+    let val = d[d[this.props.settings.mapKey]] || ''; //catch pre-load undefined
     let tt = {};
     tt[label] = val;
     return tt;
@@ -74,8 +74,8 @@ export default class Choropleth extends BaseComponent {
 
   _mapKey(d) {
     Object.assign(d, d.properties);
-    return d[this.props.settings.domainMapKey];
-    return d.properties[this.props.settings.domainMapKey]; //omainKey;
+    return d[this.props.settings.mapKey];
+    return d.properties[this.props.settings.mapKey]; //omainKey;
   }
 
   componentDidMount () {
@@ -117,37 +117,6 @@ export default class Choropleth extends BaseComponent {
     });
   }
   
-/*  fetchData() {
-    return new Promise((resolve, reject) => {
-
-      let dataset = new Dataset(this.props.settings.dataset);
-      let response = {};
-      fetch(this.props.settings.mapDataUrl)
-        .then(res => {
-          let d = res.json();
-          return d;
-        })
-        .then(data => {
-          response.topodata = data;
-          dataset.fetch()
-            .then(data => {
-              dataset.query({})
-                .then(data => {
-                  response.domainData = data.hits;
-                  return resolve(response);
-                })
-            })
-            .catch(e => {
-              console.log('Dataset fetch failed', e);
-              return reject(e);
-            })
-        })
-        .catch(e => {
-          return reject(e);
-        });
-    });
-  }
-*/
   _attachResize() {
     window.addEventListener('resize', this._setSize.bind(this), false);
   }
@@ -196,6 +165,16 @@ export default class Choropleth extends BaseComponent {
      return dScale;
   }
 
+  /* 
+   * Takes user-selected value and filter data by that row
+   */
+  filterChoropleth (e) {
+    console.log('change', e.target.value, this);
+    this.data.map(obj => {
+      return obj[this.props.settings.domainKey] = obj[e.target.value];
+    }); 
+  }
+
   render () {
     let v;
     let settings = Object.assign({}, this.props.settings);
@@ -225,10 +204,20 @@ export default class Choropleth extends BaseComponent {
       } else if (settings.mapFormat === 'geojson') {
         settings.dataPolygon = settings.topodata.features;
       }
-
-    let choices = {a: 'AAA', b: 'BBB'};
-     v = <div className="choropleth-container">
-            <FilterSelect {...choices} />
+      
+      // @@STUB for settings values
+      let choices =  [{val: 'AAA', title: 'Option A'}, {val: 'BBB', title: 'Options B'}];
+      
+      v = <div className="choropleth-container">
+            <div class="choropleth-select">
+              <select class="filter-select" onChange={this.filterChoropleth.bind(this)} value={this.state.filterValue}>
+                {
+                  choices.map(row => {
+                    return <option value={row.val}>{row.title}</option>
+                  })
+                }
+              </select>
+            </div>
             <MapChoropleth ref="choropleth" {...settings} />
             <div className="legend-container">
               <h3 className="legend-header">{settings.legendHeader}</h3>

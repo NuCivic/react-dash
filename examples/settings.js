@@ -47,7 +47,7 @@ export var settings = {
        *  ...
        * ]
        *
-       * domainMapKey should be the key for the value representi9ng the map polygon
+       * mapKey should be the key for the value representi9ng the map polygon
        */
       {
         header: 'GAChoropleth Test',
@@ -59,8 +59,8 @@ export var settings = {
           levels: 9, // number of Choropleth levels
           domainLower: 0, // specify domain range - this can also be overridden in the domainScale functionion()
           domainUpper: .15, // ibid.
-          domainKey: 'id',
-          domainMapKey: 'id',
+          domainKey: 'id', // unique identifying key from data row
+          mapKey: 'id', // key from map data that corresponds to domainKey
           legendHeader: "Per Cent Unemploytment by U.S. County",
           legendValFormat: '%', // format string for d3.format function
           domainField: 'rate', // the data we are comparing
@@ -102,7 +102,7 @@ export var settings = {
           domainLower: 10,
           domainUpper: 80,
           domainKey: 'Zone', // map key in domain data
-          domainMapKey: 'name', // map key in map data
+          mapKey: 'name', // map key in map data
           domainField: 'Accred. Time: Before 8 AM #',
           tooltip: {
             label: 'Accred',

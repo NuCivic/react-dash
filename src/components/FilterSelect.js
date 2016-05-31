@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import BaseComponent from './BaseComponent';
 
-export default class FilterSelect extends BaseComponent {
+export default class FilterSelect extends Component {
   render() {
-    console.log('filter', this.props);
-    let html = <select class="filter-select">
-                <option value='opt1'>Option 1</option>
-                <option value='opt2'>Option 2</option>
-               </select>
-    return html;
+    console.log(this.props);
+    return (
+      <select class="filter=select">
+        {
+          this.props.vals.map(row => {
+            return <option value={row.val}>{row.title}</option>
+          })
+        }
+      </select>
+    );
   }
 }
 
