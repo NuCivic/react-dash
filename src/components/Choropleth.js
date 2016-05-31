@@ -173,18 +173,30 @@ export default class Choropleth extends BaseComponent {
     console.log('change', e.target.value, this);
     let key = this.props.settings.domainKey;
     let val = e.target.value;
-    console.log('ch.1',key,val);
     let filteredData = [];
+    
     this.state.data.forEach(obj => {
       let row = {};
       row[key] = obj[key];
       row[val] = obj[val];
       filteredData.push(row);
     });
+    
+    // we should use the state for this
     this.props.settings.legendHeader = val;
     this.props.settings.domainField = val;
     this.setState({domainData : filteredData});
     console.log('change2',this);
+  }
+  
+  /*
+   * Return upper and lower limits from domain data
+   */
+  getDomainLimits () {
+    let d = this.props.settings.domainField;
+    let lower = Math.min.apply(Math, this.state.domainData.map(function(o){return o[d];}));
+    let upper = Math.max.apply(Math, this.state.domainData.map(function(o){return o[d];}));
+    return [lower, upper];
   }
 
   render () {
