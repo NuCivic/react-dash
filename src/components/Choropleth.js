@@ -1,3 +1,6 @@
+// @@TODO @@
+// copy props.settings to state and use state in all operations
+
 /**
  * Choropleth Element for React-Dashboard
  * Author Paul Walker (https://github.com/starsinmypockets)
@@ -158,9 +161,10 @@ export default class Choropleth extends BaseComponent {
   domainScale(data) {
      let settings = this.props.settings;
      let randKey = this.randKey;
+     let limits = this.getDomainLimits();
      let dScale = ({
         scale: 'quantize',
-        domain: [Number(settings.domainLower), Number(settings.domainUpper)],
+        domain: limits,
         range: range(settings.levels).map(i => { return `${randKey}${i}-${settings.levels}`; })
      });
      return dScale;
