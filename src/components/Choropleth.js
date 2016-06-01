@@ -1,5 +1,6 @@
 // @@TODO @@
-// copy props.settings to state and use state in all operations
+// ** copy props.settings to state and use state in all operations
+// ** get human title for legendHeader
 
 /**
  * Choropleth Element for React-Dashboard
@@ -25,6 +26,8 @@ import {range, format} from 'd3';
 import Dataset from '../models/Dataset';
 import FilterSelect from './FilterSelect';
 
+const DEFAULT_PROJECTION = 'azimuthalEqualArea';
+
 // Whack some css into the page
 function addStyleString(str) {
     var node = document.createElement('style');
@@ -33,6 +36,7 @@ function addStyleString(str) {
 }
 
 // Fetch css
+// @@TODO - we should use a more standard solution here
 function fetchStyleSheet(url) {
   return new Promise((resolve, reject) => {
     fetch(url)
@@ -51,7 +55,7 @@ function fetchStyleSheet(url) {
 export default class Choropleth extends BaseComponent {
   constructor(props){
 		super(props);
-    this.levels = this.props.settings.levels;
+    this.state.settings = this.props.settings;
     this.randKey = makeKey(4);
 	}
 
@@ -128,10 +132,11 @@ export default class Choropleth extends BaseComponent {
   // generate css string from colors array
   css () {
     let _css = '';
+    let levels = this.state.settings.levels;
     let randKey = this.randKey;
-    let colors = this.props.settings.colors;
-    for (var i = 0; i < this.levels; i++) {
-      _css += `.${randKey}${i}-${this.levels} { fill:${colors[i]}; }`;
+    let colors = this.state.settings.colors;
+    for (var i = 0; i < levels; i++) {
+      _css += `.${randKey}${i}-${levels} { fill:${colors[i]}; }`;
     }
     return _css;
   }
@@ -139,19 +144,19 @@ export default class Choropleth extends BaseComponent {
   legendSeries () {
     let series = [];
     let domainScale = this.domainScale(this.state.domainData);
-    let step = ((domainScale.domain[1] - domainScale.domain[0]) / this.props.settings.levels);
-    let formatString = this.props.settings.legendValFormat || 'f';
-    let formatPrecision = this.props.settings.legendValPrecision || 2;
+    let step = ((domainScale.domain[1] - domainScale.domain[0]) / this.state.settings.levels);
+    let formatString = this.state.settings.legendValFormat || 'f';
+    let formatPrecision = this.state.settings.legendValPrecision || 2;
     let formatter = format(formatString, formatPrecision);
     let r = range(domainScale.domain[0],  domainScale.domain[1], step);
     r.push(domainScale.domain[1]);
-    for (var i = 0; i < this.levels; i++) {
+    for (var i = 0; i < this.state.settings.levels; i++) {
       let lower = formatter(r[i]);
       let upper = formatter(r[i+1]);
       let item = {
         field: `${lower} -- ${upper}`,
         name: `${lower} -- ${upper}`,
-        color: this.props.settings.colors[i]
+        color: this.state.settings.colors[i]
       }
       series.push(item);
     }
@@ -159,13 +164,13 @@ export default class Choropleth extends BaseComponent {
   }
 
   domainScale(data) {
-     let settings = this.props.settings;
      let randKey = this.randKey;
      let limits = this.getDomainLimits();
+     let levels = this.state.settings.levels;
      let dScale = ({
         scale: 'quantize',
         domain: limits,
-        range: range(settings.levels).map(i => { return `${randKey}${i}-${settings.levels}`; })
+        range: range(levels).map(i => { return `${randKey}${i}-${levels}`; })
      });
      return dScale;
   }
@@ -174,7 +179,6 @@ export default class Choropleth extends BaseComponent {
    * Takes user-selected value and filter data by that row
    */
   filterChoropleth (e) {
-    console.log('change', e.target.value, this);
     let key = this.props.settings.domainKey;
     let val = e.target.value;
     let filteredData = [];
@@ -187,53 +191,53 @@ export default class Choropleth extends BaseComponent {
     });
     
     // we should use the state for this
-    this.props.settings.legendHeader = val;
-    this.props.settings.domainField = val;
+    this.state.settings.legendHeader = key;
+    this.state.settings.domainField = val;
     this.setState({domainData : filteredData});
-    console.log('change2',this);
   }
   
   /*
    * Return upper and lower limits from domain data
    */
   getDomainLimits () {
-    let d = this.props.settings.domainField;
+    let d = this.state.settings.domainField;
     let lower = Math.min.apply(Math, this.state.domainData.map(function(o){return o[d];}));
     let upper = Math.max.apply(Math, this.state.domainData.map(function(o){return o[d];}));
     return [lower, upper];
   }
 
   render () {
-    console.log('meh', this);
     let v;
-    let settings = Object.assign({}, this.props.settings);
+    // create options object for rendering choropleth
+    let opts = Object.assign({}, this.state.settings);
 
     if (this.state.domainData) {
-      Object.assign(settings, this.state.data, {type : this.props.type});
+      // @@ this looks like it is extraneous
+      //Object.assign(settings, this.state.data, {type : this.props.type});
 
-      settings.topodata = this.state.topodata;
-      settings.domainData = this.state.domainData;
-      settings.tooltipContent = this._tooltipContent.bind(this);
-      settings.domainValue = this._domainValue.bind(this);
-      settings.domainKey = this._domainKey.bind(this);
-      settings.mapKey = this._mapKey.bind(this);
-      settings.domain = this.domainScale(this.state.domainData);
-      settings.scale = this.state.componentWidth;
+      opts.topodata = this.state.topodata;
+      opts.domainData = this.state.domainData;
+      opts.tooltipContent = this._tooltipContent.bind(this);
+      opts.domainValue = this._domainValue.bind(this);
+      opts.domainKey = this._domainKey.bind(this);
+      opts.mapKey = this._mapKey.bind(this);
+      opts.domain = this.domainScale(this.state.domainData);
+      opts.scale = this.state.componentWidth;
 
       // Add some sensible defaults
-      settings.projection = settings.projection || 'azimuthalEqualArea';
+      opts.projection = opts.projection || DEFAULT_PROJECTION;
 
-      if (settings.mapFormat === 'topojson') {
-        if (settings.polygon) {
-          settings.dataPolygon = feature(settings.topodata, settings.topodata.objects[settings.polygon]).features;
+      if (opts.mapFormat === 'topojson') {
+        if (opts.polygon) {
+          opts.dataPolygon = feature(opts.topodata, opts.topodata.objects[opts.polygon]).features;
         }
-        if (settings.mesh) {
-          settings.dataMesh = mesh(settings.topodata, settings.topodata.objects[settings.mesh], function(a, b) { return a !== b; });
+        if (opts.mesh) {
+          opts.dataMesh = mesh(opts.topodata, opts.topodata.objects[opts.mesh], function(a, b) { return a !== b; });
         }
-      } else if (settings.mapFormat === 'geojson') {
-        settings.dataPolygon = settings.topodata.features;
+      } else if (opts.mapFormat === 'geojson') {
+        opts.dataPolygon = opts.topodata.features;
       }
-      console.log('settings', settings) 
+      
       // @@STUB for settings values
       let choices =  [{val: 'AAA', title: 'Option A'}, {val: 'BBB', title: 'Options B'}];
       
@@ -241,22 +245,22 @@ export default class Choropleth extends BaseComponent {
             <div class="choropleth-select">
               <select class="filter-select" onChange={this.filterChoropleth.bind(this)} value={this.state.filterValue}>
                 {
-                  settings.filters.map(filter => {
+                  opts.filters.map(filter => {
                     return <option value={filter.field}>{filter.title}</option>
                   })
                 }
               </select>
             </div>
-            <MapChoropleth ref="choropleth" {...settings} />
+            <MapChoropleth ref="choropleth" {...opts} />
             <div className="legend-container">
-              <h3 className="legend-header">{settings.legendHeader}</h3>
+              <h3 className="legend-header">{opts.legendHeader}</h3>
               <Legend
                 width= {this.state.componentWidth}
-                height= {settings.legendHeight}
-                margins= {settings.legendMargins}
-                legendClassName= {settings.legendClassName}
-                legendPosition= {settings.legendPosition}
-                legendOffset= {settings.legendOffset}
+                height= {opts.legendHeight}
+                margins= {opts.legendMargins}
+                legendClassName= {opts.legendClassName}
+                legendPosition= {opts.legendPosition}
+                legendOffset= {opts.legendOffset}
                 chartSeries = {this.legendSeries()}
               />
             </div>
