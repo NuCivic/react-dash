@@ -59,20 +59,21 @@ export var settings = {
           levels: 9, // number of Choropleth levels
           domainLower: 0, // specify domain range - this can also be overridden in the domainScale functionion()
           domainUpper: .15, // ibid.
-          domainKey: 'id', // unique identifying key from data row
+          domainKey: 'id', // unique key from data row that corresponds to domainKey
           mapKey: 'id', // key from map data that corresponds to domainKey
-          legendHeader: "Per Cent Unemploytment by U.S. County",
-          legendValFormat: '%', // format string for d3.format function
-          domainField: 'rate', // the data we are comparing
-          legendValPrecision: 3, // Defaults to 2
           filters: [
             {
               field: 'rate',
-              title: 'Unemployent Rate'
+              title: 'Unemployent Rate',
+              legendHeader: 'Unemployment Rate by US County',
+              legendValFormat: '%', // format string for d3.format function
+              legendValPrecision: 3, // Defaults to 2
             },
             {
               field: 'foo',
-              title: 'Arbitrary (Field for testing)'
+              title: 'Arbitrary (Field for testing)',
+              legendHeader: 'Just an arbitrary field for testing',
+              legendValFormat: 'n', // format string for d3.format function
             }
           ],
           tooltip: {
@@ -106,13 +107,18 @@ export var settings = {
           colors: ['red','green','yellow','purple','orange','pink','#252525','#000000'],
           cssPath: '/static/choropleth.css',
           showTooltip: {true},
-          legendHeader: 'Accred. Time: Before 8 AM #',
+          filters: [
+            {
+              legendHeader: 'Accred. Time: Before 8 AM #',
+              field: 'Accred. Time: Before 8 AM #',
+              title: "Accredation Time (Before 8 AM)",
+            },
+          ],
           levels: 5,
           domainLower: 10,
           domainUpper: 80,
           domainKey: 'Zone', // map key in domain data
           mapKey: 'name', // map key in map data
-          domainField: 'Accred. Time: Before 8 AM #',
           tooltip: {
             label: 'Accred',
             attr: 'Accred. Time: Before 8 AM #'
