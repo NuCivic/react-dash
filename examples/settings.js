@@ -73,7 +73,6 @@ export var settings = {
               field: 'foo',
               title: 'Arbitrary (Field for testing)',
               legendHeader: 'Just an arbitrary field for testing',
-              legendValFormat: 'n', // format string for d3.format function
             }
           ],
           tooltip: {
