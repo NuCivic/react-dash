@@ -503,6 +503,25 @@ Domain data should be formatted as follows
 * **tooltip:** [_object_] An object contain a **label** attribute and an *attr* attribute which contains the key to an element in domain data row
 * **showTooltip:** [_boolean_]
 
+##### Filters
+Filters define a column of data to be displayed on the choropleth map. Filters are defined as an array of objects. There must be at least one valid object in the filters array.
+
+Example:
+```javascript
+        filters; [
+          {
+            field: 'rate', // the name of the 
+            title: 'Unemployent Rate', // a title to be used in choropleth component
+            legendHeader: 'Unemployment Rate by US County', // the title of the legend
+            legendValFormat: '%', // format string for d3.format function
+            legendValPrecision: 3, // Defaults to 2
+            levels: 9, // number of Choropleth levels to render
+            domainLower: 0, // specify lower domain range - this defaults to the lowest value in the data
+            domainUpper: .15, // specify upper domain range - this defaults to the highest value in the data
+          },
+        ],
+```
+
 #### Available settings
 * **scale:** Set width of map
 * **projection:** The cartographic projection to use. ([see here](https://github.com/mbostock/d3/wiki/Geo-Projections) for a list of projections and more on projections)
