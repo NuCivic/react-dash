@@ -100,7 +100,8 @@ export var settings = {
         queryObj: {size: 10000000, from:0}, // we want them all
         cardStyle: 'card',
       },
-      {
+      // @@TODO add better geojson example
+/*      {
         header: 'GAChoropleth Test ][ - GEOJSON',
         type: 'GAChoropleth',
         settings: {
@@ -114,9 +115,7 @@ export var settings = {
               title: "Accredation Time (Before 8 AM)",
             },
           ],
-          levels: 5,
-          domainLower: 10,
-          domainUpper: 80,
+          levels: 30,
           domainKey: 'Zone', // map key in domain data
           mapKey: 'name', // map key in map data
           tooltip: {
@@ -139,7 +138,7 @@ export var settings = {
         },
         queryObj: {size: 10000000, from: 0},
         cardStyle: 'card'
-      }
+      } */
     ],
     middleFirst: [
       {

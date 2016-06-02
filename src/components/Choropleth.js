@@ -109,7 +109,6 @@ export default class Choropleth extends BaseComponent {
   
   // fetchData should set topoData and domainData
   onDataChange(data) {
-    console.log('onDataChange');
     this.fetchMapData().then(mapData => {
       this.setState({domainData: data, topodata: mapData});
     });
@@ -150,10 +149,8 @@ export default class Choropleth extends BaseComponent {
 
   legendSeries () {
     let series = [];
-    console.log('cf', this.state.current_filter, this);
     let filter = this.state.current_filter;
     let domainScale = this.domainScale(this.state.domainData);
-    console.log('ds', domainScale);
     let step = ((domainScale.domain[1] - domainScale.domain[0]) / this.state.settings.levels);
     let formatString = filter.legendValFormat || 'f';
     let formatPrecision = filter.legendValPrecision || 2;
@@ -170,7 +167,6 @@ export default class Choropleth extends BaseComponent {
       }
       series.push(item);
     }
-    console.log('SS', series);
     return series;
   }
 
@@ -195,7 +191,6 @@ export default class Choropleth extends BaseComponent {
     let current_filter = this.state.settings.filters.filter(o => { return o.rate === val});
     val = val || e.target.value;
     
-    console.log('cc', this.state.current_filter);
     this.state.data.forEach(obj => {
       let row = {};
       row[key] = obj[key];
@@ -203,7 +198,6 @@ export default class Choropleth extends BaseComponent {
       filteredData.push(row);
     });
     
-    console.log('ff', filteredData);
     this.state.settings.domainField = val;
     this.setState({
       domainData : filteredData,
@@ -238,10 +232,9 @@ export default class Choropleth extends BaseComponent {
       opts.mapKey = this._mapKey.bind(this);
       opts.domain = this.domainScale(this.state.domainData);
       opts.scale = this.state.componentWidth;
-
+      opts.legendHeader = this.state.current_filter.legendHeader;
       // Add some sensible defaults
       opts.projection = opts.projection || DEFAULT_PROJECTION;
-      console.log("OO", opts);
       if (opts.mapFormat === 'topojson') {
         if (opts.polygon) {
           opts.dataPolygon = feature(opts.topodata, opts.topodata.objects[opts.polygon]).features;
