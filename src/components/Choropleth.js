@@ -225,9 +225,6 @@ export default class Choropleth extends BaseComponent {
     let opts = Object.assign({}, this.state.settings);
 
     if (this.state.domainData && this.state.topodata) {
-//    this.filterChoropleth(null, this.state.current_filter.field);
-      // @@ this looks like it is extraneous
-      //Object.assign(settings, this.state.data, {type : this.props.type});
 
       opts.topodata = this.state.topodata;
       opts.domainData = this.state.domainData;
@@ -256,8 +253,8 @@ export default class Choropleth extends BaseComponent {
           {(this.state.render_select) ? (
                 <select class="filter-select" onChange={this.filterChoropleth.bind(this)} value={this.state.filterValue}>
                     {
-                      opts.filters.map(filter => {
-                        return <option value={filter.field}>{filter.title}</option>
+                      opts.filters.map((filter,i) => {
+                        return <option key={i} value={filter.field}>{filter.title}</option>
                       })
                     }
                   </select>
