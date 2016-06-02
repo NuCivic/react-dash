@@ -62,6 +62,10 @@ export default class Choropleth extends BaseComponent {
     if (this.state.settings.filters) {
       this.state.current_filter = this.state.settings.filters[0];
       this.filterChoropleth(null, this.state.current_filter.field);
+      (this.state.settings.filters.length > 1) ? this.state.render_select = true : this.state.render_select = false;
+      console.log(this.state);
+    } else {
+      console.error('The Choropleth element in the settings.js file must define an array with at least one filter!')
     }
 	}
 
@@ -248,13 +252,15 @@ export default class Choropleth extends BaseComponent {
       
       v = <div className="choropleth-container">
             <div class="choropleth-select">
-              <select class="filter-select" onChange={this.filterChoropleth.bind(this)} value={this.state.filterValue}>
-                {
-                  opts.filters.map(filter => {
-                    return <option value={filter.field}>{filter.title}</option>
-                  })
-                }
-              </select>
+          {(this.state.render_select) ? (
+                <select class="filter-select" onChange={this.filterChoropleth.bind(this)} value={this.state.filterValue}>
+                    {
+                      opts.filters.map(filter => {
+                        return <option value={filter.field}>{filter.title}</option>
+                      })
+                    }
+                  </select>
+            ) : null }
             </div>
             <MapChoropleth ref="choropleth" {...opts} />
             <div className="legend-container">
