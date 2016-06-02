@@ -57,8 +57,11 @@ export default class Choropleth extends BaseComponent {
 		super(props);
     this.state.settings = this.props.settings;
     this.randKey = makeKey(4);
+
+    // @@TODO - we could optimize this
     if (this.state.settings.filters) {
       this.state.current_filter = this.state.settings.filters[0];
+      this.filterChoropleth(null, this.state.current_filter.field);
     }
 	}
 
@@ -186,11 +189,12 @@ export default class Choropleth extends BaseComponent {
   /* 
    * Takes user-selected value and filter data by that row
    */
-  filterChoropleth (e) {
+  filterChoropleth (e, val) {
     let key = this.props.settings.domainKey;
-    let val = e.target.value;
     let filteredData = [];
-    this.state.current_filter = this.state.settings.filters.filter(o => { return o.rate === val});
+    let current_filter = this.state.settings.filters.filter(o => { return o.rate === val});
+    val = val || e.target.value;
+    
     console.log('cc', this.state.current_filter);
     this.state.data.forEach(obj => {
       let row = {};
@@ -201,7 +205,10 @@ export default class Choropleth extends BaseComponent {
     
     console.log('ff', filteredData);
     this.state.settings.domainField = val;
-    this.setState({domainData : filteredData});
+    this.setState({
+      domainData : filteredData,
+      current_filter : current_filter
+    });
   }
   
   /*
