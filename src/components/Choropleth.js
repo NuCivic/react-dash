@@ -55,7 +55,6 @@ function fetchStyleSheet(url) {
 export default class Choropleth extends BaseComponent {
   constructor(props){
 		super(props);
-    console.log('CONSTRUCT');
     let state;
     this.state.settings = this.props.settings;
     this.randKey = makeKey(4);
@@ -92,7 +91,6 @@ export default class Choropleth extends BaseComponent {
   }
 
   componentDidMount () {
-    console.log('DIDMOUNT');
     // add stylesheet
     if (this.props.settings.cssPath) {
       fetchStyleSheet(this.props.settings.cssPath)
@@ -109,17 +107,14 @@ export default class Choropleth extends BaseComponent {
   
   // fetchData should set topoData and domainData
   onDataChange(data) {
-    console.log('DATACH');
     let current_filter = this.state.current_filter || this.state.filters[0];
     this.filterChoropleth(null, this.state.current_filter.field);
     this.fetchMapData().then(mapData => {
-      console.log('DATACH2',mapData);
       this.setState({domainData: data, topodata: mapData, current_filter: current_filter});
     });
 	}
 
   fetchMapData() {
-    console.log('FETCHMD');
     return new Promise((resolve, reject) => {
       let url = this.props.settings.mapDataUrl;
       fetch(url)
@@ -153,7 +148,6 @@ export default class Choropleth extends BaseComponent {
   }
 
   legendSeries () {
-    console.log('LS');
     let series = [];
     let filter = this.state.current_filter;
     let domainScale = this.domainScale(this.state.domainData);
@@ -177,7 +171,6 @@ export default class Choropleth extends BaseComponent {
   }
 
   domainScale(data) {
-     console.log('DOMAINSCALE');
      let randKey = this.randKey;
      let limits = this.getDomainLimits();
      let levels = this.state.settings.levels;
@@ -193,7 +186,6 @@ export default class Choropleth extends BaseComponent {
    * Takes user-selected value and filter data by that row
    */
   filterChoropleth (e, val) {
-    console.log('FILTER');
     let key = this.props.settings.domainKey;
     let filteredData = [];
     let settings = this.state.settings;
@@ -219,7 +211,6 @@ export default class Choropleth extends BaseComponent {
   }
 
   render () {
-    console.log('RENDER', this);
     let v;
     // create options object for rendering choropleth
     let opts = Object.assign({}, this.state.settings);
