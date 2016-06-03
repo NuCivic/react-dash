@@ -498,10 +498,29 @@ Domain data should be formatted as follows
 * **domainLower:** Lower limit when calculating levels
 * **domainUpper:** Upper limit when calculating levels
 * **domainKey:** A key value to associate a row of domain data with a map polygon
-* **domainMapKey:** The map polygon associated with the domain data key above
+* **mapKey:** The map polygon associated with the domain data key above
 * **domainField:** The field in a domain data row which contains the value to compare
 * **tooltip:** [_object_] An object contain a **label** attribute and an *attr* attribute which contains the key to an element in domain data row
 * **showTooltip:** [_boolean_]
+
+##### Filters
+Filters define a column of data to be displayed on the choropleth map. Filters are defined as an array of objects. There must be at least one valid object in the filters array.
+
+Example:
+```javascript
+        filters; [
+          {
+            field: 'rate', // the name of the 
+            title: 'Unemployent Rate', // a title to be used in choropleth component
+            legendHeader: 'Unemployment Rate by US County', // the title of the legend
+            legendValFormat: '%', // format string for d3.format function
+            legendValPrecision: 3, // Defaults to 2
+            levels: 9, // number of Choropleth levels to render
+            domainLower: 0, // specify lower domain range - this defaults to the lowest value in the data
+            domainUpper: .15, // specify upper domain range - this defaults to the highest value in the data
+          },
+        ],
+```
 
 #### Available settings
 * **scale:** Set width of map

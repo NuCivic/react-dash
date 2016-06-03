@@ -13,5 +13,5 @@ import GAGoal from './components/GAGoal';
 import MyCustomLayout from './layouts/MyCustomLayout';
 import GADashboard from './app';
 import GeojsonChoropleth from './components/GeojsonChoropleth';
-
+import GAChoropleth from './components/GAChoropleth';
 ReactDOM.render(<GADashboard {...settings} layout={MyCustomLayout}/>, document.getElementById('root'));

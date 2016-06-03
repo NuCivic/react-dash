@@ -47,11 +47,11 @@ export var settings = {
        *  ...
        * ]
        *
-       * domainMapKey should be the key for the value representi9ng the map polygon
+       * mapKey should be the key for the value representi9ng the map polygon
        */
       {
         header: 'GAChoropleth Test',
-        type: 'Choropleth',
+        type: 'GAChoropleth',
         settings: {
           colors:colorbrewer.OrRd[9],
           cssPath: '/static/choropleth.css',
@@ -59,17 +59,22 @@ export var settings = {
           levels: 9, // number of Choropleth levels
           domainLower: 0, // specify domain range - this can also be overridden in the domainScale functionion()
           domainUpper: .15, // ibid.
-          domainKey: 'id',
-          domainMapKey: 'id',
-          legendHeader: "Per Cent Unemploytment by U.S. County",
-          legendValFormat: '%', // format string for d3.format function
-          domainField: 'rate', // the data we are comparing
-          legendValPrecision: 3, // Defaults to 2
-          dataset: {
-            backend: 'csv',
-            url: '/data/unemployment.tsv',
-            delimiter: '\t'
-          },
+          domainKey: 'id', // unique key from data row that corresponds to domainKey
+          mapKey: 'id', // key from map data that corresponds to domainKey
+          filters: [
+            {
+              field: 'rate',
+              title: 'Unemployent Rate',
+              legendHeader: 'Unemployment Rate by US County',
+              legendValFormat: '%', // format string for d3.format function
+              legendValPrecision: 3, // Defaults to 2
+            },
+            {
+              field: 'foo',
+              title: 'Arbitrary (Field for testing)',
+              legendHeader: 'Just an arbitrary field for testing',
+            }
+          ],
           tooltip: {
             attr: 'rate',
             label: 'Unemployment rate'
@@ -86,28 +91,32 @@ export var settings = {
 					legendPosition : 'left',
 					legendOffset : 90
         },
+        fetchData: {
+           type: 'backend',
+           backend: 'csv',
+           url: '/data/unemployment.csv',
+        },
+        queryObj: {size: 10000000, from:0}, // we want them all
         cardStyle: 'card',
-        fetchData: {type:'function', name: 'getCustomData'},
       },
-      {
+      // @@TODO add better geojson example
+/*      {
         header: 'GAChoropleth Test ][ - GEOJSON',
-        type: 'Choropleth',
+        type: 'GAChoropleth',
         settings: {
           colors: ['red','green','yellow','purple','orange','pink','#252525','#000000'],
           cssPath: '/static/choropleth.css',
           showTooltip: {true},
-          legendHeader: 'Accred. Time: Before 8 AM #',
-          levels: 5,
-          domainLower: 10,
-          domainUpper: 80,
+          filters: [
+            {
+              legendHeader: 'Accred. Time: Before 8 AM #',
+              field: 'Accred. Time: Before 8 AM #',
+              title: "Accredation Time (Before 8 AM)",
+            },
+          ],
+          levels: 30,
           domainKey: 'Zone', // map key in domain data
-          domainMapKey: 'name', // map key in map data
-          domainField: 'Accred. Time: Before 8 AM #',
-          dataset: {
-            backend: 'csv',
-            url: '/data/apollo-parsed-1737-325_0.csv',
-            delimiter: ','
-          },
+          mapKey: 'name', // map key in map data
           tooltip: {
             label: 'Accred',
             attr: 'Accred. Time: Before 8 AM #'
@@ -121,9 +130,14 @@ export var settings = {
 					legendPosition : 'left',
 					legendOffset : 90
         },
-        cardStyle: 'card',
-        fetchData: 'getCustomData'
-      }
+        fetchData: {
+          type: 'backend',
+          backend: 'csv',
+          url: '/data/apollo-parsed-1737-325_0.csv',
+        },
+        queryObj: {size: 10000000, from: 0},
+        cardStyle: 'card'
+      } */
     ],
     middleFirst: [
       {

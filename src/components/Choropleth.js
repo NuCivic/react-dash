@@ -1,3 +1,7 @@
+// @@TODO @@
+// ** copy props.settings to state and use state in all operations
+// ** get human title for legendHeader
+
 /**
  * Choropleth Element for React-Dashboard
  * Author Paul Walker (https://github.com/starsinmypockets)
@@ -20,7 +24,9 @@ import {MapChoropleth} from 'react-d3-map-choropleth';
 import {mesh, feature} from 'topojson';
 import {range, format} from 'd3';
 import Dataset from '../models/Dataset';
+import FilterSelect from './FilterSelect';
 
+const DEFAULT_PROJECTION = 'azimuthalEqualArea';
 
 // Whack some css into the page
 function addStyleString(str) {
@@ -30,6 +36,7 @@ function addStyleString(str) {
 }
 
 // Fetch css
+// @@TODO - we should use a more standard solution here
 function fetchStyleSheet(url) {
   return new Promise((resolve, reject) => {
     fetch(url)
@@ -48,40 +55,40 @@ function fetchStyleSheet(url) {
 export default class Choropleth extends BaseComponent {
   constructor(props){
 		super(props);
-    this.levels = this.props.settings.levels;
+    let state;
+    this.state.settings = this.props.settings;
     this.randKey = makeKey(4);
+    this.state.current_filter = this.state.settings.filters[0];
+//    this.filterChoropleth(null, this.state.current_filter.field);
+    (this.state.settings.filters.length > 1) ? this.state.render_select = true : this.state.render_select = false;
 	}
-
+  
   /**
    * Override in sublass to customize behavior
    **/
   _tooltipContent(d) {
     let label = this.props.settings.tooltip.label;
     Object.assign(d, d.properties);
-    let val = d[d[this.props.settings.domainMapKey]] || ''; //catch pre-load undefined
+    let val = d[d[this.props.settings.mapKey]] || ''; //catch pre-load undefined
     let tt = {};
     tt[label] = val;
     return tt;
   }
 
   _domainValue(d)  {
-    return Number(d[this.props.settings.domainField]);
+    return Number(d[this.state.current_filter.field]);
   }
-
+  
+  // Used by choropleth to calculate the key for each row of data
   _domainKey(d) {
-    return d[this.props.settings.domainKey];
+    return d[this.state.settings.domainKey];
   }
 
   _mapKey(d) {
     Object.assign(d, d.properties);
-    return d[this.props.settings.domainMapKey];
-    return d.properties[this.props.settings.domainMapKey]; //omainKey;
+    return d[this.state.settings.mapKey];
+    return d.properties[this.state.settings.mapKey]; //omainKey;
   }
-
-  // fetchData should set topoData and domainData
-  onDataChange(data) {
-    this.setState({domainData: data.domainData, topodata: data.topodata});
-	}
 
   componentDidMount () {
     // add stylesheet
@@ -94,46 +101,36 @@ export default class Choropleth extends BaseComponent {
         });
     }
 
-    if (this.props.fetchData) {
-      this.fetchData().then(this.onData.bind(this)).catch(e => {
-        console.log('Error fetching data', e);
-      });
-    }
     addStyleString(this.css());
     super.componentDidMount();
   }
+  
+  // fetchData should set topoData and domainData
+  onDataChange(data) {
+    let current_filter = this.state.current_filter || this.state.filters[0];
+    this.filterChoropleth(null, this.state.current_filter.field);
+    this.fetchMapData().then(mapData => {
+      this.setState({domainData: data, topodata: mapData, current_filter: current_filter});
+    });
+	}
 
-  fetchData() {
+  fetchMapData() {
     return new Promise((resolve, reject) => {
-
-      let dataset = new Dataset(this.props.settings.dataset);
-      let response = {};
-      fetch(this.props.settings.mapDataUrl)
+      let url = this.props.settings.mapDataUrl;
+      fetch(url)
         .then(res => {
-          let d = res.json();
-          return d;
+          return res.json();
         })
-        .then(data => {
-          response.topodata = data;
-          dataset.fetch()
-            .then(data => {
-              dataset.query({})
-                .then(data => {
-                  response.domainData = data.hits;
-                  return resolve(response);
-                })
-            })
-            .catch(e => {
-              console.log('Dataset fetch failed', e);
-              return reject(e);
-            })
+        .then(d => {
+          resolve(d);   
         })
         .catch(e => {
-          return reject(e);
-        });
+          console.error('Map Data fetch failed', e);
+          reject(e);
+      });
     });
   }
-
+  
   _attachResize() {
     window.addEventListener('resize', this._setSize.bind(this), false);
   }
@@ -141,30 +138,32 @@ export default class Choropleth extends BaseComponent {
   // generate css string from colors array
   css () {
     let _css = '';
+    let levels = this.state.settings.levels;
     let randKey = this.randKey;
-    let colors = this.props.settings.colors;
-    for (var i = 0; i < this.levels; i++) {
-      _css += `.${randKey}${i}-${this.levels} { fill:${colors[i]}; }`;
+    let colors = this.state.settings.colors;
+    for (var i = 0; i < levels; i++) {
+      _css += `.${randKey}${i}-${levels} { fill:${colors[i]}; }`;
     }
     return _css;
   }
 
   legendSeries () {
     let series = [];
+    let filter = this.state.current_filter;
     let domainScale = this.domainScale(this.state.domainData);
-    let step = ((domainScale.domain[1] - domainScale.domain[0]) / this.props.settings.levels);
-    let formatString = this.props.settings.legendValFormat || 'f';
-    let formatPrecision = this.props.settings.legendValPrecision || 2;
+    let step = ((domainScale.domain[1] - domainScale.domain[0]) / this.state.settings.levels);
+    let formatString = filter.legendValFormat || 'f';
+    let formatPrecision = filter.legendValPrecision || 2;
     let formatter = format(formatString, formatPrecision);
     let r = range(domainScale.domain[0],  domainScale.domain[1], step);
     r.push(domainScale.domain[1]);
-    for (var i = 0; i < this.levels; i++) {
+    for (var i = 0; i < this.state.settings.levels; i++) {
       let lower = formatter(r[i]);
       let upper = formatter(r[i+1]);
       let item = {
         field: `${lower} -- ${upper}`,
         name: `${lower} -- ${upper}`,
-        color: this.props.settings.colors[i]
+        color: this.state.settings.colors[i]
       }
       series.push(item);
     }
@@ -172,57 +171,96 @@ export default class Choropleth extends BaseComponent {
   }
 
   domainScale(data) {
-     let settings = this.props.settings;
      let randKey = this.randKey;
+     let limits = this.getDomainLimits();
+     let levels = this.state.settings.levels;
      let dScale = ({
         scale: 'quantize',
-        domain: [Number(settings.domainLower), Number(settings.domainUpper)],
-        range: range(settings.levels).map(i => { return `${randKey}${i}-${settings.levels}`; })
+        domain: limits,
+        range: range(levels).map(i => { return `${randKey}${i}-${levels}`; })
      });
      return dScale;
   }
 
+  /* 
+   * Takes user-selected value and filter data by that row
+   */
+  filterChoropleth (e, val) {
+    let key = this.props.settings.domainKey;
+    let filteredData = [];
+    let settings = this.state.settings;
+    val = val || e.target.value;
+    
+    let current_filter = this.state.settings.filters.filter(o => { return o.field === val})[0]; 
+    settings.domainField = val // update state.settings with current field
+    
+    this.setState({
+      settings: settings,
+      current_filter: current_filter
+    });
+  }
+  
+  /*
+   * Return upper and lower limits from domain data
+   */
+  getDomainLimits () {
+    let d = this.state.settings.domainField;
+    let lower = Math.min.apply(Math, this.state.domainData.map(function(o){return o[d];}));
+    let upper = Math.max.apply(Math, this.state.domainData.map(function(o){return o[d];}));
+    return [lower, upper];
+  }
+
   render () {
     let v;
-    let settings = Object.assign({}, this.props.settings);
+    // create options object for rendering choropleth
+    let opts = Object.assign({}, this.state.settings);
 
-    if (this.state.domainData) {
-      Object.assign(settings, this.state.data, {type : this.props.type});
+    if (this.state.domainData && this.state.topodata) {
 
-      settings.topodata = this.state.topodata;
-      settings.domainData = this.state.domainData;
-      settings.tooltipContent = this._tooltipContent.bind(this);
-      settings.domainValue = this._domainValue.bind(this);
-      settings.domainKey = this._domainKey.bind(this);
-      settings.mapKey = this._mapKey.bind(this);
-      settings.domain = this.domainScale(this.state.domainData);
-      settings.scale = this.state.componentWidth;
-
+      opts.topodata = this.state.topodata;
+      opts.domainData = this.state.domainData;
+      opts.tooltipContent = this._tooltipContent.bind(this);
+      opts.domainValue = this._domainValue.bind(this);
+      opts.domainKey = this._domainKey.bind(this);
+      opts.mapKey = this._mapKey.bind(this);
+      opts.domain = this.domainScale(this.state.domainData);
+      opts.scale = this.state.componentWidth;
+      opts.legendHeader = this.state.current_filter.legendHeader;
       // Add some sensible defaults
-      settings.projection = settings.projection || 'azimuthalEqualArea';
-
-      if (settings.mapFormat === 'topojson') {
-        if (settings.polygon) {
-          settings.dataPolygon = feature(settings.topodata, settings.topodata.objects[settings.polygon]).features;
+      opts.projection = opts.projection || DEFAULT_PROJECTION;
+      if (opts.mapFormat === 'topojson') {
+        if (opts.polygon) {
+          opts.dataPolygon = feature(opts.topodata, opts.topodata.objects[opts.polygon]).features;
         }
-        if (settings.mesh) {
-          settings.dataMesh = mesh(settings.topodata, settings.topodata.objects[settings.mesh], function(a, b) { return a !== b; });
+        if (opts.mesh) {
+          opts.dataMesh = mesh(opts.topodata, opts.topodata.objects[opts.mesh], function(a, b) { return a !== b; });
         }
-      } else if (settings.mapFormat === 'geojson') {
-        settings.dataPolygon = settings.topodata.features;
+      } else if (opts.mapFormat === 'geojson') {
+        opts.dataPolygon = opts.topodata.features;
       }
-
-     v = <div className="choropleth-container">
-            <MapChoropleth ref="choropleth" {...settings} />
+      
+      v = <div className="choropleth-container">
+            <div class="choropleth-select">
+          {(this.state.render_select) ? (
+                <select class="filter-select" onChange={this.filterChoropleth.bind(this)} value={this.state.filterValue}>
+                    {
+                      opts.filters.map((filter,i) => {
+                        return <option key={i} value={filter.field}>{filter.title}</option>
+                      })
+                    }
+                  </select>
+            ) : null }
+            </div>
+            <MapChoropleth ref="choropleth" {...opts} />
             <div className="legend-container">
-              <h3 className="legend-header">{settings.legendHeader}</h3>
+              <h3 className="legend-header">{opts.legendHeader}</h3>
               <Legend
                 width= {this.state.componentWidth}
-                height= {settings.legendHeight}
-                margins= {settings.legendMargins}
-                legendClassName= {settings.legendClassName}
-                legendPosition= {settings.legendPosition}
-                legendOffset= {settings.legendOffset}
+                height= {opts.legendHeight}
+                margins= {opts.legendMargins}
+                legendClassName= {opts.legendClassName}
+                legendPosition= {opts.legendPosition}
+                legendOffset= {opts.legendOffset}
                 chartSeries = {this.legendSeries()}
               />
             </div>
