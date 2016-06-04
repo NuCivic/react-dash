@@ -93,7 +93,7 @@ export var settings = {
         header: 'A Multi Component',
         type: 'Multi',
           elements: {
-            a: 
+            a: [ // each set of elements is an array - even if it contains a single child
                 {
                   type: 'GATable',
                   header: 'TABLE AAA',
@@ -130,45 +130,27 @@ export var settings = {
                     }
                   }
                 },
-            b: 
-                {
-                  type: 'GATable',
-                  header: 'TABLE BBB',
-                  fetchData: {
-                    type:'backend',
-                    backend: 'csv',
-                    url: 'http://demo.getdkan.com/node/9/download',
-                  },
-                  cardStyle: 'table',
-                  settings: {
-                    table: {
-                      rowHeight: 40,
-                      width: 800,
-                      maxHeight: 300,
-                      headerHeight:40
-                    },
-                    columns: {
-                      flexGrow: 1,
-                      width: 150,
-                      overrides: {
-                        a1: {
-                          flexGrow: 0.5
-                        }
-                      }
-                    },
-                    cells: {
-                      height: 40,
-                      width: 500,
-                      overrides: {
-                        1: {
-                          height: 40
-                        }
-                      }
-                    }
-                  }
-                }
+            ],
+            b: [ 
+              {
+                type:'GAMetric',
+                cardStyle: 'metric',
+                background: '#9F3E69',
+                metric: 'getRandomMetric',
+                caption: 'Get Multi',
+                iconClass: 'glyphicon glyphicon-user'
+              },
+              {
+                type:'GAMetric',
+                cardStyle: 'metric',
+                background: 'cyan',
+                metric: 'getRandomMetric',
+                caption: 'Get Multi ii',
+                iconClass: 'glyphicon glyphicon-tint'
+              }
+            ]
           }
-      },
+      } 
     ],
     middleFirst: [
       {

@@ -2,40 +2,50 @@ import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 
 export default class Multi extends Component {
-  construct(props) {
-    super(props);
-  }
-
-  render() {
-    console.log('mR', this);
-    let v = <div class="multi-container">
-              <select onChange={this.listener.bind(this)}>
-                <option val="a">Option A</option>
-                <option val="b">Option B</option>
-              </select>
-     
-     if (this.state.elements.length > 0){
-        v += this.elements.map((element) => {
-          return React.createElement(Registry.get(element.type), element);
-        });
-			  </div> 
-     } else {
-        v += </div>
-     }
-
-     console.log('v',v);
-     return v;
+  /*
+   * Define initial set of elements to render
+   */
+  componentWillMount() {
+    this.setState({elements : this.props.elements.a});
   }
 
   /*
-	 * Listener should listen for a global event or an event on the DOM 
-   * and render its child component(s)
-   * @@TODO this should go into a child component in the examples folder:
+   * The current state.elements array
+   */
+  renderChildren() {
+    let els = [];
+    this.state.elements.map((element) => {
+      els.push(React.createElement(Registry.get(element.type), element));
+    });
+    return els;
+  }
+ 
+  /*
+   * The render method, in this case, renders a select which triggers
+   * our change listener. 
+   * A helper function renders an array of elements from the appropriate
+   * section of the multi component's settings
+   */
+  render() {
+    let v = 
+    <div class="multi-container">
+      <select style={{ marginBottom: '1em' }} onChange={this.listener.bind(this)}>
+         <option value="a">Option A</option>
+         <option value="b">Option B</option>
+      </select>
+      <div class="multi-elements-container">
+        {this.renderChildren()}
+      </div>
+    </div> 
+    return v;
+  }
+
+  /*
+   * Listen for change and update state.elements
    */
   listener(e) {
-    console.log('mL', e.target.value);
     this.setState({elements: this.props.elements[e.target.value]});
   }
 }
 
-Registry.set('Multi', Text);
+Registry.set('Multi', Multi);
