@@ -542,6 +542,9 @@ As with all components you can override the *fetchData* property to fecth extern
 * **caption:** a description to be displayed 
 * **options:** an array with options (e.g.: [{ value: 'one', label: 'One' }])
 
+### Multi Component
+
+The **Multi** component should not be used as-is or extended. Rather, it is a simple example of a component that takes user input via a listener funciton, and loads an arbitrary set of components, defined as a keyed array in the settings files.
 
 ### Card
 

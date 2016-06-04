@@ -1,3 +1,9 @@
+/*
+ * This is not a reusable component. 
+ * This is a simple pattern and should serve as a base
+ * for development of custom components that intelligently
+ * render children based on user input or certain logic
+ */
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 
