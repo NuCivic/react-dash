@@ -35,16 +35,15 @@ export default class Multi extends Component {
   render() {
     let v = 
     <div class="multi-container">
-      <select style={{ marginBottom: '1em' }} onChange={this.listener.bind(this)}>
+      <select id="filter-select" style={{ marginBottom: '1em' }} onChange={this.listener.bind(this)}>
          <option value="a">Option A</option>
          <option value="b">Option B</option>
       </select>
       <div class="multi-elements-container">
-        {this.renderChildren()}
       </div>
     </div> 
     return v;
-  }
+  } 
 
   /*
    * Listen for change and update state.elements

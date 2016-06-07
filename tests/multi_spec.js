@@ -1,12 +1,13 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import Multi from '../src/ReactDashboard';
+import {Registry, GAMetric} from '../src/ReactDashboard';
 
 const settings = {
+      type: 'Multi',
       elements:{
 						 a: [
               {
-                type:'GAMetric',
+                type:'Metric',
                 cardStyle: 'metric',
                 background: '#9F3E69',
                 metric: 'getRandomMetric',
@@ -17,7 +18,7 @@ const settings = {
 						 ],
              b: [
               {
-                type:'GAMetric',
+                type:'Metric',
                 cardStyle: 'metric',
                 background: '#9F3E69',
                 metric: 'getRandomMetric',
@@ -25,7 +26,7 @@ const settings = {
                 iconClass: 'glyphicon glyphicon-user'
               },
               {
-                type:'GAMetric',
+                type:'Metric',
                 cardStyle: 'metric',
                 background: 'cyan',
                 metric: 'getRandomMetric',
@@ -47,10 +48,9 @@ describe('3+1', () => {
 });
 
 describe('Multi component renders', () => {
-    const multi = TestUtils.renderIntoDocument(
-      <Multi {...settings} />
-    );
-
-    const node = ReactDOM.findDOMNode(multi);
-    
+  let node = TestUtils.renderIntoDocument(React.createElement(Registry.get('Multi'), settings));
+  console.log(node.state.elements);
+  it('Initial state should be first element of settings', () => {
+    expect(node.state.elements[0].caption).toEqual('A Jawn');
+  });
 });
