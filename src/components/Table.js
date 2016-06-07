@@ -33,8 +33,6 @@ export default class Table extends BaseComponent {
   }
 
   componentDidMount(){
-    this._attachResize();
-    this._setSize();
     super.componentDidMount();
   }
 
@@ -87,16 +85,12 @@ export default class Table extends BaseComponent {
     return Math.ceil(total / size);
   }
 
-  _setSize() {
+  onResize() {
     const { offsetWidth, offsetHeight } = this.refs.table;
     this.setState({
       gridWidth: offsetWidth,
       gridHeight: offsetHeight
     });
-  }
-
-  _attachResize() {
-    window.addEventListener('resize', this._setSize.bind(this), false);
   }
 
   _onPageChange(e, id, mouseEvent, pageNumber) {

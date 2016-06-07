@@ -11,12 +11,12 @@ export default class GAMultiSelect extends Multi {
    */
 	render() {
 		let v =
-		<div class="multi-container">
+		<div className="multi-container">
 			<select id="filter-select" style={{ marginBottom: '1em' }} onChange={this.multiComponentListener.bind(this)}>
 				 <option value="a">Option A</option>
 				 <option value="b">Option B</option>
 			</select>
-			<div class="multi-elements-container">
+			<div className="multi-elements-container">
 				{this.renderChildren()}
 			</div>
 		</div>
