@@ -37,20 +37,19 @@ const settings = {
            }
           } 
 
-console.log(settings);
-
-describe('3+1', () => {
-  let sum = 3+1;
-
-  it('should be 4', () => {
-    expect(sum).toBe(4);
-  });
-});
-
 describe('Multi component renders', () => {
-  let node = TestUtils.renderIntoDocument(React.createElement(Registry.get('Multi'), settings));
-  console.log(node.state.elements);
+
   it('Initial state should be first element of settings', () => {
+    let node = TestUtils.renderIntoDocument(React.createElement(Registry.get('Multi'), settings));
     expect(node.state.elements[0].caption).toEqual('A Jawn');
+    expect(node.state.elements.length).toBe(1);
+  });
+  
+  it('Select change should update state.elements array', () => {
+    let node = TestUtils.renderIntoDocument(React.createElement(Registry.get('Multi'), settings));
+    let input = TestUtils.findRenderedDOMComponentWithTag(node, 'select');
+    input.value = 'b';
+    TestUtils.Simulate.change(input);
+    expect(node.state.elements.length).toBe(2);
   });
 });
