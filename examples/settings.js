@@ -91,7 +91,8 @@ export var settings = {
       }, */
       {
         header: 'A Multi Component',
-        type: 'Multi',
+        type: 'GAMultiSelect',
+          initialSelection: 'a', // Which key of the elements array to render when component mounts, or null to render nothing initially
           elements: {
             a: [ // each set of elements is an array - even if it contains a single child
                 {
