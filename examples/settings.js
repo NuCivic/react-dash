@@ -98,6 +98,7 @@ export var settings = {
                 {
                   type: 'GATable',
                   header: 'TABLE AAA',
+                  key: '1a', // arbitrary unique key for react rendering
                   fetchData: {
                     type:'backend',
                     backend: 'csv',
@@ -135,6 +136,7 @@ export var settings = {
             b: [ 
               {
                 type:'GAMetric',
+                key: '2a',
                 cardStyle: 'metric',
                 background: '#9F3E69',
                 metric: 'getRandomMetric',
@@ -147,6 +149,7 @@ export var settings = {
                 background: 'cyan',
                 metric: 'getRandomMetric',
                 caption: 'Get Multi ii',
+                key: '2b',
                 iconClass: 'glyphicon glyphicon-tint'
               }
             ]
