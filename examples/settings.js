@@ -49,7 +49,7 @@ export var settings = {
        *
        * domainMapKey should be the key for the value representi9ng the map polygon
        */
-      {
+/*      {
         header: 'GAChoropleth Test',
         type: 'Choropleth',
         settings: {
@@ -88,42 +88,73 @@ export var settings = {
         },
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getCustomData'},
-      },
+      }, */
       {
-        header: 'GAChoropleth Test ][ - GEOJSON',
-        type: 'Choropleth',
-        settings: {
-          colors: ['red','green','yellow','purple','orange','pink','#252525','#000000'],
-          cssPath: '/static/choropleth.css',
-          showTooltip: {true},
-          legendHeader: 'Accred. Time: Before 8 AM #',
-          levels: 5,
-          domainLower: 10,
-          domainUpper: 80,
-          domainKey: 'Zone', // map key in domain data
-          domainMapKey: 'name', // map key in map data
-          domainField: 'Accred. Time: Before 8 AM #',
-          dataset: {
-            backend: 'csv',
-            url: '/data/apollo-parsed-1737-325_0.csv',
-            delimiter: ','
-          },
-          tooltip: {
-            label: 'Accred',
-            attr: 'Accred. Time: Before 8 AM #'
-          },
-          mapDataUrl: '/data/zones.geojson',
-          mapFormat: 'geojson',
-          showGraticule: false,
-					legendHeight : 400,
-					legendMargins : {top: 40, right: 50, bottom: 40, left: 50},
-					legendClassName : "test-legend-class",
-					legendPosition : 'left',
-					legendOffset : 90
-        },
-        cardStyle: 'card',
-        fetchData: 'getCustomData'
-      }
+        header: 'A Multi Component',
+        type: 'GAMultiSelect',
+          initialSelection: 'a', // Which key of the elements array to render when component mounts, or null to render nothing initially
+          elements: {
+            a: [ // each set of elements is an array - even if it contains a single child
+                {
+                  type: 'GATable',
+                  header: 'TABLE AAA',
+                  key: '1a', // arbitrary unique key for react rendering
+                  fetchData: {
+                    type:'backend',
+                    backend: 'csv',
+                    url: 'http://demo.getdkan.com/node/9/download',
+                  },
+                  cardStyle: 'table',
+                  settings: {
+                    table: {
+                      rowHeight: 40,
+                      width: 800,
+                      maxHeight: 300,
+                      headerHeight:40
+                    },
+                    columns: {
+                      flexGrow: 1,
+                      width: 150,
+                      overrides: {
+                        a1: {
+                          flexGrow: 0.5
+                        }
+                      }
+                    },
+                    cells: {
+                      height: 40,
+                      width: 500,
+                      overrides: {
+                        1: {
+                          height: 40
+                        }
+                      }
+                    }
+                  }
+                },
+            ],
+            b: [ 
+              {
+                type:'GAMetric',
+                key: '2a',
+                cardStyle: 'metric',
+                background: '#9F3E69',
+                metric: 'getRandomMetric',
+                caption: 'Get Multi',
+                iconClass: 'glyphicon glyphicon-user'
+              },
+              {
+                type:'GAMetric',
+                cardStyle: 'metric',
+                background: 'cyan',
+                metric: 'getRandomMetric',
+                caption: 'Get Multi ii',
+                key: '2b',
+                iconClass: 'glyphicon glyphicon-tint'
+              }
+            ]
+          }
+      } 
     ],
     middleFirst: [
       {
