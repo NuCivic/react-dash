@@ -30,22 +30,24 @@ export default class BaseComponent extends Component {
     return this.props.fetchData && this.props.fetchData.type;
   }
 
-  _onResize() {
-    let componentWidth = findDOMNode(this).getBoundingClientRect().width;
-    this.setState({ componentWidth : componentWidth});
-    this.onResize();
-  }
-
   onResize() {
     /* IMPLEMENT */
+  }
+
+  addResizeListener() {
+    this._resizeHandler = (e) => {
+      let componentWidth = findDOMNode(this).getBoundingClientRect().width;
+      this.setState({ componentWidth : componentWidth});
+      this.onResize(e);
+    }
+    window.addEventListener('resize', this._resizeHandler);
   }
 
   componentDidMount(){
     // resize magic
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     this.setState({ componentWidth : componentWidth});
-    this._resizeHandler = this._onResize.bind(this);
-    window.addEventListener('resize', this._resizeHandler);
+    this.addResizeListener();
 
     let type = this.getFetchType();
     if(type){
