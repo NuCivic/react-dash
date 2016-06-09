@@ -8,7 +8,6 @@ let testDataset = new Dataset({
   }
 });
 
-console.log(testDataset);
 
 describe('Test dataset load is sane', () => {
  it('Should load a class', () => {

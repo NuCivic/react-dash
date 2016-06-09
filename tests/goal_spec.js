@@ -40,5 +40,9 @@ describe('Instantiate Goal component', () => {
   });
 });
 
-// @@TODO
+// @@TODO test getMetric
+// @@TODO test getTolerance
+// @@TODO test getTracker
+// @@TODO test getCaption
+// @@TODO test sane element in DOM
 // * test expected behaviors

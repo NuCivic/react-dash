@@ -17,5 +17,4 @@ describe('Instantiate Autocomplete component', () => {
   });
 });
 
-// @@TODO
-// * Add testUtils input to autocomplete and check DOM for update
+// @@TODO Add testUtils input to autocomplete and check DOM for update

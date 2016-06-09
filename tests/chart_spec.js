@@ -33,10 +33,8 @@ let settings =
 describe('Instantiate Chart component', () => {
   it('Component should render as React DOM node', () => {
     let node = TestUtils.renderIntoDocument(React.createElement(Registry.get('GAChart'), settings));
-    console.log(node.state);
     expect(node.props.settings.id).toBe('lineChart2');
   });
 });
 
-// @@TODO
-// * add test for CSV backend
+// @@TODO Sanity check chart in DOM 

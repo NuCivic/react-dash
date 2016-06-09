@@ -14,4 +14,4 @@ describe('Instantiate Dashboard component', () => {
   });
 });
 
-// @@TODO check for text in DOM
+// @@TODO determine behaviors to test at dashboard level
