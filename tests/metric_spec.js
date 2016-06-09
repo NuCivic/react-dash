@@ -20,6 +20,5 @@ describe('Instantiate Metric component', () => {
   });
 });
 
-// @@TODO
-// * make sure that glyphicon is rendered into dom
-// * make sure that metric is rendered as real value
+// @@TODO make sure that glyphicon is rendered into dom
+// @@TODO make sure that metric is rendered as real value

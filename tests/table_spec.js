@@ -51,3 +51,5 @@ describe('Instantiate Chart component', () => {
     expect(node.props.header).toBe('TABLE AAA');
   });
 });
+
+// @@TODO Sanity check Table in DOM
