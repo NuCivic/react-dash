@@ -21,4 +21,5 @@ describe('Instantiate Metric component', () => {
 });
 
 // @@TODO
-// * add test for CSV backend
+// * make sure that glyphicon is rendered into dom
+// * make sure that metric is rendered as real value
