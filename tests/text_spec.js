@@ -30,4 +30,3 @@ describe('Instantiate Text component', () => {
   });
 });
 
-// @@TODO check for text in DOM
