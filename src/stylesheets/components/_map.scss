@@ -5,3 +5,12 @@
 .legend-container div {
 	text-align: left !important;
 }
+
+.hoverinfo {
+  position: fixed;
+  width: 100px;
+  min-height: 50px;
+  background-color: white;
+  box-shadow: 1px 1px 3px grey;
+  padding: 10px;
+}

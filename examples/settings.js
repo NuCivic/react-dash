@@ -35,94 +35,37 @@ export var settings = {
         fetchData: {type:'function', name: 'getTopChartData'},
 
       },
-      /* Docs:
-       * Domain Data should be formatted:
-       * [
-       *  {
-       *    mapKey: 'PKValue',
-       *    domainField: 'Value',
-       *    ignoredVal: 'foo',
-       *    moreExtraneousData: {...}
-       *  },
-       *  ...
-       * ]
-       *
-       * domainMapKey should be the key for the value representi9ng the map polygon
-       */
       {
-        header: 'GAChoropleth Test',
         type: 'Choropleth',
-        settings: {
-          colors:colorbrewer.OrRd[9],
-          cssPath: '/static/choropleth.css',
-          showTooltip: {true},
-          levels: 9, // number of Choropleth levels
-          domainLower: 0, // specify domain range - this can also be overridden in the domainScale functionion()
-          domainUpper: .15, // ibid.
-          domainKey: 'id',
-          domainMapKey: 'id',
-          legendHeader: "Per Cent Unemploytment by U.S. County",
-          legendValFormat: '%', // format string for d3.format function
-          domainField: 'rate', // the data we are comparing
-          legendValPrecision: 3, // Defaults to 2
-          dataset: {
-            backend: 'csv',
-            url: '/data/unemployment.tsv',
-            delimiter: '\t'
-          },
-          tooltip: {
-            attr: 'rate',
-            label: 'Unemployment rate'
-          },
-          mapFormat: 'topojson',
-          mapDataUrl: '/data/us.json',
-          polygon: 'counties',
-          mesh: 'states',
-          projection: 'albersUsa',
-          showGraticule: true,
-					legendHeight : 400,
-					legendMargins : {top: 40, right: 50, bottom: 40, left: 50},
-					legendClassName : "test-legend-class",
-					legendPosition : 'left',
-					legendOffset : 90
+        format: 'geojson',
+        fetchData: {
+          url: './data/apollo-parsed-1737-325_0.csv',
+          type: 'backend',
+          backend: 'csv',
+          // delimiter: '\t'
         },
-        cardStyle: 'card',
-        fetchData: {type:'function', name: 'getCustomData'},
-      },
-      {
-        header: 'GAChoropleth Test ][ - GEOJSON',
-        type: 'Choropleth',
-        settings: {
-          colors: ['red','green','yellow','purple','orange','pink','#252525','#000000'],
-          cssPath: '/static/choropleth.css',
-          showTooltip: {true},
-          legendHeader: 'Accred. Time: Before 8 AM #',
-          levels: 5,
-          domainLower: 10,
-          domainUpper: 80,
-          domainKey: 'Zone', // map key in domain data
-          domainMapKey: 'name', // map key in map data
-          domainField: 'Accred. Time: Before 8 AM #',
-          dataset: {
-            backend: 'csv',
-            url: '/data/apollo-parsed-1737-325_0.csv',
-            delimiter: ','
-          },
-          tooltip: {
-            label: 'Accred',
-            attr: 'Accred. Time: Before 8 AM #'
-          },
-          mapDataUrl: '/data/zones.geojson',
-          mapFormat: 'geojson',
-          showGraticule: false,
-					legendHeight : 400,
-					legendMargins : {top: 40, right: 50, bottom: 40, left: 50},
-					legendClassName : "test-legend-class",
-					legendPosition : 'left',
-					legendOffset : 90
-        },
-        cardStyle: 'card',
-        fetchData: 'getCustomData'
+        id: 'Choropleth',
+        dataKeyField: 'Zone',
+        dataValueField: 'Total Observers',
+        geometryKeyField: 'name',
+        geometry: './data/zones.geojson', // topojson or geojson
+        projection: 'equirectangular', // https://github.com/d3/d3/wiki/Geo-Projections
+        scaleDenominator: .7,
+        borderColor: '#000000',
+        noDataColor: '#F3F3F3',
+        startColor: 'red',
+        endColor: 'yellow',
+        dataClassification: 'linear',
+        legend: {
+          classesCount: 5,
+          palleteKey: 'GnBu',
+          pallete: ['#f0f9e8', '#bae4bc', '#7bccc4', '#43a2ca', '#0868ac'],
+          domainStartValue: '',
+          domainEndValue: '',
+        }
+        // customMin: '',
+        // customMax: '',
+        // topologyObject: 'counties'
       }
     ],
     middleFirst: [
