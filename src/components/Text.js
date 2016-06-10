@@ -4,7 +4,7 @@ import Registry from '../utils/Registry';
 export default class Text extends Component {
   render() {
     return (
-      <div dangerouslySetInnerHTML={ {__html: this.props.content}}></div>
+      <div className="dashboard-text" dangerouslySetInnerHTML={ {__html: this.props.content}}></div>
     )
   }
 }
