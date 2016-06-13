@@ -21,9 +21,9 @@ export default class Datamap extends Component {
     const { svgWidth, svgHeight, geometry } = nextProps
     const path = this.path(svgWidth, svgHeight)
 
-    // const svgResized = nextProps.svgWidth !== this.props.svgWidth ||
-    //   nextProps.svgHeight !== this.props.svgHeight
-
+    const svgResized = nextProps.svgWidth !== this.props.svgWidth ||
+       nextProps.svgHeight !== this.props.svgHeight
+    
     const geometryFeatures = geometry;
 
     this.setState({ path, geometryFeatures })
@@ -55,7 +55,6 @@ export default class Datamap extends Component {
     const { colorScale, noDataColor, borderColor } = this.props
 
     return this.state.geometryFeatures.map((feature, index) => {
-
       const key = (this.props.format === 'geojson') ?
         feature.properties[this.props.geometryKeyField] :
         feature.id;
@@ -73,7 +72,7 @@ export default class Datamap extends Component {
           path={() => this.state.path(feature)}
           name={String(key)}
           value={subunitValue}
-          svgResized={this.state.svgResized}
+          svgResized={this.props.svgResized}
           fillColor={fillColor}
           borderColor={borderColor}
           mouseEnterOnSubunit={this.handleMouseEnterOnSubunit}

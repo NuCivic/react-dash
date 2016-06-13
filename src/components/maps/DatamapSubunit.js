@@ -16,7 +16,8 @@ export default class DatamapSubunit extends Component {
     return nextProps.svgResized !== this.props.svgResized ||
       nextState.active !== this.state.active ||
       nextProps.fillColor !== this.props.fillColor ||
-      nextProps.borderColor !== this.props.borderColor
+      nextProps.borderColor !== this.props.borderColor ||
+      this.props.svgResized === true;
   }
 
   handleMouseEnter() {
