@@ -6,18 +6,18 @@ export default class DatamapSubunit extends Component {
     super(props)
     this.handleMouseEnter = this.handleMouseEnter.bind(this)
     this.handleMouseLeave = this.handleMouseLeave.bind(this)
-
     this.state = {
       active: false,
     }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.svgResized !== this.props.svgResized ||
+    const should = nextProps.svgResized !== this.props.svgResized ||
       nextState.active !== this.state.active ||
       nextProps.fillColor !== this.props.fillColor ||
       nextProps.borderColor !== this.props.borderColor ||
-      this.props.svgResized === true;
+      nextProps.componentWidth !== this.props.componentWidth;
+    return should;
   }
 
   handleMouseEnter() {

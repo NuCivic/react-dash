@@ -128,6 +128,7 @@ export default class Choropleth extends BaseComponent {
                 svgWidth={svgWidth}
                 svgHeight={svgHeight}
                 svgResized={this.state.svgResized}
+                componentWidth={this.state.componentWidth}
                 mouseMoveOnDatamap={this.mouseMoveOnDatamap.bind(this)}
                 mouseEnterOnDatamap={this.mouseEnterOnDatamap.bind(this)}
                 mouseLeaveDatamap={this.mouseLeaveDatamap.bind(this)}

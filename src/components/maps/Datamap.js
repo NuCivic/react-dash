@@ -72,7 +72,8 @@ export default class Datamap extends Component {
           path={() => this.state.path(feature)}
           name={String(key)}
           value={subunitValue}
-          svgResized={this.props.svgResized}
+          svgResized={this.state.svgResized}
+          componentWidth={this.props.componentWidth}
           fillColor={fillColor}
           borderColor={borderColor}
           mouseEnterOnSubunit={this.handleMouseEnterOnSubunit}
