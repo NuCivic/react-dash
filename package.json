@@ -4,7 +4,8 @@
   "description": "Another react dashboard component",
   "main": "./dist/react-dashboard.min.js",
   "scripts": {
-    "start": "bash start.sh",
+    "start": "npm run test && bash start.sh",
+    "start-no-test": "bash start.sh",
     "build": "webpack --config webpack.config.production.js",
     "test": "bash runtests.sh",
     "lint": "eslint src"
