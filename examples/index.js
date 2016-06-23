@@ -13,5 +13,6 @@ import GAGoal from './components/GAGoal';
 import GAChoropleth from './components/GAChoropleth';
 import MyCustomLayout from './layouts/MyCustomLayout';
 import GADashboard from './app';
+import GAMultiSelect from './components/GAMultiSelect';
 
 ReactDOM.render(<GADashboard {...settings} layout={MyCustomLayout}/>, document.getElementById('root'));

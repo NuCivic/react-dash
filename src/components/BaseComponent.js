@@ -22,25 +22,32 @@ export default class BaseComponent extends Component {
     EventDispatcher.register(this.onAction.bind(this));
   }
 
-  getFetchType() {
-    return this.props.fetchData && this.props.fetchData.type;
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._resizeHandler);
   }
 
-  handleResize() {
-    let componentWidth = findDOMNode(this).getBoundingClientRect().width;
-    this.setState({ componentWidth : componentWidth});
-    this.onResize();
+  getFetchType() {
+    return this.props.fetchData && this.props.fetchData.type;
   }
 
   onResize() {
     /* IMPLEMENT */
   }
 
+  addResizeListener() {
+    this._resizeHandler = (e) => {
+      let componentWidth = findDOMNode(this).getBoundingClientRect().width;
+      this.setState({ componentWidth : componentWidth});
+      this.onResize(e);
+    }
+    window.addEventListener('resize', this._resizeHandler);
+  }
+
   componentDidMount(){
     // resize magic
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     this.setState({ componentWidth : componentWidth});
-    window.addEventListener('resize', debounce(this.handleResize.bind(this), 500));
+    this.addResizeListener();
 
     let type = this.getFetchType();
     if(type){
@@ -64,7 +71,7 @@ export default class BaseComponent extends Component {
         this.setData(this.props.fetchData.records);
       }
     }
-
+    this.onResize();
   }
 
   onAction() {

@@ -42,7 +42,8 @@ module.exports = function (config) {
           },
           { test: /\.css$/, loader: "style-loader!css-loader" },
           { test: /\.json$/, loader: "json-loader" },
-          { test: /\.geojson$/, loader: "json-loader" }
+          { test: /\.geojson$/, loader: "json-loader" },
+          { test: /\.scss$/, loaders: ['style', 'css', 'sass'] }
         ]
       }
     },
