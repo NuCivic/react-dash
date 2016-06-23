@@ -9,6 +9,7 @@ import d3 from 'd3';
 import MapLegend from './MapLegend';
 
 export default class Choropleth extends BaseComponent {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -39,21 +40,49 @@ export default class Choropleth extends BaseComponent {
       });
   }
 
+  linearScale(min, max) {
+    return () => {
+      const startColor = this.legend.startColor;
+      const endColor = this.legend.endColor;
+
+      return d3.scale.linear()
+        .domain([min, max])
+        .range([startColor, endColor])
+        .interpolate(d3.interpolateLab)
+    }
+  }
+
+  equidistantScale(min, max) {
+    return () => {
+      const colorPallete = this.props.legend.pallete;
+
+      if (min === max) {
+        return () => colorPallete[colorPallete.length - 1]
+      }
+
+      return d3.scale.quantize().domain([min, max]).range(colorPallete);
+    }
+  }
+
   extremeValues(){
-    let max = d3.max(this.state.data.map((d) => d[this.props.dataValueField]));
-    let min = d3.min(this.state.data.map((d) => d[this.props.dataValueField]));
+    const valueField = this.props.dataValueField;
+    const data = this.state.data;
+    const max = d3.max(data.map((d) => d[valueField]));
+    const min = d3.min(data.map((d) => d[valueField]));
     return new Map([ ['min', min], ['max', max] ]);
   }
 
   colorScale() {
-    let extremeValues = this.extremeValues();
-    let min = (extremeValues) ? extremeValues.get('min') : 0;
-    let max = (extremeValues) ? extremeValues.get('max') : 200;
+    const extremeValues =  this.extremeValues();
+    const min = extremeValues.get('min');
+    const max = extremeValues.get('max');
 
-    return d3.scale.linear()
-      .domain([min, max])
-      .range([this.props.startColor, this.props.endColor])
-      .interpolate(d3.interpolateLab)
+    const scales = {
+      linear: this.linearScale(min, max),
+      equidistant: this.equidistantScale(min, max)
+    };
+
+    return scales[this.props.dataClassification]();
   }
 
   mouseMoveOnDatamap(e) {

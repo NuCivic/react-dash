@@ -11,7 +11,7 @@ const MapLegend = (props) => {
     linear: linearLegend,
     equidistant: equidistantLegend,
   };
-  console.log(props.dataClassification);
+
   return legends[props.dataClassification];
 }
 

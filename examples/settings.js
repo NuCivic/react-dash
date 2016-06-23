@@ -55,7 +55,7 @@ export var settings = {
         noDataColor: '#F3F3F3',
         startColor: 'red',
         endColor: 'yellow',
-        dataClassification: 'linear',
+        dataClassification: 'equidistant',
         legend: {
           classesCount: 5,
           palleteKey: 'GnBu',
