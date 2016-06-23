@@ -81,9 +81,6 @@
     "geojson": "^0.3.0",
     "lodash": "^4.6.1",
     "moment": "^2.12.0",
-    "react-d3-core": "^1.2.8",
-    "react-d3-map-choropleth": "^0.5.1",
-    "react-d3-map-core": "^0.13.7",
     "react-nvd3": "git+https://github.com/NuCivic/react-nvd3.git",
     "react-select": "git+https://github.com/JedWatson/react-select.git",
     "topojson": "^1.6.24"
