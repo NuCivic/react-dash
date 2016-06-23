@@ -15,7 +15,10 @@ export default class Adaptor {
    * @param opts.func - the function name (eg pieChart)
    */
   lookup (opts) {
-    const func = _funcs[_lookup[opts.lib[opts.type]]];
+    console.log(opts, _lookup['nvd3']);
+    const def = _lookup[opts.lib][opts.type];
+    const func = _funcs[opts.lib][def];
+    console.log(def,func);
     if (func && typeof func === 'function') {
       return func;
     } else {
@@ -41,14 +44,14 @@ const _lookup = {
 /* A hash of functions */
 const _funcs = {
   nvd3: {
-    base: function (data, opts) {
+    base: function (data) {
       return {
         values: data
       }  
     },
 
-    pieChart: function () {
-      
+    pieChart: function (data) {
+      return data;
     }
   }
 }
