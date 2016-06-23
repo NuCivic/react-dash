@@ -104,10 +104,13 @@ export default class Choropleth extends BaseComponent {
       activeSubunitValue: value,
     });
   }
+  
+  onResize() {
+    this.setState({svgResized: true});
+  }
 
   render() {
-
-    const svgWidth = 750
+    const svgWidth = this.state.componentWidth * .8;
     const svgHeight = svgWidth * 0.8;
     const extremeValues = this.extremeValues();
 
@@ -153,6 +156,8 @@ export default class Choropleth extends BaseComponent {
                 borderColor={borderColor}
                 svgWidth={svgWidth}
                 svgHeight={svgHeight}
+                svgResized={this.state.svgResized}
+                componentWidth={this.state.componentWidth}
                 mouseMoveOnDatamap={this.mouseMoveOnDatamap.bind(this)}
                 mouseEnterOnDatamap={this.mouseEnterOnDatamap.bind(this)}
                 mouseLeaveDatamap={this.mouseLeaveDatamap.bind(this)}

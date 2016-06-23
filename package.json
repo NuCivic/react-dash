@@ -74,7 +74,7 @@
     "d3": "^3.5.16",
     "dkan-es6-data-backend": "git+https://github.com/NuCivic/dkan-es6-data-backend.git",
     "fetch-polyfill": "^0.8.2",
-    "fixed-data-table": "git+https://github.com/NuCivic/fixed-data-table.git",
+    "fixed-data-table": "^0.6.1",
     "flux": "^2.1.1",
     "geojson": "^0.3.0",
     "lodash": "^4.6.1",
