@@ -3,6 +3,7 @@ import {findDOMNode} from 'react-dom';
 import EventDispatcher from '../dispatcher/EventDispatcher';
 import Dataset from '../models/Dataset';
 import {omit, isFunction, isPlainObject, isString, debounce} from 'lodash';
+import Adaptor from '../adaptors';
 
 export default class BaseComponent extends Component {
 
@@ -112,6 +113,10 @@ export default class BaseComponent extends Component {
   setData(data) {
     let _data = data.hits || data;
     let _total = data.total || data.length;
+    const adaptor = Adaptor.lookup({lib.this.props.lib, type: this.props.type});
+    if (adaptor && typeof adaptor === 'function') {
+      _data = adaptor(data);
+    }
     this.setState({data: _data, total: _total, isFeching: false});
     this.onDataChange(data);
   }
