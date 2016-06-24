@@ -9,7 +9,6 @@ export default class BaseComponent extends Component {
 
   constructor(props) {
     super(props);
-    console.log('000', props);
     this.state = {
       data: [],
       dataset: null,
@@ -94,7 +93,9 @@ export default class BaseComponent extends Component {
   onData(data) {
     // If it's a fetch response.
     if(data.json) {
-      data.json().then((data) => this.setData(data));
+      data.json().then((data) => {
+        this.setData(data)
+      });
     } else {
 
       // We create a dataset then we can perform queries against.
@@ -114,14 +115,11 @@ export default class BaseComponent extends Component {
    */
   adaptData(data) {
     let _data = Object.assign([], data);
-    if (this.props.type === 'GAChart') console.log('Ad0', _data, this.state);
     if (this.state.lib && this.state.funcType) {
       const adaptor = new Adaptor();
       const func = adaptor.lookup({lib:this.state.lib, type:this.state.funcType});
-      console.log('Ad1', func);
       if (func && typeof func === 'function') {
         _data = func(data);
-        console.log('Ad2', data);
       }
     }
     return _data;
@@ -132,12 +130,9 @@ export default class BaseComponent extends Component {
   }
 
   setData(data) {
-    if (this.props.type === 'GAChart') console.log('sd0', data, this.props, this.state);
     let _data = data.hits || data;
     let _total = data.total || data.length;
-    console.log('sd1', _data);
     let adaptedData = this.adaptData(_data);
-    console.log('sd2', adaptedData);
 
     this.setState({data: adaptedData, total: _total, isFeching: false});
     this.onDataChange(data);
@@ -151,9 +146,12 @@ export default class BaseComponent extends Component {
     if(this.props.fetchData && this.props.fetchData.type === 'function') {
       let data = this[this.props.fetchData.name](this.props.fetchData.args);
       if(data.then) {
-        return this.state.data || [];
+        data.then(data => {
+          return this.adaptData(data);
+        })
+      } else {
+        return this.adaptData(data);
       }
-      return data;
     }
     return this.state.data || [];
   }

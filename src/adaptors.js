@@ -45,9 +45,7 @@ const _lookup = {
 const _funcs = {
   nvd3: {
     base: function (data) {
-      console.log('>',data);
       return [{
-        key: "Foo",
         values: data  
       }];
     },
