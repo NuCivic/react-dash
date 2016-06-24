@@ -80,7 +80,6 @@ export default class Goal extends BaseComponent {
   }
 
   getCaption() {
-      console.log(this.props.dateFormat);
     let params = {
       'action': this.formatActionName(this.props.action),
       'caption': this.props.caption,

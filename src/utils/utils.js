@@ -17,9 +17,16 @@ export function makeKey(len)
     return text;
 }
 
+export function dateFormatter(format) {
+  return function(date) {
+    return formatDate(date, format);
+  }
+}
+
 export function formatDate(date, format) {
+  const d = (date instanceof Date) ? date : new Date(date);
   const formatter = d3.time.format(format);
-  return formatter(date);
+  return formatter(d);
 }
 
 export function formatNumber(n, format) {
