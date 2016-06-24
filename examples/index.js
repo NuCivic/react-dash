@@ -10,9 +10,9 @@ import GAChart from './components/GAChart';
 import GATable from './components/GATable';
 import GAMetric from './components/GAMetric';
 import GAGoal from './components/GAGoal';
+import GAChoropleth from './components/GAChoropleth';
 import MyCustomLayout from './layouts/MyCustomLayout';
 import GADashboard from './app';
-import GeojsonChoropleth from './components/GeojsonChoropleth';
 import GAMultiSelect from './components/GAMultiSelect';
 
 ReactDOM.render(<GADashboard {...settings} layout={MyCustomLayout}/>, document.getElementById('root'));

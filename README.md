@@ -469,55 +469,58 @@ The **Choropleth** element provides a choropleth map (also known as a "heat map"
 
 #### Map Data
 Map data provides features suitable for rendering a d3 map. Two formats are supported: **topojson** and **geojson**. 
-**Required topojson settings**
-* **polygon:** [_string_] dictates what objects to use to map polygons
-* **mesh:** [_string_] key to topojson mesh object
 
 #### Domain Data
-Domain data provides the statistical data necessary to calculate the levels of the choropleth. As with all components, this can be provided by the *globalData* paramter, or fetched via *getData*.
+Domain data provides the statistical data necessary to calculate the levels of the choropleth. As with all components, this can be provided by the *globalData* parameter, or fetched via a custom function or using any of the available backends.
 
-Domain data should be formatted as follows
-```javascript
-   [
-    {
-      mapKey: 'PKValue', // required
-      domainField: 'Value', // required
-      ignoredVal: 'foo',
-      moreExtraneousData: {...}
-    },
-    // ... etc ...
-   ]
+#### Configuration object shape
 ```
-#### Settings
-**Required settings**
-* **mapDataUrl:** A url to a valid geojson or topojson object
-* **mapFormat:** Either **topojson** or **geojson**
-* **dataset:** [_object_] an object containing paramaters to instantiate a data backend (see backends)
-* **legendHeader:** Header text appears above Legend
-* **levels:** [_int_] Number of levels to calculate for choropleth
-* **domainLower:** Lower limit when calculating levels
-* **domainUpper:** Upper limit when calculating levels
-* **domainKey:** A key value to associate a row of domain data with a map polygon
-* **domainMapKey:** The map polygon associated with the domain data key above
-* **domainField:** The field in a domain data row which contains the value to compare
-* **tooltip:** [_object_] An object contain a **label** attribute and an *attr* attribute which contains the key to an element in domain data row
-* **showTooltip:** [_boolean_]
-
-#### Available settings
-* **scale:** Set width of map
-* **projection:** The cartographic projection to use. ([see here](https://github.com/mbostock/d3/wiki/Geo-Projections) for a list of projections and more on projections)
-* **precision:** [see here](https://github.com/mbostock/d3/wiki/Geo-Projections#clipExtent)
-* **rotate:** [see here](https://github.com/mbostock/d3/wiki/Geo-Projections#rotate)
-* **center:** [see here](https://github.com/mbostock/d3/wiki/Geo-Projections#center)
-* **clipAngle:** [see here](://github.com/mbostock/d3/wiki/Geo-Projections#center)
-* **parallels:** [see here](https://github.com/mbostock/d3/wiki/Geo-Projections#conicConformal_parallels)
-
-#### Choropleth functions
-The following functions determine how domain data, at the row/record level, is processed. The functions are bound to the component class context and are passed the variable 'd' which contains the row of data being processed. They can be overridden in your implementation in order to perform preprocessing, formatting, etc.
-* **_domainValue:** The function, when applied to a row **d** of domain data should return a value for evaluation in the choropleth (for instance, the unemployment rate of a county, birth rate of a state, etc)
-* **_domainKey:** This function should return a value that will associate the row of data with a map region.
-* **_mapKey:** Should return a value equal to domainKey, above.
-* **_tooltipContent:** Return a key/value pair which is displayed as tooltip on hover. **d** is the current row of data. (example: {unemploymentRate : d[rate]})
+{
+  type: 'Choropleth',
+  format: 'geojson',
+  fetchData: {
+    url: './data/apollo-parsed-1737-325_0.csv',
+    type: 'backend',
+    backend: 'csv',
+    // delimiter: '\t'
+  },
+  id: 'Choropleth',
+  dataKeyField: 'Zone',
+  dataValueField: 'Total Observers',
+  geometryKeyField: 'name',
+  geometry: './data/zones.geojson', // topojson or geojson
+  projection: 'equirectangular', // https://github.com/d3/d3/wiki/Geo-Projections
+  scaleDenominator: .7,
+  borderColor: '#000000',
+  noDataColor: '#F3F3F3',
+  dataClassification: 'equidistant',
+  legend: {
+    // startColor: 'red',
+    // endColor: 'yellow',          
+    classesCount: 5,
+    palleteKey: 'GnBu',
+    pallete: ['#f0f9e8', '#bae4bc', '#7bccc4', '#43a2ca', '#0868ac'],
+    domainStartValue: '',
+    domainEndValue: '',
+  }
+  // customMin: '',
+  // customMax: '',
+  // topologyObject: 'counties'
+}
+```
+**Settings**
+* **format**: [_string_] type of geometry file to be used. Actually geojson and topojson geometries are supported.
+* **geometry:**: [_string_] path to either a geojson or topojson file.
+* **geometryKeyField** (geojson): [_string_] name of the property in the geometry file that will be used to join the domain data with the proper polygon.
+* **dataKeyField**: [_string_] field in the domain data that will be used to join join the domain data with the proper polygon.
+* **dataValueField**: [_string_] field in the domain data to calculate the levels of the choropleth.
+* **projection**: [_string_] the projection to draw the geometry. Available projections can be found at https://github.com/d3/d3/wiki/Geo-Projections. 
+* **scaleDenominator**: [__number__] a number to scale the map
+* **borderColor**: [__string__] border color for each shape in the geometry
+* **noDataColor**: [__string__] shape color when no data is available in a given polygon.
+* **startColor(linear scale)**: [__string__] color mapped to the lowest value in the domain data.
+* **endColor(linear scale)**: [__string__] color mapped to the highest value in the domain data.
+* **dataClassification**: [__string__] kind of scale to be used for data classification. Linear and Equidistant scales are supported.
 
 ### Metrics
 

@@ -35,105 +35,83 @@ export var settings = {
         fetchData: {type:'function', name: 'getTopChartData'},
 
       },
-      /* Docs:
-       * Domain Data should be formatted:
-       * [
-       *  {
-       *    mapKey: 'PKValue',
-       *    domainField: 'Value',
-       *    ignoredVal: 'foo',
-       *    moreExtraneousData: {...}
-       *  },
-       *  ...
-       * ]
-       *
-       * domainMapKey should be the key for the value representi9ng the map polygon
-       */
-/*      {
-        header: 'GAChoropleth Test',
+      {
         type: 'Choropleth',
-        settings: {
-          colors:colorbrewer.OrRd[9],
-          cssPath: '/static/choropleth.css',
-          showTooltip: {true},
-          levels: 9, // number of Choropleth levels
-          domainLower: 0, // specify domain range - this can also be overridden in the domainScale functionion()
-          domainUpper: .15, // ibid.
-          domainKey: 'id',
-          domainMapKey: 'id',
-          legendHeader: "Per Cent Unemploytment by U.S. County",
-          legendValFormat: '%', // format string for d3.format function
-          domainField: 'rate', // the data we are comparing
-          legendValPrecision: 3, // Defaults to 2
-          dataset: {
-            backend: 'csv',
-            url: '/data/unemployment.tsv',
-            delimiter: '\t'
-          },
-          tooltip: {
-            attr: 'rate',
-            label: 'Unemployment rate'
-          },
-          mapFormat: 'topojson',
-          mapDataUrl: '/data/us.json',
-          polygon: 'counties',
-          mesh: 'states',
-          projection: 'albersUsa',
-          showGraticule: true,
-					legendHeight : 400,
-					legendMargins : {top: 40, right: 50, bottom: 40, left: 50},
-					legendClassName : "test-legend-class",
-					legendPosition : 'left',
-					legendOffset : 90
+        format: 'geojson',
+        fetchData: {
+          url: './data/apollo-parsed-1737-325_0.csv',
+          type: 'backend',
+          backend: 'csv',
+          // delimiter: '\t'
         },
-        cardStyle: 'card',
-        fetchData: {type:'function', name: 'getCustomData'},
-      }, */
+        id: 'Choropleth',
+        dataKeyField: 'Zone',
+        dataValueField: 'Total Observers',
+        geometryKeyField: 'name',
+        geometry: './data/zones.geojson', // topojson or geojson
+        projection: 'equirectangular', // https://github.com/d3/d3/wiki/Geo-Projections
+        scaleDenominator: .7,
+        borderColor: '#000000',
+        noDataColor: '#F3F3F3',
+        startColor: 'red',
+        endColor: 'yellow',
+        dataClassification: 'equidistant',
+        legend: {
+          classesCount: 5,
+          palleteKey: 'GnBu',
+          pallete: ['#f0f9e8', '#bae4bc', '#7bccc4', '#43a2ca', '#0868ac'],
+          domainStartValue: '',
+          domainEndValue: '',
+        }
+        // customMin: '',
+        // customMax: '',
+        // topologyObject: 'counties'
+      },
       {
         header: 'A Multi Component',
         type: 'GAMultiSelect',
           initialSelection: 'a', // Which key of the elements array to render when component mounts, or null to render nothing initially
           elements: {
             a: [ // each set of elements is an array - even if it contains a single child
-                {
-                  type: 'GATable',
-                  header: 'TABLE AAA',
-                  key: '1a', // arbitrary unique key for react rendering
-                  fetchData: {
-                    type:'backend',
-                    backend: 'csv',
-                    url: 'http://demo.getdkan.com/node/9/download',
+              {
+                type: 'GATable',
+                header: 'TABLE AAA',
+                key: '1a', // arbitrary unique key for react rendering
+                fetchData: {
+                  type:'backend',
+                  backend: 'csv',
+                  url: 'http://demo.getdkan.com/node/9/download',
+                },
+                cardStyle: 'table',
+                settings: {
+                  table: {
+                    rowHeight: 40,
+                    width: 800,
+                    maxHeight: 300,
+                    headerHeight:40
                   },
-                  cardStyle: 'table',
-                  settings: {
-                    table: {
-                      rowHeight: 40,
-                      width: 800,
-                      maxHeight: 300,
-                      headerHeight:40
-                    },
-                    columns: {
-                      flexGrow: 1,
-                      width: 150,
-                      overrides: {
-                        a1: {
-                          flexGrow: 0.5
-                        }
+                  columns: {
+                    flexGrow: 1,
+                    width: 150,
+                    overrides: {
+                      a1: {
+                        flexGrow: 0.5
                       }
-                    },
-                    cells: {
-                      height: 40,
-                      width: 500,
-                      overrides: {
-                        1: {
-                          height: 40
-                        }
+                    }
+                  },
+                  cells: {
+                    height: 40,
+                    width: 500,
+                    overrides: {
+                      1: {
+                        height: 40
                       }
                     }
                   }
-                },
+                }
+              },
             ],
-            b: [ 
+            b: [
               {
                 type:'GAMetric',
                 key: '2a',
@@ -154,7 +132,7 @@ export var settings = {
               }
             ]
           }
-      } 
+      }
     ],
     middleFirst: [
       {
