@@ -45,11 +45,12 @@ const _lookup = {
 const _funcs = {
   nvd3: {
     base: function (data) {
-      return {
-        values: data
-      }  
+      console.log('>',data);
+      return [{
+        key: "Foo",
+        values: data  
+      }];
     },
-
     pieChart: function (data) {
       return data;
     }

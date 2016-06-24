@@ -9,11 +9,14 @@ export default class BaseComponent extends Component {
 
   constructor(props) {
     super(props);
+    console.log('000', props);
     this.state = {
       data: [],
       dataset: null,
       queryObj: Object.assign({size: 10, from: 0}, this.props.queryObj),
-      isFeching: false
+      isFeching: false,
+      lib: props.lib,
+      funcType: props.funcType
     };
 
   }
@@ -106,18 +109,37 @@ export default class BaseComponent extends Component {
     /* IMPLEMENT */
   }
 
+  /**
+   * If there is an adaptor on file, adapt data
+   */
+  adaptData(data) {
+    let _data = Object.assign([], data);
+    if (this.props.type === 'GAChart') console.log('Ad0', _data, this.state);
+    if (this.state.lib && this.state.funcType) {
+      const adaptor = new Adaptor();
+      const func = adaptor.lookup({lib:this.state.lib, type:this.state.funcType});
+      console.log('Ad1', func);
+      if (func && typeof func === 'function') {
+        _data = func(data);
+        console.log('Ad2', data);
+      }
+    }
+    return _data;
+  }
+  
   fetchData() {
    	return Promise.resolve(this[this.props.fetchData.name]());
   }
 
   setData(data) {
+    if (this.props.type === 'GAChart') console.log('sd0', data, this.props, this.state);
     let _data = data.hits || data;
     let _total = data.total || data.length;
-    const adaptor = Adaptor.lookup({lib.this.props.lib, type: this.props.type});
-    if (adaptor && typeof adaptor === 'function') {
-      _data = adaptor(data);
-    }
-    this.setState({data: _data, total: _total, isFeching: false});
+    console.log('sd1', _data);
+    let adaptedData = this.adaptData(_data);
+    console.log('sd2', adaptedData);
+
+    this.setState({data: adaptedData, total: _total, isFeching: false});
     this.onDataChange(data);
   }
 

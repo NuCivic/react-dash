@@ -16,6 +16,8 @@ export var settings = {
       {
         header:'Top',
         type: 'GAChart',
+        lib: 'nvd3',
+        funcType: 'lineChart',
         iconClass: 'glyphicon glyphicon-tree-conifer',
         settings: {
           id:'lineChart2',
@@ -34,7 +36,7 @@ export var settings = {
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getTopChartData'},
 
-      },
+      }, 
       /* Docs:
        * Domain Data should be formatted:
        * [
@@ -284,6 +286,8 @@ export var settings = {
         header:'Left',
         iconClass: 'glyphicon glyphicon-fire',
         type: 'GAChart',
+        lib: 'nvd3',
+        funcType: 'discreteBarChart',
         settings: {
           id:'lineChart',
           type: 'discreteBarChart',
@@ -339,6 +343,8 @@ export var settings = {
         header:'Right',
         type: 'GAChart',
         iconClass: 'glyphicon glyphicon-exclamation-sign',
+        lib: 'nvd3',
+        funcType: 'discreteBarChart',
         settings: {
           id:'barChart',
           type: 'discreteBarChart',
