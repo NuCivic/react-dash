@@ -3,6 +3,7 @@ import {findDOMNode} from 'react-dom';
 import EventDispatcher from '../dispatcher/EventDispatcher';
 import Dataset from '../models/Dataset';
 import {omit, isFunction, isPlainObject, isString, debounce} from 'lodash';
+import Adaptor from '../adaptors';
 
 export default class BaseComponent extends Component {
 
@@ -12,7 +13,9 @@ export default class BaseComponent extends Component {
       data: [],
       dataset: null,
       queryObj: Object.assign({size: 10, from: 0}, this.props.queryObj),
-      isFeching: false
+      isFeching: false,
+      lib: props.lib,
+      funcType: props.funcType
     };
 
   }
@@ -90,7 +93,9 @@ export default class BaseComponent extends Component {
   onData(data) {
     // If it's a fetch response.
     if(data.json) {
-      data.json().then((data) => this.setData(data));
+      data.json().then((data) => {
+        this.setData(data)
+      });
     } else {
 
       // We create a dataset then we can perform queries against.
@@ -105,6 +110,21 @@ export default class BaseComponent extends Component {
     /* IMPLEMENT */
   }
 
+  /**
+   * If there is an adaptor on file, adapt data
+   */
+  adaptData(data) {
+    let _data = Object.assign([], data);
+    if (this.state.lib && this.state.funcType) {
+      const adaptor = new Adaptor();
+      const func = adaptor.lookup({lib:this.state.lib, type:this.state.funcType});
+      if (func && typeof func === 'function') {
+        _data = func(data);
+      }
+    }
+    return _data;
+  }
+  
   fetchData() {
    	return Promise.resolve(this[this.props.fetchData.name]());
   }
@@ -112,7 +132,9 @@ export default class BaseComponent extends Component {
   setData(data) {
     let _data = data.hits || data;
     let _total = data.total || data.length;
-    this.setState({data: _data, total: _total, isFeching: false});
+    let adaptedData = this.adaptData(_data);
+
+    this.setState({data: adaptedData, total: _total, isFeching: false});
     this.onDataChange(data);
   }
 
@@ -124,9 +146,12 @@ export default class BaseComponent extends Component {
     if(this.props.fetchData && this.props.fetchData.type === 'function') {
       let data = this[this.props.fetchData.name](this.props.fetchData.args);
       if(data.then) {
-        return this.state.data || [];
+        data.then(data => {
+          return this.adaptData(data);
+        })
+      } else {
+        return this.adaptData(data);
       }
-      return data;
     }
     return this.state.data || [];
   }

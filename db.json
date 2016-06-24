@@ -10,9 +10,6 @@
     }
   ],
   "data": [
-    {
-      "key": "Cumulative Return",
-      "values": [
         {
           "label": "A",
           "value": -29.765957771107
@@ -46,6 +43,4 @@
           "value": -5.1387322875705
         }
       ]
-    }
-  ]
 }

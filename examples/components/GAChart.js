@@ -11,10 +11,7 @@ export default class GAChart extends Chart {
   getTopChartData() {
     let records = this.props.globalData;
     records = records.map((record) => ({date: Date.parse(record.date), price: Number(record.price)}));
-    return [{
-      key: 'Gold evolution',
-      values: records
-    }];
+    return records;
   }
 }
 
