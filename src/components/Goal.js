@@ -3,10 +3,9 @@ import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
 import Loader from './Loader';
 import {head, template, capitalize, merge} from 'lodash';
-import {format as d3_format} from 'd3';
 import NVD3Chart from 'react-nvd3';
-import moment from 'moment';
 import classnames from 'classnames';
+import {formatDate, formatNumber} from '../utils/utils';
 
 export default class Goal extends BaseComponent {
 
@@ -31,7 +30,7 @@ export default class Goal extends BaseComponent {
     this.state = {
       metric: 0,
       showEndNumber: (this.props.showEndNumber === false) ? false : true,
-      dateFormat: this.props.dateFormat || 'MMMM Do YYYY',
+      dateFormat: this.props.dateFormat || '%b %m %Y',
       numberFormat: this.props.numberFormat || '.0f',
     };
   }
@@ -76,27 +75,19 @@ export default class Goal extends BaseComponent {
     }
   }
 
-  formatNumber(n) {
-    let format = d3_format(this.state.numberFormat);
-    return format(n);
-  }
-
-  formatDate(date) {
-    return moment((date).toISOString()).format(this.state.dateFormat);
-  }
-
   formatActionName(action) {
     return capitalize(this.props.action.replace('_', ' '));
   }
 
   getCaption() {
+      console.log(this.props.dateFormat);
     let params = {
       'action': this.formatActionName(this.props.action),
       'caption': this.props.caption,
-      'startNumber': this.formatNumber(this.props.startNumber),
-      'endNumber': this.formatNumber(this.props.endNumber),
-      'startDate': this.formatDate(new Date(this.props.startDate)),
-      'endDate': this.formatDate(new Date(this.props.endDate))
+      'startNumber': formatNumber(this.props.startNumber, this.state.numberFormat),
+      'endNumber': formatNumber(this.props.endNumber, this.state.numberFormat),
+      'startDate': formatDate(new Date(this.props.startDate), this.state.dateFormat),
+      'endDate': formatDate(new Date(this.props.endDate), this.state.dateFormat)
     };
     let compiled =  template(this.props.captionTemplates[this.props.action]);
     return compiled(params);
@@ -119,7 +110,7 @@ export default class Goal extends BaseComponent {
 
     // This allows to show either a single number or a progress in the following format: number / total
     if(this.state.showEndNumber) {
-      endNumber = <span className="card-goal-end-number"> {this.props.divider} {this.formatNumber(this.props.endNumber)}</span>;
+      endNumber = <span className="card-goal-end-number"> {this.props.divider} {formatNumber(this.props.endNumber, this.state.numberFormat)}</span>;
     }
 
     return (
@@ -138,7 +129,7 @@ export default class Goal extends BaseComponent {
           <div className="row">
             <div className="col-md-4">
               <div className="card-goal-progress">
-               <span className="card-goal-metric">{this.formatNumber(this.getMetric(this.getData()))}</span>
+               <span className="card-goal-metric">{formatNumber(this.getMetric(this.getData()), this.state.numberFormat)}</span>
                {endNumber}
               </div>
             </div>
@@ -147,7 +138,7 @@ export default class Goal extends BaseComponent {
                 <a style={{color: status.color}} href={this.props.link}>{status.label}</a>
               </div>
               <div className="card-goal-end-date">
-              {this.formatDate(new Date(this.props.endDate))}
+              {formatDate(new Date(this.props.endDate), this.state.dateFormat)}
               </div>
             </div>
           </div>
