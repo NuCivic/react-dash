@@ -16,6 +16,7 @@ export {default as Text } from './components/Text';
 
 // UTILS
 export {default as Registry } from './utils/Registry';
+export {default as DataHandler } from './utils/DataHandler';
 export * from './utils/utils';
 
 // LAYOUTS
@@ -28,3 +29,6 @@ export {default as MemoryStore} from './models/MemoryStore';
 // EXTRA
 export {default as EventDispatcher} from './dispatcher/EventDispatcher';
 export {default as DashboardConstants} from './constants/DashboardConstants';
+
+// DATAHANDLERS
+export {default as DataHandlerList} from './datahandlers/index';

@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import {findDOMNode} from 'react-dom';
 import EventDispatcher from '../dispatcher/EventDispatcher';
 import Dataset from '../models/Dataset';
-import {omit, isFunction, isPlainObject, isString, debounce} from 'lodash';
+import {omit, isFunction, isPlainObject, isString, debounce, flowRight} from 'lodash';
+import DataHandler from '../utils/DataHandler';
+import Registry from '../utils/Registry';
+
+
 
 export default class BaseComponent extends Component {
 
@@ -110,6 +114,9 @@ export default class BaseComponent extends Component {
   }
 
   setData(data) {
+    let handlers = (this.props.dataHandlers || []).map((handler) => DataHandler.get(handler));
+    let handle = flowRight(handlers);
+    data = handle(data);
     let _data = data.hits || data;
     let _total = data.total || data.length;
     this.setState({data: _data, total: _total, isFeching: false});
