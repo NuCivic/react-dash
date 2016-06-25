@@ -1,7 +1,7 @@
 import DataHandler from '../utils/DataHandler';
 
-function identity(data) {
-  return data;
+function identity(componentData, dashboardData) {
+  return componentData;
 }
 
 DataHandler.set('identity', identity);

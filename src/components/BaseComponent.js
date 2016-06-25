@@ -116,7 +116,7 @@ export default class BaseComponent extends Component {
   setData(data) {
     let handlers = (this.props.dataHandlers || []).map((handler) => DataHandler.get(handler));
     let handle = flowRight(handlers);
-    data = handle(data);
+    data = handle(data, this.getGlobalData());
     let _data = data.hits || data;
     let _total = data.total || data.length;
     this.setState({data: _data, total: _total, isFeching: false});
