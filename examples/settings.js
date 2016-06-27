@@ -30,7 +30,7 @@ export var settings = {
             tickFormat: dateFormatter('%Y')
           }
         },
-        dataHandlers: ['identity'],
+        dataHandlers: [{name:'identity', otherParam: 'usethis'}],
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getTopChartData'},
 

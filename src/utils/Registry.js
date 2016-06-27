@@ -10,4 +10,5 @@ export default class Registry {
   static get(path) {
     return get(Registry.root, path);
   }
+
 }
