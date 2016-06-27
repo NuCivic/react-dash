@@ -17,11 +17,11 @@ module.exports = function (config) {
       { pattern: 'tests/fixtures/*.json', watched: true, served: true, included: false },
       { pattern: 'tests/fixtures/*.geojson', watched: true, served: true, included: false }
     ],
-    plugins: [webpack, 'karma-jasmine', 'karma-phantomjs-launcher', 'karma-coverage', 'karma-spec-reporter'],
+    plugins: [webpack, 'karma-jasmine', 'karma-phantomjs-launcher', 'karma-coverage', 'karma-spec-reporter', 'karma-sourcemap-loader'],
     browsers: [ 'PhantomJS' ],
     preprocessors: {
-      'tests/**/*_spec.js': ['webpack'],
-      'src/**/*.js': ['webpack']
+      'tests/**/*_spec.js': ['webpack', 'sourcemap'],
+      'src/**/*.js': ['webpack', 'sourcemap']
     },
     reporters: [ 'spec', 'coverage' ],
     coverageReporter: {
@@ -45,7 +45,8 @@ module.exports = function (config) {
           { test: /\.geojson$/, loader: "json-loader" },
           { test: /\.scss$/, loaders: ['style', 'css', 'sass'] }
         ]
-      }
+      },
+      devtool: 'inline-source-map',
     },
     webpackMiddleware: { noInfo: true }
   });
