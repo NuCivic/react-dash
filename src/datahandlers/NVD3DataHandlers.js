@@ -29,6 +29,22 @@ function fieldsToSeries(componentData, dashboardData, handler) {
 }
 
 /**
+ * Convert componentData to series format expected by NVD3 (no pie-) charts
+ */
+function getChartSeries(componentData, dashboardData, handler) {
+  if(!componentData.length) return [];
+  let series = (handler.fields || []).map( (s,i) => {
+    let serie = {
+      key: s.name,
+      color: s.color
+    };
+    serie.values = componentData[i];
+    return serie;
+  });
+  return series;
+}
+
+/**
  * Parse a field as a date.
  * handler = {
  *   field: 'field_name_to_parse',
