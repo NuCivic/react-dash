@@ -20,7 +20,6 @@ export var settings = {
           id:'lineChart2',
           type: 'lineChart',
           x: 'date',
-          y: 'price',
           height: 340,
           margin: {
             left: 38
@@ -30,10 +29,25 @@ export var settings = {
             tickFormat: dateFormatter('%Y')
           }
         },
-        dataHandlers: [{name:'identity', otherParam: 'usethis'}],
+        dataHandlers: [
+          {
+            name: 'parseDateField',
+            field: 'date'
+          },
+          {
+            name:'fieldsToSeries',
+            fields: [
+              {name: 'Price', field: 'price', color:'#FF0000'},
+            ]
+          }
+        ],
         cardStyle: 'card',
-        fetchData: {type:'function', name: 'getTopChartData'},
-
+        fetchData: {
+          type:'backend',
+          backend: 'csv',
+          url: 'http://demo.getdkan.com/sites/default/files/data_0.csv'
+        },
+        id:'agh'
       },
       {
         type: 'Choropleth',

@@ -18,7 +18,7 @@ export default class Dataset {
     this.settings = settings;
     this.backend = Dataset.getBackendFromName(settings.backend);
     this._store = this.backend;
-    this.queryState = {};
+    this.queryState = Object.assign({}, settings.queryObj);
   }
 
   fetch() {

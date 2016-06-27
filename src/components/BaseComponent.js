@@ -14,7 +14,7 @@ export default class BaseComponent extends Component {
     this.state = {
       data: [],
       dataset: null,
-      queryObj: Object.assign({size: 10, from: 0}, this.props.queryObj),
+      queryObj: Object.assign({from: 0}, this.props.queryObj),
       isFeching: false
     };
 
@@ -113,9 +113,9 @@ export default class BaseComponent extends Component {
   }
 
   setData(data) {
-    data = DataHandler.handle(this.props.dataHandlers, data, this.getGlobalData());
     let _data = data.hits || data;
     let _total = data.total || data.length;
+    _data = DataHandler.handle.call(this, this.props.dataHandlers, _data, this.getGlobalData());
     this.setState({data: _data, total: _total, isFeching: false});
     this.onDataChange(data);
   }

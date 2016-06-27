@@ -3,7 +3,7 @@ import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
 import {omit, pick} from 'lodash';
 
-export default class Card extends BaseComponent {
+export default class Card extends Component {
   render() {
     let card = pick(this.props, 'card').card;
     let props = omit(this.props, 'card');
