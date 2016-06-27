@@ -21,11 +21,10 @@ function fieldsToSeries(componentData, dashboardData, handler) {
       color: s.color
     };
     serie.values = componentData.map( (row) => {
-      return {y: row[s.field], x: row[(this.props.settings.x || x)]};
+      return {y: row[s.field], x: row[(this.props.settings.x || 'x' )]};
     });
     return serie;
   });
-  console.log(series);
   return series;
 }
 
