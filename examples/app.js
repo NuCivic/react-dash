@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {Dashboard} from '../src/ReactDashboard';
 import Dataset from '../src/models/Dataset';
 
-
 export default class GADashboard extends Dashboard {
 
   componentDidMount() {

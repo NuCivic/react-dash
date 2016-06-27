@@ -1,6 +1,5 @@
-
 import colorbrewer from 'colorbrewer';
-import {timeFormat as d3_timeFormat} from 'd3-time-format';
+import {dateFormatter} from '../src/ReactDashboard';
 
 
 export var settings = {
@@ -28,9 +27,10 @@ export var settings = {
           },
           color: ['#EA7E7E'],
           xAxis: {
-            tickFormat: d3_timeFormat('%Y')
+            tickFormat: dateFormatter('%Y')
           }
         },
+        dataHandlers: [{name:'identity', otherParam: 'usethis'}],
         cardStyle: 'card',
         fetchData: {type:'function', name: 'getTopChartData'},
 
