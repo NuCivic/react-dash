@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import Geary from '../layouts/Geary';
 import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
-import EventDispatcher from '../dispatcher/EventDispatcher';
 
 export default class Dashboard extends BaseComponent {
 
@@ -12,15 +10,22 @@ export default class Dashboard extends BaseComponent {
   }
 
   render() {
-    let layout = (typeof this.props.layout === 'string') ? Registry.get(this.props.layout) : this.props.layout;
-    if(!layout) throw new Error(`Missing layout class ${this.props.layout}`);
-    let props = Object.assign({globalData: this.state.data || []}, this.props);
+    let markup;
+    
+    if (this.props.layout) {
+      let layout = (typeof this.props.layout === 'String') ? Registry.get(this.props.layout) : this.props.layout;
+      let props = Object.assign({globalData: this.state.data || []}, this.props);
+      console.log('LAYOUT', layout, props);
+      console.log('isLayout', layout);
+      markup = 
+        <div className="container">
+          <h1 className="dashboard-title">{this.props.title}</h1>
+          {React.createElement(layout, props)}
+        </div>
+    } else {
+      markup = <p>SHOWTIME</p>; 
+    }
 
-    return (
-      <div className="container">
-        <h1 className="dashboard-title">{this.props.title}</h1>
-        {React.createElement(layout, props)}
-      </div>
-    );
+    return markup;
   }
 }
