@@ -6,23 +6,19 @@ import DataHandler from '../utils/DataHandler';
  * and y is defined by a field name
  */
 function fieldsToXYSeries(componentData, dashboardData, handler, pipelineData) {
-  console.log('cc0', handler, pipelineData);
   let _data = pipelineData || componentData; 
   if(!_data.length) return [];
   if (!Array.isArray(_data[1])) _data = [_data]; // series data should be an array of array(s)
-  console.log('cc1', _data);
    
   let series = _data.map(series => {
     let x = handler.xField || 'x';
     let y = handler.field;
     return series.map(row => {
-      console.log(row, handler.field, handler.xField, x);
       return {y: row[handler.field], x: row[x]};
     });
     return series;
   });
   
-  console.log('XYtoSeries',series);
   return series;
 }
 
