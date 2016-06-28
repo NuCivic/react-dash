@@ -31,32 +31,20 @@ function fieldsToSeries(componentData, dashboardData, handler) {
 /**
  * Convert componentData to series format expected by NVD3 (no pie-) charts
  */
-function getChartSeries(componentData, dashboardData, handler) {
-  if(!componentData.length) return [];
-  let series = (handler.fields || []).map( (s,i) => {
+function getChartSeries(componentData, dashboardData, handler, pipelineData) {
+  let _data = pipelineData || componentData;
+  if (!Array.isArray(_data[0])) _data = [_data]; // series data should be an array of array(s)
+  if(!_data.length) return [];
+  let series = (handler.series || []).map( (s,i) => {
     let serie = {
       key: s.name,
       color: s.color
     };
-    serie.values = componentData[i];
+    serie.values = _data[i];
     return serie;
   });
+  console.log('getChartSeries', series);
   return series;
 }
 
-/**
- * Parse a field as a date.
- * handler = {
- *   field: 'field_name_to_parse',
- *   name: 'parseFieldDate'
- * }
- */
-function parseDateField(componentData, dashboardData, handler) {
-  return componentData.map((row) => {
-    row[handler.field] = Date.parse(row[handler.field]);
-    return row;
-  });
-}
-
-DataHandler.set('fieldsToSeries', fieldsToSeries);
-DataHandler.set('parseDateField', parseDateField);
+DataHandler.set('NVD3.getChartSeries', getChartSeries);

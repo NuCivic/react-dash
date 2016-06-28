@@ -31,13 +31,18 @@ export var settings = {
         },
         dataHandlers: [
           {
-            name: 'parseDateField',
+            name: 'common.parseDateField',
             field: 'date'
           },
           {
-            name:'fieldsToSeries',
-            fields: [
-              {name: 'Price', field: 'price', color:'#FF0000'},
+            name: 'common.fieldsToXYSeries',
+            field: 'price', 
+            xField: 'date'
+          },
+          {
+            name: 'NVD3.getChartSeries',
+            series: [
+              {name: 'Price', color:'#FF0000'},
             ]
           }
         ],
