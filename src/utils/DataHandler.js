@@ -1,5 +1,5 @@
 import Registry from './Registry';
-import {flowRight, isFunction, isString} from 'lodash';
+import {flow, isFunction, isString, omit} from 'lodash';
 
 export default class DataHandler {
 
@@ -23,11 +23,12 @@ export default class DataHandler {
   static handle(hs, componentData, dashboardData) {
     let handlers = (hs || []).map((h) => {
       let handler = isString(h) ? { name: h } : h ;
-      return DataHandler
-        .get(handler.name)
-        .bind(handler, componentData, dashboardData);
+      let funcHandler = DataHandler.get(handler.name);
+      let args = omit(handler,'name');
+      return funcHandler.bind(this, componentData, dashboardData, args);
     });
-    let handle = flowRight(handlers);
+
+    let handle = flow(handlers);
     return (isFunction(handle)) ? handle(componentData, dashboardData) : componentData;
   }
 }
