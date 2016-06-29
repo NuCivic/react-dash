@@ -13,11 +13,8 @@ export default class Dashboard extends BaseComponent {
   render() {
     let markup;
     let props = Object.assign({globalData: this.state.data || []}, this.props);
-    console.log("PROPS", props.components); 
     if (props.layout) {
       let layout = (typeof this.props.layout === 'String') ? Registry.get(this.props.layout) : this.props.layout;
-      console.log('LAYOUT', layout, props);
-      console.log('isLayout', layout);
       return (
         <div className="container">
           <h1 className="dashboard-title">{this.props.title}</h1>
@@ -32,7 +29,7 @@ export default class Dashboard extends BaseComponent {
           {props.components.map((element, key) => {
             return (
               <Card key={key} {...element}>
-                {React.createElement(Registry.get(element.type), props)}
+                {React.createElement(Registry.get(element.type), props.components[key])}
               </Card>
             )
           })}
