@@ -10,7 +10,7 @@ export var settings = {
       children: [
        {
         type: 'Div',
-        className: 'col-md-12',
+        className: 'first-row col-md-12',
         children: [
            {
               type: 'Autocomplete',
@@ -161,17 +161,281 @@ export var settings = {
 
         ]
        },
+           {
+             type: 'Div',
+             className: 'col-md-4',
+             children: []
+           },
        {
          type: 'Div',
-         className: 'col-sm-6 col-lg-3',
+         className: 'second-row row',
          children: [
            {
-             header: 'Foo',
-             type: 'Text',
-             content: 'Lets get nesty.'
-           }      
+             type: 'Div',
+             className: 'col-sm-6 col-lg-3',
+             children: [
+								{
+									type:'GAMetric',
+									cardStyle: 'metric',
+									background: '#9F3E69',
+									metric: 'getRandomMetric',
+									caption: 'New Users',
+									iconClass: 'glyphicon glyphicon-user'
+								}  
+             ]
+           },
+           {
+             type: 'Div',
+             className: 'col-sm-6 col-lg-3',
+             children: [
+								{
+									type:'GAMetric',
+									cardStyle: 'metric',
+									background: '#F3BA4F',
+									metric: 'getRandomMetric',
+									caption: 'Visitors',
+									iconClass: 'glyphicon glyphicon-heart'
+								}
+						 ]
+           },
+           {
+             type: 'Div',
+             className: 'col-sm-6 col-lg-3',
+             children: [
+								{
+									type:'GAMetric',
+									cardStyle: 'metric',
+									background: '#3EB1AE',
+									metric: 'getRandomMetric',
+									caption: 'Page views',
+									iconClass: 'glyphicon glyphicon-star'
+								}
+						 ]
+           },
+           {
+             type: 'Div',
+             className: 'col-sm-6 col-lg-3',
+             children: [
+								{
+									type:'GAMetric',
+									cardStyle: 'metric',
+									background: '#0B90B1',
+									metric: 'getAVGPrice',
+									caption: 'Unique Visitors',
+									iconClass: 'glyphicon glyphicon-road',
+									fetchData: {type: 'function', name: 'getCustomData'}
+								}
+						 ]
+           },
          ]
-       }
+       },
+       {
+         type: 'Div',
+         className: 'third-row row',
+         children: [
+           {
+             type: 'Div',
+             className: 'goals-first col-md-4',
+             children: [
+								{
+									type: 'GAGoal',
+									title: '',
+									caption: 'number of schools enrollments',
+									link: 'http://tootherplace.com',
+									icon: 'glyphicon-leaf',
+									startDate: '03/24/2016',
+									endDate: '04/24/2016',
+									startNumber: 0,
+									endNumber: 200,
+									showEndNumber: false,
+									action: 'maintain_above',
+									background: 'white',
+									captionTemplates: {
+										maintain_above: 'yo quiero mi template',
+									},
+									// trackStatus: 'function',
+									tolerance: [
+										{from: 0, to: 2, label: 'On Track', color: 'green'},
+										{from: 2, to: 5, label: 'Needs Improvement', color: 'orange'},
+										{from: 5, to: Infinity, label: 'Off Track', color: 'red'},
+									],
+									spline: {
+										height: 50,
+									},
+									fetchData: {type:'function', name: 'getCustomData'},
+									metric: 'getRandomMetric'
+								}
+						 ]
+           },
+           {
+             type: 'Div',
+             className: 'goals-second col-md-4',
+             children: [
+								{
+									type: 'GAGoal',
+									title: '',
+									caption: 'number of schools enrollments',
+									link: 'http://tootherplace.com',
+									icon: 'glyphicon-shopping-cart',
+									startDate: '03/24/2016',
+									endDate: '04/24/2016',
+									startNumber: 0,
+									endNumber: 200,
+									action: 'increase',
+									background: 'white',
+									// trackStatus: 'function',
+									tolerance: [
+										{from: 0, to: 2, label: 'On Track', color: 'green'},
+										{from: 2, to: 5, label: 'Needs Improvement', color: 'orange'},
+										{from: 5, to: Infinity, label: 'Off Track', color: 'red'},
+									],
+									spline: {
+										height: 50,
+									},
+									fetchData: {type:'function', name: 'getCustomData'},
+									metric: 'getRandomMetric'
+								}
+						 ]
+           },
+           {
+             type: 'Div',
+             className: 'goals-third col-md-4',
+             children: [
+								{
+									type: 'GAGoal',
+									title: '',
+									caption: 'number of schools enrollments',
+									link: 'http://tootherplace.com',
+									icon: 'glyphicon-gbp',
+									startDate: '03/24/2016',
+									endDate: '04/24/2016',
+									startNumber: 0,
+									endNumber: 200,
+									action: 'increase',
+									background: 'white',
+									// trackStatus: 'function',
+									tolerance: [
+										{from: 0, to: 2, label: 'On Track', color: 'green'},
+										{from: 2, to: 5, label: 'Needs Improvement', color: 'orange'},
+										{from: 5, to: Infinity, label: 'Off Track', color: 'red'},
+									],
+									spline: {
+										height: 50,
+									},
+									fetchData: {type:'function', name: 'getCustomData'},
+									metric: 'getRandomMetric'
+								}
+						 ]
+           },
+         ]
+       },
+       {
+         type: 'Div',
+         className: 'fourth-row row',
+         children: [
+           {
+             type: 'Div',
+             className: 'col-md-6',
+             children: [
+								{
+									header:'Left',
+									iconClass: 'glyphicon glyphicon-fire',
+									type: 'GAChart',
+									settings: {
+										id:'lineChart',
+										type: 'discreteBarChart',
+										x: 'label',
+										y: 'value',
+										height: 300,
+										margin: {
+											left: 38
+										},
+									},
+									cardStyle: 'card',
+									fetchData: {type:'function', name: 'getCustomData'},
+								},
+								{
+									type: 'GATable',
+									header: 'Mi titulo',
+									fetchData: {
+										type:'backend',
+										backend: 'csv',
+										url: 'http://demo.getdkan.com/node/9/download',
+									},
+									cardStyle: 'table',
+									settings: {
+										table: {
+											rowHeight: 40,
+											width: 800,
+											maxHeight: 300,
+											headerHeight:40
+										},
+										columns: {
+											flexGrow: 1,
+											width: 150,
+											overrides: {
+												a1: {
+													flexGrow: 0.5
+												}
+											}
+										},
+										cells: {
+											height: 40,
+											width: 500,
+											overrides: {
+												1: {
+													height: 40
+												}
+											}
+										}
+									}
+								},
+						 ]
+           },
+           {
+             type: 'Div',
+             className: 'col-md-6',
+             children: []
+           },
+         ]
+       },
+       {
+         type: 'Div',
+         className: 'fifth-row row',
+         children: [
+           {
+             type: 'Div',
+             className: 'col-md-12',
+             children: [
+								{
+									header:'Right',
+									type: 'GAChart',
+									iconClass: 'glyphicon glyphicon-exclamation-sign',
+									settings: {
+										id:'barChart',
+										type: 'discreteBarChart',
+										x: 'label',
+										y: 'value',
+										height: 300,
+										margin: {
+											left: 38
+										},
+										color: ['#82899B']
+									},
+									cardStyle: 'card',
+									fetchData: {type:'function', name: 'getCustomData'},
+								},
+								{
+									header: 'This is an awesome text',
+									type: 'Text',
+									content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut erat dui, sodales eleifend placerat a, dictum sed tortor.</p><p> Quisque porttitor urna in est vehicula, a molestie nunc pharetra. Cras vehicula nisi dui, ut aliquam nunc vulputate lacinia. Curabitur vitae interdum dolor, sed venenatis tellus. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam volutpat metus et ipsum lobortis, at porttitor nunc laoreet.</p><p>Nullam et ligula at enim pretium accumsan. In et facilisis enim, vel consectetur justo. Duis eleifend sit amet neque eu interdum. Sed ornare orci diam, ac finibus ipsum posuere vel. Duis maximus velit ipsum, et mattis massa tempus sit amet. Suspendisse potenti.</p>',
+									cardStyle: 'card',
+								}
+						 ]
+           },
+         ]
+       },
+
       ]
     },
   ]
