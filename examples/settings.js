@@ -158,14 +158,8 @@ export var settings = {
 									]
 								}
 						}
-
         ]
        },
-           {
-             type: 'Div',
-             className: 'col-md-4',
-             children: []
-           },
        {
          type: 'Div',
          className: 'second-row row',
