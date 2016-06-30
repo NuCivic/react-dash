@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
 
-export default class Div extends BaseComponent {
+export default class Div extends Component {
   constructor(props) {
     super(props);
-    console.log('DIV>>',this.props);
   }
   
   render() {
-    console.log("DIV", this.props);
     return (
       <div className={this.props.className}>
         {this.props.children.map((element,key) => {
