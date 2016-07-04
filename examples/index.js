@@ -15,4 +15,5 @@ import MyCustomLayout from './layouts/MyCustomLayout';
 import GADashboard from './app';
 import GAMultiSelect from './components/GAMultiSelect';
 
-ReactDOM.render(<GADashboard {...settings} layout={MyCustomLayout}/>, document.getElementById('root'));
+console.log('DASHBOARD SETTINGS', settings);
+ReactDOM.render(<GADashboard {...settings} />, document.getElementById('root'));
