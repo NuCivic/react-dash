@@ -149,38 +149,6 @@ export default class BaseComponent extends Component {
     return this.state.data || [];
   }
 
-  /**
-   * Load autocomplete options
-   * @param  {String}   input A text with the query to be sent to the server
-   * @param  {Function} cb    Callback to be called right after server response
-   * @return {Promise}        A promise with the request
-   */
-  getOptions(input, cb){
-    console.log('getOpts', this);
-    let re = /\{\{(.+)\}\}/;
-    if (this.props.url) {
-      console.log('url0', this.props.url);
-      return fetch(this.props.url.replace(re, input))
-        .then((response) => {
-          return response.json();
-        }).then((json) => {
-          console.log('url1', json);
-          return { options: json };
-        });
-    }
-		
-    if (typeof this.props.options === "object") {
-      return {options: this.props.options, isLoading: false};
-    }
-
-    if (typeof this.props.options === "string") {
-      console.log('getOpts, callback', this.props.options);
-      // Handle handler including potential promis
-    }
-    
-    return  Promise.resolve({options: [], isLoading: false});
-  }
-
   getGlobalData() {
     return this.props.globalData || [];
   }

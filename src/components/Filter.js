@@ -10,11 +10,22 @@ export default class Filter extends BaseComponent {
     this.onFilter(e);
   }
   
+  getOptions() {
+    if (typeof this.props.options === "object") {
+      console.log('obj', this.props.options);
+      return this.props.options;
+    }
+
+    if (typeof this.props.options === 'string') {
+      console.log('Handle', this.props.options);
+      // handle handler here
+    }
+  }
+
   render() {
-    console.log('filter', this.props.type);
-    let options = this.getOptions();
-    console.log('Filter', options, this.props);
-    if (options.then) {
+    let settings = {};
+    settings.options = this.getOptions();
+    if (settings.options.then) {
       console.log('Resolve promise');
       options.then(data => {
         console.log('tt', data.options);
@@ -24,12 +35,12 @@ export default class Filter extends BaseComponent {
       })
       // @@TODO handle promise here 
     } else {
-      Object.assign({}, this.props);
-      options.onChange = this.onChange.bind(this);
+      settings.onChange = this.onChange.bind(this);
       return (
-          React.createElement(Registry.get(this.props.type), options)
+          React.createElement(Registry.get(this.props.type), settings)
       );
     }
+    return <p>Loading</p>
   }
 }
 
