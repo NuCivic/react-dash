@@ -16,7 +16,7 @@ export var settings = {
               type: 'Autocomplete',
               name: 'some-name',
               multi: true,
-              options: [{ value: 'one', label: 'One' },{ value: 'two', label: 'Two' }]
+              options: [{ value: 'one', name: 'One' },{ value: 'two', name: 'Two' }]
             },
 						{
 							header:'Top',
