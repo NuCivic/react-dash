@@ -58,6 +58,22 @@ export var settings = {
 								backend: 'csv',
 								url: 'http://demo.getdkan.com/sites/default/files/data_0.csv'
 							},
+              filters: [
+                {
+                  type: 'Select',
+                  options: [
+                    {
+                      name: 'foo',
+                      value: 'bar'
+                    },
+                    {
+                      name: 'ick',
+                      value: 'ban'
+                    }
+                  ],
+                  dataHandlers: ['filterChartData']
+                }, 
+              ],
 							id:'agh'
 						},
 						{
