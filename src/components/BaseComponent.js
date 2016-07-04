@@ -107,7 +107,22 @@ export default class BaseComponent extends Component {
   onDataChange(data) {
     /* IMPLEMENT */
   }
+  
+  getFilters() {
+		let filters;
+  	if (Array.isArray(this.props.filters)) {
+      filters = this.props.filters.map(filter => {
+         return React.createElement(Registry.get('Filter'), filter);
+      });
+	  }
+    return filters;
+  }
+	
+  onFilter(e, filter) {
+    let handlers = this.filter.dataHandlers;
 
+  }
+  
   fetchData() {
    	return Promise.resolve(this[this.props.fetchData.name]());
   }
