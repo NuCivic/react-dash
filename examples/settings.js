@@ -71,7 +71,15 @@ export var settings = {
                       value: 'ban'
                     }
                   ],
-                  dataHandlers: ['filterChartData']
+                  dataHandlers: [
+                    {
+                      name: 'exampleHandler'
+                    }, 
+                   // {
+                   //   name: 'common.parseDateField', 
+                   //   field: 'date'
+                   // }
+                  ]
                 }, 
               ],
 							id:'agh'

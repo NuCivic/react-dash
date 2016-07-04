@@ -17,7 +17,6 @@ export default class BaseComponent extends Component {
       queryObj: Object.assign({from: 0}, this.props.queryObj),
       isFeching: false
     };
-
   }
 
   componentWillMount() {
@@ -112,24 +111,29 @@ export default class BaseComponent extends Component {
 		let filters;
   	if (Array.isArray(this.props.filters)) {
       filters = this.props.filters.map(filter => {
+         filter.onChange = this.onFilter.bind(this, filter);
          return React.createElement(Registry.get('Filter'), filter);
       });
 	  }
     return filters;
   }
 	
-  onFilter(e, filter) {
-    let handlers = this.filter.dataHandlers;
+  onFilter(filter, e) {
+    let handlers = filter.dataHandlers;
+    let _data = this.data || [];
+    console.log('onFilter', this, e, filter, handlers, _data);
+    this.setData(_data, handlers);
   }
   
   fetchData() {
    	return Promise.resolve(this[this.props.fetchData.name]());
   }
 
-  setData(data) {
+  setData(data, handlers) {
+    let _handlers = handlers || this.props.dataHandlers;
     let _data = data.hits || data;
     let _total = data.total || data.length;
-    _data = DataHandler.handle.call(this, this.props.dataHandlers, _data, this.getGlobalData());
+    _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData());
     this.setState({data: _data, total: _total, isFeching: false});
     this.onDataChange(data);
   }
