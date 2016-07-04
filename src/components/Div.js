@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
-import BaseComponent from './BaseComponent';
 
 export default class Div extends Component {
   constructor(props) {
