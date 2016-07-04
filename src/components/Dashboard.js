@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import Geary from '../layouts/Geary';
 import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
-import EventDispatcher from '../dispatcher/EventDispatcher';
+import Card from './Card';
 
 export default class Dashboard extends BaseComponent {
 
@@ -12,15 +11,29 @@ export default class Dashboard extends BaseComponent {
   }
 
   render() {
-    let layout = (typeof this.props.layout === 'string') ? Registry.get(this.props.layout) : this.props.layout;
-    if(!layout) throw new Error(`Missing layout class ${this.props.layout}`);
+    let markup;
     let props = Object.assign({globalData: this.state.data || []}, this.props);
-
+    if (props.layout) {
+      let layout = (typeof this.props.layout === 'String') ? Registry.get(this.props.layout) : this.props.layout;
+      return (
+        <div className="container">
+          <h1 className="dashboard-title">{this.props.title}</h1>
+          {React.createElement(layout, props)}
+        </div>
+      );
+    } 
+    
     return (
-      <div className="container">
-        <h1 className="dashboard-title">{this.props.title}</h1>
-        {React.createElement(layout, props)}
-      </div>
+        <div className="container">
+          <h1 className="dashboard-title">{this.props.title}</h1>
+          {props.components.map((element, key) => {
+            return (
+              <Card key={key} {...element}>
+                {React.createElement(Registry.get(element.type), props.components[key])}
+              </Card>
+            )
+          })}
+        </div>
     );
   }
 }
