@@ -1,0 +1,2 @@
+2016-07-05 Author: Paul Walker <starsinmypockets@gmail.com>
+* Add Changelog!
