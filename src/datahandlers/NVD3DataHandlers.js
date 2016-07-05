@@ -43,7 +43,6 @@ function getChartSeries(componentData, dashboardData, handler, pipelineData) {
     serie.values = _data[i];
     return serie;
   });
-  console.log('getChartSeries', series);
   return series;
 }
 
