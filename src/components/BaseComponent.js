@@ -120,8 +120,7 @@ export default class BaseComponent extends Component {
 	
   onFilter(filter, e) {
     let handlers = filter.dataHandlers;
-    let _data = this.data || [];
-    console.log('onFilter', this, e, filter, handlers, _data);
+    let _data = this.state.data || [];
     this.setData(_data, handlers);
   }
   

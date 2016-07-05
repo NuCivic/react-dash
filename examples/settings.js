@@ -46,7 +46,7 @@ export var settings = {
 									xField: 'date'
 								},
 								{
-									name: 'NVD3.getChartSeries',
+									name: 'NVD3.out.returnChartSeries',
 									series: [
 										{name: 'Price', color:'#FF0000'},
 									]
@@ -75,10 +75,21 @@ export var settings = {
                     {
                       name: 'exampleHandler'
                     }, 
-                   // {
-                   //   name: 'common.parseDateField', 
-                   //   field: 'date'
-                   // }
+                    {
+                      name: 'common.fieldsToXYSeries',
+                      field: 'price',
+                      xField: 'date'
+                    },
+                    {
+                      name: 'common.parseDateField', 
+                      field: 'date'
+                    },
+                    {
+                      name: 'NVD3.out.returnChartSeries',
+                      series: [
+                        {name: 'Price', color:'#FF0000'},
+                      ]
+                    }
                   ]
                 }, 
               ],

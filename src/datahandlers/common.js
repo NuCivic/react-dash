@@ -29,8 +29,9 @@ function fieldsToXYSeries(componentData, dashboardData, handler, pipelineData) {
  *   name: 'parseFieldDate'
  * }
  */
-function parseDateField(componentData, dashboardData, handler) {
-  return componentData.map((row) => {
+function parseDateField(componentData, dashboardData, handler, pipelineData) {
+  let _data = pipelineData || componentData;
+  return _data.map((row) => {
     row[handler.field] = Date.parse(row[handler.field]);
     return row;
   });
