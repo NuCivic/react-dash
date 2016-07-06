@@ -13,6 +13,7 @@ React Dashboard
 ## Features
 * **Extreme customizable components**
 * **Component communication through actions**
+* **Custom data handling via dataHandlers**
 * **Ability to fetch data in different formats** like: CSV, DKAN resources, CartoDB tables, etc. (in progress: XLSX, CKAN resources, Google Spreadsheets)
 * **Ability to query data:** filter, paginate, facets, etc.
 * **Fully serializable:** then you can save a dashboard in a database.
@@ -65,7 +66,7 @@ open http://localhost:5000
 ```
 
 ## How it works
-Dashboard configuration is stored as a javascript object inside the file *src/settings.js*. It's a hierarchical representation of a dashboard, where components are represented by configuration objects. The *type* parameter determines what type of component will be rendered. The rest of the parameters, including *children*, are passed to the component as props. Use the *Div* component (see below) to create rows and columns (using the bootstrap grid system) in order to compose a dashbaord layout. See _examples/settings.js_ for a complete example.
+Dashboard configuration is stored as a javascript object inside the file *src/settings.js*. It's a hierarchical representation of a dashboard, where components are represented by configuration objects. The *type* parameter determines what type of component will be rendered. The rest of the parameters, including *children*, are passed to the component as props. Use the *Region* component (see below) to create rows and columns (using the bootstrap grid system) in order to compose a dashbaord layout. See _examples/settings.js_ for a complete example.
 
 
 
@@ -253,6 +254,92 @@ onAction(action){
 }
 ```
 
+## Data Handlers
+Data handlers allow us to do component level data manipulation without needing to extend default components. Data handlers, once registered, can be applied to any component via the settings file, as follows:
+
+As an example, let's look at a chart definition from the settings file in our example project:
+```javascript
+{
+  header:'Top',
+  type: 'GAChart',
+  iconClass: 'glyphicon glyphicon-tree-conifer',
+  settings: {
+    id:'lineChart2',
+    type: 'lineChart',
+    x: 'date',
+    height: 340,
+    margin: {
+      left: 38
+    },
+    color: ['#EA7E7E'],
+    xAxis: {
+      tickFormat: dateFormatter('%Y')
+    }
+  },
+  dataHandlers: [
+    {
+      name: 'common.parseDateField',
+      field: 'date'
+    },
+    {
+      name: 'common.fieldsToXYSeries',
+      field: 'price',
+      xField: 'date'
+    },
+    {
+      name: 'NVD3.getChartSeries',
+      series: [
+        {name: 'Price', color:'#FF0000'},
+      ]
+    }
+  ],
+  cardStyle: 'card',
+  fetchData: {
+    type:'backend',
+    backend: 'csv',
+    url: 'http://demo.getdkan.com/sites/default/files/data_0.csv'
+  },
+  id:'agh'
+}
+```
+As we can see, dataHandlers is an array of objects. Each data handler can be defined as a string, or an object. If it is an object, the _name_ attribute will be used to look up the handler, if it is a string, the string will be used. Our Registry supports dot syntax, so we can provide nesting and name-spacing. This is useful in order to support libraries, or to group data handlers into some reasonable domain.
+
+All arguments except *name* will be passed to the datahandler function as arguments.
+
+Data handlers are executed in series, and pass their return values to the next handler in the series. In addition to this pipeline data, each data handler has access to its parent component (this), to the component data (data represented as state.data on the component), the global data (state.globalData), as well as to any arguments passed via the settings file.
+
+Data handlers are called in before the *setData* call is made by the base component. In this way, data can be manipulated before it is set to the component and rendering happens.
+
+An example of a datahandler:
+
+```javascript
+import DataHandler from '../utils/DataHandler';
+
+/**
+ * Given componentData or pipeLine data containing one or more series of data
+ * Return each series as an array of objects where x is defined by specifying function
+ * and y is defined by a field name
+ */
+function fieldsToXYSeries(componentData, dashboardData, handler, pipelineData) {
+  let _data = pipelineData || componentData;
+  if(!_data.length) return [];
+  if (!Array.isArray(_data[1])) _data = [_data]; // series data should be an array of array(s)
+
+  let series = _data.map(series => {
+    let x = handler.xField || 'x';
+    let y = handler.field;
+    return series.map(row => {
+      return {y: row[handler.field], x: row[x]};
+    });
+    return series;
+  });
+
+  return series;
+}
+
+DataHandler.set('common.fieldsToXYSeries', fieldsToXYSeries);
+```
+Note that the component can receive both piplineData (data passed from the last data handler in the data pipeline), OR componentData. You must specify in your data handler which data to use. The above scheme (use pipelinData || componentData) is recommended, as it allows you to use the data handler in a pipeline of data.
 ## Theming
 The **React Dashboard** comes with default styles, but you can also customize them by importing a stylesheet. 
 
@@ -301,8 +388,8 @@ Some settings are shared across all the components. This is the complete list of
 ### Extending components
 Components can and should be extended to  be extended
 
-### Div
-The *Div* component allows you to organize the dashboard into divs. Use the [bootstrap grid system](https://getbootstrap.com/examples/grid/) to create rows and columns. Elements which are contained within divs should be defined within the *children* array of the div component definition in *settings.js*. The dashboard will render the components inside of your div! See _exmaples/settings.js_ for a complete example.
+### Region
+The *Region* component allows you to organize the dashboard into divs. Use the [bootstrap grid system](https://getbootstrap.com/examples/grid/) to create rows and columns. Elements which are contained within divs should be defined within the *children* array of the div component definition in *settings.js*. The dashboard will render the components inside of your div! See _exmaples/settings.js_ for a complete example.
 
 ### Autocomplete
 

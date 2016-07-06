@@ -5,11 +5,33 @@ export var settings = {
   title: 'Georgia Reports',
   components: [
     {
-      type: 'Div',
+      type: 'Region',
       className: 'row',
       children: [
        {
-        type: 'Div',
+        type: 'Region',
+        className: 'zeroth-row col-md-6',
+        children: [
+           {
+             type: 'img',
+             src: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTd9zBTlpPrH5EaWGrQISVCjA1E3AAzXCI_go0ml5QHI-58Cld73VBBRv8",
+             style: {borderStyle:'double',borderWidth: '10px', borderColor:'teal', padding: '10px', margin: '10px'},
+           },
+        ]
+       },
+       {
+        type: 'Region',
+        className: 'zeroth-row col-md-6',
+        children: [
+           {
+             type: 'h4',
+             dangerouslySetInnerHTML: {__html: 'A text description set from the settings file, using native react html element.'},
+             style: {margin: '20px'}
+           },
+        ]
+       },
+       {
+        type: 'Region',
         className: 'first-row col-md-12',
         children: [
            {
@@ -46,7 +68,7 @@ export var settings = {
 									xField: 'date'
 								},
 								{
-									name: 'NVD3.out.returnChartSeries',
+									name: 'NVD3.returnChartSeries',
 									series: [
 										{name: 'Price', color:'#FF0000'},
 									]
@@ -58,41 +80,6 @@ export var settings = {
 								backend: 'csv',
 								url: 'http://demo.getdkan.com/sites/default/files/data_0.csv'
 							},
-/*              filters: [
-                {
-                  type: 'select', // use Select component that we are using with autocomplete
-                  options: [
-                    {
-                      name: 'foo',
-                      value: 'bar'
-                    },
-                    {
-                      name: 'ick',
-                      value: 'ban'
-                    }
-                  ],
-                  dataHandlers: [
-                    {
-                      name: 'exampleHandler'
-                    }, 
-                    {
-                      name: 'common.fieldsToXYSeries',
-                      field: 'price',
-                      xField: 'date'
-                    },
-                    {
-                      name: 'common.parseDateField', 
-                      field: 'date'
-                    },
-                    {
-                      name: 'NVD3.out.returnChartSeries',
-                      series: [
-                        {name: 'Price', color:'#FF0000'},
-                      ]
-                    }
-                  ]
-                }, 
-              ], */
 							id:'agh'
 						},
 						{
@@ -196,11 +183,11 @@ export var settings = {
         ]
        },
        {
-         type: 'Div',
+         type: 'Region',
          className: 'second-row row',
          children: [
            {
-             type: 'Div',
+             type: 'Region',
              className: 'col-sm-6 col-lg-3',
              children: [
 								{
@@ -214,7 +201,7 @@ export var settings = {
              ]
            },
            {
-             type: 'Div',
+             type: 'Region',
              className: 'col-sm-6 col-lg-3',
              children: [
 								{
@@ -228,7 +215,7 @@ export var settings = {
 						 ]
            },
            {
-             type: 'Div',
+             type: 'Region',
              className: 'col-sm-6 col-lg-3',
              children: [
 								{
@@ -242,7 +229,7 @@ export var settings = {
 						 ]
            },
            {
-             type: 'Div',
+             type: 'Region',
              className: 'col-sm-6 col-lg-3',
              children: [
 								{
@@ -259,11 +246,11 @@ export var settings = {
          ]
        },
        {
-         type: 'Div',
+         type: 'Region',
          className: 'third-row row',
          children: [
            {
-             type: 'Div',
+             type: 'Region',
              className: 'goals-first col-md-4',
              children: [
 								{
@@ -297,7 +284,7 @@ export var settings = {
 						 ]
            },
            {
-             type: 'Div',
+             type: 'Region',
              className: 'goals-second col-md-4',
              children: [
 								{
@@ -327,7 +314,7 @@ export var settings = {
 						 ]
            },
            {
-             type: 'Div',
+             type: 'Region',
              className: 'goals-third col-md-4',
              children: [
 								{
@@ -359,11 +346,11 @@ export var settings = {
          ]
        },
        {
-         type: 'Div',
+         type: 'Region',
          className: 'fourth-row row',
          children: [
            {
-             type: 'Div',
+             type: 'Region',
              className: 'col-md-6',
              children: [
 								{
@@ -422,7 +409,7 @@ export var settings = {
               ]
             },
             {
-              type: 'Div',
+              type: 'Region',
               className: 'col-md-6',
               children: [
 								{

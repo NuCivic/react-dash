@@ -47,4 +47,20 @@ function returnChartSeries(componentData, dashboardData, handler, pipelineData) 
   return series;
 }
 
-DataHandler.set('NVD3.out.returnChartSeries', returnChartSeries);
+/**
+ * Parse a field as a date.
+ * handler = {
+ *   field: 'field_name_to_parse',
+ *   name: 'parseFieldDate'
+ * }
+ */
+function parseDateField(componentData, dashboardData, handler) {
+  return componentData.map((row) => {
+    row[handler.field] = Date.parse(row[handler.field]);
+    return row;
+  });
+}
+
+DataHandler.set('fieldsToSeries', fieldsToSeries);
+DataHandler.set('parseDateField', parseDateField);
+DataHandler.set('NVD3.returnChartSeries', returnChartSeries);

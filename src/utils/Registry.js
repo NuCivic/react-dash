@@ -11,13 +11,10 @@ export default class Registry {
   }
 
   static get(path) {
-    if (reactEls.indexOf(path)  >= 0) {
-      console.log('A', path);
+    if (reactEls.indexOf(path.toLowerCase())  >= 0) {
       return path; 
     } else {
-      console.log('B', path);
       return get(Registry.root, path);
     }
   }
-
 }

@@ -7,14 +7,14 @@ export {default as Card } from './components/Card';
 export {default as Chart } from './components/Chart';
 export {default as Choropleth } from './components/maps/Choropleth';
 export {default as Dashboard } from './components/Dashboard';
-export {default as Div} from './components/Div';
+export {default as Region} from './components/Region';
 export {default as Goal } from './components/Goal';
 export {default as Layout } from './components/Layout';
 export {default as Metric } from './components/Metric';
 export {default as Multi} from './components/Multi';
 export {default as Table } from './components/Table';
 export {default as Text } from './components/Text';
-//export {default as Select} from './components/Select';
+export {default as ReactSelect} from './components/ReactSelect';
 
 // UTILS
 export {default as Registry } from './utils/Registry';
