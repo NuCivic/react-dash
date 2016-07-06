@@ -80,6 +80,39 @@ export var settings = {
 								backend: 'csv',
 								url: 'http://demo.getdkan.com/sites/default/files/data_0.csv'
 							},
+              filters: [
+                {
+                  type: 'ReactSelect',
+                  options: [
+                    {
+                      label: 'foo',
+                      value: 'foo'
+                    },
+                    {
+                      label: 'bar',
+                      value: 'bar'
+                    }
+                  ],
+                  dataHandlers: [
+                    'customDataHandler',
+                    {
+                      name: 'common.parseDateField',
+                      field: 'date'
+                    },
+                    {
+                      name: 'common.fieldsToXYSeries',
+                      field: 'price',
+                      xField: 'date'
+                    },
+                    {
+                      name: 'NVD3.returnChartSeries',
+                      series: [
+                        {name: 'Price', color:'#FF0000'},
+                      ]
+                    }
+                  ]
+                },
+              ],
 							id:'agh'
 						},
 						{
