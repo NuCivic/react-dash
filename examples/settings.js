@@ -14,7 +14,8 @@ export var settings = {
         children: [
            {
              type: 'img',
-             src: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTd9zBTlpPrH5EaWGrQISVCjA1E3AAzXCI_go0ml5QHI-58Cld73VBBRv8"
+             src: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTd9zBTlpPrH5EaWGrQISVCjA1E3AAzXCI_go0ml5QHI-58Cld73VBBRv8",
+             style: {borderStyle:'double',borderWidth: '10px', borderColor:'teal', padding: '10px', margin: '10px'},
            },
         ]
        },
@@ -23,8 +24,9 @@ export var settings = {
         className: 'zeroth-row col-md-6',
         children: [
            {
-             type: 'p',
-             dangerouslySetInnerHTML: {__html: 'A text description set from the settings file, using native react html element.'}
+             type: 'h4',
+             dangerouslySetInnerHTML: {__html: 'A text description set from the settings file, using native react html element.'},
+             style: {margin: '20px'}
            },
         ]
        },
