@@ -313,6 +313,8 @@ Data handlers are called in before the *setData* call is made by the base compon
 An example of a datahandler:
 
 ```javascript
+import DataHandler from '../utils/DataHandler';
+
 /**
  * Given componentData or pipeLine data containing one or more series of data
  * Return each series as an array of objects where x is defined by specifying function
@@ -334,6 +336,8 @@ function fieldsToXYSeries(componentData, dashboardData, handler, pipelineData) {
 
   return series;
 }
+
+DataHandler.set('common.fieldsToXYSeries', fieldsToXYSeries);
 ```
 Note that the component can receive both piplineData (data passed from the last data handler in the data pipeline), OR componentData. You must specify in your data handler which data to use. The above scheme (use pipelinData || componentData) is recommended, as it allows you to use the data handler in a pipeline of data.
 ## Theming
