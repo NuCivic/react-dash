@@ -1,2 +1,8 @@
-2016-07-05 Author: Paul Walker <starsinmypockets@gmail.com>
+2016-07-05 ** 0.2.0
 * Add Changelog!
+
+2016-07-06 ** 0.2.1
+* Add ReactSelect element to component registry
+* Add Registry support for native react elements
+* Document data handlers
+
