@@ -32,19 +32,8 @@ export default class Filter extends BaseComponent {
     let settings = {};
     settings.options = this.getOptions();
     settings.onChange = this.props.onChange;
-    if (settings.options.then) {
-      options.then(data => {
-        return (
-            React.createElement(Registry.get(this.props.type), settings)
-        );
-      })
-      // @@TODO handle promise here 
-    } else {
-      return (
-          React.createElement(Registry.get(this.props.type), settings)
-      );
-    }
-    return <p>Loading</p>
+    return <p>test</p>
+  //  return React.createElement(Registry.get(this.props.type), settings)
   }
 }
 

@@ -58,7 +58,7 @@ export var settings = {
 								backend: 'csv',
 								url: 'http://demo.getdkan.com/sites/default/files/data_0.csv'
 							},
-              filters: [
+/*              filters: [
                 {
                   type: 'select', // use Select component that we are using with autocomplete
                   options: [
@@ -92,7 +92,7 @@ export var settings = {
                     }
                   ]
                 }, 
-              ],
+              ], */
 							id:'agh'
 						},
 						{
