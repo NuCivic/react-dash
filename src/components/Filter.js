@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
 import DataHandler from '../utils/DataHandler';
-import Select from './Select';
 
 let exampleHandler = function (a,b,c,d,e) {
 function randomDate(start, end) {

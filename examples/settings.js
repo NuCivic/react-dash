@@ -60,7 +60,7 @@ export var settings = {
 							},
               filters: [
                 {
-                  type: 'Select', // use Select component that we are using with autocomplete
+                  type: 'select', // use Select component that we are using with autocomplete
                   options: [
                     {
                       name: 'foo',
