@@ -7,7 +7,7 @@ export {default as Card } from './components/Card';
 export {default as Chart } from './components/Chart';
 export {default as Choropleth } from './components/maps/Choropleth';
 export {default as Dashboard } from './components/Dashboard';
-export {default as Div} from './components/Div';
+export {default as Region} from './components/Region';
 export {default as Goal } from './components/Goal';
 export {default as Layout } from './components/Layout';
 export {default as Metric } from './components/Metric';

@@ -65,7 +65,7 @@ open http://localhost:5000
 ```
 
 ## How it works
-Dashboard configuration is stored as a javascript object inside the file *src/settings.js*. It's a hierarchical representation of a dashboard, where components are represented by configuration objects. The *type* parameter determines what type of component will be rendered. The rest of the parameters, including *children*, are passed to the component as props. Use the *Div* component (see below) to create rows and columns (using the bootstrap grid system) in order to compose a dashbaord layout. See _examples/settings.js_ for a complete example.
+Dashboard configuration is stored as a javascript object inside the file *src/settings.js*. It's a hierarchical representation of a dashboard, where components are represented by configuration objects. The *type* parameter determines what type of component will be rendered. The rest of the parameters, including *children*, are passed to the component as props. Use the *Region* component (see below) to create rows and columns (using the bootstrap grid system) in order to compose a dashbaord layout. See _examples/settings.js_ for a complete example.
 
 
 
@@ -301,8 +301,8 @@ Some settings are shared across all the components. This is the complete list of
 ### Extending components
 Components can and should be extended to  be extended
 
-### Div
-The *Div* component allows you to organize the dashboard into divs. Use the [bootstrap grid system](https://getbootstrap.com/examples/grid/) to create rows and columns. Elements which are contained within divs should be defined within the *children* array of the div component definition in *settings.js*. The dashboard will render the components inside of your div! See _exmaples/settings.js_ for a complete example.
+### Region
+The *Region* component allows you to organize the dashboard into divs. Use the [bootstrap grid system](https://getbootstrap.com/examples/grid/) to create rows and columns. Elements which are contained within divs should be defined within the *children* array of the div component definition in *settings.js*. The dashboard will render the components inside of your div! See _exmaples/settings.js_ for a complete example.
 
 ### Autocomplete
 

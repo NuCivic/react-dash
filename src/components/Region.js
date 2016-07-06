@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 
-export default class Div extends Component {
+export default class Region extends Component {
   constructor(props) {
     super(props);
   }
@@ -17,4 +17,4 @@ export default class Div extends Component {
   }
 }
 
-Registry.set('Div', Div);
+Registry.set('Region', Region);
