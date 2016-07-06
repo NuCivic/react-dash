@@ -5,11 +5,11 @@ export var settings = {
   title: 'Georgia Reports',
   components: [
     {
-      type: 'Div',
+      type: 'Region',
       className: 'row',
       children: [
        {
-        type: 'Div',
+        type: 'Region',
         className: 'first-row col-md-12',
         children: [
            {
@@ -161,11 +161,11 @@ export var settings = {
         ]
        },
        {
-         type: 'Div',
+         type: 'Region',
          className: 'second-row row',
          children: [
            {
-             type: 'Div',
+             type: 'Region',
              className: 'col-sm-6 col-lg-3',
              children: [
 								{
@@ -179,7 +179,7 @@ export var settings = {
              ]
            },
            {
-             type: 'Div',
+             type: 'Region',
              className: 'col-sm-6 col-lg-3',
              children: [
 								{
@@ -193,7 +193,7 @@ export var settings = {
 						 ]
            },
            {
-             type: 'Div',
+             type: 'Region',
              className: 'col-sm-6 col-lg-3',
              children: [
 								{
@@ -207,7 +207,7 @@ export var settings = {
 						 ]
            },
            {
-             type: 'Div',
+             type: 'Region',
              className: 'col-sm-6 col-lg-3',
              children: [
 								{
@@ -224,11 +224,11 @@ export var settings = {
          ]
        },
        {
-         type: 'Div',
+         type: 'Region',
          className: 'third-row row',
          children: [
            {
-             type: 'Div',
+             type: 'Region',
              className: 'goals-first col-md-4',
              children: [
 								{
@@ -262,7 +262,7 @@ export var settings = {
 						 ]
            },
            {
-             type: 'Div',
+             type: 'Region',
              className: 'goals-second col-md-4',
              children: [
 								{
@@ -292,7 +292,7 @@ export var settings = {
 						 ]
            },
            {
-             type: 'Div',
+             type: 'Region',
              className: 'goals-third col-md-4',
              children: [
 								{
@@ -324,11 +324,11 @@ export var settings = {
          ]
        },
        {
-         type: 'Div',
+         type: 'Region',
          className: 'fourth-row row',
          children: [
            {
-             type: 'Div',
+             type: 'Region',
              className: 'col-md-6',
              children: [
 								{
@@ -387,7 +387,7 @@ export var settings = {
               ]
             },
             {
-              type: 'Div',
+              type: 'Region',
               className: 'col-md-6',
               children: [
 								{
