@@ -9,7 +9,16 @@ export default class Dashboard extends BaseComponent {
     super(props);
     this.state = {data: []};
   }
-
+  
+  /**
+   * Recursively parse settings tree, rendering components
+   * and children
+   **/
+  walkSettingsTree() {
+    // recurse tree
+    // render children
+  }
+  
   render() {
     let markup;
     let props = Object.assign({globalData: this.state.data || []}, this.props);
@@ -26,6 +35,11 @@ export default class Dashboard extends BaseComponent {
     return (
         <div className="container">
           <h1 className="dashboard-title">{this.props.title}</h1>
+          settings.map((el, key) => {
+          
+          })
+
+
           {props.components.map((element, key) => {
             return (
               <Card key={key} {...element}>
