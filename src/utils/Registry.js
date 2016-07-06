@@ -11,7 +11,7 @@ export default class Registry {
   }
 
   static get(path) {
-    if (reactEls.indexOf(path.toLowerc)  >= 0) {
+    if (reactEls.indexOf(path.toLowerCase())  >= 0) {
       return path; 
     } else {
       return get(Registry.root, path);
