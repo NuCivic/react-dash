@@ -10,6 +10,26 @@ export var settings = {
       children: [
        {
         type: 'Region',
+        className: 'zeroth-row col-md-6',
+        children: [
+           {
+             type: 'img',
+             src: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTd9zBTlpPrH5EaWGrQISVCjA1E3AAzXCI_go0ml5QHI-58Cld73VBBRv8"
+           },
+        ]
+       },
+       {
+        type: 'Region',
+        className: 'zeroth-row col-md-6',
+        children: [
+           {
+             type: 'p',
+             dangerouslySetInnerHTML: {__html: 'A text description set from the settings file, using native react html element.'}
+           },
+        ]
+       },
+       {
+        type: 'Region',
         className: 'first-row col-md-12',
         children: [
            {
