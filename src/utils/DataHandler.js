@@ -25,7 +25,6 @@ export default class DataHandler {
       let handler = isString(h) ? { name: h } : h ;
       let funcHandler = DataHandler.get(handler.name);
       let args = omit(handler,'name');
-
       return funcHandler.bind(this, componentData, dashboardData, args);
     });
 
