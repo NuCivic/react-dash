@@ -11,12 +11,11 @@
  */
 
 import React, { Component } from 'react';
-import Select from 'react-select';
 import Registry from '../utils/Registry';
 import {makeKey} from '../utils/utils';
 import BaseComponent from './BaseComponent';
 import DashboardConstants from '../constants/DashboardConstants';
-
+import ReactSelect from './ReactSelect';
 
 export default class Autocomplete extends BaseComponent {
 
@@ -62,7 +61,7 @@ export default class Autocomplete extends BaseComponent {
 
   render(){
     return (
-      <Select.Async value={this.state.value} loadOptions={this.loadOptions.bind(this)} {...this.props} onChange={this.onChange.bind(this)}/>
+      <ReactSelect.Async value={this.state.value} loadOptions={this.loadOptions.bind(this)} {...this.props} onChange={this.onChange.bind(this)}/>
     );
   }
 }
