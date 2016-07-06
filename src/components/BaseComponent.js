@@ -119,20 +119,23 @@ export default class BaseComponent extends Component {
   }
 	
   onFilter(filter, e) {
+    console.log('fil',filter,e);
     let handlers = filter.dataHandlers;
+    handlers.e = e;
     let _data = this.state.data || [];
-    this.setData(_data, handlers);
+    this.setData(_data, handlers, e);
   }
   
   fetchData() {
    	return Promise.resolve(this[this.props.fetchData.name]());
   }
 
-  setData(data, handlers) {
+  setData(data, handlers, e) {
     let _handlers = handlers || this.props.dataHandlers;
     let _data = data.hits || data;
     let _total = data.total || data.length;
-    _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData());
+    console.log('setData h ', _handlers, e);
+    _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData(), e);
     this.setState({data: _data, total: _total, isFeching: false});
     this.onDataChange(data);
   }

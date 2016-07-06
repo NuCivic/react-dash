@@ -85,15 +85,20 @@ export var settings = {
                   type: 'ReactSelect',
                   options: [
                     {
-                      label: 'foo',
-                      value: 'foo'
+                      label: 'ALL',
+                      value: 'all'
                     },
                     {
-                      label: 'bar',
-                      value: 'bar'
+                      label: '1949 - 1976',
+                      value: '1949_1976'
+                    },
+                    {
+                      label: '1976 - 2012',
+                      value: '1976_2012'
                     }
                   ],
                   dataHandlers: [
+                    'passThroughHandler',
                     'customDataHandler',
                     {
                       name: 'common.parseDateField',

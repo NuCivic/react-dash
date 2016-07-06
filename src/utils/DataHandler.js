@@ -20,12 +20,12 @@ export default class DataHandler {
   /**
    * Call all the data handlers.
    */
-  static handle(hs, componentData, dashboardData) {
+  static handle(hs, componentData, dashboardData, e) {
     let handlers = (hs || []).map((h) => {
       let handler = isString(h) ? { name: h } : h ;
       let funcHandler = DataHandler.get(handler.name);
       let args = omit(handler,'name');
-      return funcHandler.bind(this, componentData, dashboardData, args);
+      return funcHandler.bind(this, componentData, dashboardData, args, e);
     });
 
     let handle = flow(handlers);

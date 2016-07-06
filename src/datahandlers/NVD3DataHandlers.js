@@ -13,7 +13,7 @@ import DataHandler from '../utils/DataHandler';
  *   ]
  * }
  */
-function fieldsToSeries(componentData, dashboardData, handler, pipelineData) {
+function fieldsToSeries(componentData, dashboardData, handler, e, pipelineData) {
   let _data = componentData || pipelineData;
   if(!_data.length) return [];
   let series = (handler.fields || []).map( (s) => {
@@ -32,7 +32,7 @@ function fieldsToSeries(componentData, dashboardData, handler, pipelineData) {
 /**
  * Convert componentData to series format expected by NVD3 (no pie-) charts
  */
-function returnChartSeries(componentData, dashboardData, handler, pipelineData) {
+function returnChartSeries(componentData, dashboardData, handler, e, pipelineData) {
   let _data = pipelineData || componentData;
   if (!Array.isArray(_data[0])) _data = [_data]; // series data should be an array of array(s)
   if(!_data.length) return [];
@@ -54,8 +54,9 @@ function returnChartSeries(componentData, dashboardData, handler, pipelineData) 
  *   name: 'parseFieldDate'
  * }
  */
-function parseDateField(componentData, dashboardData, handler) {
-  return componentData.map((row) => {
+function parseDateField(componentData, dashboardData, handler, e, pipelineData) {
+  let _data = pipelineData || componentData;
+  return _data.map((row) => {
     row[handler.field] = Date.parse(row[handler.field]);
     return row;
   });
