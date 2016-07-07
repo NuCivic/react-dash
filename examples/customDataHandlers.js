@@ -10,9 +10,8 @@ DataHandler.set('passThroughHandler', passThroughHandler);
 let customDataHandler = function (componentData, dashboardData, handler, e, pipelineData) {
   console.log('c', this, componentData, dashboardData, handler, e, pipelineData);
   let dates = e.value.split('_') || 'ALL';
-  this.fetchData(d => {
-    console.log('FETCH', d);
-  });
+  let data = this.fetchData();
+  console.log('ddd', data);
   
   if (dates === 'ALL') return 
   console.log('dates', dates);

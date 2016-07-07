@@ -63,11 +63,17 @@ export default class BaseComponent extends Component {
 
       // fetch data is a function in the subcomponent
       if(type === 'function' && isFunction(this[this.props.fetchData.name])) {
-        let funcHandler = this[this.props.fetchData.name];
+        let funcHandler = this[this.props.fetchData.name].bind(this);
         let args = this.props.fetchData.args || [];
         this.setState({isFeching: true});
-        console.log(fetchHandler, fetchHandler());
-        this[this.props.fetchData.name]().then(this.onData.bind(this));
+        let result = funcHandler();
+        if (result.then) {
+          console.log('result promise', result);
+          result.then(this.onData.bind(this));
+        } else {
+          console.log('result data', result);
+          this.onData(result);
+        }
       // fetch data is a backend
       } else if(type === 'backend') {
         let dataset = new Dataset(omit(this.props.fetchData, 'type'));
@@ -80,10 +86,6 @@ export default class BaseComponent extends Component {
         this.setData(this.props.fetchData.records);
       }
     }
-  }
- 
-  _fetchData() {
-   	return Promise.resolve(this[this.props.fetchData.name]());
   }
   
   onData(data) {
