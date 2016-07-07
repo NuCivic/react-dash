@@ -50,7 +50,11 @@ export default class BaseComponent extends Component {
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     this.setState({ componentWidth : componentWidth});
     this.addResizeListener();
-
+    this.fetchData();
+    this.onResize();
+  }
+  
+  fetchData() {
     let type = this.getFetchType();
     if(type){
 
@@ -58,7 +62,7 @@ export default class BaseComponent extends Component {
       if(type === 'function' && isFunction(this[this.props.fetchData.name])) {
         let args = this.props.fetchData.args || [];
         this.setState({isFeching: true});
-        this.fetchData(...args).then(this.onData.bind(this));
+        this._fetchData(...args).then(this.onData.bind(this));
 
       // fetch data is a backend
       } else if(type === 'backend') {
@@ -73,9 +77,12 @@ export default class BaseComponent extends Component {
         this.setData(this.props.fetchData.records);
       }
     }
-    this.onResize();
   }
-
+ 
+  _fetchData() {
+   	return Promise.resolve(this[this.props.fetchData.name]());
+  }
+  
   onAction() {
     /* IMPLEMENT */
   }
@@ -126,9 +133,6 @@ export default class BaseComponent extends Component {
     this.setData(_data, handlers, e);
   }
   
-  fetchData() {
-   	return Promise.resolve(this[this.props.fetchData.name]());
-  }
 
   setData(data, handlers, e) {
     let _handlers = handlers || this.props.dataHandlers;
