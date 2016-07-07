@@ -54,16 +54,20 @@ export default class BaseComponent extends Component {
     this.onResize();
   }
   
+  // @@TODO - this should return data, NOT set data
+  // @@ data should be set by an explicit call to setData
+  // @@ returns a promise
   fetchData() {
     let type = this.getFetchType();
     if(type){
 
       // fetch data is a function in the subcomponent
       if(type === 'function' && isFunction(this[this.props.fetchData.name])) {
+        let funcHandler = this[this.props.fetchData.name];
         let args = this.props.fetchData.args || [];
         this.setState({isFeching: true});
-        this._fetchData(...args).then(this.onData.bind(this));
-
+        console.log(fetchHandler, fetchHandler());
+        this[this.props.fetchData.name]().then(this.onData.bind(this));
       // fetch data is a backend
       } else if(type === 'backend') {
         let dataset = new Dataset(omit(this.props.fetchData, 'type'));
@@ -71,7 +75,6 @@ export default class BaseComponent extends Component {
         dataset.fetch().then(() => {
           this.query(this.state.queryObj);
         });
-
       // fetch data is an array
       } else if(type === 'inline'){
         this.setData(this.props.fetchData.records);
@@ -83,19 +86,6 @@ export default class BaseComponent extends Component {
    	return Promise.resolve(this[this.props.fetchData.name]());
   }
   
-  onAction() {
-    /* IMPLEMENT */
-  }
-
-  query(query) {
-    if(this.state.dataset) {
-      this.state.dataset.query(query).then(this.onData.bind(this));
-      this.setState({queryObj: query, isFeching: true});
-    } else {
-      throw new Error("Missing dataset. You need to use a backend to query against");
-    }
-  }
-
   onData(data) {
     // If it's a fetch response.
     if(data.json) {
@@ -109,7 +99,20 @@ export default class BaseComponent extends Component {
       this.setData(data);
     }
   }
+  
+  query(query) {
+    if(this.state.dataset) {
+      this.state.dataset.query(query).then(this.onData.bind(this));
+      this.setState({queryObj: query, isFeching: true});
+    } else {
+      throw new Error("Missing dataset. You need to use a backend to query against");
+    }
+  }
 
+  onAction() {
+    /* IMPLEMENT */
+  }
+  
   onDataChange(data) {
     /* IMPLEMENT */
   }
