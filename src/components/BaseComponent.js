@@ -17,7 +17,6 @@ export default class BaseComponent extends Component {
       queryObj: Object.assign({from: 0}, this.props.queryObj),
       isFeching: false
     };
-
   }
 
   componentWillMount() {
@@ -51,7 +50,11 @@ export default class BaseComponent extends Component {
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     this.setState({ componentWidth : componentWidth});
     this.addResizeListener();
-
+    this.fetchData();
+    this.onResize();
+  }
+  
+  fetchData() {
     let type = this.getFetchType();
     if(type){
 
@@ -59,7 +62,7 @@ export default class BaseComponent extends Component {
       if(type === 'function' && isFunction(this[this.props.fetchData.name])) {
         let args = this.props.fetchData.args || [];
         this.setState({isFeching: true});
-        this.fetchData(...args).then(this.onData.bind(this));
+        this._fetchData(...args).then(this.onData.bind(this));
 
       // fetch data is a backend
       } else if(type === 'backend') {
@@ -74,9 +77,12 @@ export default class BaseComponent extends Component {
         this.setData(this.props.fetchData.records);
       }
     }
-    this.onResize();
   }
-
+ 
+  _fetchData() {
+   	return Promise.resolve(this[this.props.fetchData.name]());
+  }
+  
   onAction() {
     /* IMPLEMENT */
   }
@@ -107,15 +113,33 @@ export default class BaseComponent extends Component {
   onDataChange(data) {
     /* IMPLEMENT */
   }
-
-  fetchData() {
-   	return Promise.resolve(this[this.props.fetchData.name]());
+  
+  getFilters() {
+		let filters;
+  	if (Array.isArray(this.props.filters)) {
+      filters = this.props.filters.map(filter => {
+         filter.onChange = this.onFilter.bind(this, filter);
+         return React.createElement(Registry.get('Filter'), filter);
+      });
+	  }
+    return filters;
   }
+	
+  onFilter(filter, e) {
+    console.log('fil',filter,e);
+    let handlers = filter.dataHandlers;
+    handlers.e = e;
+    let _data = this.state.data || [];
+    this.setData(_data, handlers, e);
+  }
+  
 
-  setData(data) {
+  setData(data, handlers, e) {
+    let _handlers = handlers || this.props.dataHandlers;
     let _data = data.hits || data;
     let _total = data.total || data.length;
-    _data = DataHandler.handle.call(this, this.props.dataHandlers, _data, this.getGlobalData());
+    console.log('setData h ', _handlers, e);
+    _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData(), e);
     this.setState({data: _data, total: _total, isFeching: false});
     this.onDataChange(data);
   }
