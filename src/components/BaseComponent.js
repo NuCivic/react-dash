@@ -126,13 +126,11 @@ export default class BaseComponent extends Component {
   }
 	
   onFilter(filter, e) {
-    console.log('fil',filter,e);
     let handlers = filter.dataHandlers;
     handlers.e = e;
     let _data = this.state.data || [];
     this.setState({filterHandlers: handlers, filterEvent: e});
     this.fetchData();
-//    this.setData(_data, handlers, e);
   }
   
 
@@ -141,7 +139,6 @@ export default class BaseComponent extends Component {
     let _e = e || this.state.filterEvent
     let _data = data.hits || data;
     let _total = data.total || data.length;
-    console.log('setData h ', _handlers, _e);
     _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData(), _e);
     this.setState({data: _data, total: _total, isFeching: false});
     this.onDataChange(data);
