@@ -48,64 +48,104 @@ export default class BaseComponent extends Component {
   componentDidMount(){
     // resize magic
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
-    this.setState({ componentWidth : componentWidth});
+    let result = this.fetchData.call(this).then(d => {
+      console.log('xxx',d);
+    });
+    console.log('cdm-0', result)
+    if (result && result.then) {
+      console.log('cdm-A', result);
+      result.then(res => {
+        console.log('cdmA-0', res)
+        if (res && res.then) {
+          res.then(data => {
+            console.log('cdm-A-1', data);
+            this.setData.call(this, data);
+          });
+        }
+      });
+    } 
+    
     this.addResizeListener();
-    this.fetchData();
+    this.setState({ componentWidth : componentWidth});
     this.onResize();
   }
   
   // @@TODO - this should return data, NOT set data
   // @@ data should be set by an explicit call to setData
+  // @@ delegates to fetchDataType function
   // @@ returns a promise
   fetchData() {
     let type = this.getFetchType();
     if(type){
-
+      
       // fetch data is a function in the subcomponent
       if(type === 'function' && isFunction(this[this.props.fetchData.name])) {
+        console.log('fd-A');
         let funcHandler = this[this.props.fetchData.name].bind(this);
         let args = this.props.fetchData.args || [];
         this.setState({isFeching: true});
         let result = funcHandler();
-        if (result.then) {
-          console.log('result promise', result);
-          result.then(this.onData.bind(this));
-        } else {
-          console.log('result data', result);
-          this.onData(result);
-        }
+        return this.onData(result);
       // fetch data is a backend
       } else if(type === 'backend') {
+        console.log('fd-B');
         let dataset = new Dataset(omit(this.props.fetchData, 'type'));
         this.setState({isFeching: true, dataset: dataset});
-        dataset.fetch().then(() => {
-          this.query(this.state.queryObj);
+        return dataset.fetch().then(() => {
+          let q = this.query(this.state.queryObj);
+          console.log('fd-B-1', q);
+          q.then(d => {
+            console.log('fd-B-1-a', d);
+            return Promise.resolve(d);
+          });
         });
       // fetch data is an array
       } else if(type === 'inline'){
-        this.setData(this.props.fetchData.records);
+        return Promise.resolve(this.props.fetchData.records);
       }
+    } else {
+      console.warn('Warning: Fetch type not defined for component. Check settings.js', this);
     }
   }
   
+  fetchFunctionData() {
+  
+  }
+
+  fetchBackendData() {
+  
+  }
+
+  fetchArrayData() {
+  
+  }
+
   onData(data) {
+    console.log('od', data);
     // If it's a fetch response.
     if(data.json) {
-      data.json().then((data) => this.setData(data));
+      console.log('od-A', data.json);
+      data.json().then(data => {
+        return Promise.resolve(data);
+      });
     } else {
+      console.log('od-B');
 
       // We create a dataset then we can perform queries against.
       if(!this.state.dataset){
         this.state.dataset = new Dataset({records: data});
       }
-      this.setData(data);
+      return Promise.resolve(data);
     }
   }
   
   query(query) {
+    console.log('q',query);
     if(this.state.dataset) {
-      this.state.dataset.query(query).then(this.onData.bind(this));
       this.setState({queryObj: query, isFeching: true});
+      let res = this.state.dataset.query(query).then(this.onData.bind(this));
+      console.log('q-A', res);
+      return res;
     } else {
       throw new Error("Missing dataset. You need to use a backend to query against");
     }
@@ -131,7 +171,6 @@ export default class BaseComponent extends Component {
   }
 	
   onFilter(filter, e) {
-    console.log('fil',filter,e);
     let handlers = filter.dataHandlers;
     handlers.e = e;
     let _data = this.state.data || [];
@@ -143,8 +182,8 @@ export default class BaseComponent extends Component {
     let _handlers = handlers || this.props.dataHandlers;
     let _data = data.hits || data;
     let _total = data.total || data.length;
-    console.log('setData h ', _handlers, e);
     _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData(), e);
+    console.log('sD', this, data, handlers, e);
     this.setState({data: _data, total: _total, isFeching: false});
     this.onDataChange(data);
   }
