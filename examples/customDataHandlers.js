@@ -14,19 +14,14 @@ let customDataHandler = function (componentData, dashboardData, handler, e, pipe
   let dates = e.value.split('_') || 'ALL';
   if (dates[0] === 'all') {
     // just reload the component
-    console.log('123');
-    return this.fetchData();
+    return _data;
   } else {
     let low = Date.parse(dates[0]);
     let high = Date.parse(dates[1]);
-    let vals = _data[0].values;
+    let vals = _data;
     console.log(low,high,vals)
-    let filteredVals = vals.filter(d => { return (d.x >= low && d.x <= high) }).map(d => {
-        let date = new Date(d.x);
-        let r = {date: date, price: d.y};
-        return r;
-    });
-    console.log(filteredVals);
+    let filteredVals = vals.filter(d => { console.log(d); return (Date.parse(d.date) >= low && Date.parse(d.date) <= high) });
+    console.log('ff', filteredVals);
     return filteredVals;   
   }
 }
