@@ -21,7 +21,7 @@ export default class Dashboard extends BaseComponent {
   
   render() {
     let markup;
-    let props = Object.assign({globalData: this.state.data || []}, this.props);
+    let props = Object.assign({globalData: this.state.data || []}, this.props.route || this.props);
     if (props.layout) {
       let layout = (typeof this.props.layout === 'String') ? Registry.get(this.props.layout) : this.props.layout;
       return (

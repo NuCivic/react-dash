@@ -14,6 +14,7 @@ import GAChoropleth from './components/GAChoropleth';
 import MyCustomLayout from './layouts/MyCustomLayout';
 import GADashboard from './app';
 import GAMultiSelect from './components/GAMultiSelect';
+import Router from '../src/components/Router';
 
 console.log('DASHBOARD SETTINGS', settings);
-ReactDOM.render(<GADashboard {...settings} />, document.getElementById('root'));
+ReactDOM.render(<Router {...settings} />, document.getElementById('root'));
