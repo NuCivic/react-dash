@@ -5,7 +5,7 @@ import DataHandler from '../utils/DataHandler';
  * Return each series as an array of objects where x is defined by specifying function 
  * and y is defined by a field name
  */
-function fieldsToXYSeries(componentData, dashboardData, handler, pipelineData) {
+function fieldsToXYSeries(componentData, dashboardData, handler, e,  pipelineData) {
   let _data = pipelineData || componentData; 
   if(!_data.length) return [];
   if (!Array.isArray(_data[1])) _data = [_data]; // series data should be an array of array(s)
@@ -29,8 +29,9 @@ function fieldsToXYSeries(componentData, dashboardData, handler, pipelineData) {
  *   name: 'parseFieldDate'
  * }
  */
-function parseDateField(componentData, dashboardData, handler) {
-  return componentData.map((row) => {
+function parseDateField(componentData, dashboardData, handler, e, pipelineData) {
+  let _data = pipelineData || componentData;
+  return _data.map((row) => {
     row[handler.field] = Date.parse(row[handler.field]);
     return row;
   });

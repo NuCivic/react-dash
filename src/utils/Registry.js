@@ -17,5 +17,4 @@ export default class Registry {
       return get(Registry.root, path);
     }
   }
-
 }
