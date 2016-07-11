@@ -35,11 +35,6 @@ export default class Dashboard extends BaseComponent {
     return (
         <div className="container">
           <h1 className="dashboard-title">{this.props.title}</h1>
-          settings.map((el, key) => {
-          
-          })
-
-
           {props.components.map((element, key) => {
             return (
               <Card key={key} {...element}>
