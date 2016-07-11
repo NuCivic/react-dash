@@ -124,7 +124,7 @@ export var settings = {
 							type: 'Choropleth',
 							format: 'geojson',
 							fetchData: {
-								url: './data/apollo-parsed-1737-325_0.csv',
+								url: '/data/apollo-parsed-1737-325_0.csv',
 								type: 'backend',
 								backend: 'csv',
 								// delimiter: '\t'
@@ -133,7 +133,7 @@ export var settings = {
 							dataKeyField: 'Zone',
 							dataValueField: 'Total Observers',
 							geometryKeyField: 'name',
-							geometry: './data/zones.geojson', // topojson or geojson
+							geometry: '/data/zones.geojson', // topojson or geojson
 							projection: 'equirectangular', // https://github.com/d3/d3/wiki/Geo-Projections
 							scaleDenominator: .7,
 							borderColor: '#000000',
