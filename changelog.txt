@@ -6,3 +6,5 @@
 * Add Registry support for native react elements
 * Document data handlers
 
+2016-07-11 ** 0.3.0
+* Add react-router support
