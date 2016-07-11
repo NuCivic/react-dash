@@ -15,7 +15,7 @@ export {default as Multi} from './components/Multi';
 export {default as Table } from './components/Table';
 export {default as Text } from './components/Text';
 export {default as ReactSelect} from './components/ReactSelect';
-export {default as Router} from './components/Router';
+export {default as App} from './components/App';
 
 // UTILS
 export {default as Registry } from './utils/Registry';
