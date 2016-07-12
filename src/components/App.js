@@ -35,7 +35,7 @@ export default class App extends Component {
   
   render() {
     let props = this.props;
-	  console.log('app', store);	
+	  console.log('app', this, store);	
     return (
 			<Provider store={store}>
     <div>

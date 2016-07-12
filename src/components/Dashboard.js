@@ -1,13 +1,32 @@
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
+import {connect} from 'react-redux';
 import BaseComponent from './BaseComponent';
 import Card from './Card';
 
-export default class Dashboard extends BaseComponent {
+function mapStateToProps(state, ownProps) {
+  console.log('MAP', state, ownProps);
+  return {
+    testStore: 'FIBRE'
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  console.log('DISPATCH',dispatch)
+  return {};
+}
+
+class Dashboard extends BaseComponent {
 
   constructor(props) {
     super(props);
     this.state = {data: []};
+
+    console.log('Dash', this);
+  }
+  
+  mapStateToProps(state, props) {
+    console.log("STORE", state, props);
   }
 
   componentDidMount() {
@@ -49,3 +68,5 @@ export default class Dashboard extends BaseComponent {
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
