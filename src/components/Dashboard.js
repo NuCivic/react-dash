@@ -9,7 +9,10 @@ export default class Dashboard extends BaseComponent {
     super(props);
     this.state = {data: []};
   }
-  
+
+  componentDidMount() {
+    this.setState({q: this.props.location.query});
+  }
   /**
    * Recursively parse settings tree, rendering components
    * and children
@@ -21,7 +24,7 @@ export default class Dashboard extends BaseComponent {
   
   render() {
     let markup;
-    let props = Object.assign({globalData: this.state.data || []}, this.props.route || this.props);
+    let props = Object.assign({globalData: this.state.data || [], q: this.state.q}, this.props.route || this.props);
     if (props.layout) {
       let layout = (typeof this.props.layout === 'String') ? Registry.get(this.props.layout) : this.props.layout;
       return (
@@ -35,10 +38,10 @@ export default class Dashboard extends BaseComponent {
     return (
         <div className="container">
           <h1 className="dashboard-title">{this.props.title}</h1>
-          {props.components.map((element, key) => {
+          {props.components.map((element, key) => { 
             return (
               <Card key={key} {...element}>
-                {React.createElement(Registry.get(element.type), props.components[key])}
+                {React.createElement(Registry.get(element.type), Object.assign(props.components[key], {q: this.props.location.query}))}
               </Card>
             )
           })}

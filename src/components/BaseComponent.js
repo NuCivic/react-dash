@@ -119,6 +119,7 @@ export default class BaseComponent extends Component {
   	if (Array.isArray(this.props.filters)) {
       filters = this.props.filters.map(filter => {
          filter.onChange = this.onFilter.bind(this, filter);
+         filter.q = this.props.q;
          return React.createElement(Registry.get('Filter'), filter);
       });
 	  }
@@ -161,5 +162,9 @@ export default class BaseComponent extends Component {
 
   getGlobalData() {
     return this.props.globalData || [];
+  }
+
+  getQ() {
+    return this.props.q;
   }
 }
