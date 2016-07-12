@@ -185,8 +185,4 @@ export default class BaseComponent extends Component {
   getGlobalData() {
     return this.props.globalData || [];
   }
-
-  getQ() {
-    return this.props.q;
-  }
 }
