@@ -7,7 +7,7 @@ import Card from './Card';
 function mapStateToProps(state, ownProps) {
   console.log('MAP', state, ownProps);
   return {
-    testStore: 'FIBRE'
+    filters: ownProps.location.query
   }
 }
 
