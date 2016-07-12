@@ -7,7 +7,7 @@ import Card from './Card';
 function mapStateToProps(state, ownProps) {
   console.log('MAP', state, ownProps);
   return {
-    filters: ownProps.location.query
+    query: ownProps.location.query
   }
 }
 
@@ -25,13 +25,6 @@ class Dashboard extends BaseComponent {
     console.log('Dash', this);
   }
   
-  mapStateToProps(state, props) {
-    console.log("STORE", state, props);
-  }
-
-  componentDidMount() {
-    this.setState({q: this.props.location.query});
-  }
   /**
    * Recursively parse settings tree, rendering components
    * and children
@@ -60,7 +53,7 @@ class Dashboard extends BaseComponent {
           {props.components.map((element, key) => { 
             return (
               <Card key={key} {...element}>
-                {React.createElement(Registry.get(element.type), Object.assign(props.components[key], {q: this.props.location.query}))}
+                {React.createElement(Registry.get(element.type), Object.assign(props.components[key], {query: this.props.query}))}
               </Card>
             )
           })}
