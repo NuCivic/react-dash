@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import BaseComponent from './BaseComponent';
 import Card from './Card';
+import {updateFilter} from './App';
+
+let actions = {updateFilter: updateFilter}; //stub for longer list of actions :)
 
 function mapStateToProps(state, ownProps) {
-  console.log('MAP', state, ownProps);
+  console.log('MAP', state.filterReducer, ownProps);
   return {
-    query: ownProps.location.query
+    appFilterParams: state.filterReducer
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  console.log('DISPATCH',dispatch)
-  return {};
+  console.log('DISPATCH',dispatch, updateFilter)
+  // do something with actions here
+  return {reduxActions: bindActionCreators(actions, dispatch)};
 }
 
 class Dashboard extends BaseComponent {
@@ -47,13 +52,18 @@ class Dashboard extends BaseComponent {
       );
     } 
     
+    let reduxGlue = {
+      appFilterParams: this.props.appFilterParams,
+      reduxActions: this.props.reduxActions
+    }
+
     return (
         <div className="container">
           <h1 className="dashboard-title">{this.props.title}</h1>
           {props.components.map((element, key) => { 
             return (
               <Card key={key} {...element}>
-                {React.createElement(Registry.get(element.type), Object.assign(props.components[key], {query: this.props.query}))}
+                {React.createElement(Registry.get(element.type), Object.assign(props.components[key], reduxGlue))}
               </Card>
             )
           })}

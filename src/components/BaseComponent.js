@@ -25,14 +25,14 @@ export default class BaseComponent extends Component {
   // fid is filter id
   _getOwnQueryParams() {
     let cid = this.state.cid;
-    if (this.props.query) {
-      let ownParams = Object.keys(this.props.query)
+    if (this.props.appFilterParams) {
+      let ownParams = Object.keys(this.props.appFilterParams)
         .filter(k => {
           return (k.indexOf(cid) >= 0)
         })
         .map(key => {
          let fid = key.replace(cid + '_', '');
-         return { fid: fid, value: this.props.query[key] }
+         return { fid: fid, value: this.props.appFilterParams[key] }
         })
       if (ownParams) console.log('OWN PARAMS', ownParams);
     }

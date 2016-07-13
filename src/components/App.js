@@ -16,7 +16,7 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 /****
  * Reducers
  ****/
-function filterReducer(state = {}, action) {
+export function filterReducer(state = {}, action) {
   console.log('fR', state, action);
   if (action.type === 'update_filter') {
     const newFilters = set({}, [action.el, action.filterId]);
@@ -36,10 +36,11 @@ function filterReducer(state = {}, action) {
  * Replace filters for Component/Filter with passed filter values
  * Replace global filters with passed filter values
  *
- * @param filter.scope {string} elementID/filterID or global
+ * @param filter.el {string} elementID/filterID or 'global'
+ * @param filter.filterId {string} id of el's filter
  * @param filter.vals {} values to assign to scope filter
  */
-function updateFilter(filter) {
+export function updateFilter(filter) {
   console.log('filter act called', filter);
   return {
     type: 'update_filter',
@@ -101,12 +102,12 @@ export default class App extends Component {
 	  console.log('app', this, store);	
     return (
 			<Provider store={store}>
-    <div>
-				<Router history={browserHistory} >
-					<Route path="/" component={Dashboard} {...props} />
-				</Router>
-			<DevTools />
-    </div>
+        <div>
+            <Router history={browserHistory} >
+              <Route path="/" component={Dashboard} {...props} />
+            </Router>
+          <DevTools />
+        </div>
 			</Provider>
     )
   }

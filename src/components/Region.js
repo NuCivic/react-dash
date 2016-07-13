@@ -7,10 +7,15 @@ export default class Region extends Component {
   }
   
   render() {
+    let reduxGlue = {
+      appFilterParams: this.props.appFilterParams,
+      reduxActions: this.props.reduxActions
+    }
+
     return (
       <div className={this.props.className}>
         {this.props.children.map((element,key) => {
-          return React.createElement(Registry.get(element.type), Object.assign(this.props.children[key], {query: this.props.query}))
+          return React.createElement(Registry.get(element.type), Object.assign(this.props.children[key], reduxGlue))
         })}
       </div>
     );
