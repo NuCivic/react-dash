@@ -11,11 +11,10 @@ export default class Chart extends BaseComponent {
   render() {
     let data = this.getData() || [];
     let settings = Object.assign({datum: data}, this.props.settings);
-    console.log('CHH', this.props, this);
     return (
       <Loader isFeching={this.state.isFeching}>
         {this.getFilters()} // render filter UI
-        {Object.keys(this.props.query).map(k => {console.log('CH2', this);
+        {Object.keys(this.props.query).map(k => {
           return <p>{`key ${k} val ${this.props.query[k]}`}</p>
         })}
         //<NVD3Chart {...settings}/>
