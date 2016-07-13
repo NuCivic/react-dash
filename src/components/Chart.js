@@ -13,13 +13,6 @@ export default class Chart extends BaseComponent {
     let data = this.getData() || [];
     let settings = Object.assign({datum: data}, this.props.settings);
 
-this.props.reduxActions.updateFilter({
-  type: 'update_filter',
-  el: 'el2',
-  filterId: 'f1',
-  vals: ['New from chart component']
-});
-
     return (
       <Loader isFeching={this.state.isFeching}>
         {this.getFilters()} // render filter UI

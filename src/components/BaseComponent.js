@@ -27,7 +27,7 @@ export default class BaseComponent extends Component {
     let cid = this.state.cid;
     if (this.props.appFilterParams) {
       let ownParams = Object.keys(this.props.appFilterParams)
-        .filter(k => {
+        .filter(k => { console.log(k);
           return (k.indexOf(cid) >= 0)
         })
         .map(key => {
@@ -149,7 +149,7 @@ export default class BaseComponent extends Component {
   }
 	
   onFilter(filter, e) {
-    console.log('onFilter', filter, e);
+    // update redux store
     this.props.reduxActions.updateFilter(
       {
         type: 'update_filter',
@@ -158,12 +158,12 @@ export default class BaseComponent extends Component {
         vals: e.value
       }
     )
-
-    let handlers = filter.dataHandlers;
-    handlers.e = e;
-    let _data = this.state.data || [];
-    this.setState({filterHandlers: handlers, filterEvent: e});
-    this.fetchData();
+    
+    // let handlers = filter.dataHandlers;
+    // handlers.e = e;
+    // let _data = this.state.data || [];
+    // this.setState({filterHandlers: handlers, filterEvent: e});
+    // this.fetchData();
   }
   
 

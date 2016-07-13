@@ -6,12 +6,19 @@ import BaseComponent from './BaseComponent';
 import Card from './Card';
 import {updateFilter} from './App';
 
-let actions = {updateFilter: updateFilter}; //stub for longer list of actions :)
+let actions = {updateFilter: updateFilter}; // @@STUB - this should be imported from ../actions
 
+
+/**
+ * A NOTE: This defined what part of the redux store our connected component watches
+ * ** Currently we are only watching filter params and redux router info **
+ * ** Ultimately we should track all application state here **
+ **/
 function mapStateToProps(state, ownProps) {
   console.log('MAP', state.filterReducer, ownProps);
   return {
-    appFilterParams: state.filterReducer
+    appFilterParams: state.filterReducer,
+    routing: state.routing
   }
 }
 
@@ -22,13 +29,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 class Dashboard extends BaseComponent {
-
-  constructor(props) {
-    super(props);
-    this.state = {data: []};
-
-    console.log('Dash', this);
-  }
   
   /**
    * Recursively parse settings tree, rendering components
@@ -40,6 +40,7 @@ class Dashboard extends BaseComponent {
   }
   
   render() {
+    console.log('Render DASH', this);
     let markup;
     let props = Object.assign({globalData: this.state.data || [], q: this.state.q}, this.props.route || this.props);
     if (props.layout) {
