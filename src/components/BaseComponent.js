@@ -149,6 +149,16 @@ export default class BaseComponent extends Component {
   }
 	
   onFilter(filter, e) {
+    console.log('onFilter', filter, e);
+    this.props.reduxActions.updateFilter(
+      {
+        type: 'update_filter',
+        el: this.props.cid,
+        filterId: filter.cid,
+        vals: e.value
+      }
+    )
+
     let handlers = filter.dataHandlers;
     handlers.e = e;
     let _data = this.state.data || [];

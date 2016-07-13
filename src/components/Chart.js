@@ -21,14 +21,10 @@ this.props.reduxActions.updateFilter({
 });
 
     return (
-//      <Loader isFeching={this.state.isFeching}>
-      <p>foo</p>
-//        {this.getFilters()} // render filter UI
-//        {Object.keys(this.props.query).map(k => {
-//          return <p>{`key ${k} val ${this.props.query[k]}`}</p>
-//        })}
-        //<NVD3Chart {...settings}/>
-  //    </Loader>
+      <Loader isFeching={this.state.isFeching}>
+        {this.getFilters()} // render filter UI
+        <NVD3Chart {...settings}/>
+      </Loader>
      )
   }
 }
