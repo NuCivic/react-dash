@@ -5,8 +5,9 @@ import {bindActionCreators} from 'redux';
 import BaseComponent from './BaseComponent';
 import Card from './Card';
 import {updateFilter} from './App';
+import {push} from 'react-router-redux';
 
-let actions = {updateFilter: updateFilter}; // @@STUB - this should be imported from ../actions
+let actions = {updateFilter: updateFilter, push: push}; // @@STUB - this should be imported from ../actions
 
 
 /**
@@ -25,7 +26,9 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   console.log('DISPATCH',dispatch, updateFilter)
   // do something with actions here
-  return {reduxActions: bindActionCreators(actions, dispatch)};
+  return {
+    reduxActions: bindActionCreators(actions, dispatch),
+  };
 }
 
 class Dashboard extends BaseComponent {

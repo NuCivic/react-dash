@@ -8,10 +8,10 @@ import { createDevTools } from 'redux-devtools';
 import LogMonitor from 'redux-devtools-log-monitor';
 import DockMonitor from 'redux-devtools-dock-monitor';
 /* redux */
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
-
+import { routerMiddleware, push } from 'react-router-redux';
 
 /****
  * Reducers
@@ -65,9 +65,11 @@ const reducer = combineReducers({
   routing: routerReducer
 })
 
+const middleware = routerMiddleware(browserHistory)
 const store = createStore(
   reducer,
-  DevTools.instrument()
+  DevTools.instrument(),
+  applyMiddleware(middleware)
 )
 
 export default class App extends Component {
