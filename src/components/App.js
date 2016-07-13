@@ -16,6 +16,7 @@ import { routerMiddleware, push } from 'react-router-redux';
 /****
  * Reducers
  ****/
+// @@ filterParams
 export function filterReducer(state = {}, action) {
   if (action.type === 'update_filter') {
     const newFilters = set({}, [action.el, action.filterId]);
@@ -32,6 +33,16 @@ export function filterReducer(state = {}, action) {
  ****/
 
 /*
+ * @@STUB
+ * Import settings to the store
+ * @param settings {object} - the dashboard settings object
+ */
+export function reduceSettings(settings) {
+  // @@TODO any logic necessary to import settings
+  return Object.assign({},settings())
+}
+
+/*
  * Update App Filters
  * Replace filters for Component/Filter with passed filter values
  * Replace global filters with passed filter values
@@ -42,6 +53,7 @@ export function filterReducer(state = {}, action) {
  */
 export function updateFilter(filter) {
   console.log('filter act called', filter);
+  // @@TODO when filters are update we should update the 
   return {
     type: 'update_filter',
     el: filter.el,
@@ -50,10 +62,9 @@ export function updateFilter(filter) {
   } 
 }
 
-/*
+ /* 
  * App
  */
-
 const DevTools = createDevTools(
   <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q">
     <LogMonitor theme="tomorrow" preserveScrollTop={false} />
@@ -61,10 +72,11 @@ const DevTools = createDevTools(
 )
 
 const reducer = combineReducers({
-  filterReducer,
-  routing: routerReducer
+  filterReducer, // => { ... }
+  routing: routerReducer // => { ...  }
 })
 
+// @@TODO we should pass the settings file to the store to hydrate the store
 const middleware = routerMiddleware(browserHistory)
 const store = createStore(
   reducer,

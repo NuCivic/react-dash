@@ -1,3 +1,4 @@
+// @@TODO - this should be replaced by a dash-level function that walks our settings tree
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 

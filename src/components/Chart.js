@@ -8,6 +8,7 @@ import Filter from './Filter';
 import filter from '../actions/filter'
 
 export default class Chart extends BaseComponent {
+  
   render() {
     console.log('CH', this);
     let data = this.getData() || [];

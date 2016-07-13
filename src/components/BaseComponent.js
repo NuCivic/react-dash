@@ -23,6 +23,8 @@ export default class BaseComponent extends Component {
   // Return array of paramaters of format:
   // [{fid: }]
   // fid is filter id
+  // @@ move this up to dashboard / app level
+  // @@ poorMansMapStateToProps
   _getOwnQueryParams() {
     let cid = this.state.cid;
     if (this.props.appFilterParams) {
@@ -158,8 +160,6 @@ export default class BaseComponent extends Component {
         vals: e.value
       }
     )
-    
-    this.props.reduxActions.push('?foo=bar');
     // let handlers = filter.dataHandlers;
     // handlers.e = e;
     // let _data = this.state.data || [];
@@ -167,7 +167,6 @@ export default class BaseComponent extends Component {
     // this.fetchData();
   }
   
-
   setData(data, handlers, e) {
     let _handlers = handlers || this.state.filterHandlers || this.props.dataHandlers;
     let _e = e || this.state.filterEvent
