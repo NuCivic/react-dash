@@ -48,14 +48,14 @@ class Dashboard extends BaseComponent {
     // poorMansMapToProps(); // parse from the store the piece that we need and add to props
   }
   
-  // @@TODO -  add helper function to parse the store and pass to components poorMansMapStateToProps
-
-  let reduxGlue = {
-    appFilterParams: this.props.appFilterParams,
-    reduxActions: this.props.reduxActions
-  }
  
   render() {
+    // @@TODO -  add helper function to parse the store and pass to components poorMansMapStateToProps
+    let reduxGlue = {
+      appFilterParams: this.props.appFilterParams,
+      reduxActions: this.props.reduxActions
+    }
+
     console.log('Render DASH', this);
     let markup;
     let props = Object.assign({globalData: this.state.data || [], q: this.state.q}, this.props.route || this.props);
