@@ -8,11 +8,7 @@ import * as actions from '../actions';
 import {push} from 'react-router-redux';
 
 
-/**
- * A NOTE: This defined what part of the redux store our connected component watches
- * ** Currently we are only watching filter params and redux router info **
- * ** Ultimately we should track all application state here **
- **/
+//  Pass the entire redux store to the Dashboard application / component
 function mapStateToProps(state, ownProps) {
   console.log('MAP', state, ownProps);
   // pass the whole state to the Dashboard
@@ -21,6 +17,7 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
+//  For now we are making all actions available to all components
 function mapDispatchToProps(dispatch) {
   console.log('DISPATCH',dispatch, actions)
   return {
@@ -28,7 +25,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-// poorMansMapStateToProps
+// poorMansMapStateToProps - parse store by cid and pass to children in render
 function getOwnProps(settings, reduxState, reduxActions) {
   console.log('giqo0', arguments);
   let newProps = Object.assign({}, settings, {reduxState: reduxState, reduxActions: reduxActions});
@@ -68,11 +65,6 @@ class Dashboard extends BaseComponent {
       );
     } 
     
-
-    // @@TODO - get own piece of state and pass to children @params - (cid, overrides
-    // @@ alternately - use connect for each child component / components that need access to store
-    // @@ ^^ not sure if there is a way to dynamically apply mapStateToProps
-    // @@ I think that we need to handle our own business - using poorMansMapStateToProps 
     return (
         <div className="container">
           <h1 className="dashboard-title">{this.props.title}</h1>
@@ -88,5 +80,4 @@ class Dashboard extends BaseComponent {
   }
 }
 
-// hydrate dashboard from redux store (currently -> just filterParams)
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
