@@ -1,15 +1,16 @@
-import {set} from 'lodash'
+import {merge} from 'lodash'
 import { push } from 'react-router-redux';
 /****
  * Reducers
  ****/
 export function filterParams(state = {}, action) {
   if (action.type === 'update_filter') {
-    let newFilters = set({}, [action.el, action.filterId]);
+    console.log(action);
+    let newFilters = {};
+    newFilters[action.el] = newFilters[action.el] || {};
     newFilters[action.el][action.filterId] = action.vals;
-    console.log('update_filter', newFilters);
-    const curFilters = Object.assign({}, state, newFilters);
-    console.log('qq/',qFromParams(curFilters));
+    console.log('update_filter', state, newFilters);
+    const curFilters = merge({}, state, newFilters);
     //push(qFromParams(curFilters));
     return curFilters;
   } else {
@@ -17,24 +18,22 @@ export function filterParams(state = {}, action) {
   }
 }
 
-/*
- * Cheating
- * build url string for curFilters and push to url
- * @@TODO prob move this to Utils or something
- */
-function qFromParams(curFilters) {
+// Serialize params object as query string
+function qFromParams(params) {
   var str = [];
-  for (var p in curFilters) {
-    for (var q in curFilters[p]) {
-      console.log(".>>.", p,q, curFilters[p][q], `${p}_${q}=${curFilters[p][q]}`);
-      str.push(`${p}_${q}=${curFilters[p][q]}`);
+  for (var p in params) {
+    for (var q in params[p]) {
+      console.log(".>>.", p,q, params[p][q], `${p}_${q}=${params[p][q]}`);
+      str.push(`${p}_${q}=${params[p][q]}`);
     }
   }
   return '?'+str.join('&');
 }
 
+// De-serialize query str to params object
+// from http://stackoverflow.com/questions/8648892/convert-url-parameters-to-a-javascript-object
 function paramsFromQ(str) {
-  // stub
+  return JSON.parse('{"' + decodeURI(str).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
 }
 
 // Return array of paramaters of format:
