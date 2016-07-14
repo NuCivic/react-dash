@@ -139,7 +139,6 @@ export default class BaseComponent extends Component {
         vals: e.value
       }
     )
-    this.props.reduxActions.push('?foo=bar')
     let handlers = filter.dataHandlers;
     handlers.e = e;
     let _data = this.state.data || [];
