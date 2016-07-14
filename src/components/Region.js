@@ -12,7 +12,7 @@ export default class Region extends Component {
       appFilterParams: this.props.appFilterParams,
       reduxActions: this.props.reduxActions
     }
-
+    
     return (
       <div className={this.props.className}>
         {this.props.children.map((element,key) => {

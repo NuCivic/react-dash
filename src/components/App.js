@@ -13,11 +13,11 @@ import { Provider } from 'react-redux';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import { routerMiddleware, push } from 'react-router-redux';
 
+
 /****
  * Reducers
  ****/
-// @@ filterParams
-export function filterReducer(state = {}, action) {
+export function filterParams(state = {}, action) {
   if (action.type === 'update_filter') {
     const newFilters = set({}, [action.el, action.filterId]);
     newFilters[action.el][action.filterId] = action.vals;
@@ -34,6 +34,9 @@ export function filterReducer(state = {}, action) {
 
 /*
  * @@STUB
+ * @@ How do we get settings? 
+ * @@ How do we move enough of this to the /examples folder
+ * @@ so we can pull in the settings file
  * Import settings to the store
  * @param settings {object} - the dashboard settings object
  */
@@ -70,35 +73,36 @@ const DevTools = createDevTools(
     <LogMonitor theme="tomorrow" preserveScrollTop={false} />
   </DockMonitor>
 )
+export default function (settings) {
 
 const reducer = combineReducers({
-  filterReducer, // => { ... }
+  filterParams, // => { ... }
+  function () {return settings}, // inject settings
   routing: routerReducer // => { ...  }
 })
 
 // @@TODO we should pass the settings file to the store to hydrate the store
 const middleware = routerMiddleware(browserHistory)
-const store = createStore(
-  reducer,
-  DevTools.instrument(),
-  applyMiddleware(middleware)
-)
+  const store = createStore(
+    reducer,
+    DevTools.instrument(),
+    applyMiddleware(middleware)
+  )
 
-export default class App extends Component {
-  render() {
-    let props = this.props;
-	  console.log('app', this, store);	
-    return (
-			<Provider store={store}>
-        <div>
-            <Router history={browserHistory} >
-              <Route path="/" component={Dashboard} {...props} />
-            </Router>
-          <DevTools />
-        </div>
-			</Provider>
-    )
-  }
-}
-
-Registry.set('App', App);
+  return React.createClass({
+    render() {
+      let props = this.props;
+      console.log('app', this, store);	
+      return (
+        <Provider store={store}>
+          <div>
+              <Router history={browserHistory} >
+                <Route path="/" component={Dashboard} {...props} />
+              </Router>
+            <DevTools />
+          </div>
+        </Provider>
+      )
+    }
+  })
+} 

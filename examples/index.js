@@ -14,7 +14,11 @@ import GAChoropleth from './components/GAChoropleth';
 import MyCustomLayout from './layouts/MyCustomLayout';
 import GADashboard from './app';
 import GAMultiSelect from './components/GAMultiSelect';
-import App from '../src/components/App';
+import AppFactory from '../src/components/App';
 
 console.log('DASHBOARD SETTINGS', settings);
+let App = AppFactory(settings);
+
+// App = AppFactory(settings);
+// ReactDOM.render(<App />, document.getElementById('root'));
 ReactDOM.render(<App {...settings} />, document.getElementById('root'));

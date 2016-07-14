@@ -16,21 +16,26 @@ let actions = {updateFilter: updateFilter, push: push}; // @@STUB - this should 
  * ** Ultimately we should track all application state here **
  **/
 function mapStateToProps(state, ownProps) {
-  console.log('MAP', state.filterReducer, ownProps);
-  // @@TODO 
-  
+  console.log('MAP', state, ownProps);
+  // pass the whole state to the Dashboard
   return {
-    appFilterParams: state.filterReducer, // state.filterParams 
-    routing: state.routing
+    reduxState: state,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   console.log('DISPATCH',dispatch, updateFilter)
-  // do something with actions here
   return {
     reduxActions: bindActionCreators(actions, dispatch),
   };
+}
+
+// poorMansMapStateToProps
+function getOwnProps(settings, reduxState, reduxActions) {
+  console.log('giqo0', arguments);
+  let newProps = Object.assign({}, settings, {reduxState: reduxState, reduxActions: reduxActions});
+  console.log('gOWp', newProps);
+  return newProps;
 }
 
 class Dashboard extends BaseComponent {
@@ -47,16 +52,12 @@ class Dashboard extends BaseComponent {
     // render children
     // poorMansMapToProps(); // parse from the store the piece that we need and add to props
   }
-  
  
   render() {
-    // @@TODO -  add helper function to parse the store and pass to components poorMansMapStateToProps
-    let reduxGlue = {
-      appFilterParams: this.props.appFilterParams,
-      reduxActions: this.props.reduxActions
-    }
+    let reduxState = this.props.reduxState;
+    let reduxActions = this.props.reduxActions;
 
-    console.log('Render DASH', this);
+    console.log('Render DASH', this, reduxState, reduxActions);
     let markup;
     let props = Object.assign({globalData: this.state.data || [], q: this.state.q}, this.props.route || this.props);
     if (props.layout) {
@@ -70,17 +71,17 @@ class Dashboard extends BaseComponent {
     } 
     
 
+    // @@TODO - get own piece of state and pass to children @params - (cid, overrides
+    // @@ alternately - use connect for each child component / components that need access to store
+    // @@ ^^ not sure if there is a way to dynamically apply mapStateToProps
+    // @@ I think that we need to handle our own business - using poorMansMapStateToProps 
     return (
         <div className="container">
           <h1 className="dashboard-title">{this.props.title}</h1>
           {props.components.map((element, key) => { 
             return (
               <Card key={key} {...element}>
-                // @@TODO - get own piece of state and pass to children @params - (cid, overrides
-                // @@ alternately - use connect for each child component / components that need access to store
-                // @@ ^^ not sure if there is a way to dynamically apply mapStateToProps
-                // @@ I think that we need to handle our own business - using poorMansMapStateToProps 
-                {React.createElement(Registry.get(element.type), Object.assign(props.components[key], reduxGlue))}
+                {React.createElement(Registry.get(element.type),  getOwnProps(props.components[key], reduxState, reduxActions))}
               </Card>
             )
           })}
