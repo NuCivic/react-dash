@@ -4,10 +4,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import BaseComponent from './BaseComponent';
 import Card from './Card';
-import {updateFilter} from './App';
+import * as actions from '../actions';
 import {push} from 'react-router-redux';
-
-let actions = {updateFilter: updateFilter, push: push}; // @@STUB - this should be imported from ../actions
 
 
 /**
@@ -24,7 +22,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
-  console.log('DISPATCH',dispatch, updateFilter)
+  console.log('DISPATCH',dispatch, actions)
   return {
     reduxActions: bindActionCreators(actions, dispatch),
   };

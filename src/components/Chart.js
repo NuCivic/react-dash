@@ -5,7 +5,6 @@ import NVD3Chart from 'react-nvd3';
 import BaseComponent from './BaseComponent';
 import Loader from './Loader';
 import Filter from './Filter';
-import filter from '../actions/filter'
 
 export default class Chart extends BaseComponent {
   

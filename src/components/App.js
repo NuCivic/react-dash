@@ -13,41 +13,6 @@ import { routerMiddleware, push } from 'react-router-redux';
 /* dashboard app */
 import Dashboard from './Dashboard';
 import * as reducers from '../reducers';
-/* util */
-import {set} from 'lodash';
-
-/****
- * Actions
- ****/
-
-/*
- * Update App Filters
- * Replace filters for Component/Filter with passed filter values
- * Replace global filters with passed filter values
- *
- * @param filter.el {string} elementID/filterID or 'global'
- * @param filter.filterId {string} id of el's filter
- * @param filter.vals {} values to assign to scope filter
- */
-export function updateFilter(filter) {
-  console.log('filter act called', filter);
-  // @@TODO when filters are update we should update the 
-  return {
-    type: 'update_filter',
-    el: filter.el,
-    filterId: filter.filterId,
-    vals: filter.vals
-  } 
-}
-
- /* 
- * App
- */
-const DevTools = createDevTools(
-  <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q">
-    <LogMonitor theme="tomorrow" preserveScrollTop={false} />
-  </DockMonitor>
-)
 
 /*
  * APP FACTORY
@@ -55,6 +20,12 @@ const DevTools = createDevTools(
  * @return App {react class} The Application element, with config state represented in redux store
  */
 export default function (settings) {
+  const DevTools = createDevTools(
+    <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q">
+      <LogMonitor theme="tomorrow" preserveScrollTop={false} />
+    </DockMonitor>
+  )
+
   function config() {
     return settings;
   }
