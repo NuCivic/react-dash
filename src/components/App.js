@@ -9,7 +9,7 @@ import DockMonitor from 'redux-devtools-dock-monitor';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
-import { routerMiddleware, push } from 'react-router-redux';
+import { routerMiddleware } from 'react-router-redux';
 /* dashboard app */
 import Dashboard from './Dashboard';
 import * as reducers from '../reducers';

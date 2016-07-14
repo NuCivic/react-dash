@@ -5,14 +5,12 @@ import { push } from 'react-router-redux';
  ****/
 export function filterParams(state = {}, action) {
   if (action.type === 'update_filter') {
-    console.log(action);
     let newFilters = {};
     newFilters[action.el] = newFilters[action.el] || {};
     newFilters[action.el][action.filterId] = action.vals;
-    console.log('update_filter', state, newFilters);
     const curFilters = merge({}, state, newFilters);
-    //push(qFromParams(curFilters));
-    return curFilters;
+    const newState = Object.assign(curFilters, {filtersQuery: qFromParams(curFilters)});
+    return newState;;
   } else {
     return state;
   }

@@ -7,8 +7,6 @@ import Card from './Card';
 import * as actions from '../actions';
 import {push} from 'react-router-redux';
 
-
-
 //  Pass the entire redux store to the Dashboard application / component
 function mapStateToProps(state, ownProps) {
   console.log('MAP', state, ownProps);
@@ -28,11 +26,17 @@ function mapDispatchToProps(dispatch) {
 }
 
 // poorMansMapStateToProps - parse store by cid and pass to children in render
-function getOwnProps(settings, reduxState, reduxActions) {
+export function getOwnProps(key, reduxState, reduxActions) {
   console.log('giqo0', arguments);
-  let newProps = Object.assign({}, settings, {reduxState: reduxState, reduxActions: reduxActions});
+  const ownParams = _getOwnParams(reduxState.filterParams, reduxState.settings.components[key].cid);
+  console.log('OP', ownParams);
+  let newProps = Object.assign({}, reduxState.settings.components[key], {reduxActions: reduxActions});
   console.log('gOWp', newProps);
   return newProps;
+}
+
+function _getOwnParams(params, cid) {
+  console.log('_g',params);
 }
 
 class Dashboard extends BaseComponent {
@@ -73,7 +77,7 @@ class Dashboard extends BaseComponent {
           {props.components.map((element, key) => { 
             return (
               <Card key={key} {...element}>
-                {React.createElement(Registry.get(element.type),  getOwnProps(props.components[key], reduxState, reduxActions))}
+                {React.createElement(Registry.get(element.type),  getOwnProps(key, reduxState, reduxActions))}
               </Card>
             )
           })}

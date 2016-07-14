@@ -126,6 +126,43 @@ export var settings = {
                     }
                   ]
                 },
+                {
+                  type: 'ReactSelect',
+                  cid: 'ch2Sel',
+                  options: [
+                    {
+                      label: 'ALL',
+                      value: 'all'
+                    },
+                    {
+                      label: '1949 - 1976',
+                      value: '1949_1976'
+                    },
+                    {
+                      label: '1976 - 2012',
+                      value: '1976_2012'
+                    }
+                  ],
+                  dataHandlers: [
+                    'passThroughHandler',
+                    'customDataHandler',
+                    {
+                      name: 'common.parseDateField',
+                      field: 'date'
+                    },
+                    {
+                      name: 'common.fieldsToXYSeries',
+                      field: 'price',
+                      xField: 'date'
+                    },
+                    {
+                      name: 'NVD3.returnChartSeries',
+                      series: [
+                        {name: 'Price', color:'#FF0000'},
+                      ]
+                    }
+                  ]
+                },
               ],
 						},
 						{
@@ -427,6 +464,27 @@ export var settings = {
 									iconClass: 'glyphicon glyphicon-fire',
 									type: 'GAChart',
                   cid: 'region15chart1',
+                  filters: [
+                    {
+                      type: 'ReactSelect',
+                      cid: 'r15Sel1',
+                      options: [
+                        {
+                          label: 'ALL',
+                          value: 'all'
+                        },
+                        {
+                          label: '1949 - 1976',
+                          value: '1949_1976'
+                        },
+                        {
+                          label: '1976 - 2012',
+                          value: '1976_2012'
+                        }
+                      ],
+                      dataHandlers: []
+                    }
+                  ],
 									settings: {
 										id:'lineChart',
 										type: 'discreteBarChart',

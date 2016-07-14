@@ -9,7 +9,6 @@ import Filter from './Filter';
 export default class Chart extends BaseComponent {
   
   render() {
-    console.log('CH', this);
     let data = this.getData() || [];
     let settings = Object.assign({datum: data}, this.props.settings);
 
