@@ -20,27 +20,6 @@ export default class BaseComponent extends Component {
     };
   }
 
-  // Return array of paramaters of format:
-  // [{fid: }]
-  // fid is filter id
-  // @@ move this up to dashboard / app level
-  // @@ poorMansMapStateToProps
-  _getOwnQueryParams() {
-    let cid = this.state.cid;
-    if (this.props.appFilterParams) {
-      let ownParams = Object.keys(this.props.appFilterParams)
-        .filter(k => { console.log(k);
-          return (k.indexOf(cid) >= 0)
-        })
-        .map(key => {
-         let fid = key.replace(cid + '_', '');
-         return { fid: fid, value: this.props.appFilterParams[key] }
-        })
-      if (ownParams) console.log('OWN PARAMS', ownParams);
-    }
-    return {};
-  }
-
   componentWillMount() {
     // Register to all the actions
     EventDispatcher.register(this.onAction.bind(this));
@@ -71,7 +50,6 @@ export default class BaseComponent extends Component {
     // resize magic
     let moreState = {}
     moreState.componentWidth = findDOMNode(this).getBoundingClientRect().width;
-    moreState.ownQueryParams = this._getOwnQueryParams();
     this.setState(moreState);
     this.addResizeListener();
     this.fetchData();
@@ -152,6 +130,7 @@ export default class BaseComponent extends Component {
 	
   onFilter(filter, e) {
     // update redux store
+    console.log('Component', this);
     this.props.reduxActions.updateFilter(
       {
         type: 'update_filter',
@@ -160,11 +139,12 @@ export default class BaseComponent extends Component {
         vals: e.value
       }
     )
-    // let handlers = filter.dataHandlers;
-    // handlers.e = e;
-    // let _data = this.state.data || [];
-    // this.setState({filterHandlers: handlers, filterEvent: e});
-    // this.fetchData();
+    this.props.reduxActions.push('?foo=bar')
+    let handlers = filter.dataHandlers;
+    handlers.e = e;
+    let _data = this.state.data || [];
+    this.setState({filterHandlers: handlers, filterEvent: e});
+    this.fetchData();
   }
   
   setData(data, handlers, e) {

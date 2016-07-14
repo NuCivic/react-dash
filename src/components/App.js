@@ -29,12 +29,8 @@ export default function (settings) {
   function config() {
     return settings;
   }
-  
-  const reducer = combineReducers({
-    reducers,
-    config,
-    routing: routerReducer // => { ...  }
-  })
+  const _reducers = Object.assign(reducers, {settings:config, routing: routerReducer});
+  const reducer = combineReducers(_reducers);
 
   // @@TODO we should pass the settings file to the store to hydrate the store
   const middleware = routerMiddleware(browserHistory)

@@ -8,6 +8,7 @@ import * as actions from '../actions';
 import {push} from 'react-router-redux';
 
 
+
 //  Pass the entire redux store to the Dashboard application / component
 function mapStateToProps(state, ownProps) {
   console.log('MAP', state, ownProps);
@@ -20,6 +21,7 @@ function mapStateToProps(state, ownProps) {
 //  For now we are making all actions available to all components
 function mapDispatchToProps(dispatch) {
   console.log('DISPATCH',dispatch, actions)
+  actions.push = push;
   return {
     reduxActions: bindActionCreators(actions, dispatch),
   };
