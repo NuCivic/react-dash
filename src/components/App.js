@@ -1,8 +1,6 @@
+/* react */
 import React, { Component } from 'react';
-import Registry from '../utils/Registry';
-import Dashboard from './Dashboard';
 import { Router, Route, Link, browserHistory } from 'react-router';
-import {set} from 'lodash';
 /* devtools */
 import { createDevTools } from 'redux-devtools';
 import LogMonitor from 'redux-devtools-log-monitor';
@@ -12,38 +10,15 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import { routerMiddleware, push } from 'react-router-redux';
-
-
-/****
- * Reducers
- ****/
-export function filterParams(state = {}, action) {
-  if (action.type === 'update_filter') {
-    const newFilters = set({}, [action.el, action.filterId]);
-    newFilters[action.el][action.filterId] = action.vals;
-    console.log('update_filter', newFilters);
-    return Object.assign({}, state, newFilters);
-  } else {
-    return state;
-  } 
-}
+/* dashboard app */
+import Dashboard from './Dashboard';
+import * as reducers from '../reducers';
+/* util */
+import {set} from 'lodash';
 
 /****
  * Actions
  ****/
-
-/*
- * @@STUB
- * @@ How do we get settings? 
- * @@ How do we move enough of this to the /examples folder
- * @@ so we can pull in the settings file
- * Import settings to the store
- * @param settings {object} - the dashboard settings object
- */
-export function reduceSettings(settings) {
-  // @@TODO any logic necessary to import settings
-  return Object.assign({},settings())
-}
 
 /*
  * Update App Filters
@@ -73,16 +48,25 @@ const DevTools = createDevTools(
     <LogMonitor theme="tomorrow" preserveScrollTop={false} />
   </DockMonitor>
 )
+
+/*
+ * APP FACTORY
+ * @param settings {object} the settings file for your dashboard
+ * @return App {react class} The Application element, with config state represented in redux store
+ */
 export default function (settings) {
+  function config() {
+    return settings;
+  }
+  
+  const reducer = combineReducers({
+    reducers,
+    config,
+    routing: routerReducer // => { ...  }
+  })
 
-const reducer = combineReducers({
-  filterParams, // => { ... }
-  function () {return settings}, // inject settings
-  routing: routerReducer // => { ...  }
-})
-
-// @@TODO we should pass the settings file to the store to hydrate the store
-const middleware = routerMiddleware(browserHistory)
+  // @@TODO we should pass the settings file to the store to hydrate the store
+  const middleware = routerMiddleware(browserHistory)
   const store = createStore(
     reducer,
     DevTools.instrument(),
