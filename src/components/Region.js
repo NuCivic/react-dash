@@ -12,7 +12,7 @@ export default class Region extends Component {
     return (
       <div className={this.props.className}>
         {this.props.children.map((element,key) => {
-          return React.createElement(Registry.get(element.type), Object.assign({}, this.props.children[key], {ownParams: getOwnQueryParams(location.query, this.props.cid), location: location})
+          return React.createElement(Registry.get(element.type), Object.assign({}, this.props.children[key], {ownParams: getOwnQueryParams(location.query, element.cid), location: location})
         )})}
       </div>
     );

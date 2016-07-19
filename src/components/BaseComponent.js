@@ -52,6 +52,7 @@ export default class BaseComponent extends Component {
     this.setState({ componentWidth : componentWidth});
     this.addResizeListener();
     this.fetchData();
+    this.applyOwnFilters();
     this.onResize();
   }
   
@@ -137,9 +138,7 @@ export default class BaseComponent extends Component {
     console.log(newQ);
     console.log(qFromParams(newQ));
     browserHistory.push(qFromParams(newQ));
-    // get current filter params
-    // merge with existing params
-    // browserHistory.push('?foo=bar');
+// ownParams - apply!!
 //    let handlers = filter.dataHandlers;
 //    handlers.e = e;
 //    let _data = this.state.data || [];
@@ -148,7 +147,20 @@ export default class BaseComponent extends Component {
   }
   
   // Apply filters from query
-  applyFilters() {
+  applyOwnFilters() {
+    const ownParams = this.props.ownParams;
+    if (ownParams) {
+      for (var p in ownParams) {
+        console.log('OP', ownParams, p, this.props);
+        const filter = this.props.filters.filter(f => {
+          return ownParams[p].fid === f.cid});
+        console.log('FILTER', filter);
+        // get the correct filter
+        // let handlers = filter.dataHandlers
+        // this.setState({filterHandlers: handlers, filterEvent: e}); // @@TODO we should lose filterEvent
+        // this.fetchData();
+      }
+    }
     // each own filters
     //   -> pass values to datahandlers
     //   -> setState
