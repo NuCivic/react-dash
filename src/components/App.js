@@ -44,7 +44,7 @@ export default function (settings) {
         <Provider store={store}>
           <div>
               <Router history={browserHistory} >
-                <Route path="/" component={Dashboard} key="test" {...props} />
+                <Route path="/" component={Dashboard} {...props} />
               </Router>
             <DevTools />
           </div>

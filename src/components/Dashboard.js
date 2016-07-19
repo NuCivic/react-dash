@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 import BaseComponent from './BaseComponent';
 import Card from './Card';
 import * as actions from '../actions';
+import {getOwnQueryParams} from '../utils/utils';
 
 //  Pass the entire redux store to the Dashboard application / component
 function mapStateToProps(state, ownProps) {
@@ -24,9 +25,15 @@ function mapDispatchToProps(dispatch) {
 }
 
 // poorMansMapStateToProps - parse store by component id
-export function getOwnProps(location, key, reduxState, reduxActions) {
-  const ownParams = _getOwnParams(location, reduxState.settings.components[key].cid);
-  let newProps = Object.assign({}, reduxState.settings.components[key], {reduxActions: reduxActions}, {reduxState: reduxState});
+// @@TODO rename reduxState in params
+// @@TODO just call Dashboard components children!!
+export function getOwnProps(location, key, settings, reduxActions) {
+  console.log('settings', arguments);
+  const children = (settings.components) ? settings.components : settings.children;
+  const cid = children[key].cid;
+  const ownParams = getOwnQueryParams(location, cid);
+  let newProps = Object.assign({}, children.children, {reduxActions: reduxActions, location: location, ownParams: ownParams});
+  console.log('newProps', newProps);
   return newProps;
 }
 
@@ -53,7 +60,8 @@ class Dashboard extends BaseComponent {
     let reduxState = this.props.reduxState;
     let reduxActions = this.props.reduxActions;
     console.log('Render DASH', this);
-    this.props.reduxActions.updateFilter(this.props.location.query);
+// @@TODO this should work but this triggers render and stack overflow
+//    this.props.reduxActions.updateFilter(this.props.location.query);
     let props = Object.assign({globalData: this.state.data || [], q: this.state.q}, this.props.route || this.props);
     
 		if (props.layout) {
@@ -72,7 +80,7 @@ class Dashboard extends BaseComponent {
           {props.components.map((element, key) => { 
             return (
               <Card key={key} {...element}>
-                {React.createElement(Registry.get(element.type),  getOwnProps(this.props.location, key, reduxState, reduxActions))}
+                {React.createElement(Registry.get(element.type),  getOwnProps(this.props.location, key, reduxState.settings, reduxActions))}A
               </Card>
             )
           })}
