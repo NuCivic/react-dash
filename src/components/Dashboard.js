@@ -23,6 +23,7 @@ export default class Dashboard extends BaseComponent {
     console.log('D', this);
     let markup;
     let props = Object.assign({globalData: this.state.data || []}, this.props.route || this.props);
+    let location = this.props.location;
     if (props.layout) {
       let layout = (typeof this.props.layout === 'String') ? Registry.get(this.props.layout) : this.props.layout;
       return (
@@ -39,7 +40,7 @@ export default class Dashboard extends BaseComponent {
           {props.components.map((element, key) => {
             return (
               <Card key={key} {...element}>
-                {React.createElement(Registry.get(element.type), props.components[key])}
+                {React.createElement(Registry.get(element.type), Object.assign({}, props.components[key], {location: location}))}
               </Card>
             )
           })}

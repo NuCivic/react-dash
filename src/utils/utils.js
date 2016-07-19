@@ -58,13 +58,15 @@ export function paramsFromQ(str) {
  * @returns {object} the sub-query containing query paramaters keyed to filter ID
  */
 export function getOwnQueryParams(query, cid) {
+  console.log('aa',query,cid)
   let ownParams = Object.keys(query)
     .filter(k => { console.log(k);
       return (k.indexOf(cid) >= 0)
     })
     .map(key => {
      let fid = key.replace(cid + '_', '');
-     return { fid: fid, value: this.props.appFilterParams[key] }
+     console.log(key);
+     return { fid: fid, value: query[key] }
     })
 
   if (ownParams) console.log('OWN PARAMS', ownParams);
