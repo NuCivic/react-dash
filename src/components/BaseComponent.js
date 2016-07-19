@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {findDOMNode} from 'react-dom';
+import {browserHistory} from 'react-router';
 import EventDispatcher from '../dispatcher/EventDispatcher';
 import Dataset from '../models/Dataset';
 import {omit, isFunction, isPlainObject, isString, debounce} from 'lodash';
@@ -126,11 +127,13 @@ export default class BaseComponent extends Component {
   }
 	
   onFilter(filter, e) {
-    let handlers = filter.dataHandlers;
-    handlers.e = e;
-    let _data = this.state.data || [];
-    this.setState({filterHandlers: handlers, filterEvent: e});
-    this.fetchData();
+    console.log(this);
+    browserHistory.push('?foo=bar');
+//    let handlers = filter.dataHandlers;
+//    handlers.e = e;
+//    let _data = this.state.data || [];
+ //   this.setState({filterHandlers: handlers, filterEvent: e});
+  //  this.fetchData();
   }
   
 
