@@ -63,12 +63,12 @@ export function paramsFromQ(str) {
 export function getOwnQueryParams(query, cid) {
   let ownParams = Object.keys(query)
     .filter(k => {
-      return (k.indexOf(cid) >= 0)
+      const param = k.split('_')[0];
+      return (cid === param)
     })
     .map(key => {
      let fid = key.replace(cid + '_', '');
      return { fid: fid, value: query[key] }
     })
-
   return ownParams || {};
 }
