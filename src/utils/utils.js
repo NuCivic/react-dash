@@ -34,13 +34,16 @@ export function formatNumber(n, format) {
   return formatter(n);
 }
 
+// merge existing url params with current filter selections
+export function updateParams() {
+
+}
+
 // Serialize params object as query string
 export function qFromParams(params) {
   var str = [];
   for (var p in params) {
-    for (var q in params[p]) {
-      str.push(`${p}_${q}=${params[p][q]}`);
-    }
+    str.push(`${p}=${params[p]}`);
   }
   return '?'+str.join('&');
 }
@@ -58,17 +61,14 @@ export function paramsFromQ(str) {
  * @returns {object} the sub-query containing query paramaters keyed to filter ID
  */
 export function getOwnQueryParams(query, cid) {
-  console.log('aa',query,cid)
   let ownParams = Object.keys(query)
-    .filter(k => { console.log(k);
+    .filter(k => {
       return (k.indexOf(cid) >= 0)
     })
     .map(key => {
      let fid = key.replace(cid + '_', '');
-     console.log(key);
      return { fid: fid, value: query[key] }
     })
 
-  if (ownParams) console.log('OWN PARAMS', ownParams);
   return ownParams || {};
 }

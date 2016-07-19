@@ -6,7 +6,7 @@ import Dataset from '../models/Dataset';
 import {omit, isFunction, isPlainObject, isString, debounce} from 'lodash';
 import DataHandler from '../utils/DataHandler';
 import Registry from '../utils/Registry';
-
+import {qFromParams} from '../utils/utils';
 
 export default class BaseComponent extends Component {
 
@@ -115,6 +115,7 @@ export default class BaseComponent extends Component {
     /* IMPLEMENT */
   }
   
+  // filters, from settings, to render on component
   getFilters() {
 		let filters;
   	if (Array.isArray(this.props.filters)) {
@@ -126,9 +127,19 @@ export default class BaseComponent extends Component {
     return filters;
   }
 	
+  // on change event for filter
   onFilter(filter, e) {
-    console.log(this);
-    browserHistory.push('?foo=bar');
+    console.log(this, filter, e);
+    const id = this.props.cid + '_' + filter.cid;
+    const newParams = {id : e};
+    let newQ = Object.assign({}, this.props.location.query);
+    newQ[id] = e.value;
+    console.log(newQ);
+    console.log(qFromParams(newQ));
+    browserHistory.push(qFromParams(newQ));
+    // get current filter params
+    // merge with existing params
+    // browserHistory.push('?foo=bar');
 //    let handlers = filter.dataHandlers;
 //    handlers.e = e;
 //    let _data = this.state.data || [];
@@ -136,6 +147,13 @@ export default class BaseComponent extends Component {
   //  this.fetchData();
   }
   
+  // Apply filters from query
+  applyFilters() {
+    // each own filters
+    //   -> pass values to datahandlers
+    //   -> setState
+    //   -> fetchData
+  }
 
   setData(data, handlers, e) {
     let _handlers = handlers || this.state.filterHandlers || this.props.dataHandlers;

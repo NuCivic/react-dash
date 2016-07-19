@@ -8,7 +8,6 @@ export default class Region extends Component {
   }
   
   render() {
-    console.log('Re', this);
     const location = this.props.location;
     return (
       <div className={this.props.className}>
