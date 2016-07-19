@@ -9,10 +9,9 @@ import DockMonitor from 'redux-devtools-dock-monitor';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
-import { routerMiddleware } from 'react-router-redux';
+import * as reducers from '../reducers';
 /* dashboard app */
 import Dashboard from './Dashboard';
-import * as reducers from '../reducers';
 
 /*
  * APP FACTORY
@@ -33,22 +32,19 @@ export default function (settings) {
   const reducer = combineReducers(_reducers);
 
   // @@TODO we should pass the settings file to the store to hydrate the store
-  const middleware = routerMiddleware(browserHistory)
   const store = createStore(
     reducer,
-    DevTools.instrument(),
-    applyMiddleware(middleware)
+    DevTools.instrument()
   )
 
   return React.createClass({
     render() {
       let props = this.props;
-      console.log('app', this, store);	
       return (
         <Provider store={store}>
           <div>
               <Router history={browserHistory} >
-                <Route path="/" component={Dashboard} {...props} />
+                <Route path="/" component={Dashboard} key="test" {...props} />
               </Router>
             <DevTools />
           </div>

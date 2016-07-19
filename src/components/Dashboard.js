@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import {connect} from 'react-redux';
+import {browserHistory} from 'react-router';
 import {bindActionCreators} from 'redux';
 import BaseComponent from './BaseComponent';
 import Card from './Card';
 import * as actions from '../actions';
-import {push} from 'react-router-redux';
 
 //  Pass the entire redux store to the Dashboard application / component
 function mapStateToProps(state, ownProps) {
-  console.log('MAP', state, ownProps);
   // pass the whole state to the Dashboard
   return {
     reduxState: state,
@@ -18,29 +17,25 @@ function mapStateToProps(state, ownProps) {
 
 //  For now we are making all actions available to all components
 function mapDispatchToProps(dispatch) {
-  console.log('DISPATCH',dispatch, actions)
-  actions.push = push;
+  actions.push = browserHistory.push;
   return {
     reduxActions: bindActionCreators(actions, dispatch),
   };
 }
 
-// poorMansMapStateToProps - parse store by cid and pass to children in render
-export function getOwnProps(key, reduxState, reduxActions) {
-  console.log('giqo0', arguments);
-  const ownParams = _getOwnParams(reduxState.filterParams, reduxState.settings.components[key].cid);
-  console.log('OP', ownParams);
-  let newProps = Object.assign({}, reduxState.settings.components[key], {reduxActions: reduxActions});
-  console.log('gOWp', newProps);
+// poorMansMapStateToProps - parse store by component id
+export function getOwnProps(location, key, reduxState, reduxActions) {
+  const ownParams = _getOwnParams(location, reduxState.settings.components[key].cid);
+  let newProps = Object.assign({}, reduxState.settings.components[key], {reduxActions: reduxActions}, {reduxState: reduxState});
   return newProps;
 }
 
-function _getOwnParams(params, cid) {
-  console.log('_g',params);
+// @@TODO - pass current route with location
+function _getOwnParams(location, cid) {
+  console.log('_go', location, cid)
 }
 
 class Dashboard extends BaseComponent {
-  
   /**
    * @@TODO
    * @@ Recursively parse settings tree, rendering components
@@ -53,15 +48,15 @@ class Dashboard extends BaseComponent {
     // render children
     // poorMansMapToProps(); // parse from the store the piece that we need and add to props
   }
- 
+
   render() {
     let reduxState = this.props.reduxState;
     let reduxActions = this.props.reduxActions;
-
-    console.log('Render DASH', this, reduxState, reduxActions);
-    let markup;
+    console.log('Render DASH', this);
+    this.props.reduxActions.updateFilter(this.props.location.query);
     let props = Object.assign({globalData: this.state.data || [], q: this.state.q}, this.props.route || this.props);
-    if (props.layout) {
+    
+		if (props.layout) {
       let layout = (typeof this.props.layout === 'String') ? Registry.get(this.props.layout) : this.props.layout;
       return (
         <div className="container">
@@ -77,7 +72,7 @@ class Dashboard extends BaseComponent {
           {props.components.map((element, key) => { 
             return (
               <Card key={key} {...element}>
-                {React.createElement(Registry.get(element.type),  getOwnProps(key, reduxState, reduxActions))}
+                {React.createElement(Registry.get(element.type),  getOwnProps(this.props.location, key, reduxState, reduxActions))}
               </Card>
             )
           })}

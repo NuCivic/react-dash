@@ -6,7 +6,6 @@ import {omit, isFunction, isPlainObject, isString, debounce} from 'lodash';
 import DataHandler from '../utils/DataHandler';
 import Registry from '../utils/Registry';
 
-
 export default class BaseComponent extends Component {
 
   constructor(props) {
@@ -54,8 +53,8 @@ export default class BaseComponent extends Component {
     this.addResizeListener();
     this.fetchData();
     this.onResize();
-  }
-  
+	}
+
   fetchData() {
     let type = this.getFetchType();
     if(type){
@@ -130,7 +129,6 @@ export default class BaseComponent extends Component {
 	
   onFilter(filter, e) {
     // update redux store
-    console.log('Component', this);
     this.props.reduxActions.updateFilter(
       {
         type: 'update_filter',
@@ -139,11 +137,11 @@ export default class BaseComponent extends Component {
         vals: e.value
       }
     )
-    let handlers = filter.dataHandlers;
-    handlers.e = e;
-    let _data = this.state.data || [];
-    this.setState({filterHandlers: handlers, filterEvent: e});
-    this.fetchData();
+    //let handlers = filter.dataHandlers;
+    //handlers.e = e;
+    //let _data = this.state.data || [];
+    //this.setState({filterHandlers: handlers, filterEvent: e});
+    //this.fetchData()
   }
   
   setData(data, handlers, e) {
@@ -155,7 +153,7 @@ export default class BaseComponent extends Component {
     this.setState({data: _data, total: _total, isFeching: false});
     this.onDataChange(data);
   }
-
+  
   emit(payload) {
     EventDispatcher.dispatch(payload);
   }

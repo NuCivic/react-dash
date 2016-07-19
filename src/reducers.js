@@ -1,9 +1,9 @@
 import {merge} from 'lodash'
-import { push } from 'react-router-redux';
+import {qFromParams} from './utils/utils';
 /****
  * Reducers
  ****/
-export function filterParams(state = {}, action) {
+export function urlState(state = {}, action) {
   if (action.type === 'update_filter') {
     let newFilters = {};
     newFilters[action.el] = newFilters[action.el] || {};
@@ -14,24 +14,6 @@ export function filterParams(state = {}, action) {
   } else {
     return state;
   }
-}
-
-// Serialize params object as query string
-function qFromParams(params) {
-  var str = [];
-  for (var p in params) {
-    for (var q in params[p]) {
-      console.log(".>>.", p,q, params[p][q], `${p}_${q}=${params[p][q]}`);
-      str.push(`${p}_${q}=${params[p][q]}`);
-    }
-  }
-  return '?'+str.join('&');
-}
-
-// De-serialize query str to params object
-// from http://stackoverflow.com/questions/8648892/convert-url-parameters-to-a-javascript-object
-function paramsFromQ(str) {
-  return JSON.parse('{"' + decodeURI(str).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
 }
 
 // Return array of paramaters of format:

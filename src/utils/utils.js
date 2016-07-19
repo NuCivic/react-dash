@@ -33,3 +33,20 @@ export function formatNumber(n, format) {
   const formatter = d3.format(format);
   return formatter(n);
 }
+
+// Serialize params object as query string
+export function qFromParams(params) {
+  var str = [];
+  for (var p in params) {
+    for (var q in params[p]) {
+      str.push(`${p}_${q}=${params[p][q]}`);
+    }
+  }
+  return '?'+str.join('&');
+}
+
+// De-serialize query str to params object
+// from http://stackoverflow.com/questions/8648892/convert-url-parameters-to-a-javascript-object
+export function paramsFromQ(str) {
+  return JSON.parse('{"' + decodeURI(str).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+}

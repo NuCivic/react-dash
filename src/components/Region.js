@@ -10,8 +10,9 @@ export default class Region extends Component {
   
   render() {
     let reduxGlue = {
-      appFilterParams: this.props.appFilterParams,
+      reduxState: this.props.reduxState,
       reduxActions: this.props.reduxActions
+
     }
     return (
       <div className={this.props.className}>
