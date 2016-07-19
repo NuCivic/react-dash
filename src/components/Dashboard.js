@@ -20,6 +20,7 @@ export default class Dashboard extends BaseComponent {
   }
   
   render() {
+    console.log('D', this);
     let markup;
     let props = Object.assign({globalData: this.state.data || []}, this.props.route || this.props);
     if (props.layout) {
