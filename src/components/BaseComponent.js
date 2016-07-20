@@ -8,15 +8,23 @@ import DataHandler from '../utils/DataHandler';
 import Registry from '../utils/Registry';
 import {qFromParams} from '../utils/utils';
 
+let foo = function () {
+  if (this.props.cid === 'chart1') {
+    console.log(arguments);
+  }
+}
+
 export default class BaseComponent extends Component {
 
   constructor(props) {
     super(props);
+    this.debug = foo.bind(this);
     this.state = {
       data: [],
       dataset: null,
       queryObj: Object.assign({from: 0}, this.props.queryObj),
-      isFeching: false
+      isFeching: false,
+      ownParams: this.props.ownParams
     };
   }
 
@@ -48,12 +56,19 @@ export default class BaseComponent extends Component {
 
   componentDidMount(){
     // resize magic
+    this.debug('DM', this);
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     this.setState({ componentWidth : componentWidth});
     this.addResizeListener();
     this.fetchData();
-    this.applyOwnFilters();
+    //this.applyOwnFilters();
     this.onResize();
+  }
+  
+  componentWillReceiveProps() {
+    this.debug('WRP', this.state.ownParams);
+    // @@GOOD HERE
+    this.applyOwnFilters();
   }
   
   fetchData() {
@@ -111,7 +126,7 @@ export default class BaseComponent extends Component {
       this.setData(data);
     }
   }
-
+  
   onDataChange(data) {
     /* IMPLEMENT */
   }
@@ -130,41 +145,33 @@ export default class BaseComponent extends Component {
 	
   // on change event for filter
   onFilter(filter, e) {
-    console.log(this, filter, e);
+    this.debug('onFilter', arguments, this);
     const id = this.props.cid + '_' + filter.cid;
     const newParams = {id : e};
     let newQ = Object.assign({}, this.props.location.query);
     newQ[id] = e.value;
-    console.log(newQ);
-    console.log(qFromParams(newQ));
+    this.debug('onFilter-NP', newParams, e);
+    this.setState({ownParams: [{fid: filter.cid, value: e.value}]}); // @@TODO merge with additional component filters, currently only supports single filter per component
     browserHistory.push(qFromParams(newQ));
-// ownParams - apply!!
-//    let handlers = filter.dataHandlers;
-//    handlers.e = e;
-//    let _data = this.state.data || [];
- //   this.setState({filterHandlers: handlers, filterEvent: e});
-  //  this.fetchData();
+    this.applyOwnFilters();
+        this.fetchData();
   }
   
-  // Apply filters from query
   applyOwnFilters() {
-    const ownParams = this.props.ownParams;
+    // @@ GOOD HERE
+    this.debug('applyOwn', this.state.ownParams);
+    const ownParams = this.state.ownParams;
     if (ownParams) {
+      // @@ GOOD HERE
+      this.debug('ownParams', this.state.ownParams, ownParams);
       for (var p in ownParams) {
-        console.log('OP', ownParams, p, this.props);
         const filter = this.props.filters.filter(f => {
-          return ownParams[p].fid === f.cid});
-        console.log('FILTER', filter);
-        // get the correct filter
-        // let handlers = filter.dataHandlers
-        // this.setState({filterHandlers: handlers, filterEvent: e}); // @@TODO we should lose filterEvent
-        // this.fetchData();
+          return ownParams[p].fid === f.cid})[0];
+        let handlers = filter.dataHandlers
+        this.debug('FF', filter, ownParams[p]);
+        this.setState({filterHandlers: handlers, filterEvent: ownParams[p]});
       }
     }
-    // each own filters
-    //   -> pass values to datahandlers
-    //   -> setState
-    //   -> fetchData
   }
 
   setData(data, handlers, e) {
