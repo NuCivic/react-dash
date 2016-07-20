@@ -8,17 +8,10 @@ import DataHandler from '../utils/DataHandler';
 import Registry from '../utils/Registry';
 import {qFromParams} from '../utils/utils';
 
-let foo = function () {
-  if (this.props.cid === 'chart1') {
-    console.log(arguments);
-  }
-}
-
 export default class BaseComponent extends Component {
 
   constructor(props) {
     super(props);
-    this.debug = foo.bind(this);
     this.state = {
       data: [],
       dataset: null,
@@ -56,7 +49,6 @@ export default class BaseComponent extends Component {
 
   componentDidMount(){
     // resize magic
-    this.debug('DM', this);
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     this.setState({ componentWidth : componentWidth});
     this.addResizeListener();
@@ -66,7 +58,6 @@ export default class BaseComponent extends Component {
   }
   
   componentWillReceiveProps() {
-    this.debug('WRP', this.state.ownParams);
     // @@GOOD HERE
     this.applyOwnFilters();
   }
@@ -145,12 +136,10 @@ export default class BaseComponent extends Component {
 	
   // on change event for filter
   onFilter(filter, e) {
-    this.debug('onFilter', arguments, this);
     const id = this.props.cid + '_' + filter.cid;
     const newParams = {id : e};
     let newQ = Object.assign({}, this.props.location.query);
     newQ[id] = e.value;
-    this.debug('onFilter-NP', newParams, e);
     this.setState({ownParams: [{fid: filter.cid, value: e.value}]}); // @@TODO merge with additional component filters, currently only supports single filter per component
     browserHistory.push(qFromParams(newQ));
     this.applyOwnFilters();
@@ -159,16 +148,13 @@ export default class BaseComponent extends Component {
   
   applyOwnFilters() {
     // @@ GOOD HERE
-    this.debug('applyOwn', this.state.ownParams);
     const ownParams = this.state.ownParams;
     if (ownParams) {
       // @@ GOOD HERE
-      this.debug('ownParams', this.state.ownParams, ownParams);
       for (var p in ownParams) {
         const filter = this.props.filters.filter(f => {
           return ownParams[p].fid === f.cid})[0];
         let handlers = filter.dataHandlers
-        this.debug('FF', filter, ownParams[p]);
         this.setState({filterHandlers: handlers, filterEvent: ownParams[p]});
       }
     }
