@@ -1,12 +1,12 @@
-React Dashboard
-===============
+React Dash
+==========
 ![ScreenCapture example](https://github.com/NuCivic/react-dashboard/raw/master/static/example.gif)
-## What's React Dashboard
+## What's React Dash
 * A collection of tools (components + utils) that can be used to create dashboards programatically.
 * A a framework to speed up dashboards creation.
 * components + configurations + data
 
-## What React Dashboard is not
+## What React Dash is not
 * Not a tool to transform data.
 * Not an end-user tool.
 
@@ -46,7 +46,7 @@ React Dashboard
 * **Extensible:** you can add new react components. In fact you can include any react component and pass the properties as settings.
 
 ### Where is the UI to build dashboards?
-There is currently no UI to create **React Dashboards**. Everything is generated from code.
+There is currently no UI to create **React Dash**. Everything is generated from code.
 
 ### Why?
 We're working on it. Check back soon.
@@ -341,7 +341,7 @@ DataHandler.set('common.fieldsToXYSeries', fieldsToXYSeries);
 ```
 Note that the component can receive both piplineData (data passed from the last data handler in the data pipeline), OR componentData. You must specify in your data handler which data to use. The above scheme (use pipelinData || componentData) is recommended, as it allows you to use the data handler in a pipeline of data.
 ## Theming
-The **React Dashboard** comes with default styles, but you can also customize them by importing a stylesheet. 
+The **React Dash** comes with default styles, but you can also customize them by importing a stylesheet. 
 
 ```javascript
 // file: entry point 
@@ -649,7 +649,7 @@ If the x and y columns on your data already have the names you want, then you do
 
 ### Goal
 
-**React Dashboard** allows you to define goals to accomplish and are measured against the data. Goals be displayed by *increase*, *decrease*, *maintain* or *measure*. 
+**React Dash** allows you to define goals to accomplish and are measured against the data. Goals be displayed by *increase*, *decrease*, *maintain* or *measure*. 
 
 
 ```javascript
