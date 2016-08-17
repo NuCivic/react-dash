@@ -22,15 +22,6 @@ export default class Dashboard extends BaseComponent {
   render() {
     let markup;
     let props = Object.assign({globalData: this.state.data || []}, this.props.route || this.props);
-    if (props.layout) {
-      let layout = (typeof this.props.layout === 'String') ? Registry.get(this.props.layout) : this.props.layout;
-      return (
-        <div className="container">
-          <h1 className="dashboard-title">{this.props.title}</h1>
-          {React.createElement(layout, props)}
-        </div>
-      );
-    } 
     
     return (
         <div className="container">
