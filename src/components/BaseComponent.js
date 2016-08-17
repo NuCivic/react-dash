@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import {findDOMNode} from 'react-dom';
+import {browserHistory} from 'react-router';
 import EventDispatcher from '../dispatcher/EventDispatcher';
 import Dataset from '../models/Dataset';
 import {omit, isFunction, isPlainObject, isString, debounce} from 'lodash';
 import DataHandler from '../utils/DataHandler';
 import Registry from '../utils/Registry';
-
+import {qFromParams} from '../utils/utils';
 
 export default class BaseComponent extends Component {
 
@@ -15,7 +16,8 @@ export default class BaseComponent extends Component {
       data: [],
       dataset: null,
       queryObj: Object.assign({from: 0}, this.props.queryObj),
-      isFeching: false
+      isFeching: false,
+      ownParams: this.props.ownParams
     };
   }
 
@@ -51,7 +53,13 @@ export default class BaseComponent extends Component {
     this.setState({ componentWidth : componentWidth});
     this.addResizeListener();
     this.fetchData();
+    //this.applyOwnFilters();
     this.onResize();
+  }
+  
+  componentWillReceiveProps() {
+    // @@GOOD HERE
+    this.applyOwnFilters();
   }
   
   fetchData() {
@@ -109,11 +117,12 @@ export default class BaseComponent extends Component {
       this.setData(data);
     }
   }
-
+  
   onDataChange(data) {
     /* IMPLEMENT */
   }
   
+  // filters, from settings, to render on component
   getFilters() {
 		let filters;
   	if (Array.isArray(this.props.filters)) {
@@ -125,14 +134,31 @@ export default class BaseComponent extends Component {
     return filters;
   }
 	
+  // on change event for filter
   onFilter(filter, e) {
-    let handlers = filter.dataHandlers;
-    handlers.e = e;
-    let _data = this.state.data || [];
-    this.setState({filterHandlers: handlers, filterEvent: e});
-    this.fetchData();
+    const id = this.props.cid + '_' + filter.cid;
+    const newParams = {id : e};
+    let newQ = Object.assign({}, this.props.location.query);
+    newQ[id] = e.value;
+    this.setState({ownParams: [{fid: filter.cid, value: e.value}]}); // @@TODO merge with additional component filters, currently only supports single filter per component
+    browserHistory.push(qFromParams(newQ));
+    this.applyOwnFilters();
+        this.fetchData();
   }
   
+  applyOwnFilters() {
+    // @@ GOOD HERE
+    const ownParams = this.state.ownParams;
+    if (ownParams) {
+      // @@ GOOD HERE
+      for (var p in ownParams) {
+        const filter = this.props.filters.filter(f => {
+          return ownParams[p].fid === f.cid})[0];
+        let handlers = filter.dataHandlers
+        this.setState({filterHandlers: handlers, filterEvent: ownParams[p]});
+      }
+    }
+  }
 
   setData(data, handlers, e) {
     let _handlers = handlers || this.state.filterHandlers || this.props.dataHandlers;

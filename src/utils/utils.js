@@ -33,3 +33,42 @@ export function formatNumber(n, format) {
   const formatter = d3.format(format);
   return formatter(n);
 }
+
+// merge existing url params with current filter selections
+export function updateParams() {
+
+}
+
+// Serialize params object as query string
+export function qFromParams(params) {
+  var str = [];
+  for (var p in params) {
+    str.push(`${p}=${params[p]}`);
+  }
+  return '?'+str.join('&');
+}
+
+// De-serialize query str to params object
+// from http://stackoverflow.com/questions/8648892/convert-url-parameters-to-a-javascript-object
+export function paramsFromQ(str) {
+  return JSON.parse('{"' + decodeURI(str).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+}
+
+/*
+ * Return array of paramaters of format:
+ * @param query {object} the query object from react-router location.query
+ * @param cid {string} unique component ID
+ * @returns {object} the sub-query containing query paramaters keyed to filter ID
+ */
+export function getOwnQueryParams(query, cid) {
+  let ownParams = Object.keys(query)
+    .filter(k => {
+      const param = k.split('_')[0];
+      return (cid === param)
+    })
+    .map(key => {
+     let fid = key.replace(cid + '_', '');
+     return { fid: fid, value: query[key] }
+    })
+  return ownParams || {};
+}
