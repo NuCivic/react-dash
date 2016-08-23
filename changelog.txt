@@ -8,3 +8,9 @@
 
 2016-07-11 ** 0.3.0
 * Add react-router support
+
+2016-08-23 ** 0.3.4
+2016-08-23 ** 0.3.5
+2016-08-23 ** 0.3.6
+* Remove Multi-component from /examples project since it is breaking
+react-dashboard-boilerplate automated install
