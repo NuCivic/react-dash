@@ -1,4 +1,3 @@
-import colorbrewer from 'colorbrewer';
 import {dateFormatter} from '../src/ReactDashboard';
 
 export var settings = {
