@@ -14,3 +14,5 @@
 2016-08-23 ** 0.3.6
 * Remove Multi-component from /examples project since it is breaking
 react-dashboard-boilerplate automated install
+2016-08-23 ** 0.3.7
+* pass globalData as props to all components (BUG FIX)
