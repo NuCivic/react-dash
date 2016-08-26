@@ -74,7 +74,7 @@ export default class BaseComponent extends Component {
 
       // fetch data is an array
       } else if(type === 'inline'){
-        this.setData(this.props.fetchData.records);
+        this.applyDataHandlers(this.props.fetchData.records);
       }
     }
   }
@@ -99,14 +99,14 @@ export default class BaseComponent extends Component {
   onData(data) {
     // If it's a fetch response.
     if(data.json) {
-      data.json().then((data) => this.setData(data));
+      data.json().then((data) => this.applyDataHandlers(data));
     } else {
 
       // We create a dataset then we can perform queries against.
       if(!this.state.dataset){
         this.state.dataset = new Dataset({records: data});
       }
-      this.setData(data);
+      this.applyDataHandlers(data);
     }
   }
 
@@ -134,7 +134,7 @@ export default class BaseComponent extends Component {
   }
   
 
-  setData(data, handlers, e) {
+  applyDataHandlers(data, handlers, e) {
     let _handlers = handlers || this.state.filterHandlers || this.props.dataHandlers;
     let _e = e || this.state.filterEvent
     let _data = data.hits || data;
