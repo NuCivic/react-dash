@@ -29,7 +29,7 @@ export default class Dashboard extends BaseComponent {
           {props.components.map((element, key) => {
             return (
               <Card key={key} {...element}>
-                {React.createElement(Registry.get(element.type), props.components[key])}
+                {React.createElement(Registry.get(element.type), Object.assign(props.components[key], {globalData: this.state.data, route: this.props.route}))}
               </Card>
             )
           })}
