@@ -52,9 +52,7 @@ export default class BaseComponent extends Component {
     this.setState({ componentWidth : componentWidth});
     this.addResizeListener();
     var that = this;
-    setTimeout(function () {
-      that.fetchData();
-    }, 1250)
+    this.fetchData();
     this.onResize();
   }
   
