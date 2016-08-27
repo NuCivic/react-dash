@@ -1,4 +1,5 @@
 import './stylesheets/main.scss';
+console.log('dev - 08 26 2016');
 
 // COMPONENTS
 export {default as Autocomplete } from './components/Autocomplete';

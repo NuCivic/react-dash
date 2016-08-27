@@ -22,7 +22,7 @@ export default class Dashboard extends BaseComponent {
   render() {
     let markup;
     let props = Object.assign({globalData: this.state.data || []}, this.props.route || this.props);
-    
+    console.log('RENDER');  
     return (
         <div className="container">
           <h1 className="dashboard-title">{this.props.title}</h1>

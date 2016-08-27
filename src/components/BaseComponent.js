@@ -29,6 +29,7 @@ export default class BaseComponent extends Component {
   }
 
   getFetchType() {
+    console.log('fetchType', this.props.type, this.props.fetchData);
     return this.props.fetchData && this.props.fetchData.type;
   }
 
@@ -50,7 +51,10 @@ export default class BaseComponent extends Component {
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     this.setState({ componentWidth : componentWidth});
     this.addResizeListener();
-    this.fetchData();
+    var that = this;
+    setTimeout(function () {
+      that.fetchData();
+    }, 1250)
     this.onResize();
   }
   
@@ -75,7 +79,17 @@ export default class BaseComponent extends Component {
       // fetch data is an array
       } else if(type === 'inline'){
         this.applyDataHandlers(this.props.fetchData.records);
+      
+      // if components only need globalData, then dataHandlers can be used to supply the component with filtered data
+      // this is an intermediary step that should make it unecessary to extend components (eg: GAChart) in order to 
+      // write data filtering functions. Data filtering functions can be kept in dataHandlers for now, as a means towards
+      // isolating custom data handling code
+      } else if(type="global") {  
+        console.log('global data', this, this.props, this.props.globalData);
+        this.applyDataHandlers(this.props.globalData || []);
       }
+    } else {
+      console.log('No fetch type set', this);
     }
   }
  
@@ -97,6 +111,7 @@ export default class BaseComponent extends Component {
   }
 
   onData(data) {
+    console.log('onData',data,this);
     // If it's a fetch response.
     if(data.json) {
       data.json().then((data) => this.applyDataHandlers(data));
@@ -133,8 +148,9 @@ export default class BaseComponent extends Component {
     this.fetchData();
   }
   
-
-  applyDataHandlers(data, handlers, e) {
+  // @@TODO I think these data handling functions should be 'pure' - not call setState etc
+  applyDataHandlers(data = [], handlers, e) {
+    console.log('apply data handlers', arguments, this);
     let _handlers = handlers || this.state.filterHandlers || this.props.dataHandlers;
     let _e = e || this.state.filterEvent
     let _data = data.hits || data;
