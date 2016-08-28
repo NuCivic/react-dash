@@ -2,9 +2,14 @@ import DataHandler from '../src/utils/DataHandler'
 
 let customDataHandlers = {
 	customDataHandler: function (componentData, dashboardData, handler, e, pipelineData) {
+    let dates = 'ALL'
 		let _data = pipelineData || componentData;
-		let dates = e.value.split('_') || 'ALL';
-		if (dates[0] === 'all') {
+    
+    if (e && e.value) {
+      let dates = e.value.split('_') || 'ALL';
+    } 
+
+		if (dates === 'ALL') {
 			return _data;
 		} else {
 			let low = Date.parse(dates[0]);
