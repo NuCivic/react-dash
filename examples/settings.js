@@ -62,7 +62,7 @@ export var settings = {
         {
           type: 'Metric',
           cardStyle: 'metric',
-          value: 'Val form Config',
+          value: 'Value from Config',
           background: 'muave',
           iconClass: 'glyphicons glyphicons-link'
         },
@@ -185,28 +185,67 @@ export var settings = {
         },
       ],                    
     }, 
-/*		{
+		/* {
      type: 'Region',
-      children: [
+     header: 'Choropleth -- GEOJSON',
+     children: [
         {
           type: 'Choropleth',
+          cardStyle: 'none',
           format: 'geojson',
           fetchData: {
-            url: 'https://dl.dropboxusercontent.com/u/73703010/apollo-parsed-1737-325_0%20(3).csv',
-            //url: '/data/apollo-parsed-1737-325_0.csv',
+            url: '/data/apollo-parsed-1737-325_0.csv',
             type: 'backend',
             backend: 'csv',
-            // delimiter: '\t'
           },
           id: 'Choropleth',
           dataKeyField: 'Zone',
           dataValueField: 'Total Observers',
           geometryKeyField: 'name',
           geometry: 'https://dl.dropboxusercontent.com/u/73703010/zones.geojson', // topojson or geojson
-          projection: 'equirectangular', // https://github.com/d3/d3/wiki/Geo-Projections
+          projection: 'mercator', // https://github.com/d3/d3/wiki/Geo-Projections
+          //projection: 'equirectangular', // https://github.com/d3/d3/wiki/Geo-Projections
           scaleDenominator: .7,
           borderColor: '#000000',
           noDataColor: '#F3F3F3',
+          startColor: 'red',
+          endColor: 'yellow',
+          dataClassification: 'equidistant',
+          legend: {
+            classesCount: 5,
+            legendHeader: 'abcdef',
+            palleteKey: 'GnBu',
+            pallete: ['#f0f9e8', '#bae4bc', '#7bccc4', '#43a2ca', '#0868ac'],
+            domainStartValue: '',
+            domainEndValue: '',
+          }
+        }, 
+      ]
+    }, */
+		{
+     type: 'Region',
+     header: 'Choropleth -- TOPOJSON',
+     children: [
+        {
+          type: 'Choropleth',
+          format: 'topojson',
+          fetchData: {
+            url: '/data/unemployment.tsv',
+            type: 'backend',
+            backend: 'csv',
+            delimiter: '\t',
+          },
+          id: 'Choropleth-topo',
+          dataKeyField: 'id',
+          dataValueField: 'rate',
+          geometryKeyField: 'id',
+          geometry: '/data/us.json', // topojson or geojson
+          projection: 'mercator', // https://github.com/d3/d3/wiki/Geo-Projections
+          //projection: 'equirectangular', // https://github.com/d3/d3/wiki/Geo-Projections
+          scaleDenominator: .7,
+          borderColor: 'black',
+          noDataColor: 'red',
+          topologyObject: 'counties',
           startColor: 'red',
           endColor: 'yellow',
           dataClassification: 'equidistant',
@@ -217,15 +256,8 @@ export var settings = {
             domainStartValue: '',
             domainEndValue: '',
           }
-          // customMin: '',
-          // customMax: '',
-          // topologyObject: 'counties'
         }, 
-        {
-          type: 'h4',
-          dangerouslySetInnerHTML: {__html: 'FFOOA'},
-        }	
       ]
-    }*/
+    }
   ]
 };
