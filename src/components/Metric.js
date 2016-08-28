@@ -4,8 +4,8 @@ import BaseComponent from './BaseComponent';
 import Loader from './Loader';
 
 export default class Metric extends BaseComponent {
+  
   render() {
-    console.log('Metric', this);
     let style = {
       background: this.props.background,
     };
@@ -18,7 +18,7 @@ export default class Metric extends BaseComponent {
           </div>
           <div className="col-sm-9 col-lg-8">
             <div className="card-metric-number">
-            {this.state.data[0]}
+            {this.props.value || this.state.data[0]}
             </div>
             <div className="card-metric-caption">
             {this.props.caption}

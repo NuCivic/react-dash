@@ -8,14 +8,14 @@ let customDataHandlers = {
     if (e && e.value) {
       dates = e.value.split('_') || 'ALL';
     } 
-    
-		if (dates === 'ALL') {
+    console.log(_data, dates); 
+		if (dates[0] === 'all') {
 			return _data;
 		} else {
 			let low = Date.parse(dates[0]);
 			let high = Date.parse(dates[1]);
 			let vals = _data;
-			let filteredVals = vals.filter(d => { console.log(d); return (Date.parse(d.date) >= low && Date.parse(d.date) <= high) });
+			let filteredVals = vals.filter(d => { return (Date.parse(d.date) >= low && Date.parse(d.date) <= high) });
 			return filteredVals;   
 		}
 	},
