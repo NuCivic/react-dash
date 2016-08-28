@@ -224,8 +224,12 @@ export var settings = {
     }, */
 		{
      type: 'Region',
-     header: 'Choropleth -- TOPOJSON',
+     header: 'Unemployment by U.S. County',
      children: [
+        {
+          type: 'h4',
+          dangerouslySetInnerHTML: {__html: 'Choropleth Heat Map -- topojson'}
+        },
         {
           type: 'Choropleth',
           format: 'topojson',
@@ -240,10 +244,10 @@ export var settings = {
           dataValueField: 'rate',
           geometryKeyField: 'id',
           geometry: '/data/us.json', // topojson or geojson
-          projection: 'mercator', // https://github.com/d3/d3/wiki/Geo-Projections
-          //projection: 'equirectangular', // https://github.com/d3/d3/wiki/Geo-Projections
-          scaleDenominator: .7,
-          borderColor: 'black',
+          //projection: 'mercator', // https://github.com/d3/d3/wiki/Geo-Projections
+          projection: 'albersUsa', // https://github.com/d3/d3/wiki/Geo-Projections
+          scaleDenominator: .8,
+          borderColor: '#fff',
           noDataColor: 'red',
           topologyObject: 'counties',
           startColor: 'red',
