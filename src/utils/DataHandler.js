@@ -26,7 +26,6 @@ export default class DataHandler {
   static handle(hs, componentData, dashboardData, e) {
     try {
       let handlers = (hs || []).map((h) => {
-        console.log('DH', arguments, h);
         let handler = isString(h) ? { name: h } : h ;
         let funcHandler = DataHandler.get(handler.name);
         let args = omit(handler,'name');

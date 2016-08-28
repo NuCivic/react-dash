@@ -6,9 +6,9 @@ let customDataHandlers = {
 		let _data = pipelineData || componentData;
     
     if (e && e.value) {
-      let dates = e.value.split('_') || 'ALL';
+      dates = e.value.split('_') || 'ALL';
     } 
-
+    
 		if (dates === 'ALL') {
 			return _data;
 		} else {
@@ -21,9 +21,7 @@ let customDataHandlers = {
 	},
 
   getXYByQueryData: function (componentData, dashboardData, handler, e, pipelineData) {
-    console.log('gbXY', arguments);
     if (componentData && componentData.length > 0) {
-      console.log('gXY-A');
       let localData = componentData[handler.queryKey].result.records;
       let output =  localData.map(row => {
         return {age: row.age, count_age: row.count_age }
@@ -34,7 +32,6 @@ let customDataHandlers = {
 
   groupByRange: function (componentData, dashboardData, handler, e, pipelineData) {
     let data = pipelineData || componentData;
-    console.log('BYRANGE', arguments, data);
     let finalOutput = []; // array of series
     data.forEach(series => {
       let outputSeries = []; // an array of objects

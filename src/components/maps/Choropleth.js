@@ -23,8 +23,13 @@ export default class Choropleth extends BaseComponent {
   componentDidMount() {
     super.componentDidMount();
     fetch(this.props.geometry)
-      .then((response) => response.json())
+      .then(response => {
+        let r = response.json()
+        console.log('cc', r)
+        return r;
+      })
       .then( (data) =>{
+        console.log('cc2', data);
         var geometryFeatures;
 
         if (this.props.format === 'geojson') {

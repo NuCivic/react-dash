@@ -1,4 +1,6 @@
-const baseUrl = 'http://192.168.99.100:32770';
+let baseUrl = 'http://192.168.99.100:32770';
+import {dateFormatter} from '../src/ReactDashboard';
+
 export var settings = {
   title: 'State Medical Board Licensure Data',
   queries: {
@@ -75,7 +77,7 @@ export var settings = {
         }
       ]
     },
-    {
+   /* {
       type: 'Chart',
       header: 'Physician Distribution by Age...',
       settings: {
@@ -104,9 +106,9 @@ export var settings = {
           ]
         }        
       ]
-    },
+    }, */ 
     {
-      header:'Top',
+      header:'Gold Prices',
       type: 'Chart',
       iconClass: 'glyphicon glyphicon-tree-conifer',
       settings: {
@@ -118,9 +120,9 @@ export var settings = {
               left: 38
           },
           color: ['#EA7E7E'],
-          //xAxis: {
-          //    tickFormat: dateFormatter('%Y')
-          //}
+          xAxis: {
+            tickFormat: dateFormatter('%Y')
+          }
       },
       dataHandlers: [
           {
@@ -182,57 +184,48 @@ export var settings = {
           ]
         },
       ],                    
-    },
+    }, 
+/*		{
+     type: 'Region',
+      children: [
+        {
+          type: 'Choropleth',
+          format: 'geojson',
+          fetchData: {
+            url: 'https://dl.dropboxusercontent.com/u/73703010/apollo-parsed-1737-325_0%20(3).csv',
+            //url: '/data/apollo-parsed-1737-325_0.csv',
+            type: 'backend',
+            backend: 'csv',
+            // delimiter: '\t'
+          },
+          id: 'Choropleth',
+          dataKeyField: 'Zone',
+          dataValueField: 'Total Observers',
+          geometryKeyField: 'name',
+          geometry: 'https://dl.dropboxusercontent.com/u/73703010/zones.geojson', // topojson or geojson
+          projection: 'equirectangular', // https://github.com/d3/d3/wiki/Geo-Projections
+          scaleDenominator: .7,
+          borderColor: '#000000',
+          noDataColor: '#F3F3F3',
+          startColor: 'red',
+          endColor: 'yellow',
+          dataClassification: 'equidistant',
+          legend: {
+            classesCount: 5,
+            palleteKey: 'GnBu',
+            pallete: ['#f0f9e8', '#bae4bc', '#7bccc4', '#43a2ca', '#0868ac'],
+            domainStartValue: '',
+            domainEndValue: '',
+          }
+          // customMin: '',
+          // customMax: '',
+          // topologyObject: 'counties'
+        }, 
+        {
+          type: 'h4',
+          dangerouslySetInnerHTML: {__html: 'FFOOA'},
+        }	
+      ]
+    }*/
   ]
-  
-  
-  /* {
-    filterCounty: [
-      {
-        type: 'Autocomplete',
-        name: 'county-autocomplete',
-        multi: true,
-        url: '/dashboard_autocomplete/GBPW_counties',
-        cardStyle: 'none',
-        id: 'county-autocomplete',
-        placeholder: 'Select county'
-      }
-    ],
-    filterSpecialty: [
-      {
-        type: 'Autocomplete',
-        name: 'specialty-autocomplete',
-        multi: true,
-        url: '/dashboard_autocomplete/GBPW_Specialty',
-        cardStyle: 'none',
-        id: 'year-autocomplete',
-        placeholder: 'Select specialty'
-      }
-    ],
-    top: [
-      {
-        id: 'by_age',
-        header:'Doctors by Age',
-        type: 'GAChart',
-        iconClass: 'fa fa-bar-chart',
-        settings: {
-          id:'by_age',
-          type: 'discreteBarChart',
-          x: 'age',
-          y: 'count_sum',
-          height: 360,
-          rotateLabels: -45,
-          xAxis: {
-            tickFormat: (d) => d.replace(' County', '')
-          },
-          margin: {
-            bottom: 70
-          },
-          noData: 'Loading...'
-        },
-        cardStyle: 'card',
-        dataHandlers: []
-      },
-    ] 
-  } */
 };

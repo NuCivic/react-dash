@@ -41,7 +41,6 @@ export default class BaseComponent extends Component {
     } else if (this.props.data) {
       type = 'data';
     }
-    console.log('fetch type:', type);
     return type;
   }
 
@@ -77,7 +76,7 @@ export default class BaseComponent extends Component {
     let type = this.getFetchType();
     switch (type) {
       case 'backend':
-        this.fetchBackend().then()   
+        this.fetchBackend();   
       case 'global':
         this.applyDataHandlers();
       case 'data':
@@ -87,39 +86,24 @@ export default class BaseComponent extends Component {
         console.log('No data type defined for component', this);
     }  
   }
- 
+  
+  /**
+   * Use backends to fetch data and query the result
+   */
   fetchBackend() {
     let dataset = new Dataset(omit(this.props.fetchData, 'type'));
+    let queryObj = this.state.queryObj;
     this.setState({isFeching: true, dataset: dataset});
     dataset.fetch().then(() => {
-      this.query(this.state.queryObj);
+      this.state.dataset.query(queryObj).then(queryRes => {
+        console.log('QRRRRR',queryRes);
+        this.applyDataHandlers(queryRes);
+      }).catch(e => {
+        console.log('Error fetching', e);
+      });
     });
   } 
   
-  query(query) {
-    if(this.state.dataset) {
-      this.state.dataset.query(query).then(this.onData.bind(this));
-      this.setState({queryObj: query, isFeching: true});
-    } else {
-      throw new Error("Missing dataset. You need to use a backend to query against");
-    }
-  }
-
-  onData(data) {
-    console.log('onData',data,this);
-    // If it's a fetch response.
-    if(data.json) {
-      data.json().then((data) => this.applyDataHandlers(data));
-    } else {
-
-      // We create a dataset then we can perform queries against.
-      if(!this.state.dataset){
-        this.state.dataset = new Dataset({records: data});
-      }
-      this.applyDataHandlers(data);
-    }
-  }
-
   getFilters() {
 		let filters;
   	if (Array.isArray(this.props.filters)) {
@@ -141,7 +125,6 @@ export default class BaseComponent extends Component {
   
   // @@TODO I think these data handling functions should be 'pure' - not call setState etc
   applyDataHandlers(data = [], handlers, e) {
-    console.log('apply data handlers', arguments, this);
     let _handlers = handlers || this.state.filterHandlers || this.props.dataHandlers;
     let _e = e || this.state.filterEvent
     let _data = data.hits || data;
