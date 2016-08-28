@@ -1,417 +1,132 @@
-import {dateFormatter} from '../src/ReactDashboard';
-
+const baseUrl = 'http://192.168.99.100:32770';
 export var settings = {
-  title: 'Georgia Reports',
+  title: 'State Medical Board Licensure Data',
+  queries: {
+    by_age: {
+      group_by: "age",
+      count: "age",
+      //fields: "age"
+    },
+  },
   components: [
     {
       type: 'Region',
-      className: 'row',
+      className: 'dashboard-top-filter',
+      header: 'Foobar',
       children: [
-       {
-        type: 'Region',
-        className: 'zeroth-row col-md-6',
-        children: [
-           {
-             type: 'img',
-             src: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTd9zBTlpPrH5EaWGrQISVCjA1E3AAzXCI_go0ml5QHI-58Cld73VBBRv8",
-             style: {borderStyle:'double',borderWidth: '10px', borderColor:'teal', padding: '10px', margin: '10px'},
-           },
-        ]
-       },
-       {
-        type: 'Region',
-        className: 'zeroth-row col-md-6',
-        children: [
-           {
-             type: 'h4',
-             dangerouslySetInnerHTML: {__html: 'A text description set from the settings file, using native react html element.'},
-             style: {margin: '20px'}
-           },
-        ]
-       },
-       {
-        type: 'Region',
-        className: 'first-row col-md-12',
-        children: [
-           {
-              type: 'Autocomplete',
-              name: 'some-name',
-              multi: true,
-              options: [{ value: 'one', label: 'One' },{ value: 'two', label: 'Two' }]
-            },
-						{
-							header:'Top',
-							type: 'GAChart',
-							iconClass: 'glyphicon glyphicon-tree-conifer',
-							settings: {
-								id:'lineChart2',
-								type: 'lineChart',
-								x: 'date',
-								height: 340,
-								margin: {
-									left: 38
-								},
-								color: ['#EA7E7E'],
-								xAxis: {
-									tickFormat: dateFormatter('%Y')
-								}
-							},
-							dataHandlers: [
-								{
-									name: 'common.parseDateField',
-									field: 'date'
-								},
-								{
-									name: 'common.fieldsToXYSeries',
-									field: 'price',
-									xField: 'date'
-								},
-								{
-									name: 'NVD3.returnChartSeries',
-									series: [
-										{name: 'Price', color:'#FF0000'},
-									]
-								}
-							],
-							cardStyle: 'card',
-							fetchData: {
-								type:'backend',
-								backend: 'csv',
-								url: 'http://demo.getdkan.com/sites/default/files/data_0.csv'
-							},
-              filters: [
-                {
-                  type: 'ReactSelect',
-                  options: [
-                    {
-                      label: 'ALL',
-                      value: 'all'
-                    },
-                    {
-                      label: '1949 - 1976',
-                      value: '1949_1976'
-                    },
-                    {
-                      label: '1976 - 2012',
-                      value: '1976_2012'
-                    }
-                  ],
-                  dataHandlers: [
-                    'passThroughHandler',
-                    'customDataHandler',
-                    {
-                      name: 'common.parseDateField',
-                      field: 'date'
-                    },
-                    {
-                      name: 'common.fieldsToXYSeries',
-                      field: 'price',
-                      xField: 'date'
-                    },
-                    {
-                      name: 'NVD3.returnChartSeries',
-                      series: [
-                        {name: 'Price', color:'#FF0000'},
-                      ]
-                    }
-                  ]
-                },
-              ],
-							id:'agh'
-						},
-						{
-							type: 'Choropleth',
-							format: 'geojson',
-							fetchData: {
-								url: '/data/apollo-parsed-1737-325_0.csv',
-								type: 'backend',
-								backend: 'csv',
-								// delimiter: '\t'
-							},
-							id: 'Choropleth',
-							dataKeyField: 'Zone',
-							dataValueField: 'Total Observers',
-							geometryKeyField: 'name',
-							geometry: '/data/zones.geojson', // topojson or geojson
-							projection: 'equirectangular', // https://github.com/d3/d3/wiki/Geo-Projections
-							scaleDenominator: .7,
-							borderColor: '#000000',
-							noDataColor: '#F3F3F3',
-							startColor: 'red',
-							endColor: 'yellow',
-							dataClassification: 'equidistant',
-							legend: {
-								classesCount: 5,
-								palleteKey: 'GnBu',
-								pallete: ['#f0f9e8', '#bae4bc', '#7bccc4', '#43a2ca', '#0868ac'],
-								domainStartValue: '',
-								domainEndValue: '',
-							}
-							// customMin: '',
-							// customMax: '',
-							// topologyObject: 'counties'
-						},
-        ]
-       },
-       {
-         type: 'Region',
-         className: 'second-row row',
-         children: [
-           {
-             type: 'Region',
-             className: 'col-sm-6 col-lg-3',
-             children: [
-								{
-									type:'GAMetric',
-									cardStyle: 'metric',
-									background: '#9F3E69',
-									metric: 'getRandomMetric',
-									caption: 'New Users',
-									iconClass: 'glyphicon glyphicon-user'
-								}  
-             ]
-           },
-           {
-             type: 'Region',
-             className: 'col-sm-6 col-lg-3',
-             children: [
-								{
-									type:'GAMetric',
-									cardStyle: 'metric',
-									background: '#F3BA4F',
-									metric: 'getRandomMetric',
-									caption: 'Visitors',
-									iconClass: 'glyphicon glyphicon-heart'
-								}
-						 ]
-           },
-           {
-             type: 'Region',
-             className: 'col-sm-6 col-lg-3',
-             children: [
-								{
-									type:'GAMetric',
-									cardStyle: 'metric',
-									background: '#3EB1AE',
-									metric: 'getRandomMetric',
-									caption: 'Page views',
-									iconClass: 'glyphicon glyphicon-star'
-								}
-						 ]
-           },
-           {
-             type: 'Region',
-             className: 'col-sm-6 col-lg-3',
-             children: [
-								{
-									type:'GAMetric',
-									cardStyle: 'metric',
-									background: '#0B90B1',
-									metric: 'getAVGPrice',
-									caption: 'Unique Visitors',
-									iconClass: 'glyphicon glyphicon-road',
-									fetchData: {type: 'function', name: 'getCustomData'}
-								}
-						 ]
-           },
-         ]
-       },
-       {
-         type: 'Region',
-         className: 'third-row row',
-         children: [
-           {
-             type: 'Region',
-             className: 'goals-first col-md-4',
-             children: [
-								{
-									type: 'GAGoal',
-									title: '',
-									caption: 'number of schools enrollments',
-									link: 'http://tootherplace.com',
-									icon: 'glyphicon-leaf',
-									startDate: '03/24/2016',
-									endDate: '04/24/2016',
-									startNumber: 0,
-									endNumber: 200,
-									showEndNumber: false,
-									action: 'maintain_above',
-									background: 'white',
-									captionTemplates: {
-										maintain_above: 'yo quiero mi template',
-									},
-									// trackStatus: 'function',
-									tolerance: [
-										{from: 0, to: 2, label: 'On Track', color: 'green'},
-										{from: 2, to: 5, label: 'Needs Improvement', color: 'orange'},
-										{from: 5, to: Infinity, label: 'Off Track', color: 'red'},
-									],
-									spline: {
-										height: 50,
-									},
-									fetchData: {type:'function', name: 'getCustomData'},
-									metric: 'getRandomMetric'
-								}
-						 ]
-           },
-           {
-             type: 'Region',
-             className: 'goals-second col-md-4',
-             children: [
-								{
-									type: 'GAGoal',
-									title: '',
-									caption: 'number of schools enrollments',
-									link: 'http://tootherplace.com',
-									icon: 'glyphicon-shopping-cart',
-									startDate: '03/24/2016',
-									endDate: '04/24/2016',
-									startNumber: 0,
-									endNumber: 200,
-									action: 'increase',
-									background: 'white',
-									// trackStatus: 'function',
-									tolerance: [
-										{from: 0, to: 2, label: 'On Track', color: 'green'},
-										{from: 2, to: 5, label: 'Needs Improvement', color: 'orange'},
-										{from: 5, to: Infinity, label: 'Off Track', color: 'red'},
-									],
-									spline: {
-										height: 50,
-									},
-									fetchData: {type:'function', name: 'getCustomData'},
-									metric: 'getRandomMetric'
-								}
-						 ]
-           },
-           {
-             type: 'Region',
-             className: 'goals-third col-md-4',
-             children: [
-								{
-									type: 'GAGoal',
-									title: '',
-									caption: 'number of schools enrollments',
-									link: 'http://tootherplace.com',
-									icon: 'glyphicon-gbp',
-									startDate: '03/24/2016',
-									endDate: '04/24/2016',
-									startNumber: 0,
-									endNumber: 200,
-									action: 'increase',
-									background: 'white',
-									// trackStatus: 'function',
-									tolerance: [
-										{from: 0, to: 2, label: 'On Track', color: 'green'},
-										{from: 2, to: 5, label: 'Needs Improvement', color: 'orange'},
-										{from: 5, to: Infinity, label: 'Off Track', color: 'red'},
-									],
-									spline: {
-										height: 50,
-									},
-									fetchData: {type:'function', name: 'getCustomData'},
-									metric: 'getRandomMetric'
-								}
-						 ]
-           },
-         ]
-       },
-       {
-         type: 'Region',
-         className: 'fourth-row row',
-         children: [
-           {
-             type: 'Region',
-             className: 'col-md-6',
-             children: [
-								{
-									header:'Left',
-									iconClass: 'glyphicon glyphicon-fire',
-									type: 'GAChart',
-									settings: {
-										id:'lineChart',
-										type: 'discreteBarChart',
-										x: 'label',
-										y: 'value',
-										height: 300,
-										margin: {
-											left: 38
-										},
-									},
-									cardStyle: 'card',
-									fetchData: {type:'function', name: 'getCustomData'},
-								},
-								{
-									type: 'GATable',
-									header: 'Mi titulo',
-									fetchData: {
-										type:'backend',
-										backend: 'csv',
-										url: 'http://demo.getdkan.com/node/9/download',
-									},
-									cardStyle: 'table',
-									settings: {
-										table: {
-											rowHeight: 40,
-											width: 800,
-											maxHeight: 300,
-											headerHeight:40
-										},
-										columns: {
-											flexGrow: 1,
-											width: 150,
-											overrides: {
-												a1: {
-													flexGrow: 0.5
-												}
-											}
-										},
-										cells: {
-											height: 40,
-											width: 500,
-											overrides: {
-												1: {
-													height: 40
-												}
-											}
-										}
-									}
-								},
-              ]
-            },
-            {
-              type: 'Region',
-              className: 'col-md-6',
-              children: [
-								{
-									header:'Right',
-									type: 'GAChart',
-									iconClass: 'glyphicon glyphicon-exclamation-sign',
-									settings: {
-										id:'barChart',
-										type: 'discreteBarChart',
-										x: 'label',
-										y: 'value',
-										height: 300,
-										margin: {
-											left: 38
-										},
-										color: ['#82899B']
-									},
-									cardStyle: 'card',
-									fetchData: {type:'function', name: 'getCustomData'},
-								},
-								{
-									header: 'This is an awesome text',
-									type: 'Text',
-									content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut erat dui, sodales eleifend placerat a, dictum sed tortor.</p><p> Quisque porttitor urna in est vehicula, a molestie nunc pharetra. Cras vehicula nisi dui, ut aliquam nunc vulputate lacinia. Curabitur vitae interdum dolor, sed venenatis tellus. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam volutpat metus et ipsum lobortis, at porttitor nunc laoreet.</p><p>Nullam et ligula at enim pretium accumsan. In et facilisis enim, vel consectetur justo. Duis eleifend sit amet neque eu interdum. Sed ornare orci diam, ac finibus ipsum posuere vel. Duis maximus velit ipsum, et mattis massa tempus sit amet. Suspendisse potenti.</p>',
-									cardStyle: 'card',
-								}
-              ]
-            }
-         ]
+        {
+          type: 'Autocomplete',
+          name: 'county-autocomplete',
+          multi: true,
+          url: baseUrl+'/dashboard_autocomplete/GBPW_Counties',
+          cardStyle: 'none',
+          id: 'county-autocomplete',
+          placeholder: 'Select county'
+        },
+      ]
+    },
+    {
+      type: 'Region',
+      className: 'dashboard-top-metrics',
+      children: [
+        {
+          type: 'Metric',
+          cardStyle: 'metric',
+          value: 'Val form Config',
+          background: 'muave',
+          iconClass: 'glyphicons glyphicons-link'
+        },
+        {
+          type: 'Metric',
+          cardStyle: 'metric',
+          background: 'navy',
+          iconClass: 'fa fa-clock-o',
+          dataHandlers: [
+            'getFTE'
+          ],
+        }
+      ]
+    },
+    {
+      type: 'Chart',
+      header: 'Physician Distribution by Age...',
+      settings: {
+        type: 'multiBarHorizontalChart',
+        x: 'age',
+        y: 'count_age',
+        color: ['blue'],// '#ffe6e6', '#ffcccc', '#ffb3b3', '#ff9999', '#ff8080', '#ff6666', '#ff4d4d', '#ff3333', '#ff1a1a']
       },
-    ]
-  }
+      dataHandlers: [
+        {
+          name: 'getXYByQueryData',
+          queryKey: 'by_age',
+          xField: 'age',
+          yField: 'count'
+        },
+        {
+          name: 'groupByRange',
+          ranges: [ [0,34], [35,39], [40,44], [45,49], [50,54], [55,59], [60,64], [65,125] ],
+          xField: 'age',
+          yField: 'count_age'
+        },
+        {
+          name: 'NVD3.returnChartSeries',
+          series: [
+            {name: 'Age', color:'#FF0000'},
+          ]
+        }        
+      ]
+    }
   ]
+  
+  
+  /* {
+    filterCounty: [
+      {
+        type: 'Autocomplete',
+        name: 'county-autocomplete',
+        multi: true,
+        url: '/dashboard_autocomplete/GBPW_counties',
+        cardStyle: 'none',
+        id: 'county-autocomplete',
+        placeholder: 'Select county'
+      }
+    ],
+    filterSpecialty: [
+      {
+        type: 'Autocomplete',
+        name: 'specialty-autocomplete',
+        multi: true,
+        url: '/dashboard_autocomplete/GBPW_Specialty',
+        cardStyle: 'none',
+        id: 'year-autocomplete',
+        placeholder: 'Select specialty'
+      }
+    ],
+    top: [
+      {
+        id: 'by_age',
+        header:'Doctors by Age',
+        type: 'GAChart',
+        iconClass: 'fa fa-bar-chart',
+        settings: {
+          id:'by_age',
+          type: 'discreteBarChart',
+          x: 'age',
+          y: 'count_sum',
+          height: 360,
+          rotateLabels: -45,
+          xAxis: {
+            tickFormat: (d) => d.replace(' County', '')
+          },
+          margin: {
+            bottom: 70
+          },
+          noData: 'Loading...'
+        },
+        cardStyle: 'card',
+        dataHandlers: []
+      },
+    ] 
+  } */
 };

@@ -28,13 +28,21 @@ export default class BaseComponent extends Component {
     window.removeEventListener('resize', this._resizeHandler);
   }
 
+  /**
+   * Allowable types:
+   *   backend - uses an existing data backend (CSV, CartoDB, etc)
+   *   global - uses a dataHandler function to extract data from globalData
+   *   data - component is supplied data via props.data which it will use directly
+   */
   getFetchType() {
-    console.log('fetchType', this.props.type, this.props.fetchData);
-    return this.props.fetchData && this.props.fetchData.type;
-  }
-
-  onResize() {
-    /* IMPLEMENT */
+    let type = 'global'; 
+    if (this.props.fetchData && this.props.fetchData.type) {
+      type = 'backend';
+    } else if (this.props.data) {
+      type = 'data';
+    }
+    console.log('fetch type:', type);
+    return type;
   }
 
   addResizeListener() {
@@ -51,54 +59,43 @@ export default class BaseComponent extends Component {
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     this.setState({ componentWidth : componentWidth});
     this.addResizeListener();
-    var that = this;
     this.fetchData();
     this.onResize();
   }
   
+  /**
+   * NOTE:
+   * fetchData and datahandling generally should ultimately be
+   * handled OUTSIDE OF THE REACT-DASHBOARD APPLICATION
+   * All components should be able to accept a know data format 
+   * and render from state.data
+   *
+   *  The fetchData logic here represents an interim model layer
+   *  that will eventually be a redux store or even another app
+   */
   fetchData() {
     let type = this.getFetchType();
-    if(type){
-
-      // fetch data is a function in the subcomponent
-      if(type === 'function' && isFunction(this[this.props.fetchData.name])) {
-        let args = this.props.fetchData.args || [];
-        this.setState({isFeching: true});
-        this._fetchData(...args).then(this.onData.bind(this));
-
-      // fetch data is a backend
-      } else if(type === 'backend') {
-        let dataset = new Dataset(omit(this.props.fetchData, 'type'));
-        this.setState({isFeching: true, dataset: dataset});
-        dataset.fetch().then(() => {
-          this.query(this.state.queryObj);
-        });
-
-      // fetch data is an array
-      } else if(type === 'inline'){
-        this.applyDataHandlers(this.props.fetchData.records);
-      
-      // if components only need globalData, then dataHandlers can be used to supply the component with filtered data
-      // this is an intermediary step that should make it unecessary to extend components (eg: GAChart) in order to 
-      // write data filtering functions. Data filtering functions can be kept in dataHandlers for now, as a means towards
-      // isolating custom data handling code
-      } else if(type="global") {  
-        console.log('global data', this, this.props, this.props.globalData);
-        this.applyDataHandlers(this.props.globalData || []);
-      }
-    } else {
-      console.log('No fetch type set', this);
-    }
+    switch (type) {
+      case 'backend':
+        this.fetchBackend().then()   
+      case 'global':
+        this.applyDataHandlers();
+      case 'data':
+        this.setState({data: this.props.data});
+        this.applyDataHandlers();
+      default:
+        console.log('No data type defined for component', this);
+    }  
   }
  
-  _fetchData() {
-   	return Promise.resolve(this[this.props.fetchData.name]());
-  }
+  fetchBackend() {
+    let dataset = new Dataset(omit(this.props.fetchData, 'type'));
+    this.setState({isFeching: true, dataset: dataset});
+    dataset.fetch().then(() => {
+      this.query(this.state.queryObj);
+    });
+  } 
   
-  onAction() {
-    /* IMPLEMENT */
-  }
-
   query(query) {
     if(this.state.dataset) {
       this.state.dataset.query(query).then(this.onData.bind(this));
@@ -123,10 +120,6 @@ export default class BaseComponent extends Component {
     }
   }
 
-  onDataChange(data) {
-    /* IMPLEMENT */
-  }
-  
   getFilters() {
 		let filters;
   	if (Array.isArray(this.props.filters)) {
@@ -155,25 +148,26 @@ export default class BaseComponent extends Component {
     let _total = data.total || data.length;
     _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData(), _e);
     this.setState({data: _data, total: _total, isFeching: false});
-    this.onDataChange(data);
   }
 
   emit(payload) {
     EventDispatcher.dispatch(payload);
   }
 
-  getData() {
-    if(this.props.fetchData && this.props.fetchData.type === 'function') {
-      let data = this[this.props.fetchData.name](this.props.fetchData.args);
-      if(data.then) {
-        return this.state.data || [];
-      }
-      return data;
-    }
-    return this.state.data || [];
-  }
-
   getGlobalData() {
     return this.props.globalData || [];
   }
+
+  /**
+   * Abstract
+   */
+
+  onResize() {
+    /* IMPLEMENT */
+  }
+
+  onAction() {
+    /* IMPLEMENT */
+  }
+  
 }

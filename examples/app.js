@@ -16,6 +16,7 @@ export default class GADashboard extends Dashboard {
       });
     });
   }
+
   onAction(payload) {
     switch(payload.actionType) {
       case 'AUTOCOMPLETE_CHANGE':
@@ -23,5 +24,4 @@ export default class GADashboard extends Dashboard {
         break;
     }
   }
-
 }
