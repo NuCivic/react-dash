@@ -94,7 +94,6 @@ let customDataHandlers = {
       return rval;
     }
     
-    console.log('getMetDa', mData);
     let mData = randomData(50.0, 0.02);
     return mData;
   }

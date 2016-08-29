@@ -41,7 +41,6 @@ export default class BaseComponent extends Component {
     } else if (this.props.data) {
       type = 'data';
     }
-    console.log('type', type);
     return type;
   }
 
@@ -95,7 +94,6 @@ export default class BaseComponent extends Component {
     this.setState({isFeching: true, dataset: dataset});
     dataset.fetch().then(() => {
       this.state.dataset.query(queryObj).then(queryRes => {
-        console.log('QRRRRR',queryRes);
         this.applyDataHandlers(queryRes);
       }).catch(e => {
         console.log('Error fetching', e);

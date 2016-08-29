@@ -77,36 +77,6 @@ export var settings = {
         }
       ]
     },
-   /* {
-      type: 'Chart',
-      header: 'Physician Distribution by Age...',
-      settings: {
-        type: 'multiBarHorizontalChart',
-        x: 'age',
-        y: 'count_age',
-        color: ['blue'],
-      },
-      dataHandlers: [
-        {
-          name: 'getXYByQueryData',
-          queryKey: 'by_age',
-          xField: 'age',
-          yField: 'count'
-        },
-        {
-          name: 'groupByRange',
-          ranges: [ [0,34], [35,39], [40,44], [45,49], [50,54], [55,59], [60,64], [65,125] ],
-          xField: 'age',
-          yField: 'count_age'
-        },
-        {
-          name: 'NVD3.returnChartSeries',
-          series: [
-            {name: 'Age', color:'#FF0000'},
-          ]
-        }        
-      ]
-    }, */ 
     {
       header:'Gold Prices',
       type: 'Chart',
@@ -317,10 +287,57 @@ export var settings = {
                   spline: {
                     height: 50,
                   },
-            }
+            },
           ]
-        }
+        },
+      ],
+    },
+		{
+      type: 'Region',
+      children: [
+				{type: 'h3', dangerouslySetInnerHTML: {__html: 'Text Component'}},
+				{
+          header: 'This is an awesome text',
+					type: 'Text',
+					content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut erat dui, sodales eleifend placerat a, dictum sed tortor.</p><p> Quisque porttitor urna in est vehicula, a molestie nunc pharetra. Cras vehicula nisi dui, ut aliquam nunc vulputate lacinia. Curabitur vitae interdum dolor, sed venenatis tellus. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam volutpat metus et ipsum lobortis, at porttitor nunc laoreet.</p><p>Nullam et ligula at enim pretium accumsan. In et facilisis enim, vel consectetur justo. Duis eleifend sit amet neque eu interdum. Sed ornare orci diam, ac finibus ipsum posuere vel. Duis maximus velit ipsum, et mattis massa tempus sit amet. Suspendisse potenti.</p>',
+				},
+				{
+					type: 'Table',
+					header: 'Mi titulo',
+					fetchData: {
+						type:'backend',
+						backend: 'csv',
+						url: 'http://demo.getdkan.com/node/9/download',
+					},
+					cardStyle: 'table',
+					settings: {
+						table: {
+							rowHeight: 40,
+							width: 800,
+							maxHeight: 300,
+							headerHeight:40
+						},
+						columns: {
+							flexGrow: 1,
+							width: 150,
+							overrides: {
+								a1: {
+									flexGrow: 0.5
+								}
+							}
+						},
+						cells: {
+							height: 40,
+							width: 500,
+							overrides: {
+								1: {
+									height: 40
+								}
+							}
+						}
+					}
+				},
       ]
-    }
+		},
   ]
 };

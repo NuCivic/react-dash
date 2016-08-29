@@ -6,7 +6,7 @@ import Dataset from '../models/Dataset';
 import BaseComponent from './BaseComponent';
 import Loader from './Loader';
 import {isString, isEmpty, range, partialRight} from 'lodash';
-
+console.log('t0');
 export default class Table extends BaseComponent {
 
   static defaultProps = {
@@ -30,10 +30,7 @@ export default class Table extends BaseComponent {
       }
     };
 
-  }
-
-  componentDidMount(){
-    super.componentDidMount();
+    console.log('Table construct', this);
   }
 
   getPages(size, total, current) {
@@ -124,8 +121,9 @@ export default class Table extends BaseComponent {
   }
 
   render() {
+    console.log('Table',this);
     const { gridWidth, gridHeight } = this.state;
-    let data = this.getData() || [];
+    let data = this.state.data || [];
     let tableDefaultProps = getProp('settings.table', this.props);
     let columnDefaultProps = getProp('settings.columns', this.props);
     let cellsDefaultProps = getProp('settings.cells', this.props);

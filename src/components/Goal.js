@@ -38,7 +38,6 @@ export default class Goal extends BaseComponent {
 
   getMetric(data) {
     let metricHandler = DataHandler.get(this.props.metric);
-    console.log('Goal mh',metricHandler, this);
     return metricHandler(data);
   }
 
@@ -96,7 +95,6 @@ export default class Goal extends BaseComponent {
   }
 
   render() {
-    console.log('goal render', this);
     let status = Object.assign({}, head(this.trackStatus()));
     let style = {
       background: this.props.background
