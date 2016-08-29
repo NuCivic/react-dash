@@ -1,4 +1,5 @@
 import DataHandler from '../src/utils/DataHandler'
+import last from 'lodash/last';
 
 let customDataHandlers = {
 	customDataHandler: function (componentData, dashboardData, handler, e, pipelineData) {
@@ -8,7 +9,6 @@ let customDataHandlers = {
     if (e && e.value) {
       dates = e.value.split('_') || 'ALL';
     } 
-    console.log(_data, dates); 
 		if (dates[0] === 'all') {
 			return _data;
 		} else {
@@ -57,13 +57,46 @@ let customDataHandlers = {
       finalOutput.push(outputSeries);
     });
 
-    console.log('FF', finalOutput); 
     return finalOutput;
   },
 
   getFTE: function (componentData, dashboardData, handler, e, pipelineData) {
-    console.log('getFTE', arguments);
     return [['FTE Value']];
+  },
+
+  /**
+   * Metric 
+   */
+  // metricHandler - not that this is not a dataHandler per se, it cannot be used in a data
+  // pipeline - we're just storing the function in the DataHandler's registry
+  // It is used internally by the goal component
+  getRandomMetric: function (data) {
+    if (data && last(data)) {
+      return Number(last(data).y).toFixed(2);
+    }
+  },
+
+  // data handler
+  getMetricData: function (componentData, dashboardData, handler, e, pipelineData) {
+  	function randomData(startPrice, volatility, numPoints) {
+      var rval =  [];
+      var now =+new Date();
+      numPoints = numPoints || 100;
+      for(var i = 1; i < numPoints; i++) {
+          rval.push({x: now + i * 1000 * 60 * 60 * 24, y: startPrice});
+          var rnd = Math.random();
+          var changePct = 2 * volatility * rnd;
+          if ( changePct > volatility) {
+              changePct -= (2*volatility);
+          }
+          startPrice = startPrice + startPrice * changePct;
+      }
+      return rval;
+    }
+    
+    console.log('getMetDa', mData);
+    let mData = randomData(50.0, 0.02);
+    return mData;
   }
 }
 

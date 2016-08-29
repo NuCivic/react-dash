@@ -41,6 +41,7 @@ export default class BaseComponent extends Component {
     } else if (this.props.data) {
       type = 'data';
     }
+    console.log('type', type);
     return type;
   }
 
@@ -82,8 +83,6 @@ export default class BaseComponent extends Component {
       case 'data':
         this.setState({data: this.props.data});
         this.applyDataHandlers();
-      default:
-        console.log('No data type defined for component', this);
     }  
   }
   

@@ -29,7 +29,6 @@ export default class Choropleth extends BaseComponent {
       })
       .then( (data) =>{
         var geometryFeatures;
-        console.log('ABC', data, data.objects);//,  topojson.feature(data, data.objects['counties']));
         if (this.props.format === 'geojson') {
           geometryFeatures = data.features;
         } else {
@@ -38,7 +37,6 @@ export default class Choropleth extends BaseComponent {
             data.objects[this.props.topologyObject]
           ).features;
         }
-        console.log('MAPPSS',geometryFeatures);
         this.setState({geometryFeatures })
       });
   }
@@ -116,7 +114,6 @@ export default class Choropleth extends BaseComponent {
     const svgWidth = this.state.componentWidth * .8;
     const svgHeight = svgWidth * 0.8;
     const extremeValues = this.extremeValues();
-    console.log('svf', svgWidth, svgHeight);
     const {
       infoWindowPos,
       infoWindowActive,
@@ -145,7 +142,6 @@ export default class Choropleth extends BaseComponent {
       height: svgHeight,
       fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
     }
-    console.log('CHO  REND',this);
     return (
       <Loader isFeching={!loading}>
         <div className="map-container">

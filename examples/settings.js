@@ -260,7 +260,39 @@ export var settings = {
             domainStartValue: '',
             domainEndValue: '',
           }
-        }, 
+        },
+        {
+          type: 'Region',
+          children: [
+            {
+              type: 'Goal',
+              title: '',
+              caption: 'number of schools enrollments',
+              link: 'http://tootherplace.com',
+              icon: 'glyphicon-leaf',
+              startDate: '03/24/2016',
+              endDate: '04/24/2016',
+              startNumber: 0,
+              endNumber: 200,
+              showEndNumber: false,
+              action: 'maintain_above',
+              background: 'white',
+              metric: 'getRandomMetric',
+              dataHandlers: ['getMetricData'],
+              captionTemplates: {
+                  maintain_above: 'yo quiero mi template',
+              },
+                  tolerance: [
+                    {from: 0, to: 2, label: 'On Track', color: 'green'},
+                    {from: 2, to: 5, label: 'Needs Improvement', color: 'orange'},
+                    {from: 5, to: Infinity, label: 'Off Track', color: 'red'},
+                  ],
+                  spline: {
+                    height: 50,
+                  },
+            }
+          ]
+        }
       ]
     }
   ]
