@@ -11,9 +11,11 @@ export default class Dashboard extends BaseComponent {
         <div className="container">
           <h1 className="dashboard-title">{this.props.title}</h1>
           {this.props.components.map((element, key) => {
+            let props = Object.assign(this.props.components[key], {globalData: this.state.data});
+            console.log('MAP PROPS', props);
             return (
               <Card key={key} {...element}>
-                {React.createElement(Registry.get(element.type), Object.assign(this.props.components[key], {globalData: this.state.data, route: this.props.route}))}
+                {React.createElement(Registry.get(element.type), Object.assign(this.props.components[key], props))}
               </Card>
             )
           })}

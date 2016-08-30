@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {findDOMNode} from 'react-dom';
 import EventDispatcher from '../dispatcher/EventDispatcher';
 import Dataset from '../models/Dataset';
-import {omit, isFunction, isPlainObject, isString, debounce} from 'lodash';
+import {omit, isEqual, isFunction, isPlainObject, isString, debounce} from 'lodash';
 import DataHandler from '../utils/DataHandler';
 import Registry from '../utils/Registry';
 
@@ -60,6 +60,16 @@ export default class BaseComponent extends Component {
     this.addResizeListener();
     this.fetchData();
     this.onResize();
+  }
+
+  // if global data
+  componentDidUpdate(nextProps, nextState) {
+    let globalDataEqual = _.isEqual(nextProps.globalData, this.props.globalData);
+    // if globalData has been updated, we should run fetchData again
+    if (!globalDataEqual) {
+      console.log('Global data updated - refetch data'); 
+      this.fetchData(); 
+    }
   }
   
   /**

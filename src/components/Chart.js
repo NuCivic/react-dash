@@ -8,6 +8,7 @@ import Filter from './Filter';
 export default class Chart extends BaseComponent {
   render() {
     let settings = Object.assign({datum: this.state.data}, this.props.settings);
+    console.log('CHART', this);
     return (
       <Loader isFeching={this.state.isFeching}>
         {this.getFilters()}

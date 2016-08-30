@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
 import {Table as FixedTable, Column, Cell} from 'fixed-data-table';
 import Registry from '../utils/Registry';
 import {getProp} from '../utils/utils';
-import Dataset from '../models/Dataset';
+import {Component} from 'react';
 import BaseComponent from './BaseComponent';
 import Loader from './Loader';
 import {isString, isEmpty, range, partialRight} from 'lodash';
-console.log('t0');
-export default class Table extends BaseComponent {
 
+class Table extends BaseComponent {
   static defaultProps = {
     rowsPerPage: 10,
     queryObj: {
@@ -19,6 +17,7 @@ export default class Table extends BaseComponent {
 
   constructor(props) {
     super(props);
+    console.log('TABLE', this);
     this.state = {
       gridWidth: 1,
       gridHeight: 1,
@@ -29,8 +28,6 @@ export default class Table extends BaseComponent {
         from: this.props.queryObj.from
       }
     };
-
-    console.log('Table construct', this);
   }
 
   getPages(size, total, current) {
