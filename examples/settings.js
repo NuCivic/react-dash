@@ -57,7 +57,6 @@ export var settings = {
     },
     {
       type: 'Region',
-      className: 'dashboard-top-metrics',
       children: [
         {
           type: 'Metric',
@@ -70,7 +69,7 @@ export var settings = {
           type: 'Metric',
           cardStyle: 'metric',
           background: 'navy',
-          iconClass: 'fa fa-clock-o',
+          iconClass: 'fa-clock-o',
           dataHandlers: [
             'getFTE'
           ],
@@ -295,7 +294,6 @@ export var settings = {
 		{
       type: 'Region',
       children: [
-				{type: 'h3', dangerouslySetInnerHTML: {__html: 'Text Component'}},
 				{
           header: 'This is an awesome text',
 					type: 'Text',
@@ -309,7 +307,7 @@ export var settings = {
 						backend: 'csv',
 						url: 'http://demo.getdkan.com/node/9/download',
 					},
-					cardStyle: 'table',
+					cardStyle: 'card',
 					settings: {
 						table: {
 							rowHeight: 40,
@@ -339,5 +337,24 @@ export var settings = {
 				},
       ]
 		},
+    {
+      type: 'Region',
+      children: [
+        {
+          type: 'Chart',
+          header: 'Physician Distribution by Race',
+          cardStyle: 'card',
+          settings: {
+            type: 'pieChart',
+            x: 'race',
+            y: 'race_count'
+          },
+          // Note that pieChart requires a single array - NOT an array of arrays as in other nvd3 charts
+          data: [
+            {race: 'African American', race_count: 100}, {race: 'White', race_count: 250}, {race: 'Asian', race_count: 100}, {race: 'Other', race_count:75}
+          ],
+        }
+      ]
+    }
   ]
 };

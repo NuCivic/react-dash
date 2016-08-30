@@ -90,8 +90,7 @@ export default class BaseComponent extends Component {
       case 'global':
         this.applyDataHandlers();
       case 'data':
-        this.setState({data: this.props.data});
-        this.applyDataHandlers();
+        this.applyDataHandlers(this.props.data);
     }  
   }
   
