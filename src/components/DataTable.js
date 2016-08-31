@@ -17,7 +17,6 @@ class DataTable extends BaseComponent {
 
   constructor(props) {
     super(props);
-    console.log('TABLE', this);
     this.state = {
       gridWidth: 1,
       gridHeight: 1,
@@ -118,7 +117,6 @@ class DataTable extends BaseComponent {
   }
 
   render() {
-    console.log('Table',this);
     const { gridWidth, gridHeight } = this.state;
     let data = this.state.data || [];
     let tableDefaultProps = getProp('settings.table', this.props);

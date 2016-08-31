@@ -4,15 +4,16 @@ import NVD3Chart from 'react-nvd3';
 import BaseComponent from './BaseComponent';
 import Loader from './Loader';
 import Filter from './Filter';
+import {makeKey} from '../utils/utils'
 
 export default class Chart extends BaseComponent {
   render() {
-    let settings = Object.assign({datum: this.state.data}, this.props.settings);
-    console.log('CHART', this);
+    const key = makeKey();
+    let settings = Object.assign({datum: this.state.data, key: key}, this.props.settings);
     return (
-      <Loader isFeching={this.state.isFeching}>
+      <Loader isFeching={this.state.isFeching} key={key}>
         {this.getFilters()}
-        <NVD3Chart {...settings}/>
+        <NVD3Chart {...settings} key={key}/>
       </Loader>
      )
   }
