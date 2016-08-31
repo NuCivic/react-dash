@@ -37,7 +37,7 @@ React Dash
   - stackedArea
   - sunburst
 * **A lot of components ready to use:**
-  - Table
+  - DataTable
   - Autocomplete
   - Goal
   - Metric
@@ -610,7 +610,8 @@ If your data is a plain CSV file (or any resource supported by backends) and you
     - **overrides:** allows to override configurations for the column name number used as key.
   - **settings.cells:** allows to configure all the properties for cells
   - **overrides:** allows to override configurations for the cell in the row number used as key.
-
+  - **settings.hideControls:** Hide row-numbers select in table header..
+  - **settings.hideFilterHeader:** Hide filter box in table header.
 
 ### Chart
 **Chart** component is a wrapper of the *react-nvd3* library, which is also a wrapper of the *nvd3* chart library. That meanas all the charts and options available in nvd3 are also available in this component.

@@ -308,6 +308,8 @@ export var settings = {
 						['a3', 'b3', 'c3']
           ],
 					cardStyle: 'table',
+          // hideFilterHeader: true,  // <--- uncomment to hide filter control
+          // hideControls: true,      // <--- uncomment to hide rows select control 
 					settings: {
 						table: {
 							rowHeight: 40,

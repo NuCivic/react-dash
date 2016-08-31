@@ -144,20 +144,25 @@ class DataTable extends BaseComponent {
       />
     });
 
-    // Return the renderable elements
-    return (
+    let filterHeader = '';
+    let headerControls = '';
 
-        <div ref="table">
-          <div className="row">
-            <div className="col-md-10">
-              <div className="form-group">
-                <input
-                  onChange={this._onFilterChange.bind(this)}
-                  placeholder="Filter"
-                  className="form-control"
-                />
-              </div>
-            </div>
+    if (!this.props.hideFilterHeader) {
+    console.log('ok');
+      filterHeader = 
+        <div className="col-md-10">
+          <div className="form-group">
+            <input
+              onChange={this._onFilterChange.bind(this)}
+              placeholder="Filter"
+              className="form-control"
+            />
+          </div>
+        </div>
+    }
+    
+    if (!this.props.hideControls) {
+      headerControls = 
             <div className="col-md-2">
               <div onChange={this._onRowsPerPageChange.bind(this)} className="form-group">
                 <select className="form-control">
@@ -169,6 +174,15 @@ class DataTable extends BaseComponent {
                 </select>
               </div>
             </div>
+    }
+    
+    // Return the renderable elements
+    return (
+
+        <div ref="table">
+          <div className="row">
+            {filterHeader}
+            {headerControls}
           </div>
           <Loader isFeching={this.state.isFeching}>
             <div className="table-container">
