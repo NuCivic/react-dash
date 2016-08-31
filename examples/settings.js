@@ -300,14 +300,14 @@ export var settings = {
 					content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut erat dui, sodales eleifend placerat a, dictum sed tortor.</p><p> Quisque porttitor urna in est vehicula, a molestie nunc pharetra. Cras vehicula nisi dui, ut aliquam nunc vulputate lacinia. Curabitur vitae interdum dolor, sed venenatis tellus. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam volutpat metus et ipsum lobortis, at porttitor nunc laoreet.</p><p>Nullam et ligula at enim pretium accumsan. In et facilisis enim, vel consectetur justo. Duis eleifend sit amet neque eu interdum. Sed ornare orci diam, ac finibus ipsum posuere vel. Duis maximus velit ipsum, et mattis massa tempus sit amet. Suspendisse potenti.</p>',
 				},
 				{
-					type: 'Table',
+					type: 'DataTable',
 					header: 'Mi titulo',
-					fetchData: {
-						type:'backend',
-						backend: 'csv',
-						url: 'http://demo.getdkan.com/node/9/download',
-					},
-					cardStyle: 'card',
+          data: [
+    				['a1', 'b1', 'c1'],
+						['a2', 'b2', 'c2'],
+						['a3', 'b3', 'c3']
+          ],
+					cardStyle: 'table',
 					settings: {
 						table: {
 							rowHeight: 40,
