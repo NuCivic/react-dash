@@ -12,11 +12,18 @@ export default class Dashboard extends BaseComponent {
           <h1 className="dashboard-title">{this.props.title}</h1>
           {this.props.components.map((element, key) => {
             let props = Object.assign(this.props.components[key], {globalData: this.state.data});
-            return (
-              <Card key={key} {...element}>
-                {React.createElement(Registry.get(element.type), Object.assign(this.props.components[key], props))}
-              </Card>
-            )
+            let output;
+
+            if (props.cardType ) {
+              output = 
+                <Card key={key} {...element}>
+                  {React.createElement(Registry.get(element.type), Object.assign(this.props.components[key], props))}
+                </Card>
+            } else {
+              output = 
+                React.createElement(Registry.get(element.type), Object.assign(this.props.components[key], props))
+            }
+            return output;
           })}
         </div>
     );

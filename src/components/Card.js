@@ -8,6 +8,7 @@ export default class Card extends Component {
     let card = pick(this.props, 'card').card;
     let props = omit(this.props, 'card');
     let header, footer;
+    let className = this.props.className || '';
 
     if(this.props.header) {
       header = (
@@ -23,7 +24,7 @@ export default class Card extends Component {
     }
 
     return (
-      <div className={'card-' + props.cardStyle} {...card}>
+      <div className={'card-' + props.cardStyle + ' ' + className} {...card}>
         {header}
         <div className="card-content">
           {props.children}
