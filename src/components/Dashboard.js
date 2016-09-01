@@ -3,6 +3,11 @@ import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
 import Card from './Card';
 
+/**
+ * @@TODO Currently in practice this only handles regions
+ * MOST OF THIS LOGIC IS REPRODUCE IN THE Region Component
+ * We should refactor so this is not the case
+ */
 export default class Dashboard extends BaseComponent {
   render() {
     let markup;
