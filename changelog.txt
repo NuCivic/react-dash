@@ -19,3 +19,4 @@ react-dashboard-boilerplate automated install
 2016-08-31 ** 0.4.0
 * Update data handling
 * Rename Table component to DataTable to avoid namespace collisions
+* Check for cardType in props before rendering element as Card
