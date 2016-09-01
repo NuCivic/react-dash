@@ -13,7 +13,7 @@ export default class Region extends Component {
         {this.props.children.map((element,key) => {
           let output;
            let props = Object.assign(element, {globalData: this.props.globalData}); 
-           if (element.cardType !== 'undefined') {
+           if (element.cardStyle) {
               output =
                <Card key={key} {...element}>
                 {React.createElement(Registry.get(element.type), props)}
