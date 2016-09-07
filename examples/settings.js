@@ -39,6 +39,31 @@ export var settings = {
        },
 		  ]
 		},
+
+
+{
+  header: 'A Multi Component',
+  type: 'Multi',
+  cardStyle: 'content',
+  style: {padding: '1em', background: 'grey', border: '2px solid red'},
+  initVal: 'a',
+    elements: {
+      a: [ // each set of elements is an array - even if it contains a single child
+        {
+          type: 'h3',
+          dangerouslySetInnerHTML: { __html: "MULTI COMPONENT CONTENT - A" }
+        }	
+			],
+      b: [ 
+      {
+        type: 'h3',
+        dangerouslySetInnerHTML: { __html: 'MULLTI COMPONENT CONTENT - B'}
+      }
+      ]
+    }
+}, 
+
+
     {
       type: 'Region',
       className: 'dashboard-top-filter',

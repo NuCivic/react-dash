@@ -67,7 +67,6 @@ export default class BaseComponent extends Component {
     let globalDataEqual = _.isEqual(nextProps.globalData, this.props.globalData);
     // if globalData has been updated, we should run fetchData again
     if (!globalDataEqual) {
-      console.log('refetch');
       this.fetchData(); 
     }
   }

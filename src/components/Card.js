@@ -5,9 +5,11 @@ import {omit, pick} from 'lodash';
 
 export default class Card extends Component {
   render() {
+    console.log('CARD', this.props);
     let card = pick(this.props, 'card').card;
     let props = omit(this.props, 'card');
     let header, footer;
+    let style = this.props.style || {};
     let className = this.props.className || '';
 
     if(this.props.header) {
@@ -22,9 +24,9 @@ export default class Card extends Component {
     if(this.props.footer) {
       footer = <div className="card-footer">{props.footer}</div>;
     }
-
+    console.log('style', style);
     return (
-      <div className={'card-' + props.cardStyle + ' ' + className} {...card}>
+      <div className={'card-' + props.cardStyle + ' ' + className} style={style} {...card}>
         {header}
         <div className="card-content">
           {props.children}
