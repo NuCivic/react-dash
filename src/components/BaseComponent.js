@@ -12,6 +12,7 @@ export default class BaseComponent extends Component {
 
   constructor(props) {
     super(props);
+    console.log('RR', this);
     this.state = {
       data: [],
       dataset: null,
@@ -129,6 +130,7 @@ export default class BaseComponent extends Component {
   onFilter(filter, e) {
     let handlers = filter.dataHandlers;
     handlers.e = e;
+    
     let _data = this.state.data || [];
     // @@TODO add new filter params to query string
     this.setState({filterHandlers: handlers, filterEvent: e});
@@ -148,6 +150,7 @@ export default class BaseComponent extends Component {
       }
     }
   }  
+
   // @@TODO I think these data handling functions should be 'pure' - not call setState etc
   applyDataHandlers(data = [], handlers, e) {
     let _handlers = handlers || this.state.filterHandlers || this.props.dataHandlers;

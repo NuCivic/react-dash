@@ -11,7 +11,6 @@ import Card from './Card';
 export default class Dashboard extends BaseComponent {
   render() {
     let markup;
-    let location = 
     console.log('DASH RENDER', this);
     // We wrap the whole dashboard in the route so we that we get paramater info in the els
     // @@TODO this needs to be repeated in Region because of our dumb scheme

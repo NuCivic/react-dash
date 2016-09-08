@@ -6,15 +6,23 @@ console.log('DD', GADashboard);
 
 
 // Pass settings to dashboard here
-const Dashboard = React.createClass({
-  render() {
-    return <GADashboard {...settings}/>
+class Dashboard extends Component {
+  constructor (props) {
+    super(props);
+    console.log('superclass', this);
   }
-})
+  
+  render() {
+    // add router-provided props to our config settings
+    const props = Object.assign({}, this.props, settings);
+    return <GADashboard {...props}/>
+  }
+}
 
 // Wrap Dashboard component in router
 export default class App extends Component {
   render() {
+    console.log('render router', this);
     return (
       <div id="router-container">
         <Router history={browserHistory}>
