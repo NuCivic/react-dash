@@ -148,7 +148,6 @@ class DataTable extends BaseComponent {
     let headerControls = '';
 
     if (!this.props.hideFilterHeader) {
-    console.log('ok');
       filterHeader = 
         <div className="col-md-10">
           <div className="form-group">

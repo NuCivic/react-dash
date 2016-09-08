@@ -20,8 +20,19 @@ export default class GADashboard extends Dashboard {
   onAction(payload) {
     switch(payload.actionType) {
       case 'AUTOCOMPLETE_CHANGE':
-        console.log('AUTOCOMPLETE_CHANGE');
+        const idParams = payload.id.split('-'); // get autocomplete type and target from id
+        const target = idParams[0];
+        const type = idParams[1];
+        const value = payload.value.value;
+        console.log('AUTOCOMPLETE_CHANGE', idParams, type, target, value);
+        if (type === 'multi') {
+          this.updateMulti(target, value);
+        }
         break;
     }
   }
+
+  updateMulti(target, value) {
+    
+  } 
 }

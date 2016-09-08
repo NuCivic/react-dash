@@ -18,10 +18,14 @@ react-dashboard-boilerplate automated install
 * pass globalData as props to all components (BUG FIX)
 2016-08-31 ** 0.4.0
 * Update data handling
-* Rename Table component to DataTable to avoid namespace collisions
+** DATA TABLE COMPONENT**
+*    Rename Table component to DataTable to avoid namespace collisions
+*    Add hideFilterHeader and hideControls props to component
+**
 * Check for cardType in props before rendering element as Card
 ** MULTI COMPONENT **
 
 **
-* style prop on card elements rendered on card div **
+* style prop on card elements rendered on card div - uses form { boderBottom:
+ "1em" }
 

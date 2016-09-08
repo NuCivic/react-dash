@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import {browserHistory} from 'react-router';
 import {findDOMNode} from 'react-dom';
 import EventDispatcher from '../dispatcher/EventDispatcher';
 import Dataset from '../models/Dataset';
 import {omit, isEqual, isFunction, isPlainObject, isString, debounce} from 'lodash';
 import DataHandler from '../utils/DataHandler';
 import Registry from '../utils/Registry';
-
+import {qFromParams} from '../utils/utils';
 
 export default class BaseComponent extends Component {
 
@@ -15,7 +16,8 @@ export default class BaseComponent extends Component {
       data: [],
       dataset: null,
       queryObj: Object.assign({from: 0}, this.props.queryObj),
-      isFeching: false
+      isFeching: false,
+      ownParams: this.props.ownParams
     };
   }
 
@@ -28,6 +30,10 @@ export default class BaseComponent extends Component {
     window.removeEventListener('resize', this._resizeHandler);
   }
 
+  componentWillReceiveProps() {
+    this.applyOwnFilters();
+  }
+  
   /**
    * Allowable types:
    *   backend - uses an existing data backend (CSV, CartoDB, etc)
@@ -124,10 +130,24 @@ export default class BaseComponent extends Component {
     let handlers = filter.dataHandlers;
     handlers.e = e;
     let _data = this.state.data || [];
+    // @@TODO add new filter params to query string
     this.setState({filterHandlers: handlers, filterEvent: e});
     this.fetchData();
   }
-  
+
+  applyOwnFilters() {
+    // @@ GOOD HERE
+    const ownParams = this.state.ownParams;
+    if (ownParams) {
+      // @@ GOOD HERE
+      for (var p in ownParams) {
+        const filter = this.props.filters.filter(f => {
+          return ownParams[p].fid === f.cid})[0];
+        let handlers = filter.dataHandlers
+        this.setState({filterHandlers: handlers, filterEvent: ownParams[p]});
+      }
+    }
+  }  
   // @@TODO I think these data handling functions should be 'pure' - not call setState etc
   applyDataHandlers(data = [], handlers, e) {
     let _handlers = handlers || this.state.filterHandlers || this.props.dataHandlers;
