@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
 import Card from './Card';
+import { pick } from 'lodash';
 
 /**
  * @@TODO Currently in practice this only handles regions
@@ -12,13 +13,15 @@ export default class Dashboard extends BaseComponent {
   render() {
     let markup;
     console.log('DASH RENDER', this);
+    let routeParams = pick(this.props, ['history', 'location', 'params', 'route', 'routeParams', 'routes']);
+    console.log('aa', routeParams);
     // We wrap the whole dashboard in the route so we that we get paramater info in the els
     // @@TODO this needs to be repeated in Region because of our dumb scheme
     return (
         <div className="container">
           <h1 className="dashboard-title">{this.props.title}</h1>
           {this.props.components.map((element, key) => {
-            let props = Object.assign(this.props.components[key], {globalData: this.state.data});
+            let props = Object.assign(this.props.components[key], {globalData: this.state.data}, routeParams);
             let output;
 
             if (props.cardType !== 'undefined') {
