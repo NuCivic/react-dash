@@ -1,38 +1,26 @@
+import { Router, Route, browserHistory } from 'react-router';
+import GADashboard from './GADashboard';
 import React, { Component } from 'react';
-import {Dashboard} from '../src/ReactDashboard';
-import Dataset from '../src/models/Dataset';
-import customDataHandlers from './customDataHandlers';
+import { settings } from './settings';
+console.log('DD', GADashboard);
 
-export default class GADashboard extends Dashboard {
 
-  componentDidMount() {
-    let dataset = new Dataset({
-      backend: 'csv',
-      url: 'http://demo.getdkan.com/node/9/download'
-    });
-    dataset.fetch().then(() => {
-      dataset.query({size: 100, from: 0}).then((data) =>{
-        this.setState({data: data.hits});
-      });
-    });
+// Pass settings to dashboard here
+const Dashboard = React.createClass({
+  render() {
+    return <GADashboard {...settings}/>
   }
+})
 
-  onAction(payload) {
-    switch(payload.actionType) {
-      case 'AUTOCOMPLETE_CHANGE':
-        const idParams = payload.id.split('-'); // get autocomplete type and target from id
-        const target = idParams[0];
-        const type = idParams[1];
-        const value = payload.value.value;
-        console.log('AUTOCOMPLETE_CHANGE', idParams, type, target, value);
-        if (type === 'multi') {
-          this.updateMulti(target, value);
-        }
-        break;
-    }
+// Wrap Dashboard component in router
+export default class App extends Component {
+  render() {
+    return (
+      <div id="router-container">
+        <Router history={browserHistory}>
+          <Route path='/' component={Dashboard} />
+        </Router>
+      </div>
+    )
   }
-
-  updateMulti(target, value) {
-    
-  } 
 }
