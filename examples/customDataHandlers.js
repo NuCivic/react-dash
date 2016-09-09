@@ -7,8 +7,10 @@ let customDataHandlers = {
 		let _data = pipelineData || componentData;
     
     if (e && e.value) {
-      dates = e.value.split('_') || 'ALL';
-    } 
+      dates = e.value.split('-') || 'ALL';
+    }
+
+    console.log('filter', dates);
 		if (dates[0] === 'all') {
 			return _data;
 		} else {

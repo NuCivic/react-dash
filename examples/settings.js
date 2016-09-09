@@ -170,6 +170,7 @@ export var settings = {
       filters: [
         {
           type: 'ReactSelect',
+          cid: 0,
           options: [
             {
               label: 'ALL',
@@ -177,11 +178,11 @@ export var settings = {
             },
             {
               label: '1949 - 1976',
-              value: '1949_1976'
+              value: '1949-1976'
             },
             {
               label: '1976 - 2012',
-              value: '1976_2012'
+              value: '1976-2012'
             }
           ],
           dataHandlers: [

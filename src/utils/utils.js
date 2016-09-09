@@ -66,7 +66,7 @@ export function getOwnQueryParams(query, cid) {
       // component has multiple params
       if (typeof query[key] === 'object') {
         query[key].forEach(paramStr => {
-          const pp = paramStr.split('_');
+          const pp = paramStr.split('__');
           // we already have an array for this key, add new val to arrya
           if (ownParams[pp[0]] && typeof ownParams[pp[0]] === 'object') {
             ownParams[pp[0]].push(pp[1]);
@@ -92,6 +92,13 @@ export function getOwnQueryParams(query, cid) {
   if (isEmpty(ownParams)) return;
   return ownParams;
 }
+
+export function getFID(val) {
+  if (val.indexOf && val.indexOf('fid') >= 0) {
+    return val.replace('fid', '');
+  }
+  return false;
+} 
 
 // we need to be able to rewrite the query with new params for a component
 export function updadateComponentsQParams(query, cid, ownParams) {

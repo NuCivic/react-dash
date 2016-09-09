@@ -6,7 +6,7 @@ import Dataset from '../models/Dataset';
 import {omit, isEqual, isFunction, isPlainObject, isString, debounce} from 'lodash';
 import DataHandler from '../utils/DataHandler';
 import Registry from '../utils/Registry';
-import {qFromParams, getOwnQueryParams} from '../utils/utils';
+import {qFromParams, getOwnQueryParams, getFID} from '../utils/utils';
 
 export default class BaseComponent extends Component {
 
@@ -39,7 +39,7 @@ export default class BaseComponent extends Component {
   }
 
   componentWillReceiveProps() {
-    this.applyOwnFilters();
+    setTimeout(this.applyOwnFilters(), 10000);
   }
   
   /**
@@ -145,18 +145,28 @@ export default class BaseComponent extends Component {
     this.fetchData();
   }
 
+  // @@ I think this should just add the appropriate data handlers to the stack
+  // @@ BEFORE the datahandlers are applied... so:
+  // @@ component-level handlers are applied
+  // @@ then filter-level handlers are applied
   applyOwnFilters() {
     // @@ GOOD HERE
     const ownParams = this.state.ownParams;
+    let ownFilters = [];
     if (ownParams) {
+      console.log('apply', ownParams);
       // @@ GOOD HERE
       for (var p in ownParams) {
-        const filter = this.props.filters.filter(f => {
-          return ownParams[p].fid === f.cid})[0];
-        let handlers = filter.dataHandlers
-        this.setState({filterHandlers: handlers, filterEvent: ownParams[p]});
+        console.log('p', p, ownParams[p]);
+        let fid = getFID(p);
+        if (fid) {
+          console.log('fid',fid);
+          const filter = this.props.filters[fid];
+          this.onFilter(filter, { value: ownParams[p] });
+        }
       }
     }
+    return ownFilters;
   }  
 
   // @@TODO I think these data handling functions should be 'pure' - not call setState etc
