@@ -178,11 +178,11 @@ export var settings = {
             },
             {
               label: '1949 - 1976',
-              value: '1949-1976'
+              value: '1949_1976'
             },
             {
               label: '1976 - 2012',
-              value: '1976-2012'
+              value: '1976_2012'
             }
           ],
           dataHandlers: [
@@ -206,44 +206,7 @@ export var settings = {
         },
       ],                    
     }, 
-		/* {
-     type: 'Region',
-     header: 'Choropleth -- GEOJSON',
-     children: [
-        {
-          type: 'Choropleth',
-          cardStyle: 'none',
-          format: 'geojson',
-          fetchData: {
-            url: '/data/apollo-parsed-1737-325_0.csv',
-            type: 'backend',
-            backend: 'csv',
-          },
-          id: 'Choropleth',
-          dataKeyField: 'Zone',
-          dataValueField: 'Total Observers',
-          geometryKeyField: 'name',
-          geometry: 'https://dl.dropboxusercontent.com/u/73703010/zones.geojson', // topojson or geojson
-          projection: 'mercator', // https://github.com/d3/d3/wiki/Geo-Projections
-          //projection: 'equirectangular', // https://github.com/d3/d3/wiki/Geo-Projections
-          scaleDenominator: .7,
-          borderColor: '#000000',
-          noDataColor: '#F3F3F3',
-          startColor: 'red',
-          endColor: 'yellow',
-          dataClassification: 'equidistant',
-          legend: {
-            classesCount: 5,
-            legendHeader: 'abcdef',
-            palleteKey: 'GnBu',
-            pallete: ['#f0f9e8', '#bae4bc', '#7bccc4', '#43a2ca', '#0868ac'],
-            domainStartValue: '',
-            domainEndValue: '',
-          }
-        }, 
-      ]
-    }, */
-		{
+	/* 	{
      type: 'Region',
      cid: 'r6',
      header: 'Unemployment by U.S. County',
@@ -348,7 +311,7 @@ export var settings = {
           ]
         },
       ],
-    },
+    }, */
 		{
       type: 'Region',
       cid: 'r131',

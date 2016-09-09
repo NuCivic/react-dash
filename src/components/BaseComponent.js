@@ -6,7 +6,7 @@ import Dataset from '../models/Dataset';
 import {omit, isEqual, isFunction, isPlainObject, isString, debounce} from 'lodash';
 import DataHandler from '../utils/DataHandler';
 import Registry from '../utils/Registry';
-import {qFromParams, getOwnQueryParams, getFID} from '../utils/utils';
+import {qFromParams, getOwnQueryParams, getFID, objToQueryString} from '../utils/utils';
 
 export default class BaseComponent extends Component {
 
@@ -39,7 +39,7 @@ export default class BaseComponent extends Component {
   }
 
   componentWillReceiveProps() {
-    setTimeout(this.applyOwnFilters(), 10000);
+    this.applyOwnFilters();
   }
   
   /**
@@ -134,13 +134,26 @@ export default class BaseComponent extends Component {
 	  }
     return filters;
   }
-	
+  
   onFilter(filter, e) {
+    console.log('...', browserHistory, this.props.location.query[this.props.cid], e);
+    let newQFragment = {};
+    newQFragment[this.props.cid] = 'fid' + filter.cid + '__' + e.value;
+    const newQ = Object.assign(this.props.location.query, newQFragment);
+    let newQueryString = decodeURIComponent(objToQueryString(newQ)).replace(/\[\]/g, '');
+    console.log('./.', newQ, newQueryString);
+    browserHistory.push('/?' + newQueryString);
+  }
+  
+  handleFilter(filter, e) {
     let handlers = filter.dataHandlers;
     handlers.e = e;
     // updateURL 
     let _data = this.state.data || [];
     // @@TODO add new filter params to query string
+    // how do we get the current fid? we need that
+    console.log('onF', this.props, this.props.location.query);
+    // updateQueryString();
     this.setState({filterHandlers: handlers, filterEvent: e});
     this.fetchData();
   }
@@ -163,7 +176,7 @@ export default class BaseComponent extends Component {
         if (fid) {
           console.log('fid',fid);
           const filter = this.props.filters[fid];
-          this.onFilter(filter, { value: ownParams[p] });
+          this.handleFilter(filter, { value: ownParams[p] });
         }
       }
     }
