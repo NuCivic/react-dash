@@ -138,17 +138,18 @@ export default class BaseComponent extends Component {
   onFilter(filter, e) {
     let handlers = filter.dataHandlers;
     handlers.e = e;
-    
+    // updateURL 
     let _data = this.state.data || [];
     // @@TODO add new filter params to query string
     this.setState({filterHandlers: handlers, filterEvent: e});
     this.fetchData();
   }
 
-  // @@ I think this should just add the appropriate data handlers to the stack
-  // @@ BEFORE the datahandlers are applied... so:
-  // @@ component-level handlers are applied
-  // @@ then filter-level handlers are applied
+  
+  /**
+   * + parse fids from ownParams 
+   * + call onFilter with the appropriate data
+   **/
   applyOwnFilters() {
     // @@ GOOD HERE
     const ownParams = this.state.ownParams;

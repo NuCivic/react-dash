@@ -84,7 +84,7 @@ export function getOwnQueryParams(query, cid) {
           }
         });
       } else {
-        const p = query[key].split('_');
+        const p = query[key].split('__');
         ownParams[p[0]] = p[1];
       }
     }
