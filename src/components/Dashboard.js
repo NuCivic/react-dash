@@ -14,7 +14,6 @@ export default class Dashboard extends BaseComponent {
     let markup;
     console.log('DASH RENDER', this);
     let routeParams = pick(this.props, ['history', 'location', 'params', 'route', 'routeParams', 'routes']);
-    console.log('aa', routeParams);
     // We wrap the whole dashboard in the route so we that we get paramater info in the els
     // @@TODO this needs to be repeated in Region because of our dumb scheme
     return (

@@ -221,6 +221,27 @@ Filters can be used to allow user input which controls the data at the component
 Filters use dataHandlers, along with user input, to determine how to filter component data.
 Filters are configured as follows
 
+### Filter Paramaters
+Filter paramaters are serialized to the url, allowing the dashboard to be loaded with a set of filters already applied.
+The url query string is serialized according to the following scheme:
+
+`http://yoursite.com/dashboard/cid1=key1_val1&cid_1=key1_val2&cid2=key2_val3`
+
+```javascript
+{
+  cid1: {
+    key1 : ['val1', 'val2']
+  },
+  cid2: {
+    key2 : val2
+  }
+}
+```
+
+Components recieve their `ownParams` as props. So for copoment with _cid1_:
+
+`component.props.ownParams = { key1: ['val1', 'val2'] }`
+
 ```javascript
 //@@TODO
 ```

@@ -1,4 +1,4 @@
-import {property} from 'lodash';
+import {property, isEmpty} from 'lodash';
 import d3 from 'd3';
 
 export function getProp(key, object) {
@@ -50,22 +50,23 @@ export function paramsFromQ(str) {
 
 /*
  * Return array of paramaters of format:
- * @param query {object} the query object from react-router location.query
- * @param cid {string} unique component ID
- * @returns {object} the sub-query containing query paramaters keyed to filter ID
+ * @param query {object} the query object from react-router location.query, for example g1=key1_val1&g1=key1_val2&g1=key2_val3&g2=key3_val
+ * @param cid {string} unique component ID, g1 in the above example
+ * @returns {object} the sub-query as an object:
+ * {
+ *   key1: ['val1', 'val2'],
+ *   key2: 'val3'
+ * }
  */
 export function getOwnQueryParams(query, cid) {
-  let own = {};
-  Object.keys(query).map(key => {
-    console.log(key, query[key], cid);
+  let ownParams = {};
+  Object.keys(query).forEach(key => {
     // check if the params belong to the component in question
     if (key === cid) {
-      let ownParams = {};
       // component has multiple params
       if (typeof query[key] === 'object') {
         query[key].forEach(paramStr => {
           const pp = paramStr.split('_');
-          console.log('1', pp);
           // we already have an array for this key, add new val to arrya
           if (ownParams[pp[0]] && typeof ownParams[pp[0]] === 'object') {
             ownParams[pp[0]].push(pp[1]);
@@ -86,20 +87,13 @@ export function getOwnQueryParams(query, cid) {
         const p = query[key].split('_');
         ownParams[p[0]] = p[1];
       }
-      console.log('siol',ownParams);
-      return ownParams;
     }
   })
+  if (isEmpty(ownParams)) return;
+  return ownParams;
+}
 
+// we need to be able to rewrite the query with new params for a component
+export function updadateComponentsQParams(query, cid, ownParams) {
 
-  let ownParams = Object.keys(query)
-    .filter(k => {
-      const param = k.split('_')[0];
-      return (cid === param)
-    })
-    .map(key => {
-     let fid = key.replace(cid + '_', '');
-     return { fid: fid, value: query[key] }
-    })
-  return ownParams || {};
 }

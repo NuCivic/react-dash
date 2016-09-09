@@ -6,25 +6,32 @@ import Dataset from '../models/Dataset';
 import {omit, isEqual, isFunction, isPlainObject, isString, debounce} from 'lodash';
 import DataHandler from '../utils/DataHandler';
 import Registry from '../utils/Registry';
-import {qFromParams} from '../utils/utils';
+import {qFromParams, getOwnQueryParams} from '../utils/utils';
 
 export default class BaseComponent extends Component {
 
   constructor(props) {
     super(props);
-    console.log('RR', this);
     this.state = {
       data: [],
       dataset: null,
-      queryObj: Object.assign({from: 0}, this.props.queryObj),
+      queryObj: Object.assign({from: 0}, this.props.queryObj), // dataset query
       isFeching: false,
-      ownParams: this.props.ownParams
     };
   }
-
+  
   componentWillMount() {
     // Register to all the actions
     EventDispatcher.register(this.onAction.bind(this));
+    let q = '';
+    
+    if (this.props.location) {
+      q = this.props.location.query;
+    }
+    
+    let ownParams = getOwnQueryParams(q, this.props.cid);
+    console.log('OP', ownParams); 
+    this.setState({ownParams: ownParams});
   }
 
   componentWillUnmount() {
@@ -67,6 +74,7 @@ export default class BaseComponent extends Component {
     this.addResizeListener();
     this.fetchData();
     this.onResize();
+    console.log('DD', this);
   }
 
   // if global data
