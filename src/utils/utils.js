@@ -55,6 +55,43 @@ export function paramsFromQ(str) {
  * @returns {object} the sub-query containing query paramaters keyed to filter ID
  */
 export function getOwnQueryParams(query, cid) {
+  let own = {};
+  Object.keys(query).map(key => {
+    console.log(key, query[key], cid);
+    // check if the params belong to the component in question
+    if (key === cid) {
+      let ownParams = {};
+      // component has multiple params
+      if (typeof query[key] === 'object') {
+        query[key].forEach(paramStr => {
+          const pp = paramStr.split('_');
+          console.log('1', pp);
+          // we already have an array for this key, add new val to arrya
+          if (ownParams[pp[0]] && typeof ownParams[pp[0]] === 'object') {
+            ownParams[pp[0]].push(pp[1]);
+          // the key exists and is a string, convert val to array, add current val, and push new value
+          } else if (ownParams[pp[0]] && typeof ownParams[pp[0]] === 'string') {
+            let y = {}; // the new object to assign
+            let z = []; // the array of vals
+            z.push(ownParams[pp[0]]);
+            z.push(pp[1]);
+            y[pp[0]] = z;
+            ownParams = Object.assign(ownParams, y);
+          // or if the key is not in the params obj, just add it as a string
+          } else {
+            ownParams[pp[0]] = pp[1];
+          }
+        });
+      } else {
+        const p = query[key].split('_');
+        ownParams[p[0]] = p[1];
+      }
+      console.log('siol',ownParams);
+      return ownParams;
+    }
+  })
+
+
   let ownParams = Object.keys(query)
     .filter(k => {
       const param = k.split('_')[0];
