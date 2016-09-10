@@ -28,9 +28,10 @@ export default class BaseComponent extends Component {
     if (this.props.location) {
       q = this.props.location.query;
     }
-    
+
+    console.log('didM', this.props.type);
+
     let ownParams = getOwnQueryParams(q, this.props.cid);
-    console.log('OP', ownParams); 
     this.setState({ownParams: ownParams});
   }
 
@@ -41,7 +42,7 @@ export default class BaseComponent extends Component {
   componentWillReceiveProps() {
     this.applyOwnFilters();
   }
-  
+
   /**
    * Allowable types:
    *   backend - uses an existing data backend (CSV, CartoDB, etc)
@@ -74,7 +75,6 @@ export default class BaseComponent extends Component {
     this.addResizeListener();
     this.fetchData();
     this.onResize();
-    console.log('DD', this);
   }
 
   // if global data
@@ -114,6 +114,7 @@ export default class BaseComponent extends Component {
   fetchBackend() {
     let dataset = new Dataset(omit(this.props.fetchData, 'type'));
     let queryObj = this.state.queryObj;
+    console.log('QQ', queryObj);
     this.setState({isFeching: true, dataset: dataset});
     dataset.fetch().then(() => {
       this.state.dataset.query(queryObj).then(queryRes => {
@@ -136,24 +137,24 @@ export default class BaseComponent extends Component {
   }
   
   onFilter(filter, e) {
-    console.log('...', browserHistory, this.props.location.query[this.props.cid], e);
+    let fid = 'fid'+filter.cid;
+    let newState = Object.assign(this.state.ownParams, {fid: e.value});
+    console.log('...', this.state.ownParams, e, newState, filter);
     let newQFragment = {};
     newQFragment[this.props.cid] = 'fid' + filter.cid + '__' + e.value;
     const newQ = Object.assign(this.props.location.query, newQFragment);
     let newQueryString = decodeURIComponent(objToQueryString(newQ)).replace(/\[\]/g, '');
-    console.log('./.', newQ, newQueryString);
     browserHistory.push('/?' + newQueryString);
+    this.setState({ownParams: newState});
   }
   
+  // add datahandlers to stack
   handleFilter(filter, e) {
     let handlers = filter.dataHandlers;
     handlers.e = e;
-    // updateURL 
     let _data = this.state.data || [];
-    // @@TODO add new filter params to query string
-    // how do we get the current fid? we need that
+    console.log('onF,e',e);
     console.log('onF', this.props, this.props.location.query);
-    // updateQueryString();
     this.setState({filterHandlers: handlers, filterEvent: e});
     this.fetchData();
   }
@@ -180,7 +181,6 @@ export default class BaseComponent extends Component {
         }
       }
     }
-    return ownFilters;
   }  
 
   // @@TODO I think these data handling functions should be 'pure' - not call setState etc

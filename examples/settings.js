@@ -48,7 +48,7 @@ export var settings = {
     // as the multi-components initVal
     // Target the multicomponent by its id field
     // in app.js we use id to determine the update type and the target (app.js)
-    {
+   /* {
       type: 'Autocomplete',
       cid: 'ac1',
       placeholder: 'Select to repopulate Multi-component, below',
@@ -56,15 +56,31 @@ export var settings = {
       id: 'multicomponent-multi',
       name: 'multicomponent-multi',
       options: [{value: 'a', label: 'a'}, {value: 'b', label: 'b'}]
-    },
+    }, */
     {
-      header: 'A Multi Component',
+      header: 'A Multi Component!',
       type: 'Multi',
       cid: 'm1',
       id: 'multicomponent',
       cardStyle: 'content',
       style: {padding: '1em', background: '#DAEEF5'},
       initVal: 'a',
+      filters: [
+        {
+          type: 'ReactSelect',
+          cid: 0,
+          options: [
+            {
+              label: 'a',
+              value: 'a'
+            },
+            {
+              label: 'b',
+              value: 'b'
+            },
+          ],
+        }
+      ],
         elements: {
           a: [ // each set of elements is an array - even if it contains a single child
             {

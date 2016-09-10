@@ -33,12 +33,10 @@ export default class Multi extends Component {
    * section of the multi component's settings
    */
   render() {
+    let filters = this.getFilters();
     let v = 
     <div class="multi-container">
-      <select style={{ marginBottom: '1em' }} onChange={this.listener.bind(this)}>
-         <option value="a">Option A</option>
-         <option value="b">Option B</option>
-      </select>
+      {filters}
       <div class="multi-elements-container">
         {this.renderChildren()}
       </div>
