@@ -7,7 +7,6 @@ export var settings = {
     by_age: {
       group_by: "age",
       count: "age",
-      //fields: "age"
     },
   },
   components: [
@@ -100,26 +99,6 @@ export var settings = {
           ]
         }
     }, 
-
-
-    {
-      type: 'Region',
-      cid: 'r4',
-      className: 'dashboard-top-filter',
-      header: 'Foobar',
-      children: [
-        {
-          type: 'Autocomplete',
-          cid: 'ac2',
-          name: 'county-autocomplete',
-          multi: true,
-          url: baseUrl+'/dashboard_autocomplete/GBPW_Counties',
-          cardStyle: 'none',
-          id: 'county-autocomplete',
-          placeholder: 'Select county'
-        },
-      ]
-    },
     {
       type: 'Region',
       cid: 'r5',
@@ -224,7 +203,7 @@ export var settings = {
         },
       ],                    
     }, 
-	/* 	{
+	 	{
      type: 'Region',
      cid: 'r6',
      header: 'Unemployment by U.S. County',
@@ -329,7 +308,7 @@ export var settings = {
           ]
         },
       ],
-    }, */
+    },
 		{
       type: 'Region',
       cid: 'r131',
