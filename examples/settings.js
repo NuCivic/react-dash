@@ -2,7 +2,6 @@ let baseUrl = 'http://192.168.99.100:32770';
 import {dateFormatter} from '../src/ReactDashboard';
 
 export var settings = {
-  title: 'State Medical Board Licensure Data',
   queries: {
     by_age: {
       group_by: "age",
@@ -15,34 +14,22 @@ export var settings = {
       cid: 'r1',
       className: 'row',
       children: [
-       {
-        type: 'Region',
-        cid: 'r2',
-        className: 'zeroth-row col-md-6',
-        children: [
            {
              type: 'img',
              cid: 'img1',
-             src: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTd9zBTlpPrH5EaWGrQISVCjA1E3AAzXCI_go0ml5QHI-58Cld73VBBRv8",
-             style: {borderStyle:'double',borderWidth: '10px', borderColor:'teal', padding: '10px', margin: '10px'},
+             className: 'col-md-6',
+             src: 'https://dl.dropboxusercontent.com/u/73703010/react_dash_logo_.png',
+             style: { maxWidth: '200px'},
            },
-        ]
-       },
-       {
-        type: 'Region',
-        cid: 'r3',
-        className: 'zeroth-row col-md-6',
-        children: [
            {
-             type: 'h4',
+             type: 'p',
              cid: 'html1',
-             dangerouslySetInnerHTML: {__html: 'A text description set from the settings file, using native react html element.'},
-             style: {margin: '20px'}
+             className: 'col-md-6',
+             dangerouslySetInnerHTML: {__html: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?'},
+             style: {marginTop: '1em', width: '100%', margin: '1em'}
            },
-        ]
-       },
-		  ]
-		},
+      ]
+    },
     // the action listener will re-render the multi-component with the selected value
     // as the multi-components initVal
     // Target the multicomponent by its id field
@@ -57,7 +44,7 @@ export var settings = {
       options: [{value: 'a', label: 'a'}, {value: 'b', label: 'b'}]
     }, */
     {
-      header: 'A Multi Component!',
+      header: 'Multi Component',
       type: 'Multi',
       cid: 'm1',
       id: 'multicomponent',
@@ -85,16 +72,16 @@ export var settings = {
         elements: {
           a: [ // each set of elements is an array - even if it contains a single child
             {
-              type: 'h3',
+              type: 'h2',
               cid: 'html2',
-              dangerouslySetInnerHTML: { __html: "MULTI COMPONENT CONTENT - A" }
+              dangerouslySetInnerHTML: { __html: "Component A" }
             }	
           ],
           b: [ 
           {
-            type: 'h3',
+            type: 'h2',
             cid: 'html3',
-            dangerouslySetInnerHTML: { __html: 'MULLTI COMPONENT CONTENT - B'}
+            dangerouslySetInnerHTML: { __html: 'Component B'}
           }
           ]
         }
