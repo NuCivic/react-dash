@@ -30,7 +30,6 @@ export default class BaseComponent extends Component {
     }
 
     let ownParams = getOwnQueryParams(q, this.props.cid) || {};
-    console.log('OP', ownParams);
     this.setState({ownParams: ownParams});
   }
 
@@ -118,7 +117,6 @@ export default class BaseComponent extends Component {
       this.state.dataset.query(queryObj).then(queryRes => {
         this.applyDataHandlers(queryRes);
       }).catch(e => {
-        console.log('Error fetching', e);
       });
     });
   } 
@@ -134,6 +132,8 @@ export default class BaseComponent extends Component {
     return filters;
   }
   
+  // onFilter sets new state
+  // this triggers applyOwnFilters -> handleFiter
   // @@TODO fid should be array index
   onFilter(filter, e) {
     let fid = 'fid'+filter.cid;
@@ -156,13 +156,13 @@ export default class BaseComponent extends Component {
   // add datahandlers to stack
   handleFilter(filter, e) {
     let handlers = Object.assign([], filter.dataHandlers);
-    console.log('handleF', filter, e );
     this.setState({filterHandlers: handlers, filterEvent: e});
-    this.fetchData();
+    setTimeout(() => {this.fetchData()},10); // @@TODO - this is obv. wrong but we need state 
   }
 
   
   /**
+   * @@TODO fid should be filter index
    * + parse fids from ownParams 
    * + call onFilter with the appropriate data
    **/
@@ -171,15 +171,11 @@ export default class BaseComponent extends Component {
     const ownParams = this.state.ownParams;
     let ownFilters = [];
     if (ownParams) {
-      if(this.props.type == 'Multi')console.log('apply', ownParams);
       // @@ GOOD HERE
       for (var p in ownParams) {
-        console.log('p', p, ownParams[p]);
         let fid = getFID(p);
         if (fid) {
-          console.log('fid',fid);
           const filter = this.props.filters[fid];
-          console.log('ff', ownParams[p]);
           let z = {};
           z.value = ownParams[p];
           this.handleFilter(filter, z);
@@ -188,12 +184,11 @@ export default class BaseComponent extends Component {
     }
   }  
 
-  applyDataHandlers(data = [], handlers, e) {
+  applyDataHandlers(data = [], handlers) {
     let _handlers = handlers || this.state.filterHandlers || this.props.dataHandlers;
-    let _e = e || this.state.filterEvent
     let _data = data.hits || data;
     let _total = data.total || data.length;
-    _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData(), _e);
+    _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData(), this.state.filterEvent);
     this.setState({data: _data, total: _total, isFeching: false});
   }
 

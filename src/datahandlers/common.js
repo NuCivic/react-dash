@@ -43,11 +43,10 @@ function parseDateField(componentData, dashboardData, handler, e, pipelineData) 
  * In this case, we return it using the following dataHandler
  **/
 function getEventReturn(componentData, dashboardData, handler, e, pipelineData) {
-  console.log('pass through', arguments);
   if (e) {
-    console.log(e.value);
     return e.value;
   }
+  return componentData; // if there is no event, we maintain the component data
 }
 
 DataHandler.set('common.parseDateField', parseDateField);

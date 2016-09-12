@@ -14,16 +14,13 @@ export default class Multi extends BaseComponent {
     let outEls = [];
     
     if (typeof this.state.data === 'string') { // Multi-component data should be a string
-      console.log('0');
       curEls = this.props.elements[this.state.data];
     } else if (this.props.initVal) {
-      console.log('1');
       curEls = this.props.elements[this.props.initVal];
     } else {
       return console.error('No valid key is defined in initVal or in data for elements object');
     }
     
-    console.log('MRC', this.state.data, curEls);
     return curEls.map((element) => {
       return React.createElement(Registry.get(element.type), element);
     });
@@ -36,7 +33,6 @@ export default class Multi extends BaseComponent {
    * section of the multi component's settings
    */
   render() {
-    console.log('Multi', this);
     let filters = this.getFilters();
     let v = 
     <div class="multi-container">
