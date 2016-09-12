@@ -23,10 +23,12 @@ export default class Choropleth extends BaseComponent {
   componentDidMount() {
     super.componentDidMount();
     fetch(this.props.geometry)
-      .then((response) => response.json())
+      .then(response => {
+        let r = response.json()
+        return r;
+      })
       .then( (data) =>{
         var geometryFeatures;
-
         if (this.props.format === 'geojson') {
           geometryFeatures = data.features;
         } else {
@@ -35,7 +37,6 @@ export default class Choropleth extends BaseComponent {
             data.objects[this.props.topologyObject]
           ).features;
         }
-
         this.setState({geometryFeatures })
       });
   }
@@ -113,7 +114,6 @@ export default class Choropleth extends BaseComponent {
     const svgWidth = this.state.componentWidth * .8;
     const svgHeight = svgWidth * 0.8;
     const extremeValues = this.extremeValues();
-
     const {
       infoWindowPos,
       infoWindowActive,
@@ -142,7 +142,6 @@ export default class Choropleth extends BaseComponent {
       height: svgHeight,
       fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
     }
-
     return (
       <Loader isFeching={!loading}>
         <div className="map-container">

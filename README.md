@@ -13,11 +13,15 @@ React Dash
 ## Features
 * **Extreme customizable components**
 * **Component communication through actions**
+* **Ability to define component-level and dashboard-level filters with custom data handlers**
 * **Custom data handling via dataHandlers**
 * **Ability to fetch data in different formats** like: CSV, DKAN resources, CartoDB tables, etc. (in progress: XLSX, CKAN resources, Google Spreadsheets)
 * **Ability to query data:** filter, paginate, facets, etc.
 * **Fully serializable:** then you can save a dashboard in a database.
 * **Themeable**
+* **Use any html element via configuration**
+* **Support for Bootstrap Grid**
+* **Support for font-awesome icons**
 * **A lot of available charts provided by NVD3**
   - boxPlot
   - bullet
@@ -37,16 +41,16 @@ React Dash
   - stackedArea
   - sunburst
 * **A lot of components ready to use:**
-  - Table
+  - DataTable
   - Autocomplete
   - Goal
   - Metric
-  - Tex
+  - Text
   - Choropleth
 * **Extensible:** you can add new react components. In fact you can include any react component and pass the properties as settings.
 
 ### Where is the UI to build dashboards?
-There is currently no UI to create **React Dash**. Everything is generated from code.
+There is currently no UI to create **React Dash**. Everything is generated from configuration.
 
 ### Why?
 We're working on it. Check back soon.
@@ -68,162 +72,28 @@ open http://localhost:5000
 ## How it works
 Dashboard configuration is stored as a javascript object inside the file *src/settings.js*. It's a hierarchical representation of a dashboard, where components are represented by configuration objects. The *type* parameter determines what type of component will be rendered. The rest of the parameters, including *children*, are passed to the component as props. Use the *Region* component (see below) to create rows and columns (using the bootstrap grid system) in order to compose a dashbaord layout. See _examples/settings.js_ for a complete example.
 
-
-
 ## Entry point
-The entry point to the application is either the *src/standalone.js* or *src/dkan.js* file, depending on which environment you are using. **_All of the custom components you create need to be imported into this file._** For example, we're importing the custom component *GAChart* which is a subclass of the *Chart* component.
+@@TODO update this
 
-Once the custom components are imported we need to wait until the *dom* is ready and then render the dashboard in the *target dom* element.
+## Global Data
 
-```javascript
-import GAChart from './components/GAChart';
-import GAChoropleth from './components/GAChoropleth';
-import GATable from './components/GATable';
-import GAMetric from './components/GAMetric';
-import GAGoal from './components/GAGoal';
-import MyCustomLayout from './layouts/MyCustomLayout';
-import GADashboard from './dashboard';
-import settings from 'settings';
+## Component Level Data
+### Using Global Data in Components
 
-/**
- * This renders the GADAshboard
- */
-document.addEventListener('DOMContentLoaded', function(event) {
-  ReactDOM.render(<GADashboard {...settings} layout={MyCustomLayout}/>, document.getElementById('root'));
-});
-```
+### Passing raw data to components
 
-To start, create a class that extends the **Dashboard** base class. 
-
-In the above example, notice that we use the <GADashboard/> component, **not** a <Dashboard/> component. That's because most of the base components are useless without the custom implementation for the project you're working on.
-
-They're like abstract classes, and you need to provide the business logic to make them work.
-
-```javascript
-import React, { Component } from 'react';
-import {Dashboard} from '../src/ReactDashboard';
-import Dataset from '../src/models/Dataset';
+### Using dataHandlers
 
 
-export default class GADashboard extends Dashboard {
-
-  constructor(props) {
-    super(props);
-    this.state = {data: []};
-  }
-
-  onAction(payload) {
-    switch(payload.actionType) {
-      case 'AUTOCOMPLETE_CHANGE':
-        console.log('AUTOCOMPLETE_CHANGE');
-        break;
-    }
-  }
-
-}
-```
-
-## Adding components
-
-Most components pull data from an external source to produce an output (there are some exceptions like the *Text* component, which pulls data from its configuration). 
-
-Before you start adding components, you'll need to determine the data source that will feed the component. 
+## Configuring components
 
 ### Let's try to add a chart:
-
-```javascript
-export var settings = {
-  title: 'Georgia Reports',
-  regions: {
-    top: [
-      {
-        header:'Left',
-        iconClass: 'glyphicon glyphicon-fire',
-        type: 'GAChart',
-        settings: {
-          id:'lineChart',
-          type: 'discreteBarChart',
-          x: 'label',
-          y: 'value',
-          height: 300,
-          margin: {
-            left: 38
-          },
-        },
-        fetchData: {type:'function', name: 'getCustomData'},
-      },
-      ...
-    ],
-    left: [],
-    ....
-  }
-}
-```
-
-
-### Fetch Data
-
-All components have the ability to fech data in several ways. In this case, we're configuring the *GAChart* component to use the method *getCustomData* to fetch data. This method should be implemented in the subclass and must return either a promise or an array with the data.
-
-For example:
-
-```javascript
-// imports
-class GAChart extends Chart {
-  
-  // Synchronous
-  getCustomData() {
-    return [{key: 'serie1', values: [{x:1, y:1}...] }];
-  }
-
-  // Asynchronous
-  getCustomData2() {
-    return new Promise((resolve, reject) => {
-      let dataset = new Dataset({
-        backend: 'csv',
-        url: 'http://demo.getdkan.com/node/9/download'
-      });
-      return dataset.fetch().then(() => {
-        dataset.query({size: 100, from: 0}).then((data) =>{
-          resolve(data.hits)
-        });
-      });
-    });
-  }
-} 
-
-```
-In the example above we have two different methods to fetch data. The first one is a synchronous call that retrieves an array. 
-
-But returning an array with data from a function is not very exciting. However we can access the data loaded by the dashboard and then process that global data to get the data for this element:
-
-```javascript
-  getCustomData() {
-    return this.props.globalData.filter((record) => record.state === 'georgia');
-  }
-
-```
-If the data to be used is static then we can place it in the element's configuration in the settings file:
-
-```javascript
-{
-  fetchData: [{key: 'serie1', values: [{x:1, y:1}...] }]
-}
-
-```
-
-
-If you look at the method *getCustomData2* you'll notice we don't transform the data in any way. We're using the csv as-is. If that's your case then you can use the following method:
-
+@@TODO Update chart component example
 
 
 ```javascript
-{
-  fetchData: {type: 'backend', backend: 'csv', url: 'http://example.com/example.csv'}
-}
-
+// example goes here
 ```
-This is a common scenario for table components.
 
 ## Actions
 Sometimes you need to tell other components about a change that happened in your dashboard. For example, a change in the underlying dashboard data after adding a new selection in the autocomplete. 
@@ -234,6 +104,7 @@ All components have a method called *emit*. Emit triggers actions and an *onActi
 
 It's worth mentioning the *emit method* returns a regular javascript object. By convention it should have an *actionType* but the rest is up to you.
 
+@@TODO update / verify example
 ```javascript
 
 // Component emitting a change
@@ -254,6 +125,7 @@ onAction(action){
 }
 ```
 
+@@TODO move this upwards ^^ to data section
 ## Data Handlers
 Data handlers allow us to do component level data manipulation without needing to extend default components. Data handlers, once registered, can be applied to any component via the settings file, as follows:
 
@@ -340,7 +212,46 @@ function fieldsToXYSeries(componentData, dashboardData, handler, pipelineData) {
 DataHandler.set('common.fieldsToXYSeries', fieldsToXYSeries);
 ```
 Note that the component can receive both piplineData (data passed from the last data handler in the data pipeline), OR componentData. You must specify in your data handler which data to use. The above scheme (use pipelinData || componentData) is recommended, as it allows you to use the data handler in a pipeline of data.
+
+## Filters
+Filters allow data to be filtered based on user input, application state, or other custom logic. Filters use dom events and custom data handlers to provide filtered data.
+
+### Component-level filters
+Filters can be used to allow user input which controls the data at the component level.
+Filters use dataHandlers, along with user input, to determine how to filter component data.
+Filters are configured as follows
+
+### Filter Paramaters
+Filter paramaters are serialized to the url, allowing the dashboard to be loaded with a set of filters already applied.
+The url query string is serialized according to the following scheme:
+
+`http://yoursite.com/dashboard/cid1=key1_val1&cid_1=key1_val2&cid2=key2_val3`
+
+```javascript
+{
+  cid1: {
+    key1 : ['val1', 'val2']
+  },
+  cid2: {
+    key2 : val2
+  }
+}
+```
+
+Components recieve their `ownParams` as props. So for copoment with _cid1_:
+
+`component.props.ownParams = { key1: ['val1', 'val2'] }`
+
+```javascript
+//@@TODO
+```
+
+### Dashboard-level filters
+@@TODO
+Autocomplete / Actions / data handlers
+
 ## Theming
+### Dashboard-level theming
 The **React Dash** comes with default styles, but you can also customize them by importing a stylesheet. 
 
 ```javascript
@@ -350,6 +261,17 @@ import 'stylesheets/custom.css'
 ```
 
 Currently you can use either a *css* or a *sass* file. You can also add import sentences inside to split the files. It's good to have a separate stylesheet for each component you are overriding. 
+
+### Cards
+@@TODO clarify
+If a *cardStyle* property is specified, the component will be rendered inside a car div.
+
+### Componentlevel theming
+Components can take a style object as follows:
+
+```javascript
+style: {backgroundColor: 'red', fontSize: '1em', margin: '1em'}
+```
 
 
 ## Built-in Components
@@ -413,6 +335,7 @@ Usually you won't need to extend this component. Autocomplete has standard behav
 * **options:** an array with options (e.g.: [{ value: 'one', label: 'One' }])
 
 ### Choropleth
+@@TODO UPDATE
 The **Choropleth** element provides a choropleth map (also known as a "heat map") and a legend. The component uses a set of functions (*choroplethFunctions*) to map domain data to map polygons. The following elements are required to generate the Choropleth:
 
 #### Map Data
@@ -562,9 +485,9 @@ If your data is a plain CSV file (or any resource supported by backends) and you
 **Available settings**
 * **content:** the html content to display.
 
-### Table
+### DataTable
 
-**Table** component provides a way to browse, filter, search and display datasets to end-users. 
+**DataTable** component provides a way to browse, filter, search and display datasets to end-users. 
 
 ```javascript    
 {
@@ -610,7 +533,8 @@ If your data is a plain CSV file (or any resource supported by backends) and you
     - **overrides:** allows to override configurations for the column name number used as key.
   - **settings.cells:** allows to configure all the properties for cells
   - **overrides:** allows to override configurations for the cell in the row number used as key.
-
+  - **settings.hideControls:** Hide row-numbers select in table header..
+  - **settings.hideFilterHeader:** Hide filter box in table header.
 
 ### Chart
 **Chart** component is a wrapper of the *react-nvd3* library, which is also a wrapper of the *nvd3* chart library. That meanas all the charts and options available in nvd3 are also available in this component.
@@ -732,31 +656,8 @@ If you are extending from the *BaseComponent* and using the *fetchData* property
 
 If you aren't using *fetchData* to fetch resources then you need to switch this variable manually.
 
-## Models and Backends
 
-### Models
-To fetch remote data you can either use the *fetchData* property, the dataset models, backends or just the *fetch api* standard. We recommend keeping the selection in that order, where *fetchData* is the preferred method and the *fetch api* is the less preffered method.
-
-If you want to use the dataset model then you'll need to do something like this inside the component you are populating:
-
-```javascript
-
-// Import the dataset model from the library
-import Dataset from 'react-dashboard/Dataset';
-
-// Instantiate the dataset and configure it by passing the backend configuration.
-let dataset = new Dataset({backend: 'csv', url: 'http://example.com/example.csv'});
-
-// Let's set the state to fetching to display a loader and since we already have the dataset object let's save it for future queries.
-this.setState({isFeching: true, dataset: dataset});
-
-// Fetch the resource
-dataset.fetch().then(() => {
-  // Query the dataset for example for pagination purposes
-  dataset.query(query).then( (data) => console.log(data) ); //query e.g. {size: 10, from: 0}
-});
-```
-
+@@TODO add to backends above
 #### Query
 Since models were ported from recline the query object keeps the same shape. However you **don't** need to create a QueryState object, you can use plain javascript objects instead.
 
@@ -766,6 +667,7 @@ To see the full list of available options see http://okfnlabs.org/recline/docs/m
 There are a few backends available but more are coming. 
 
 #### Inline
+*NOTE* that you can also pass a data object directly to a component (@@TODO link)
 A backend to provide and array of data.
 
 ```javascript
@@ -806,6 +708,8 @@ let dataset = new Dataset(conf);
 * **id:** the id of the resource. e.g. `db114e1f-cf44-4cef-b4a7-b2451b039fb1`
 * **url:** the full url `http://demo.getdkan.com/api/3/action/datastore_search?=&resource_id=db114e1f-cf44-4cef-b4a7-b2451b039fb1` 
 
+
+@@TODO - REVIEW ALL FOLLOWING
 
 ## Development and examples
 

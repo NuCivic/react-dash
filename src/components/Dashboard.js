@@ -2,36 +2,37 @@ import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
 import Card from './Card';
+import { pick } from 'lodash';
 
+/**
+ * @@TODO Currently in practice this only handles regions
+ * MOST OF THIS LOGIC IS REPRODUCE IN THE Region Component
+ * We should refactor so this is not the case
+ */
 export default class Dashboard extends BaseComponent {
-
-  constructor(props) {
-    super(props);
-    this.state = {data: []};
-  }
-  
-  /**
-   * Recursively parse settings tree, rendering components
-   * and children
-   **/
-  walkSettingsTree() {
-    // recurse tree
-    // render children
-  }
-  
   render() {
     let markup;
-    let props = Object.assign({globalData: this.state.data || []}, this.props.route || this.props);
-    
+    console.log('DASH RENDER', this);
+    let routeParams = pick(this.props, ['history', 'location', 'params', 'route', 'routeParams', 'routes']);
+    // We wrap the whole dashboard in the route so we that we get paramater info in the els
+    // @@TODO this needs to be repeated in Region because of our dumb scheme
     return (
         <div className="container">
           <h1 className="dashboard-title">{this.props.title}</h1>
-          {props.components.map((element, key) => {
-            return (
-              <Card key={key} {...element}>
-                {React.createElement(Registry.get(element.type), props.components[key])}
-              </Card>
-            )
+          {this.props.components.map((element, key) => {
+            let props = Object.assign(this.props.components[key], {globalData: this.state.data}, routeParams);
+            let output;
+
+            if (props.cardType !== 'undefined') {
+              output = 
+                <Card key={key} {...element}>
+                  {React.createElement(Registry.get(element.type), Object.assign(this.props.components[key], props))}
+                </Card>
+            } else {
+              output = 
+                React.createElement(Registry.get(element.type), Object.assign(this.props.components[key], props))
+            }
+            return output;
           })}
         </div>
     );

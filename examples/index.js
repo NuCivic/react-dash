@@ -2,19 +2,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'nvd3/build/nv.d3.min.css';
 import 'react-select/dist/react-select.min.css';
 import 'fixed-data-table/dist/fixed-data-table.min.css';
-
-import React from 'react';
 import ReactDOM from 'react-dom';
+import React from 'react';
+import customDataHandlers from './customDataHandlers';
+import GADashboard from './GADashboard';
 import { settings } from './settings';
-import GAChart from './components/GAChart';
-import GATable from './components/GATable';
-import GAMetric from './components/GAMetric';
-import GAGoal from './components/GAGoal';
-import GAChoropleth from './components/GAChoropleth';
-import MyCustomLayout from './layouts/MyCustomLayout';
-import GADashboard from './app';
-import GAMultiSelect from './components/GAMultiSelect';
-import App from '../src/components/App';
+import App from './App';
+import { Router, Route, browserHistory } from 'react-router';
 
-console.log('DASHBOARD SETTINGS', settings);
-ReactDOM.render(<App {...settings} />, document.getElementById('root'));
+
+ReactDOM.render(<App />, document.getElementById('root'));

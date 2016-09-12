@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
 import {Table as FixedTable, Column, Cell} from 'fixed-data-table';
 import Registry from '../utils/Registry';
 import {getProp} from '../utils/utils';
-import Dataset from '../models/Dataset';
+import React, {Component} from 'react';
 import BaseComponent from './BaseComponent';
 import Loader from './Loader';
 import {isString, isEmpty, range, partialRight} from 'lodash';
 
-export default class Table extends BaseComponent {
-
+class DataTable extends BaseComponent {
   static defaultProps = {
     rowsPerPage: 10,
     queryObj: {
@@ -29,11 +27,6 @@ export default class Table extends BaseComponent {
         from: this.props.queryObj.from
       }
     };
-
-  }
-
-  componentDidMount(){
-    super.componentDidMount();
   }
 
   getPages(size, total, current) {
@@ -125,7 +118,7 @@ export default class Table extends BaseComponent {
 
   render() {
     const { gridWidth, gridHeight } = this.state;
-    let data = this.getData() || [];
+    let data = this.state.data || [];
     let tableDefaultProps = getProp('settings.table', this.props);
     let columnDefaultProps = getProp('settings.columns', this.props);
     let cellsDefaultProps = getProp('settings.cells', this.props);
@@ -151,20 +144,24 @@ export default class Table extends BaseComponent {
       />
     });
 
-    // Return the renderable elements
-    return (
+    let filterHeader = '';
+    let headerControls = '';
 
-        <div ref="table">
-          <div className="row">
-            <div className="col-md-10">
-              <div className="form-group">
-                <input
-                  onChange={this._onFilterChange.bind(this)}
-                  placeholder="Filter"
-                  className="form-control"
-                />
-              </div>
-            </div>
+    if (!this.props.hideFilterHeader) {
+      filterHeader = 
+        <div className="col-md-10">
+          <div className="form-group">
+            <input
+              onChange={this._onFilterChange.bind(this)}
+              placeholder="Filter"
+              className="form-control"
+            />
+          </div>
+        </div>
+    }
+    
+    if (!this.props.hideControls) {
+      headerControls = 
             <div className="col-md-2">
               <div onChange={this._onRowsPerPageChange.bind(this)} className="form-group">
                 <select className="form-control">
@@ -176,6 +173,15 @@ export default class Table extends BaseComponent {
                 </select>
               </div>
             </div>
+    }
+    
+    // Return the renderable elements
+    return (
+
+        <div ref="table">
+          <div className="row">
+            {filterHeader}
+            {headerControls}
           </div>
           <Loader isFeching={this.state.isFeching}>
             <div className="table-container">
@@ -222,4 +228,5 @@ export default class Table extends BaseComponent {
   }
 }
 
-Registry.set('Table', Table);
+
+Registry.set('DataTable', DataTable);

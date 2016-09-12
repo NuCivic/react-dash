@@ -14,3 +14,21 @@
 2016-08-23 ** 0.3.6
 * Remove Multi-component from /examples project since it is breaking
 react-dashboard-boilerplate automated install
+2016-08-23 ** 0.3.7
+* pass globalData as props to all components (BUG FIX)
+2016-08-31 ** 0.4.0
+* Update data handling
+** DATA TABLE COMPONENT**
+*    Rename Table component to DataTable to avoid namespace collisions
+*    Add hideFilterHeader and hideControls props to component
+*    ** NOTE ** DataTable filters rely on Dataset.query which is
+*    ** NOTE ** provided by Backends (csv, google docs etc)
+*    ** NOTE ** Will not-currently work with non-Datasrt dat
+**
+* Check for cardType in props before rendering element as Card
+** MULTI COMPONENT **
+
+**
+* style prop on card elements rendered on card div - uses form { boderBottom:
+ "1em" }
+

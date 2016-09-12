@@ -1,4 +1,5 @@
 import './stylesheets/main.scss';
+console.log('React Dashboard -- 0.4.0 candidate- 08 31 2016');
 
 // COMPONENTS
 export {default as Autocomplete } from './components/Autocomplete';
@@ -12,7 +13,8 @@ export {default as Goal } from './components/Goal';
 export {default as Layout } from './components/Layout';
 export {default as Metric } from './components/Metric';
 export {default as Multi} from './components/Multi';
-export {default as Table } from './components/Table';
+//export {default as Foo } from './components/Foo';
+export {default as DataTable } from './components/DataTable';
 export {default as Text } from './components/Text';
 export {default as ReactSelect} from './components/ReactSelect';
 export {default as App} from './components/App';

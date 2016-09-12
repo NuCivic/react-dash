@@ -6,6 +6,7 @@ import {head, template, capitalize, merge} from 'lodash';
 import NVD3Chart from 'react-nvd3';
 import classnames from 'classnames';
 import {formatDate, formatNumber} from '../utils/utils';
+import DataHandler from '../utils/DataHandler';
 
 export default class Goal extends BaseComponent {
 
@@ -36,7 +37,8 @@ export default class Goal extends BaseComponent {
   }
 
   getMetric(data) {
-    return this[this.props.metric](data);
+    let metricHandler = DataHandler.get(this.props.metric);
+    return metricHandler(data);
   }
 
   getTolerance(distance, actionCondition) {
@@ -54,7 +56,7 @@ export default class Goal extends BaseComponent {
     let endNumber = Number(this.props.endNumber);
     let tracker = this.getTracker(startDate, endDate, startNumber, endNumber);
     let projection = tracker(Date.now());
-    let distance = projection - this.getMetric(this.getData());
+    let distance = projection - this.getMetric(this.state.data);
     let actionContitions = {
       increase: distance <= 0,
       decrease: distance >= 0,
@@ -104,7 +106,7 @@ export default class Goal extends BaseComponent {
     // Adds the spline chart
     if(this.props.spline) {
       let splineSettings = Object.assign({}, this.props.spline);
-      spline = <NVD3Chart type="sparklinePlus" datum={this.getData()} showLastValue={false} color={['#333333']}{...splineSettings}/>
+      spline = <NVD3Chart type="sparklinePlus" datum={this.state.data} showLastValue={false} color={['#333333']}{...splineSettings}/>
     }
 
     // This allows to show either a single number or a progress in the following format: number / total
@@ -128,7 +130,7 @@ export default class Goal extends BaseComponent {
           <div className="row">
             <div className="col-md-4">
               <div className="card-goal-progress">
-               <span className="card-goal-metric">{formatNumber(this.getMetric(this.getData()), this.state.numberFormat)}</span>
+               <span className="card-goal-metric">{formatNumber(this.getMetric(this.state.data), this.state.numberFormat)}</span>
                {endNumber}
               </div>
             </div>
