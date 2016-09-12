@@ -29,9 +29,8 @@ export default class BaseComponent extends Component {
       q = this.props.location.query;
     }
 
-    console.log('didM', this.props.type);
-
-    let ownParams = getOwnQueryParams(q, this.props.cid);
+    let ownParams = getOwnQueryParams(q, this.props.cid) || {};
+    console.log('OP', ownParams);
     this.setState({ownParams: ownParams});
   }
 
@@ -114,7 +113,6 @@ export default class BaseComponent extends Component {
   fetchBackend() {
     let dataset = new Dataset(omit(this.props.fetchData, 'type'));
     let queryObj = this.state.queryObj;
-    console.log('QQ', queryObj);
     this.setState({isFeching: true, dataset: dataset});
     dataset.fetch().then(() => {
       this.state.dataset.query(queryObj).then(queryRes => {
@@ -136,25 +134,29 @@ export default class BaseComponent extends Component {
     return filters;
   }
   
+  // @@TODO fid should be array index
   onFilter(filter, e) {
     let fid = 'fid'+filter.cid;
-    let newState = Object.assign(this.state.ownParams, {fid: e.value});
-    console.log('...', this.state.ownParams, e, newState, filter);
+    let own = this.state.ownParams || {};
+
+    // Update query string in url and navigate
     let newQFragment = {};
     newQFragment[this.props.cid] = 'fid' + filter.cid + '__' + e.value;
     const newQ = Object.assign(this.props.location.query, newQFragment);
     let newQueryString = decodeURIComponent(objToQueryString(newQ)).replace(/\[\]/g, '');
     browserHistory.push('/?' + newQueryString);
+    
+    // Update state with new filter values
+    let z = {};
+    z[fid] = e.value;
+    let newState = Object.assign(own, z);
     this.setState({ownParams: newState});
   }
   
   // add datahandlers to stack
   handleFilter(filter, e) {
-    let handlers = filter.dataHandlers;
-    handlers.e = e;
-    let _data = this.state.data || [];
-    console.log('onF,e',e);
-    console.log('onF', this.props, this.props.location.query);
+    let handlers = Object.assign([], filter.dataHandlers);
+    console.log('handleF', filter, e );
     this.setState({filterHandlers: handlers, filterEvent: e});
     this.fetchData();
   }
@@ -169,7 +171,7 @@ export default class BaseComponent extends Component {
     const ownParams = this.state.ownParams;
     let ownFilters = [];
     if (ownParams) {
-      console.log('apply', ownParams);
+      if(this.props.type == 'Multi')console.log('apply', ownParams);
       // @@ GOOD HERE
       for (var p in ownParams) {
         console.log('p', p, ownParams[p]);
@@ -177,13 +179,15 @@ export default class BaseComponent extends Component {
         if (fid) {
           console.log('fid',fid);
           const filter = this.props.filters[fid];
-          this.handleFilter(filter, { value: ownParams[p] });
+          console.log('ff', ownParams[p]);
+          let z = {};
+          z.value = ownParams[p];
+          this.handleFilter(filter, z);
         }
       }
     }
   }  
 
-  // @@TODO I think these data handling functions should be 'pure' - not call setState etc
   applyDataHandlers(data = [], handlers, e) {
     let _handlers = handlers || this.state.filterHandlers || this.props.dataHandlers;
     let _e = e || this.state.filterEvent

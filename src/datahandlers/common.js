@@ -37,5 +37,19 @@ function parseDateField(componentData, dashboardData, handler, e, pipelineData) 
   });
 }
 
+/**
+ * Sometimes, as in the case of multi-components
+ * we just want the event value from the filter
+ * In this case, we return it using the following dataHandler
+ **/
+function getEventReturn(componentData, dashboardData, handler, e, pipelineData) {
+  console.log('pass through', arguments);
+  if (e) {
+    console.log(e.value);
+    return e.value;
+  }
+}
+
 DataHandler.set('common.parseDateField', parseDateField);
 DataHandler.set('common.fieldsToXYSeries', fieldsToXYSeries);
+DataHandler.set('common.getEventReturn', getEventReturn);

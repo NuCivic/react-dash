@@ -69,6 +69,7 @@ export var settings = {
         {
           type: 'ReactSelect',
           cid: 0,
+          multi: true,
           options: [
             {
               label: 'a',
@@ -79,6 +80,7 @@ export var settings = {
               value: 'b'
             },
           ],
+          dataHandlers: [{name: 'common.getEventReturn'}]
         }
       ],
         elements: {

@@ -6,24 +6,27 @@
  */
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
+import BaseComponent from './BaseComponent';
 
-export default class Multi extends Component {
-  /*
-   * Define initial set of elements to render
-   */
-  componentWillMount() {
-    this.setState({elements : this.props.elements.a});
-  }
-
-  /*
-   * The current state.elements array
-   */
+export default class Multi extends BaseComponent {
   renderChildren() {
-    let els = [];
-    this.state.elements.map((element) => {
-      els.push(React.createElement(Registry.get(element.type), element));
+    let curEls;
+    let outEls = [];
+    
+    if (typeof this.state.data === 'string') { // Multi-component data should be a string
+      console.log('0');
+      curEls = this.props.elements[this.state.data];
+    } else if (this.props.initVal) {
+      console.log('1');
+      curEls = this.props.elements[this.props.initVal];
+    } else {
+      return console.error('No valid key is defined in initVal or in data for elements object');
+    }
+    
+    console.log('MRC', this.state.data, curEls);
+    return curEls.map((element) => {
+      return React.createElement(Registry.get(element.type), element);
     });
-    return els;
   }
  
   /*
@@ -33,6 +36,7 @@ export default class Multi extends Component {
    * section of the multi component's settings
    */
   render() {
+    console.log('Multi', this);
     let filters = this.getFilters();
     let v = 
     <div class="multi-container">
@@ -42,13 +46,6 @@ export default class Multi extends Component {
       </div>
     </div> 
     return v;
-  }
-
-  /*
-   * Listen for change and update state.elements
-   */
-  listener(e) {
-    this.setState({elements: this.props.elements[e.target.value]});
   }
 }
 
