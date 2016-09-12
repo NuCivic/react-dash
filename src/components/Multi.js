@@ -7,12 +7,13 @@
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
+import Card from './Card';
 
 export default class Multi extends BaseComponent {
   renderChildren() {
     let curEls;
-    let outEls = [];
-    
+		let output;
+ 
     if (typeof this.state.data === 'string') { // Multi-component data should be a string
       curEls = this.props.elements[this.state.data];
     } else if (this.props.initVal) {
@@ -20,9 +21,20 @@ export default class Multi extends BaseComponent {
     } else {
       return console.error('No valid key is defined in initVal or in data for elements object');
     }
-    
-    return curEls.map((element) => {
-      return React.createElement(Registry.get(element.type), element);
+
+ 
+    return curEls.map((element, key) => {
+    			 let props = Object.assign(element, {globalData: this.props.globalData});
+           if (element.cardStyle) {
+              output =
+               <Card key={key} {...element}>
+                {React.createElement(Registry.get(element.type), props)}
+               </Card>
+           } else {
+             output =
+                React.createElement(Registry.get(element.type), props);
+           }
+					return output;
     });
   }
  
