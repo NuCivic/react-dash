@@ -3,7 +3,7 @@ import {browserHistory} from 'react-router';
 import {findDOMNode} from 'react-dom';
 import EventDispatcher from '../dispatcher/EventDispatcher';
 import Dataset from '../models/Dataset';
-import {omit, isEqual, isFunction, isPlainObject, isString, debounce} from 'lodash';
+import {omit, isEqual, isEmpty, isFunction, isPlainObject, isString, debounce} from 'lodash';
 import DataHandler from '../utils/DataHandler';
 import Registry from '../utils/Registry';
 import {qFromParams, getOwnQueryParams, getFID, objToQueryString} from '../utils/utils';
@@ -30,6 +30,7 @@ export default class BaseComponent extends Component {
     }
 
     let ownParams = getOwnQueryParams(q, this.props.cid) || {};
+    if (this.props.type == 'Autocomplete') console.log('own', ownParams);
     this.setState({ownParams: ownParams});
   }
 
@@ -141,7 +142,13 @@ export default class BaseComponent extends Component {
 
     // Update query string in url and navigate
     let newQFragment = {};
-    newQFragment[this.props.cid] = 'fid' + filter.cid + '__' + e.value;
+
+    if (this.props.asFilter) {
+      newQFragment[this.props.cid] = e.value;
+    } else {
+      newQFragment[this.props.cid] = 'fid' + filter.cid + '__' + e.value;
+    }
+
     const newQ = Object.assign(this.props.location.query, newQFragment);
     let newQueryString = decodeURIComponent(objToQueryString(newQ)).replace(/\[\]/g, '');
     browserHistory.push('/?' + newQueryString);
@@ -174,11 +181,14 @@ export default class BaseComponent extends Component {
       // @@ GOOD HERE
       for (var p in ownParams) {
         let fid = getFID(p);
-        if (fid) {
+        let z = {};
+        z.value = ownParams[p];
+        if (fid && this.props.filters) {
           const filter = this.props.filters[fid];
-          let z = {};
-          z.value = ownParams[p];
           this.handleFilter(filter, z);
+        } else if (this.props.asFilter) {
+          console.log('asFilter', z);
+          this.handleFilter(this, z);
         }
       }
     }
@@ -189,6 +199,9 @@ export default class BaseComponent extends Component {
     let _data = data.hits || data;
     let _total = data.total || data.length;
     _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData(), this.state.filterEvent);
+    // @@TODO this is a cheat for autocomplete to get the value
+    if (isEmpty(_data) && this.state.filterEvent) _data = this.state.filterEvent.value;
+    if (this.props.cid == 'ac1') console.log('applyD', _data, this.state.filterEvent);
     this.setState({data: _data, total: _total, isFeching: false});
   }
 

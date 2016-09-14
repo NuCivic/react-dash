@@ -59,6 +59,7 @@ export function paramsFromQ(str) {
  * }
  */
 export function getOwnQueryParams(query, cid) {
+  console.log('goq', query, cid);
   let ownParams = {};
   Object.keys(query).forEach(key => {
     // check if the params belong to the component in question
@@ -84,8 +85,13 @@ export function getOwnQueryParams(query, cid) {
           }
         });
       } else {
-        const p = query[key].split('__');
-        ownParams[p[0]] = p[1];
+        if (query[key].indexOf('__') < 0) {
+          console.log('gop', query[key], ownParams);
+          ownParams[key] = query[key];
+        } else {
+          const p = query[key].split('__');
+          ownParams[p[0]] = p[1];
+        }
       }
     }
   })

@@ -21,19 +21,20 @@ export default class Autocomplete extends BaseComponent {
 
   constructor(props) {
     super(props);
-    this.state = {};
   }
 
-  onChange(value) {
+  onChange(e) {
     // The default behavior for us is change the value
     // of the input to reflect current selections
-    this.setState({
+    /* this.setState({
       value: value
-    });
+    }); */
+    console.log('ac oc', e, e[0]);
+    this.onFilter(this, e[0] || {});
 
     this.emit({
       actionType: DashboardConstants.AUTOCOMPLETE_CHANGE,
-      value: value,
+      value: e,
       id: this.props.id || makeKey(5)
     });
   }
@@ -60,8 +61,9 @@ export default class Autocomplete extends BaseComponent {
   }
 
   render(){
+    console.log('Filter', this);
     return (
-      <ReactSelect.Async value={this.state.value} loadOptions={this.loadOptions.bind(this)} {...this.props} onChange={this.onChange.bind(this)}/>
+      <ReactSelect.Async value={this.state.data} loadOptions={this.loadOptions.bind(this)} {...this.props} onChange={this.onChange.bind(this)}/>
     );
   }
 }
