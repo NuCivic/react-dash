@@ -58,32 +58,37 @@ export function paramsFromQ(str) {
  *   key2: 'val3'
  * }
  */
-export function getOwnQueryParams(query, cid) {
-  console.log('goq', query, cid);
+export function getOwnQueryParams(query, cid, multi) {
   let ownParams = {};
   Object.keys(query).forEach(key => {
     // check if the params belong to the component in question
     if (key === cid) {
       // component has multiple params
       if (typeof query[key] === 'object') {
-        query[key].forEach(paramStr => {
-          const pp = paramStr.split('__');
-          // we already have an array for this key, add new val to arrya
-          if (ownParams[pp[0]] && typeof ownParams[pp[0]] === 'object') {
-            ownParams[pp[0]].push(pp[1]);
-          // the key exists and is a string, convert val to array, add current val, and push new value
-          } else if (ownParams[pp[0]] && typeof ownParams[pp[0]] === 'string') {
-            let y = {}; // the new object to assign
-            let z = []; // the array of vals
-            z.push(ownParams[pp[0]]);
-            z.push(pp[1]);
-            y[pp[0]] = z;
-            ownParams = Object.assign(ownParams, y);
-          // or if the key is not in the params obj, just add it as a string
-          } else {
-            ownParams[pp[0]] = pp[1];
-          }
-        });
+        // multi type filter el just wants the array, no params
+        if (multi) {
+          ownParams =  query[key]; // just give the array to the multi component
+        } else {
+          query[key].forEach(paramStr => {
+            const pp = paramStr.split('__');
+            // we already have an array for this key, add new val to arrya
+            if (ownParams[pp[0]] && typeof ownParams[pp[0]] === 'object') {
+              ownParams[pp[0]].push(pp[1]);
+            // the key exists and is a string, convert val to array, add current val, and push new value
+            } else if (ownParams[pp[0]] && typeof ownParams[pp[0]] === 'string') {
+              let y = {}; // the new object to assign
+              let z = []; // the array of vals
+              z.push(ownParams[pp[0]]);
+              z.push(pp[1]);
+              y[pp[0]] = z;
+              ownParams = Object.assign(ownParams, y);
+            // or if the key is not in the params obj, just add it as a string
+            } else {
+              ownParams[pp[0]] = pp[1];
+            }
+          });
+        
+        }
       } else {
         if (query[key].indexOf('__') < 0) {
           console.log('gop', query[key], ownParams);
