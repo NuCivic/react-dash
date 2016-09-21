@@ -3,7 +3,7 @@ import {browserHistory} from 'react-router';
 import {findDOMNode} from 'react-dom';
 import EventDispatcher from '../dispatcher/EventDispatcher';
 import Dataset from '../models/Dataset';
-import {omit, isEqual, isFunction, isPlainObject, isString, debounce} from 'lodash';
+import {omit, isEqual, isEmpty, isFunction, isPlainObject, isString, isArray, debounce} from 'lodash';
 import DataHandler from '../utils/DataHandler';
 import Registry from '../utils/Registry';
 import {qFromParams, getOwnQueryParams, getFID, objToQueryString} from '../utils/utils';
@@ -29,7 +29,8 @@ export default class BaseComponent extends Component {
       q = this.props.location.query;
     }
 
-    let ownParams = getOwnQueryParams(q, this.props.cid) || {};
+    let ownParams = getOwnQueryParams(q, this.props.cid, this.props.multi) || {};
+    if (this.props.type == 'Autocomplete') console.log('own', ownParams);
     this.setState({ownParams: ownParams});
   }
 
@@ -136,21 +137,64 @@ export default class BaseComponent extends Component {
   // this triggers applyOwnFilters -> handleFiter
   // @@TODO fid should be array index
   onFilter(filter, e) {
+    console.log('onFilter', filter, e);
+    if (this.props.multi) return this.onFilterMulti(filter, e);
+
     let fid = 'fid'+filter.cid;
     let own = this.state.ownParams || {};
-
-    // Update query string in url and navigate
     let newQFragment = {};
-    newQFragment[this.props.cid] = 'fid' + filter.cid + '__' + e.value;
+
+    // asFilter components use state.data as their stored filter value
+    if (this.props.asFilter) {
+      newQFragment[this.props.cid] = e.value;
+    } else {
+      newQFragment[this.props.cid] = 'fid' + filter.cid + '__' + e.value;
+    }
+
     const newQ = Object.assign(this.props.location.query, newQFragment);
     let newQueryString = decodeURIComponent(objToQueryString(newQ)).replace(/\[\]/g, '');
     browserHistory.push('/?' + newQueryString);
     
     // Update state with new filter values
     let z = {};
+    
     z[fid] = e.value;
     let newState = Object.assign(own, z);
     this.setState({ownParams: newState});
+  }
+ 
+  // the big deal here is that multi fiter values are arrays
+  // note that we overwrite data and ownParams with every update
+  // @@TODO - Address multi type for component filters
+  // @@TODO this shares code with onFilter - refactor?
+  onFilterMulti(filter, e) {
+    console.log('OFM', filter, e);
+    let newQFragment = {};
+    let z = [];
+    let newQ, newQueryString, newState;
+    
+    e.forEach(_e => {
+      if (this.props.asFilter) {
+        if (newQFragment[this.props.cid]) {
+          newQFragment[this.props.cid].push(_e.value)
+        } else {
+          newQFragment[this.props.cid] = [_e.value]
+        }
+      } else {
+        return console.error('"Multi" type is not currently supported for component filters, only for components with "asFilter" prop, and really only for Autocomplete component ');
+       // newQFragment[this.props.cid] = 'fid' + filter.cid + '__' + e.value;
+      }
+      z.push(_e.value);
+    });
+    console.log('Z',z);
+    newQ = Object.assign(this.props.location.query, newQFragment);
+     
+    if (isEmpty(newQFragment)) delete newQ[this.props.cid];
+    
+    newQueryString = decodeURIComponent(objToQueryString(newQ)).replace(/\[\]/g, '');
+    browserHistory.push('/?' + newQueryString);
+    console.log('New Data', z);
+    this.setState({ownParams: z, data: z}); 
   }
   
   // add datahandlers to stack
@@ -167,20 +211,26 @@ export default class BaseComponent extends Component {
    * + call onFilter with the appropriate data
    **/
   applyOwnFilters() {
-    // @@ GOOD HERE
     const ownParams = this.state.ownParams;
     let ownFilters = [];
     if (ownParams) {
-      // @@ GOOD HERE
-      for (var p in ownParams) {
-        let fid = getFID(p);
-        if (fid) {
-          const filter = this.props.filters[fid];
-          let z = {};
-          z.value = ownParams[p];
-          this.handleFilter(filter, z);
-        }
-      }
+      // multi filters
+      if (isArray(ownParams)) {
+        console.log('Apply - is array')
+        this.handleFilter(this, {value: ownParams});
+      } else {
+       for (var p in ownParams) {
+         let fid = getFID(p);
+         let z = {};
+         z.value = ownParams[p];
+         if (fid && this.props.filters) {
+           const filter = this.props.filters[fid];
+           this.handleFilter(filter, z);
+         } else if (this.props.asFilter) {
+           this.handleFilter(this, z);
+         }
+       }
+     }
     }
   }  
 
@@ -189,6 +239,8 @@ export default class BaseComponent extends Component {
     let _data = data.hits || data;
     let _total = data.total || data.length;
     _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData(), this.state.filterEvent);
+    // @@TODO this is a cheat for autocomplete to get the value
+    if (isEmpty(_data) && this.state.filterEvent) _data = this.state.filterEvent.value;
     this.setState({data: _data, total: _total, isFeching: false});
   }
 
