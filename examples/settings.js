@@ -37,17 +37,20 @@ export var settings = {
     {
       type: 'Autocomplete',
       cid: 'ac1',
+      asFilter: true, // get and set values to url query 
       placeholder: 'Select to repopulate Multi-component, below',
       style: {marginBottom: '1em'},
-      id: 'multicomponent-multi',
+      multi: true,
+      id: 'multicomponent-autocomplete',
       name: 'multicomponent-multi',
-      options: [{value: 'a', label: 'a'}, {value: 'b', label: 'b'}]
-    },
+      options: [{value: 'a', label: 'a'}, {value: 'b', label: 'b'}],
+      dataHandlers: [{name: 'common.getEventReturn'}]
+    }, 
     {
       header: 'Multi Component',
       type: 'Multi',
       cid: 'm1',
-      id: 'multicomponent',
+      id: 'multicomponent-multi',
       cardStyle: 'content',
       style: {padding: '1em', background: '#DAEEF5'},
       initVal: 'a',
@@ -200,7 +203,7 @@ export var settings = {
           cid: 'html45',
           dangerouslySetInnerHTML: {__html: 'Choropleth Heat Map -- topojson'}
         },
-        {
+       /* {
           type: 'Choropleth',
           cid: 'choro1',
           format: 'topojson',
@@ -231,7 +234,7 @@ export var settings = {
             domainStartValue: '',
             domainEndValue: '',
           }
-        },
+        }, */
         {
           type: 'Region',
           cid: 'r650',
