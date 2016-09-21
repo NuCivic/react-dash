@@ -19,14 +19,12 @@ templates_path = ['_templates']
 master_doc = 'index'
 
 # General information about the project.
-project = u'DKAN'
+project = u'React Dash'
 copyright = u'2016, Test'
-author = u'DKAN Team'
+author = u'Mariano Carballal <marianocarballal@gmail.com> (http://github.com/topicus), Paul Walker <pjwalker76@gmail.com> (http://github.com/starsinmypockets@gmail.com)'
 
 
-version = '1.12'
-release = '1.12.7'
-
+version = '0.4.0'
 language = 'en'
 
 # List of patterns, relative to source directory, that match files and
@@ -161,10 +159,10 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, 'dkan', u'DKAN Documentation',
-     [author], 1)
-]
+#man_pages = [
+#    (master_doc, 'dkan', u'DKAN Documentation',
+#     [author], 1)
+#]
 
 # If true, show URL addresses after external links.
 #man_show_urls = False
