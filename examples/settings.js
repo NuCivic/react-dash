@@ -34,7 +34,7 @@ export var settings = {
     // as the multi-components initVal
     // Target the multicomponent by its id field
     // in app.js we use id to determine the update type and the target (app.js)
-   /* {
+    {
       type: 'Autocomplete',
       cid: 'ac1',
       placeholder: 'Select to repopulate Multi-component, below',
@@ -42,7 +42,7 @@ export var settings = {
       id: 'multicomponent-multi',
       name: 'multicomponent-multi',
       options: [{value: 'a', label: 'a'}, {value: 'b', label: 'b'}]
-    }, */
+    },
     {
       header: 'Multi Component',
       type: 'Multi',
@@ -189,7 +189,7 @@ export var settings = {
           ]
         },
       ],                    
-    }, 
+    },
 	 	{
      type: 'Region',
      cid: 'r6',
@@ -365,7 +365,32 @@ export var settings = {
           data: [
             {race: 'African American', race_count: 100}, {race: 'White', race_count: 250}, {race: 'Asian', race_count: 100}, {race: 'Other', race_count:75}
           ],
-        }
+        },
+       {
+              type: 'Chart',
+              className: 'col-md-6',
+              cardStyle: 'chart',
+              header: 'NVD3 Discrete Bar Chart',
+              settings: {
+                type: 'discreteBarChart',
+                x: 'label',
+                y: 'value',
+                rotateLabels: -45,
+                color: ['#b3f0ff', '#99ebff', '#80e5ff', '#66e0ff', '#4ddbff'],
+              },
+              data:
+              [ 
+              { key: 'Chart key',
+                values: 
+                [
+                  {label: 'Yes', value: 100000},
+                  {label: 'No', value: 90},
+                  {label: 'Maybe', value: 45},
+                  {label: 'Unknown', value: 20}
+                ]
+              }
+              ]
+        } 
       ]
     }
   ]
