@@ -6,6 +6,7 @@
   "scripts": {
     "start": "bash start.sh",
     "build": "webpack --config webpack.config.production.js",
+    "build-demo": "webpack --config webpack.config.js",
     "test": "bash runtests.sh",
     "lint": "eslint src"
   },
