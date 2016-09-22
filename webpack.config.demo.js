@@ -21,7 +21,6 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: 'react-dash-demo.min.js',
     libraryTarget: 'umd',
-    publicPath: '/static/'
   },
   plugins: [
     new webpack.optimize.DedupePlugin(),
@@ -50,5 +49,8 @@ module.exports = {
       { test: /\.scss$/, loader: ExtractTextPlugin.extract('css-loader!sass-loader') }
     ]
   },
-  externals: nodeModules,
+//  externals: nodeModules,
 };
+
+console.log(path.join(__dirname, 'src'));
+console.log(path.join(__dirname, 'examples'));
