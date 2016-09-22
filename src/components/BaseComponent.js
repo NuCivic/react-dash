@@ -6,7 +6,7 @@ import Dataset from '../models/Dataset';
 import {omit, isEqual, isEmpty, isFunction, isPlainObject, isString, isArray, debounce} from 'lodash';
 import DataHandler from '../utils/DataHandler';
 import Registry from '../utils/Registry';
-import {qFromParams, getOwnQueryParams, getFID, objToQueryString} from '../utils/utils';
+import {qFromParams, getOwnQueryParams, getFID, objToQueryString} from '../utils/paramRouting';
 
 export default class BaseComponent extends Component {
 
@@ -153,7 +153,7 @@ export default class BaseComponent extends Component {
 
     const newQ = Object.assign(this.props.location.query, newQFragment);
     let newQueryString = decodeURIComponent(objToQueryString(newQ)).replace(/\[\]/g, '');
-    browserHistory.push('/?' + newQueryString);
+    browserHistory.push(this.props.location.pathname + '?' + newQueryString);
     
     // Update state with new filter values
     let z = {};
