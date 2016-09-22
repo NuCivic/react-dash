@@ -26,7 +26,8 @@ export default class App extends Component {
     return (
       <div id="router-container">
         <Router history={browserHistory}>
-          <Route path=/\/(?:react-dashboard)?/g component={Dashboard} />
+          <Route path='/' component={Dashboard} />
+          <Route path='react-dashbaord' component={Dashboard} />
         </Router>
       </div>
     )
