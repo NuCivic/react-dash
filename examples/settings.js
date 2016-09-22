@@ -203,12 +203,12 @@ export var settings = {
           cid: 'html45',
           dangerouslySetInnerHTML: {__html: 'Choropleth Heat Map -- topojson'}
         },
-       /* {
+        {
           type: 'Choropleth',
           cid: 'choro1',
           format: 'topojson',
           fetchData: {
-            url: '/data/unemployment.tsv',
+            url: '/data/map/unemployment.tsv',
             type: 'backend',
             backend: 'csv',
             delimiter: '\t',
@@ -217,7 +217,7 @@ export var settings = {
           dataKeyField: 'id',
           dataValueField: 'rate',
           geometryKeyField: 'id',
-          geometry: '/data/us.json', // topojson or geojson
+          geometry: '/data/map/us.json', // topojson or geojson
           //projection: 'mercator', // https://github.com/d3/d3/wiki/Geo-Projections
           projection: 'albersUsa', // https://github.com/d3/d3/wiki/Geo-Projections
           scaleDenominator: .8,
@@ -234,7 +234,7 @@ export var settings = {
             domainStartValue: '',
             domainEndValue: '',
           }
-        }, */
+        },
         {
           type: 'Region',
           cid: 'r650',
