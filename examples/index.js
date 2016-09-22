@@ -4,7 +4,7 @@ console.log(1);
 //import 'react-select/dist/react-select.min.css';
 //import 'fixed-data-table/dist/fixed-data-table.min.css';
 //import ReactDOM from 'react-dom';
-import React from 'react';
+//import React from 'react';
 //import customDataHandlers from './customDataHandlers';
 //import GADashboard from './GADashboard';
 //import { settings } from './settings';
