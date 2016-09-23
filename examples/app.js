@@ -15,7 +15,24 @@ class Dashboard extends Component {
   render() {
     // add router-provided props to our config settings
     const props = Object.assign({}, this.props, settings);
-    return <GADashboard {...props}/>
+    this.getData().then(data => {
+      console.log(data);
+    })
+    return <p>foo</p>;
+    //return <GADashboard {...props}/>
+  }
+
+  getData() {
+		const url = 'http://dev-react-dashboard-demo.pantheonsite.io/api/action/datastore/search.json?resource_id=1899d41c-0715-46d4-9667-d6fd356c4a22&limit=5';
+    return new Promise((resolve, reject) => {
+      fetch(url).then(response => {
+        return response.json();
+      }).then(data => {
+        resolve(data);
+      }).catch(e => {
+        reject(e);
+      });
+    });
   }
 }
 
