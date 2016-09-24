@@ -1,48 +1,104 @@
-import {timeFormat as d3_timeFormat} from 'd3-time-format';
-import colorbrewer from 'colorbrewer';
-import d3 from 'd3';
-
 export var settings = {
-  title: 'UCR Offense Data',
-  queries: {
-    arrests_avg: {
-      avg: "count"
+  title: 'Climate Indices',
+  queries: {},
+	// we will add this to globalData in app.js 
+  // and use these labels in our customDatahandlers
+  climate_vars: {
+    PCP: 'Precipitation Index',
+    TAVG: 'Temperature Index',
+    TMIN: 'Minimum Temperature Index',
+    TMAX: 'Maximum Temperature Index',
+    PDSI: 'Palmer Drought Severity Index',
+    PHDI: 'Palmer Hydrological Drought Index',
+    ZNDX: 'Palmer Z-Index',
+    PMDI: 'Modified Palmer Drought Severity Index',
+    CDD: 'Cooling Degree Days',
+    HDD: 'Heating Degree Days',
+    SPnn: 'Standard Precipitation Index'
+	},
+
+  components: [
+    
+    // region top
+    {
+      type: 'Region',
+      className: 'region-top',
+      children: [
+        {
+          type: 'h3',
+          style: {borderBottom: '2px grey solid'},
+          dangerouslySetInnerHTML: {__html: 'Climate Indices for U.S. States 2010 -- 2015'}
+        },
+        // state filter
+        // year filter
+        // metric - driest month
+        // metric - wettest month
+        // metric - hottest month
+        // metric - coolest month
+      ]
     },
-    arrests_sum: {
-      sum: "count",
-      fields: "count"
+
+    // region choropleth
+    /*{
+      type: 'region',
+      className: 'region-choropleth'
+      children: [
+        // choropleth
+      ]
     },
-    arrests_max: {
-      max: "count"
+
+    // region pie-charts
+    {
+      type: 'region',
+      className: 'region-pies',
+      children: [
+
+        // pies 1
+        {
+          type: 'region',
+          className: 'pies-1',
+          children: [
+            // pieChart
+            // table
+          ]
+        },
+
+        // pies 2
+        {
+          type: 'region',
+          className: 'pies-2',
+          children: [
+            // pieChart
+            // table
+          ]
+        }    
+      ]
+    },*/
+
+    // region lower
+    {
+      type: 'Region',
+      className: 'region-lower',
+      children: [          
+        {
+          type: 'p',
+          dangerouslySetInnerHTML: {__html: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'}
+        }
+        // line chart
+        // bar chart
+      ]
     },
-    arrests_min: {
-      min: "count"
-    },
-    by_age: {
-      groupBy: "adult_or_juvenil",
-      sum: "count",
-      fields: "adult_or_juvenil"
-    },
-    by_category: {
-      groupBy: "category",
-      sum: "count",
-      fields: "category"
-    },
-    by_month: {
-      groupBy: "month",
-      sum: "count",
-      fields: "month"
-    },
-    by_description: {
-      groupBy: "description",
-      sum: "count",
-      fields: "description"
-    },
-    by_county: {
-      groupBy: "county",
-      sum: "count",
-      fields: "county",
-      limit: [0, 100]
+
+    // region footer
+    {
+      type: 'Region',
+      className: 'region-footer',
+      children: [
+        {
+          type: 'p',
+          dangerouslySetInnerHTML: {__html: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'}
+        }     
+      ]
     }
-  }
+  ]
 }
