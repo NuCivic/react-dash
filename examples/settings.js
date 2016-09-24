@@ -22,7 +22,7 @@ export var settings = {
     // region top
     {
       type: 'Region',
-      className: 'region-top',
+      className: 'region region-top row',
       children: [
         {
           type: 'h3',
@@ -78,7 +78,7 @@ export var settings = {
     // region lower
     {
       type: 'Region',
-      className: 'region-lower',
+      className: 'region region-lower',
       children: [          
         {
           type: 'p',
@@ -92,7 +92,7 @@ export var settings = {
     // region footer
     {
       type: 'Region',
-      className: 'region-footer',
+      className: 'region region-footer',
       children: [
         {
           type: 'p',
