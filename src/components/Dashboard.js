@@ -22,8 +22,8 @@ export default class Dashboard extends BaseComponent {
           {this.props.components.map((element, key) => {
             let props = Object.assign(this.props.components[key], {globalData: this.state.data}, routeParams);
             let output;
-
-            if (props.cardType !== 'undefined') {
+            
+            if (props.cardStyle) {
               output = 
                 <Card key={key} {...element}>
                   {React.createElement(Registry.get(element.type), Object.assign(this.props.components[key], props))}
