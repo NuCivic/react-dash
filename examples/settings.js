@@ -26,7 +26,6 @@ export var settings = {
       children: [
         {
           type: 'h3',
-          style: {borderBottom: '2px grey solid'},
           dangerouslySetInnerHTML: {__html: 'Climate Indices for U.S. States 2010 -- 2015'}
         },
         // state filter
