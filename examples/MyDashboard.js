@@ -5,9 +5,6 @@ import { settings } from './settings';
 
 // We use the dashboard to 
 export default class MyDashboard extends Dashboard {
-  componentWillMount() {
-    this.getData();
-  }
   
   // @@TODO We should abstract this data loading to a custom model layer
   // @@TODO and call the appropriate custom loaders on instantiation

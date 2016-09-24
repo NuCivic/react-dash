@@ -6,6 +6,10 @@ import MyDashboard from './MyDashboard';
 
 // We extend the Dashboard so we can pass Routing info from the App
 class Dashboard extends MyDashboard {
+  componentWillMount() {
+    this.getData();
+  }
+  
   render() {
     const props = Object.assign({}, this.props, settings);
     return <MyDashboard {...props}/>
