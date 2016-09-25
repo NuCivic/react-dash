@@ -1,2 +1,3 @@
 .region {border-bottom: 1px grey solid}
 .dashboard-title {margin-left: 100px, background: url('static/logo.png') 100px}
+.fa {font-size:3.5em !important; margin-top:.2em}
