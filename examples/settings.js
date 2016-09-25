@@ -115,12 +115,38 @@ export var settings = {
 							{ value: '029', label: 'New Mexico' },
 						]
         },
-        // state filter
-        // year filter
-        // metric - driest month
-        // metric - wettest month
-        // metric - hottest month
-        // metric - coolest month
+      ]
+    },
+    {
+      type: 'Region',
+      className: 'region-metrics region row',
+      children: [
+        {
+          type: 'Metric',
+          cardStyle: 'metric',
+          iconClass: 'fa fa-level-up',
+          className: 'col-md-4',
+          caption: 'Max avg temp',
+          value: '999 deg'
+        },
+        {
+          type: 'Metric',
+          cardStyle: 'metric',
+          iconClass: 'fa fa-level-down',
+          className: 'col-md-4',
+          background: '#53ACC9',
+          caption: 'Min avg temp',
+          value: '999 deg'
+        },
+        {
+          type: 'Metric',
+          cardStyle: 'metric',
+          iconClass: 'fa fa-fire',
+          className: 'col-md-4',
+          caption: 'Max avg temp',
+          background: '#C97053',
+          value: '999 deg'
+        }
       ]
     },
 
