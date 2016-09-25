@@ -1,5 +1,5 @@
 export var settings = {
-  title: 'Climate Indices',
+  title: 'React-Dash Demo -- Climate Indices',
   queries: {},
 	// we will add this to globalData in app.js 
   // and use these labels in our customDatahandlers
@@ -16,6 +16,14 @@ export var settings = {
     HDD: 'Heating Degree Days',
     SPnn: 'Standard Precipitation Index'
 	},
+  
+  // if defined at the top level, fetchData will populate
+  // the dashboard with globalData
+  fetchData: {
+    type: 'backend',
+    backend: 'csv',
+    url: 'data/climate_indices.csv'
+  },
 
   components: [
     
@@ -77,7 +85,7 @@ export var settings = {
     // region lower
     {
       type: 'Region',
-      className: 'region region-lower',
+      className: 'region region-lower row',
       children: [          
         {
           type: 'p',
@@ -91,7 +99,7 @@ export var settings = {
     // region footer
     {
       type: 'Region',
-      className: 'region region-footer',
+      className: 'region region-footer row',
       children: [
         {
           type: 'p',
