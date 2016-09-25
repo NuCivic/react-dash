@@ -109,13 +109,13 @@ function _buildParams(prefix, obj, add) {
           if (rbracket.test(prefix)) {
               add(prefix, obj[i]);
           } else {
-              buildParams(prefix + "[" + ( typeof obj[i] === "object" ? i : "" ) + "]", obj[i], add);
+             _buildParams(prefix + "[" + ( typeof obj[i] === "object" ? i : "" ) + "]", obj[i], add);
           }
       }
   } else if (typeof obj == "object") {
       // Serialize object item.
       for (name in obj) {
-          buildParams(prefix + "[" + name + "]", obj[ name ], add);
+          _buildParams(prefix + "[" + name + "]", obj[ name ], add);
       }
   } else {
       // Serialize scalar item.
