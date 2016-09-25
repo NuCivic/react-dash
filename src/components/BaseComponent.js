@@ -30,7 +30,7 @@ export default class BaseComponent extends Component {
     }
 
     let ownParams = getOwnQueryParams(q, this.props.cid, this.props.multi) || {};
-    if (this.props.type == 'Autocomplete') console.log('own', ownParams);
+//    if (this.props.type == 'Autocomplete') console.log('own', ownParams);
     this.setState({ownParams: ownParams});
   }
 
@@ -137,7 +137,6 @@ export default class BaseComponent extends Component {
   // this triggers applyOwnFilters -> handleFiter
   // @@TODO fid should be array index
   onFilter(filter, e) {
-    console.log('onFilter', filter, e);
     if (this.props.multi) return this.onFilterMulti(filter, e);
 
     let fid = 'fid'+filter.cid;
@@ -168,7 +167,6 @@ export default class BaseComponent extends Component {
   // @@TODO - Address multi type for component filters
   // @@TODO this shares code with onFilter - refactor?
   onFilterMulti(filter, e) {
-    console.log('OFM', filter, e);
     let newQFragment = {};
     let z = [];
     let newQ, newQueryString, newState;
@@ -186,14 +184,12 @@ export default class BaseComponent extends Component {
       }
       z.push(_e.value);
     });
-    console.log('Z',z);
     newQ = Object.assign(this.props.location.query, newQFragment);
      
     if (isEmpty(newQFragment)) delete newQ[this.props.cid];
     
     newQueryString = decodeURIComponent(objToQueryString(newQ)).replace(/\[\]/g, '');
     browserHistory.push('/?' + newQueryString);
-    console.log('New Data', z);
     this.setState({ownParams: z, data: z}); 
   }
   
@@ -216,7 +212,6 @@ export default class BaseComponent extends Component {
     if (ownParams) {
       // multi filters
       if (isArray(ownParams)) {
-        console.log('Apply - is array')
         this.handleFilter(this, {value: ownParams});
       } else {
        for (var p in ownParams) {
@@ -245,8 +240,10 @@ export default class BaseComponent extends Component {
   }
 
   emit(payload) {
+    console.log('emit', payload);
     EventDispatcher.dispatch(payload);
   }
+
 
   getGlobalData() {
     return this.props.globalData || [];

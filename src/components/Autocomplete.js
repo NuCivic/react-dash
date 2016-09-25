@@ -14,7 +14,6 @@ import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import {makeKey} from '../utils/utils';
 import BaseComponent from './BaseComponent';
-import DashboardConstants from '../constants/DashboardConstants';
 import ReactSelect from './ReactSelect';
 
 export default class Autocomplete extends BaseComponent {
@@ -23,18 +22,21 @@ export default class Autocomplete extends BaseComponent {
     super(props);
     this.state.data = this.state.ownParams; 
   }
-
-  componentDidMount() {
-    super.componentDidMount();
+  
+  onFilter(e) {
+    this.applyDataHandlers(e, this.props.dataHandlers);
   }
-
+  
   onChange(e) {
-    this.onFilter(this, e);
+    // @@TODO wire param routing to Autocomplete!
+    // Currently this overrides onFilter in BaseComponent
+    // which does param handling
+    this.onFilter(e);
 
     this.emit({
-      actionType: DashboardConstants.AUTOCOMPLETE_CHANGE,
+      actionType: 'AUTOCOMPLETE_CHANGE',
       value: e,
-      id: this.props.id || makeKey(5)
+      id: this.props.id
     });
   }
 
@@ -60,7 +62,6 @@ export default class Autocomplete extends BaseComponent {
   }
 
   render(){
-    console.log('Filter data', this.state.data);
     return (
       <ReactSelect.Async value={this.state.data} loadOptions={this.loadOptions.bind(this)} {...this.props} onChange={this.onChange.bind(this)}/>
     );

@@ -38,11 +38,13 @@ export var settings = {
         },
         {
           type: 'Autocomplete',
-          name: 'year-autucomplete',
-          id: 'year-autucomplete',
-          placeholder: 'Select year...',
-          multi: true,
+          cid: 'a1',
           asFilter: true,
+          id: 'autocomplete-year',
+          placeholder: 'Select year...',
+          onAction: 'onAction',
+          dataHandlers: [{name: 'getEventReturn'}],
+          multi: true,
           options: [
             { label: '2010', value: '2010' },
             { label: '2011', value: '2011' },
