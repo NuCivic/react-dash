@@ -14,6 +14,11 @@ class Dashboard extends MyDashboard {
     const props = Object.assign({}, this.props, settings);
     return <MyDashboard {...props}/>
   }
+
+  onAction(payload) {
+    console.log('MyDash onAction', payload);
+    // just run the action handlers
+  }
 }
 
 // Wrap Dashboard component in router

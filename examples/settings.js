@@ -36,6 +36,22 @@ export var settings = {
           type: 'h3',
           dangerouslySetInnerHTML: {__html: 'Climate Indices for U.S. States 2010 -- 2015'}
         },
+        {
+          type: 'Autocomplete',
+          name: 'year-autucomplete',
+          id: 'year-autucomplete',
+          placeholder: 'Select year...',
+          multi: true,
+          asFilter: true,
+          options: [
+            { label: '2010', value: '2010' },
+            { label: '2011', value: '2011' },
+            { label: '2012', value: '2012' },
+            { label: '2013', value: '2013' },
+            { label: '2014', value: '2014' },
+            { label: '2015', value: '2015' },
+          ]
+        },
         // state filter
         // year filter
         // metric - driest month
