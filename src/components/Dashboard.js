@@ -18,7 +18,7 @@ export default class Dashboard extends BaseComponent {
     console.log('oA0', payload);
     switch(payload.actionType) {
       case 'AUTOCOMPLETE_CHANGE':
-        let field = payload.id.split('-')[1];
+        let field = payload.field;
         let values = payload.value.map(v => {return v.value});
         let filters = values.map((v,k) => {
           return v;
@@ -26,14 +26,13 @@ export default class Dashboard extends BaseComponent {
         
         // overwrite filter array for given field
         let appliedFilters = Object.assign({}, this.state.appliedFilters);
+        let data = Object.assign({}, this.state.data);
         appliedFilters[field] = filters;
-        
-        // assign appliedFilters to data for use in dataHandlers
-        let appData = Object.assign({}, this.state.data);
-        appData.appliedFilters = appliedFilters;
+        data.appliedFilters = appliedFilters;
         
         // go
-        this.setState({ appliedFilters: appliedFilters });
+        //
+        this.setState({ appliedFilters: appliedFilters, data: data });
         break;
      } 
   }
@@ -48,7 +47,7 @@ export default class Dashboard extends BaseComponent {
         <div className="container">
           <h1 className="dashboard-title">{this.props.title}</h1>
           {this.props.components.map((element, key) => {
-            let props = Object.assign(this.props.components[key], {globalData: this.state.data}, routeParams);
+            let props = Object.assign(this.props.components[key], {globalData: this.state.data, appliedFilters: this.state.appliedFilters}, routeParams);
             let output;
             
             if (props.cardStyle) {

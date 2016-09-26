@@ -17,14 +17,18 @@ import BaseComponent from './BaseComponent';
 import ReactSelect from './ReactSelect';
 
 export default class Autocomplete extends BaseComponent {
-
-  constructor(props) {
-    super(props);
-    this.state.data = this.state.ownParams; 
+  componentWillMount() {
+    console.log('AC - aF', this.props); //this.state.globalData.appliedFilters)
   }
   
-  onFilter(e) {
-    this.applyDataHandlers(e, this.props.dataHandlers);
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.appliedFilters) {
+      this.setState({data: nextProps.appliedFilters[this.props.field]});
+    }
+  }
+  
+  onFilter() {
+    // noop / overrides basecomponent onFilter
   }
   
   onChange(e) {
@@ -36,7 +40,7 @@ export default class Autocomplete extends BaseComponent {
     this.emit({
       actionType: 'AUTOCOMPLETE_CHANGE',
       value: e,
-      id: this.props.id
+      field: this.props.field
     });
   }
 
@@ -62,8 +66,10 @@ export default class Autocomplete extends BaseComponent {
   }
 
   render(){
+    let data = [];
+    if (this.props.appliedFilters) data = this.props.appliedFilters[this.props.field];
     return (
-      <ReactSelect.Async value={this.state.data} loadOptions={this.loadOptions.bind(this)} {...this.props} onChange={this.onChange.bind(this)}/>
+      <ReactSelect.Async value={data} loadOptions={this.loadOptions.bind(this)} {...this.props} onChange={this.onChange.bind(this)}/>
     );
   }
 }

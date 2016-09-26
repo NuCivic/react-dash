@@ -8,7 +8,6 @@ import CustomActionHandlers from './customActionHandlers';
 // We extend the Dashboard so we can pass Routing info from the App
 class Dashboard extends MyDashboard {
   render() {
-    console.log('MyDash', this);
     let z = {};
     z.appliedFilters = this.state.appliedFilters;
     const props = Object.assign({}, this.props, z, settings);
@@ -19,7 +18,6 @@ class Dashboard extends MyDashboard {
 // Wrap Dashboard component in router
 class App extends Component {
   render() {
-    console.log('render router', this);
     return (
       <div id="router-container">
         <Router history={browserHistory}>

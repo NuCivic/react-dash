@@ -24,6 +24,8 @@ export var settings = {
     backend: 'csv',
     url: 'data/climate_indices.csv'
   },
+  // if applied at the top level, datahandlers will filter global data
+  dataHandlers: ['filterData'],
 
   components: [
     
@@ -39,8 +41,7 @@ export var settings = {
         {
           type: 'Autocomplete',
           cid: 'a1',
-          asFilter: true,
-          id: 'autocomplete-year',
+          field: 'year',
           placeholder: 'Select year...',
           dataHandlers: [{name: 'getEventReturn'}],
           multi: true,
@@ -56,7 +57,7 @@ export var settings = {
         {
           type: 'Autocomplete',
           cid: 'a2',
-          asFilter: true,
+          field: 'state',
           id: 'autocomplete-state',
           placeholder: 'Select state...',
           dataHandlers: [{name: 'getEventReturn'}],
