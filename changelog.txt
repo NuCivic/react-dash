@@ -31,4 +31,9 @@ react-dashboard-boilerplate automated install
 **
 * style prop on card elements rendered on card div - uses form { boderBottom:
  "1em" }
+Update Filter Handling for autocomplete component
 
+* Move onAction to Dashboard component and include `field` value 
+(defined in settings on Autocomplete component)
+* Add appliedFilters to Dashboard state and pass to children in props
+* Make appliedFiters avaiable in dataHandlers

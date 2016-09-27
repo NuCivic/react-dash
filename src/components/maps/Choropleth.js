@@ -7,27 +7,29 @@ import HoverInfo from './HoverInfo';
 import topojson from 'topojson'
 import d3 from 'd3';
 import MapLegend from './MapLegend';
-
+console.log('MAP', Datamap);
 export default class Choropleth extends BaseComponent {
 
   constructor(props) {
     super(props);
-    this.state = {
+    let newState = {
       infoWindowPos: new Map([['x',0], ['y', 0]]),
       infoWindowActive: true,
       activeSubunitName: 'default',
-      data: []
     };
+    this.state = Object.assign(this.state, newState);
   }
 
   componentDidMount() {
     super.componentDidMount();
+    console.log('A', this);
     fetch(this.props.geometry)
       .then(response => {
         let r = response.json()
         return r;
       })
       .then( (data) =>{
+        console.log('A1', data);
         var geometryFeatures;
         if (this.props.format === 'geojson') {
           geometryFeatures = data.features;
@@ -70,6 +72,7 @@ export default class Choropleth extends BaseComponent {
     const data = this.state.data;
     const max = d3.max(data.map((d) => d[valueField]));
     const min = d3.min(data.map((d) => d[valueField]));
+    console.log('extreme', max, min);
     return new Map([ ['min', min], ['max', max] ]);
   }
 
@@ -130,20 +133,22 @@ export default class Choropleth extends BaseComponent {
         {...this.props}
       />
     );
+    
+    console.log('CH', this);
 
     const colorScale = this.colorScale();
     const noDataColor = this.props.noDataColor || '#f5f5f5';
     const borderColor = this.props.borderColor || '#cccccc';
     const geometryFeatures = this.state.geometryFeatures || [];
-    const loading = this.state.geometryFeatures && this.state.data;
-
+    //const loading = this.state.geometryFeatures && this.state.data;
+    const loading = false;
     const svgStyle = {
       width: svgWidth,
       height: svgHeight,
       fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
     }
     return (
-      <Loader isFeching={!loading}>
+//      <Loader isFeching={!loading}>
         <div className="map-container">
           <svg className="map-svg" style={svgStyle}>
             <g id="root-svg-group">
@@ -173,7 +178,7 @@ export default class Choropleth extends BaseComponent {
             value={activeSubunitValue}
           />
         </div>
-      </Loader>
+  //    </Loader>
     );
   }
 }

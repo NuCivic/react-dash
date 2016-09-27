@@ -15,7 +15,7 @@ export default class Dashboard extends BaseComponent {
    * @param payload.id {string} 'autocomplete-FIELDNAME'
    */
   onAction(payload) {
-    console.log('oA0', payload);
+    console.log('ACT', payload);
     switch(payload.actionType) {
       case 'AUTOCOMPLETE_CHANGE':
         let field = payload.field;
@@ -33,6 +33,7 @@ export default class Dashboard extends BaseComponent {
         // go
         //
         this.setState({ appliedFilters: appliedFilters, data: data });
+        if (payload.fetch) this.fetchData();
         break;
      } 
   }

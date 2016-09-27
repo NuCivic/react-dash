@@ -17,10 +17,6 @@ import BaseComponent from './BaseComponent';
 import ReactSelect from './ReactSelect';
 
 export default class Autocomplete extends BaseComponent {
-  componentWillMount() {
-    console.log('AC - aF', this.props); //this.state.globalData.appliedFilters)
-  }
-  
   componentWillReceiveProps(nextProps) {
     if (nextProps.appliedFilters) {
       this.setState({data: nextProps.appliedFilters[this.props.field]});
@@ -28,7 +24,7 @@ export default class Autocomplete extends BaseComponent {
   }
   
   onFilter() {
-    // noop / overrides basecomponent onFilter
+    // noop / overrides basecomponent onFilte
   }
   
   onChange(e) {
@@ -40,7 +36,8 @@ export default class Autocomplete extends BaseComponent {
     this.emit({
       actionType: 'AUTOCOMPLETE_CHANGE',
       value: e,
-      field: this.props.field
+      field: this.props.field,
+      fetch: this.props.fetch
     });
   }
 

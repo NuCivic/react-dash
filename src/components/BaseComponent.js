@@ -75,7 +75,13 @@ export default class BaseComponent extends Component {
     this.fetchData();
     this.onResize();
   }
-
+  
+  /* shouldComponentUpdate(nextProps) {
+    let globalDataEqual = _.isEqual(nextProps.globalData, this.props.globalData);
+    let appliedFiltersEqual = _.isEqual(nextProps.appliedFilters, this.props.appliedFilters);
+    return (!globalDataEqual || !appliedFiltersEqual); 
+  } */
+  
   // if global data
   componentDidUpdate(nextProps, nextState) {
     let globalDataEqual = _.isEqual(nextProps.globalData, this.props.globalData);

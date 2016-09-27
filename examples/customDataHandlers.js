@@ -1,5 +1,5 @@
 import DataHandler from '../src/utils/DataHandler'
-import last from 'lodash/last';
+import { find } from 'lodash';
 
 let customDataHandlers = {
   // Global data filters
@@ -10,23 +10,38 @@ let customDataHandlers = {
     if (!appliedFilters) return _data;
     
     Object.keys(appliedFilters).forEach(k => {
-      if (k === "year") {
-          _data =  _data.filter(row => {
+      if (k === "year" && appliedFilters[k].length >= 0) {
+        _data =  _data.filter(row => {
           return _inYear(row, appliedFilters[k]);  
         })
       }
       
-      if (k === "state") {
+      if (k === "state" && appliedFilters[k].length >= 0) {
         let states = appliedFilters[k].map(parseInt);
-           _data = _data.filter(row => {
+        _data = _data.filter(row => {
           return _inState(row, states);  
         });
       }
     });
-    console.log('D', _data.length);
     
     return _data;
   },
+
+  getNumRecords: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    return [dashboardData.length];
+  },
+
+  getMapData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    let mapped = dashboardData.map(row => {
+      // assign label from stateArray to row, based on matching id
+      let state = find(handler.stateArray, r => {
+          return ( parseInt(r.value) === parseInt( row.StateCode ) ) 
+        });
+      if (state) row.name = state.label;
+      return row;
+    });
+    return mapped;
+  }
 }
 
 for (let k in customDataHandlers) {
@@ -42,7 +57,6 @@ let _inYear = function (row, years) {
 }
 
 let _inState = function (row, states) {
-  console.log(states.indexOf(row.StateCode) >= 0);
   return (states.indexOf(row.StateCode) >= 0);
 }
 

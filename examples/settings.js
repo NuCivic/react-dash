@@ -1,68 +1,4 @@
-export var settings = {
-  title: 'React-Dash Demo -- Climate Indices',
-  queries: {},
-	// we will add this to globalData in app.js 
-  // and use these labels in our customDatahandlers
-  climate_vars: {
-    PCP: 'Precipitation Index',
-    TAVG: 'Temperature Index',
-    TMIN: 'Minimum Temperature Index',
-    TMAX: 'Maximum Temperature Index',
-    PDSI: 'Palmer Drought Severity Index',
-    PHDI: 'Palmer Hydrological Drought Index',
-    ZNDX: 'Palmer Z-Index',
-    PMDI: 'Modified Palmer Drought Severity Index',
-    CDD: 'Cooling Degree Days',
-    HDD: 'Heating Degree Days',
-    SPnn: 'Standard Precipitation Index'
-	},
-  
-  // if defined at the top level, fetchData will populate
-  // the dashboard with globalData
-  fetchData: {
-    type: 'backend',
-    backend: 'csv',
-    url: 'data/climate_indices.csv'
-  },
-  // if applied at the top level, datahandlers will filter global data
-  dataHandlers: ['filterData'],
-
-  components: [
-    
-    // region top
-    {
-      type: 'Region',
-      className: 'region region-top row',
-      children: [
-        {
-          type: 'h3',
-          dangerouslySetInnerHTML: {__html: 'Climate Indices for U.S. States 2010 -- 2015'}
-        },
-        {
-          type: 'Autocomplete',
-          cid: 'a1',
-          field: 'year',
-          placeholder: 'Select year...',
-          dataHandlers: [{name: 'getEventReturn'}],
-          multi: true,
-          options: [
-            { label: '2010', value: '2010' },
-            { label: '2011', value: '2011' },
-            { label: '2012', value: '2012' },
-            { label: '2013', value: '2013' },
-            { label: '2014', value: '2014' },
-            { label: '2015', value: '2015' },
-          ]
-        },
-        {
-          type: 'Autocomplete',
-          cid: 'a2',
-          field: 'state',
-          id: 'autocomplete-state',
-          placeholder: 'Select state...',
-          dataHandlers: [{name: 'getEventReturn'}],
-          multi: true,
-          options: 
+const stateIds = 
 						[
 							{ value: '001', label: 'Alabama' },
 							{ value: '030', label: 'New York' },
@@ -115,6 +51,73 @@ export var settings = {
 							{ value: '028', label: 'New Jersey' },
 							{ value: '029', label: 'New Mexico' },
 						]
+export var settings = {
+  title: 'React-Dash Demo -- Climate Indices',
+  queries: {},
+	// we will add this to globalData in app.js 
+  // and use these labels in our customDatahandlers
+  climate_vars: {
+    PCP: 'Precipitation Index',
+    TAVG: 'Temperature Index',
+    TMIN: 'Minimum Temperature Index',
+    TMAX: 'Maximum Temperature Index',
+    PDSI: 'Palmer Drought Severity Index',
+    PHDI: 'Palmer Hydrological Drought Index',
+    ZNDX: 'Palmer Z-Index',
+    PMDI: 'Modified Palmer Drought Severity Index',
+    CDD: 'Cooling Degree Days',
+    HDD: 'Heating Degree Days',
+    SPnn: 'Standard Precipitation Index'
+	},
+  
+  // if defined at the top level, fetchData will populate
+  // the dashboard with globalData
+  fetchData: {
+    type: 'backend',
+    backend: 'csv',
+    url: 'data/climate_indices.csv'
+  },
+  // if applied at the top level, datahandlers will filter global data
+  dataHandlers: ['filterData'],
+
+  components: [
+    
+    // region top
+    {
+      type: 'Region',
+      className: 'region region-top row',
+      children: [
+        {
+          type: 'h3',
+          dangerouslySetInnerHTML: {__html: 'Climate Indices for U.S. States 2010 -- 2015'}
+        },
+        {
+          type: 'Autocomplete',
+          cid: 'a1',
+          field: 'year',
+          placeholder: 'Select year...',
+          dataHandlers: [{name: 'getEventReturn'}],
+          multi: true,
+          fetch: true,
+          options: [
+            { label: '2010', value: '2010' },
+            { label: '2011', value: '2011' },
+            { label: '2012', value: '2012' },
+            { label: '2013', value: '2013' },
+            { label: '2014', value: '2014' },
+            { label: '2015', value: '2015' },
+          ]
+        },
+        {
+          type: 'Autocomplete',
+          cid: 'a2',
+          field: 'state',
+          id: 'autocomplete-state',
+          placeholder: 'Select state...',
+          dataHandlers: [{name: 'getEventReturn'}],
+          multi: true,
+          fetch: true,
+          options: stateIds,
         },
       ]
     },
@@ -128,7 +131,7 @@ export var settings = {
           iconClass: 'fa fa-level-up',
           className: 'col-md-4',
           caption: 'Max avg temp',
-          value: '999 deg'
+          dataHandlers: ['getNumRecords']
         },
         {
           type: 'Metric',
@@ -152,16 +155,46 @@ export var settings = {
     },
 
     // region choropleth
-    /*{
-      type: 'region',
-      className: 'region-choropleth'
+    {
+      type: 'Region',
+      className: 'region-choropleth',
       children: [
         // choropleth
+        {
+          type: 'Choropleth',
+          cid: 'choro1',
+          format: 'topojson',
+          dataHandlers: [
+            {
+              name: 'getMapData',
+              stateArray: stateIds
+            }
+          ],
+          dataKeyField: 'name',
+          dataValueField: 'PCP',
+          geometryKeyField: 'name',
+          geometry: '/data/map/usa.json', // topojson or geojson
+          projection: 'albersUsa', // https://github.com/d3/d3/wiki/Geo-Projections
+          scaleDenominator: .8,
+          borderColor: '#ffcccc',
+          noDataColor: 'red',
+          topologyObject: 'usa',
+          startColor: 'red',
+          endColor: 'yellow',
+          dataClassification: 'equidistant',
+          legend: {
+            classesCount: 5,
+            palleteKey: 'GnBu',
+            pallete: ['#f0f9e8', '#bae4bc', '#7bccc4', '#43a2ca', '#0868ac'],
+            domainStartValue: '',
+            domainEndValue: '',
+          }
+        },
       ]
     },
 
     // region pie-charts
-    {
+    /*{
       type: 'region',
       className: 'region-pies',
       children: [

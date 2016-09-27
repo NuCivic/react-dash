@@ -7,14 +7,15 @@ import DatamapSubunit from './DatamapSubunit';
 
 export default class Datamap extends Component {
   constructor(props) {
+    console.log('MAPPP000');
     super(props)
     this.handleMouseEnterOnSubunit = this.handleMouseEnterOnSubunit.bind(this)
-
     this.state = {
       geometryFeatures: this.props.geometry,
       path: this.path(this.props.svgWidth, this.props.svgHeight),
       svgResized: false,
     }
+    console.log('MAPP0', this.state);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -25,7 +26,7 @@ export default class Datamap extends Component {
        nextProps.svgHeight !== this.props.svgHeight
     
     const geometryFeatures = geometry;
-
+    console.log('MAPP', this);
     this.setState({ path, geometryFeatures })
   }
 
