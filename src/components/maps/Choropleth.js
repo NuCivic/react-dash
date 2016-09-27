@@ -140,15 +140,14 @@ export default class Choropleth extends BaseComponent {
     const noDataColor = this.props.noDataColor || '#f5f5f5';
     const borderColor = this.props.borderColor || '#cccccc';
     const geometryFeatures = this.state.geometryFeatures || [];
-    //const loading = this.state.geometryFeatures && this.state.data;
-    const loading = false;
+    const loading = this.state.geometryFeatures && this.state.data;
     const svgStyle = {
       width: svgWidth,
       height: svgHeight,
       fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
     }
     return (
-//      <Loader isFeching={!loading}>
+      <Loader isFeching={!loading}>
         <div className="map-container">
           <svg className="map-svg" style={svgStyle}>
             <g id="root-svg-group">
@@ -178,7 +177,7 @@ export default class Choropleth extends BaseComponent {
             value={activeSubunitValue}
           />
         </div>
-  //    </Loader>
+     </Loader>
     );
   }
 }

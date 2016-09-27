@@ -54,7 +54,7 @@ export default class Datamap extends Component {
 
   renderDatamapSubunits() {
     const { colorScale, noDataColor, borderColor } = this.props
-
+    console.log('SSS', this);
     return this.state.geometryFeatures.map((feature, index) => {
       const key = (this.props.format === 'geojson') ?
         feature.properties[this.props.geometryKeyField] :
@@ -63,7 +63,7 @@ export default class Datamap extends Component {
       const subunitData = this.props.regionData.find((datum) => {
         return datum[this.props.dataKeyField] === key
       });
-
+      
       const subunitValue = subunitData ? subunitData[this.props.dataValueField] : null;
       const fillColor = subunitValue === '' ? noDataColor : colorScale(subunitValue);
       return (
