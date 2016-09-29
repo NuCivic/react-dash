@@ -9,4 +9,6 @@ import { settings } from './settings';
 import App from './App';
 import { Router, Route, browserHistory } from 'react-router';
 
+console.log('JJ', jeckyll);
+
 ReactDOM.render(<App />, document.getElementById('root'));
