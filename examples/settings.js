@@ -173,7 +173,7 @@ export var settings = {
           dataKeyField: 'name',
           dataValueField: 'PHDI',
           geometryKeyField: 'name',
-          geometry: '/data/map/usa.json', // topojson or geojson
+          geometry: 'data/map/usa.json', // topojson or geojson
           projection: 'albersUsa', // https://github.com/d3/d3/wiki/Geo-Projections
           scaleDenominator: .8,
           borderColor: '#ffcccc',
