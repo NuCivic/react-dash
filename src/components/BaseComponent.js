@@ -75,12 +75,19 @@ export default class BaseComponent extends Component {
     this.fetchData();
     this.onResize();
   }
-
+  
+  /* shouldComponentUpdate(nextProps) {
+    let globalDataEqual = _.isEqual(nextProps.globalData, this.props.globalData);
+    let appliedFiltersEqual = _.isEqual(nextProps.appliedFilters, this.props.appliedFilters);
+    return (!globalDataEqual || !appliedFiltersEqual); 
+  } */
+  
   // if global data
   componentDidUpdate(nextProps, nextState) {
     let globalDataEqual = _.isEqual(nextProps.globalData, this.props.globalData);
+    let appliedFiltersEqual = _.isEqual(nextProps.appliedFilters, this.props.appliedFilters);
     // if globalData has been updated, we should run fetchData again
-    if (!globalDataEqual) {
+    if (!globalDataEqual || !appliedFiltersEqual) {
       this.fetchData(); 
     }
   }
@@ -233,7 +240,7 @@ export default class BaseComponent extends Component {
     let _handlers = handlers || this.state.filterHandlers || this.props.dataHandlers;
     let _data = data.hits || data;
     let _total = data.total || data.length;
-    _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData(), this.state.filterEvent);
+    _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData(), this.state.filterEvent, this.state.appliedFilters);
     // @@TODO this is a cheat for autocomplete to get the value
     if (isEmpty(_data) && this.state.filterEvent) _data = this.state.filterEvent.value;
     this.setState({data: _data, total: _total, isFeching: false});

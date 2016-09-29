@@ -23,15 +23,14 @@ export default class DataHandler {
    * @@TODO - we should catch failures here and
    * @@TODO - provide meaningful error messages
    */
-  static handle(hs, componentData, dashboardData, e) {
+  static handle(hs, componentData, dashboardData, e, appliedFilters) {
     try {
       let handlers = (hs || []).map((h) => {
         let handler = isString(h) ? { name: h } : h ;
         let funcHandler = DataHandler.get(handler.name);
         let args = omit(handler,'name');
-        return funcHandler.bind(this, componentData, dashboardData, args, e);
+        return funcHandler.bind(this, componentData, dashboardData, args, e, appliedFilters);
       });
-
       let handle = flow(handlers);
       return (isFunction(handle)) ? handle(componentData, dashboardData) : componentData;
     } catch (e) {

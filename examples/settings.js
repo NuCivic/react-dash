@@ -1,3 +1,56 @@
+const stateIds = 
+						[
+							{ value: 1, label: 'AK' },
+							{ value: 30, label: 'NY' },
+							{ value: 2, label: 'AZ' },
+							{ value: 31, label: 'NC' },
+							{ value: 3, label: 'AR' },
+							{ value: 32, label: 'ND' },
+							{ value: 4, label: 'CA' },
+							{ value: 33, label: 'OH' },
+							{ value: 5, label: 'CO' },
+							{ value: 34, label: 'OK' },
+							{ value: 6, label: 'CT' },
+							{ value: 35, label: 'OR' },
+							{ value: 7, label: 'DE' },
+							{ value: 36, label: 'PA' },
+							{ value: 8, label: 'FL' },
+							{ value: 7, label: 'RI' },
+							{ value: 9, label: 'GA' },
+							{ value: 38, label: 'SC' },
+							{ value: 10, label: 'ID' },
+							{ value: 39, label: 'SD' },
+							{ value: 11, label: 'IL' },
+							{ value: 40, label: 'TN' },
+							{ value: 12, label: 'IA' },
+							{ value: 41, label: 'TX' },
+							{ value: 13, label: 'IA' },
+							{ value: 42, label: 'UT' },
+							{ value: 14, label: 'KS' },
+							{ value: 43, label: 'VT' },
+							{ value: 15, label: 'KT' },
+							{ value: 44, label: 'VA' },
+							{ value: 16, label: 'LA' },
+							{ value: 45, label: 'WA' },
+							{ value: 17, label: 'ME' },
+							{ value: 46, label: 'WV' },
+							{ value: 18, label: 'MD' },
+							{ value: 47, label: 'WI' },
+							{ value: 19, label: 'MA' },
+							{ value: 48, label: 'WY' },
+							{ value: 20, label: 'MI' },
+							{ value: 21, label: 'MN' },
+							{ value: 22, label: 'MI' },
+							{ value: 103, label: 'Central Region' },
+							{ value: 23, label: 'MO' },
+							{ value: 24, label: 'MT' },
+							{ value: 25, label: 'NE' },
+							{ value: 106, label: 'South Region' },
+							{ value: 26, label: 'NV' },
+							{ value: 27, label: 'NH' },
+							{ value: 28, label: 'NJ' },
+							{ value: 29, label: 'NM' },
+						]
 export var settings = {
   title: 'React-Dash Demo -- Climate Indices',
   queries: {},
@@ -24,6 +77,8 @@ export var settings = {
     backend: 'csv',
     url: 'data/climate_indices.csv'
   },
+  // if applied at the top level, datahandlers will filter global data
+  dataHandlers: ['filterData'],
 
   components: [
     
@@ -39,11 +94,11 @@ export var settings = {
         {
           type: 'Autocomplete',
           cid: 'a1',
-          asFilter: true,
-          id: 'autocomplete-year',
+          field: 'year',
           placeholder: 'Select year...',
           dataHandlers: [{name: 'getEventReturn'}],
           multi: true,
+          fetch: true,
           options: [
             { label: '2010', value: '2010' },
             { label: '2011', value: '2011' },
@@ -56,64 +111,13 @@ export var settings = {
         {
           type: 'Autocomplete',
           cid: 'a2',
-          asFilter: true,
+          field: 'state',
           id: 'autocomplete-state',
           placeholder: 'Select state...',
           dataHandlers: [{name: 'getEventReturn'}],
           multi: true,
-          options: 
-						[
-							{ value: '001', label: 'Alabama' },
-							{ value: '030', label: 'New York' },
-							{ value: '002', label: 'Arizona' },
-							{ value: '031', label: 'North Carolina' },
-							{ value: '003', label: 'Arkansas' },
-							{ value: '032', label: 'North Dakota' },
-							{ value: '004', label: 'California' },
-							{ value: '033', label: 'Ohio' },
-							{ value: '005', label: 'Colorado' },
-							{ value: '034', label: 'Oklahoma' },
-							{ value: '006', label: 'Connecticut' },
-							{ value: '035', label: 'Oregon' },
-							{ value: '007', label: 'Delaware' },
-							{ value: '036', label: 'Pennsylvania' },
-							{ value: '008', label: 'Florida' },
-							{ value: '037', label: 'Rhode Island' },
-							{ value: '009', label: 'Georgia' },
-							{ value: '038', label: 'South Carolina' },
-							{ value: '010', label: 'Idaho' },
-							{ value: '039', label: 'South Dakota' },
-							{ value: '011', label: 'Illinois' },
-							{ value: '040', label: 'Tennessee' },
-							{ value: '012', label: 'Indiana' },
-							{ value: '041', label: 'Texas' },
-							{ value: '013', label: 'Iowa' },
-							{ value: '042', label: 'Utah' },
-							{ value: '014', label: 'Kansas' },
-							{ value: '043', label: 'Vermont' },
-							{ value: '015', label: 'Kentucky' },
-							{ value: '044', label: 'Virginia' },
-							{ value: '016', label: 'Louisiana' },
-							{ value: '045', label: 'Washington' },
-							{ value: '017', label: 'Maine' },
-							{ value: '046', label: 'West Virginia' },
-							{ value: '018', label: 'Maryland' },
-							{ value: '047', label: 'Wisconsin' },
-							{ value: '019', label: 'Massachusetts' },
-							{ value: '048', label: 'Wyoming' },
-							{ value: '020', label: 'Michigan' },
-							{ value: '021', label: 'Minnesota' },
-							{ value: '022', label: 'Mississippi' },
-							{ value: '103', label: 'Central Region' },
-							{ value: '023', label: 'Missouri' },
-							{ value: '024', label: 'Montana' },
-							{ value: '025', label: 'Nebraska' },
-							{ value: '106', label: 'South Region' },
-							{ value: '026', label: 'Nevada' },
-							{ value: '027', label: 'New Hampshire' },
-							{ value: '028', label: 'New Jersey' },
-							{ value: '029', label: 'New Mexico' },
-						]
+          fetch: true,
+          options: stateIds,
         },
       ]
     },
@@ -127,7 +131,7 @@ export var settings = {
           iconClass: 'fa fa-level-up',
           className: 'col-md-4',
           caption: 'Max avg temp',
-          value: '999 deg'
+          dataHandlers: ['getNumRecords']
         },
         {
           type: 'Metric',
@@ -140,7 +144,7 @@ export var settings = {
         },
         {
           type: 'Metric',
-          cardStyle: 'metric',
+         
           iconClass: 'fa fa-fire',
           className: 'col-md-4',
           caption: 'Max avg temp',
@@ -151,16 +155,46 @@ export var settings = {
     },
 
     // region choropleth
-    /*{
-      type: 'region',
-      className: 'region-choropleth'
+    {
+      type: 'Region',
+      className: 'region-choropleth',
       children: [
         // choropleth
+        {
+          type: 'Choropleth',
+          cid: 'choro1',
+          format: 'topojson',
+          dataHandlers: [
+            {
+              name: 'getMapData',
+              stateArray: stateIds
+            }
+          ],
+          dataKeyField: 'name',
+          dataValueField: 'PHDI',
+          geometryKeyField: 'name',
+          geometry: '/data/map/usa.json', // topojson or geojson
+          projection: 'albersUsa', // https://github.com/d3/d3/wiki/Geo-Projections
+          scaleDenominator: .8,
+          borderColor: '#ffcccc',
+          noDataColor: 'red',
+          topologyObject: 'usa',
+          startColor: 'red',
+          endColor: 'yellow',
+          dataClassification: 'equidistant',
+          legend: {
+            classesCount: 5,
+            palleteKey: 'GnBu',
+            pallete: ['#ffcccc', '#ffb3b3', '#ff9999', '#ff8080', '#ff6666', '#ff4d4d', '#ff3333'],
+            domainStartValue: '',
+            domainEndValue: '',
+          }
+        },
       ]
     },
 
     // region pie-charts
-    {
+    /*{
       type: 'region',
       className: 'region-pies',
       children: [

@@ -14,7 +14,7 @@ export default class Region extends Component {
       <div className={this.props.className}>
         {this.props.children.map((element,key) => {
           let output;
-           let props = Object.assign(element, {globalData: this.props.globalData}, routeParams); 
+           let props = Object.assign(element, {globalData: this.props.globalData, appliedFilters: this.props.appliedFilters}, routeParams); 
            if (element.cardStyle) {
               output =
                <Card key={key} {...element}>
