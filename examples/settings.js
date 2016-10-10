@@ -85,12 +85,10 @@ export var settings = {
     // region top
     {
       type: 'Region',
+      cardStyle: 'content',
+      header: "Climate Metrics",
       className: 'region region-top row',
       children: [
-        {
-          type: 'h3',
-          dangerouslySetInnerHTML: {__html: 'Climate Indices for U.S. States 2010 -- 2015'}
-        },
         {
           type: 'Autocomplete',
           cid: 'a1',
@@ -108,7 +106,7 @@ export var settings = {
             { label: '2015', value: '2015' },
           ]
         },
-        {
+        /*{
           type: 'Autocomplete',
           cid: 'a2',
           field: 'state',
@@ -118,7 +116,7 @@ export var settings = {
           multi: true,
           fetch: true,
           options: stateIds,
-        },
+        },*/
       ]
     },
     {
@@ -144,7 +142,7 @@ export var settings = {
         },
         {
           type: 'Metric',
-         
+          cardStyle: 'metric',     
           iconClass: 'fa fa-fire',
           className: 'col-md-4',
           caption: 'Max avg temp',
@@ -192,36 +190,7 @@ export var settings = {
         },
       ]
     },
-
-    // region pie-charts
-    /*{
-      type: 'region',
-      className: 'region-pies',
-      children: [
-
-        // pies 1
-        {
-          type: 'region',
-          className: 'pies-1',
-          children: [
-            // pieChart
-            // table
-          ]
-        },
-
-        // pies 2
-        {
-          type: 'region',
-          className: 'pies-2',
-          children: [
-            // pieChart
-            // table
-          ]
-        }    
-      ]
-    },*/
-
-    // region lower
+    
     {
       type: 'Region',
       className: 'region region-lower row',
@@ -235,6 +204,59 @@ export var settings = {
       ]
     },
 
+
+    // region pie-charts
+    {
+      type: 'Region',
+      className: 'region-piesI row',
+      children: [
+        {
+          type: 'Chart',
+          cardStyle: 'chart',
+          header: 'Chart 1',
+          style: {borderRight: '1px dotted gray'},
+          className: 'col-md-4',
+          data: [[{x: 1, y: 40}, {x: 2, y: 40}, {x: 3, y: 20}]],
+          dataHandlers: ['toPieChartSeries'],
+          settings: {
+            type: 'pieChart',
+            x: 'x',
+            y: 'y',
+            height: 400
+          },
+        }, 
+        {
+          type: 'Chart',
+          cardStyle: 'chart',
+          header: 'Chart 2',
+          style: {borderRight: '1px dotted gray'},
+          className: 'col-md-4',
+          data: [[{x: 1, y: 40}, {x: 2, y: 40}, {x: 3, y: 20}]],
+          dataHandlers: ['toPieChartSeries'],
+          settings: {
+            type: 'pieChart',
+            x: 'x',
+            y: 'y',
+            height: 400
+          },
+        }, 
+        {
+          type: 'Chart',
+          cardStyle: 'chart',
+          header: 'Chart 3',
+          className: 'col-md-4',
+          data: [[{x: 1, y: 40}, {x: 2, y: 40}, {x: 3, y: 20}]],
+          dataHandlers: ['toPieChartSeries'],
+          settings: {
+            type: 'pieChart',
+            x: 'x',
+            y: 'y',
+            height: 400
+          },
+        }, 
+      ]
+    },
+
     // region footer
     {
       type: 'Region',
@@ -243,6 +265,34 @@ export var settings = {
         {
           type: 'p',
           dangerouslySetInnerHTML: {__html: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'}
+        }     
+      ]
+    },
+
+    {
+      type: 'Region',
+      className: 'region region-footer',
+      children: [
+        {
+          type: 'Chart',
+          data: [[ {x: 1, y:1}, {x: 2, y: 10}, {x:3, y:4}, {x: 4, y: 1} ]],
+          settings: {
+            type: 'lineChart',
+            x: 'x',
+            y: 'y'
+          },
+          dataHandlers: [
+            {
+              name: 'NVD3.returnChartSeries',
+              series: 
+                [
+                  {
+                    name: 'y',
+                    color: 'green'
+                  }
+                ]
+            }
+          ]
         }     
       ]
     }
