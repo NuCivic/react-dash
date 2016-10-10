@@ -4,10 +4,9 @@ import BaseComponent from '../BaseComponent';
 import Loader from '../Loader';
 import Datamap from './Datamap';
 import HoverInfo from './HoverInfo';
-import topojson from 'topojson'
+import { feature } from 'topojson'
 import d3 from 'd3';
 import MapLegend from './MapLegend';
-console.log('MAP', Datamap);
 export default class Choropleth extends BaseComponent {
 
   constructor(props) {
@@ -22,19 +21,17 @@ export default class Choropleth extends BaseComponent {
 
   componentDidMount() {
     super.componentDidMount();
-    console.log('A', this);
     fetch(this.props.geometry)
       .then(response => {
         let r = response.json()
         return r;
       })
       .then( (data) =>{
-        console.log('A1', data);
         var geometryFeatures;
         if (this.props.format === 'geojson') {
           geometryFeatures = data.features;
         } else {
-          geometryFeatures = topojson.feature(
+          geometryFeatures = feature(
             data,
             data.objects[this.props.topologyObject]
           ).features;
@@ -72,7 +69,6 @@ export default class Choropleth extends BaseComponent {
     const data = this.state.data;
     const max = d3.max(data.map((d) => d[valueField]));
     const min = d3.min(data.map((d) => d[valueField]));
-    console.log('extreme', max, min);
     return new Map([ ['min', min], ['max', max] ]);
   }
 
@@ -134,8 +130,6 @@ export default class Choropleth extends BaseComponent {
       />
     );
     
-    console.log('CH', this);
-
     const colorScale = this.colorScale();
     const noDataColor = this.props.noDataColor || '#f5f5f5';
     const borderColor = this.props.borderColor || '#cccccc';

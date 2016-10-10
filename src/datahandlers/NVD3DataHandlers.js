@@ -24,6 +24,7 @@ function fieldsToSeries(componentData, dashboardData, handler, e, pipelineData) 
     serie.values = _data.map( (row) => {
       return {y: row[s.field], x: row[(this.props.settings.x || 'x' )]};
     });
+    console.log('fTS', series);
     return serie;
   });
   return series;
