@@ -16,7 +16,7 @@ let dataHandlers = {
    *   ]
    * }
    */
-  fieldsToSeries: function (componentData, dashboardData, handler, e, pipelineData) {
+  fieldsToSeries: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let _data = componentData || pipelineData;
     if(!_data.length) return [];
     let series = (handler.fields || []).map( (s) => {
@@ -36,7 +36,7 @@ let dataHandlers = {
   /**
    * Convert componentData to series format expected by NVD3 (no pie-) charts
    */
-  returnChartSeries: function (componentData, dashboardData, handler, e, pipelineData) {
+  returnChartSeries: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let _data = pipelineData || componentData;
     if (!Array.isArray(_data[0])) _data = [_data]; // series data should be an array of array(s)
     if(!_data.length) return [];
@@ -59,7 +59,7 @@ let dataHandlers = {
    *   name: 'parseFieldDate'
    * }
    */
-  parseDateField: function (componentData, dashboardData, handler, e, pipelineData) {
+  parseDateField: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let _data = pipelineData || componentData;
     return _data.map((row) => {
       row[handler.field] = Date.parse(row[handler.field]);
@@ -68,7 +68,7 @@ let dataHandlers = {
   },
 
   // NVD3 Pie charts need a different shape for data - make it so
-  toPieChartSeries: function (componentData, dashboardData, handler, e, pipelineData) {
+  toPieChartSeries: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let data = pipelineData || componentData;
     if (data.length > 0) {
       return data[0];
@@ -78,8 +78,3 @@ let dataHandlers = {
 }
 
 DataHandler.setLib('NVD3', dataHandlers);
-
-// @@DEPRECATE:
-//DataHandler.set('fieldsToSeries', fieldsToSeries);
-//DataHandler.set('parseDateField', parseDateField);
-//DataHandler.set('NVD3.returnChartSeries', returnChartSeries);
