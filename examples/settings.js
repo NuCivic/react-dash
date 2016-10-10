@@ -50,6 +50,7 @@ const stateIds =
 							{ value: 27, label: 'NH' },
 							{ value: 28, label: 'NJ' },
 							{ value: 29, label: 'NM' },
+              { value: 50, label: 'USA?'}
 						]
 
 export var settings = {
@@ -263,20 +264,26 @@ export var settings = {
           type: 'Chart',
           cardStyle: 'chart',
           header: 'Climate data by indicator',
-          data: [[ {x: 1, y:1}, {x: 2, y: 10}, {x:3, y:4}, {x: 4, y: 1} ]],
+          // data: [[ {x: 1, y:1}, {x: 2, y: 10}, {x:3, y:4}, {x: 4, y: 1} ]],
           settings: {
             type: 'lineChart',
-            x: 'x',
-            y: 'y',
+            forceY: ['-20', '80'],
+            x: 'YearMonth',
+            y: 'TAVG',
             height: 400
           },
           dataHandlers: [
+            {
+              name: 'common.filterDashboardDataByParamEquals',
+              field: 'StateCode',
+              value: 50
+            },
             {
               name: 'NVD3.returnChartSeries',
               series: 
                 [
                   {
-                    name: 'y',
+                    name: 'TAVG',
                     color: 'green'
                   }
                 ]

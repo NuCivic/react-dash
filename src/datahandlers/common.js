@@ -24,6 +24,24 @@ let dataHandlers = {
     
     return series;
   },
+  
+  /**
+   * Only use data if data.field = value
+   *
+   * @param dashboardData {array} an array of objects
+   * @param handler.field {string} which field to test 
+   * @param handler.value {string} value to test for
+   **/
+  filterDashboardDataByParamEquals: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    let _data = dashboardData;
+
+    let newData =  _data.filter(row => {
+      return (row[handler.field] === handler.value);
+    });
+
+    console.log('fDbP=', newData);
+    return [newData];
+  },
 
   /**
    * Parse a field as a date.
