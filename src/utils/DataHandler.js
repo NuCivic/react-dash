@@ -10,6 +10,12 @@ export default class DataHandler {
     Registry.set('dataHandlers.' + path, handler);
   }
 
+  static setLib(libName, handlers) {
+    for (let k in handlers) {
+      Registry.set(['dataHandlers', libName, k], handlers[k]);
+    } 
+  }
+
   /**
    * Retrieves a data handler given an object path.
    */

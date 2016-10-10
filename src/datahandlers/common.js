@@ -1,5 +1,7 @@
 import DataHandler from '../utils/DataHandler';
 
+const libName = 'common';
+
 let dataHandlers = {
   /**
    * Given componentData or pipeLine data containing one or more series of data
@@ -187,8 +189,12 @@ let dataHandlers = {
   },
 }
 
-for (let k in dataHandlers) {
-  DataHandler.set(k, dataHandlers[k]);
-}
+
+DataHandler.setLib('common', dataHandlers);
+
+// @@DEPRECATE
+//for (let k in dataHandlers) {
+//  DataHandler.set([libName, k], dataHandlers[k]);
+//}
 
 export default dataHandlers;
