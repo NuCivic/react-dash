@@ -1,12 +1,14 @@
 import DataHandler from '../utils/DataHandler';
 
+const libName = 'common';
+
 let dataHandlers = {
   /**
    * Given componentData or pipeLine data containing one or more series of data
    * Return each series as an array of objects where x is defined by specifying function 
    * and y is defined by a field name
    */
-  fieldsToXYSeries: function (componentData, dashboardData, handler, e,  pipelineData) {
+  fieldsToXYSeries: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let _data = pipelineData || componentData; 
     if(!_data.length) return [];
     if (!Array.isArray(_data[1])) _data = [_data]; // series data should be an array of array(s)
@@ -22,6 +24,24 @@ let dataHandlers = {
     
     return series;
   },
+  
+  /**
+   * Only use data if data.field = value
+   *
+   * @param dashboardData {array} an array of objects
+   * @param handler.field {string} which field to test 
+   * @param handler.value {string} value to test for
+   **/
+  filterDashboardDataByParamEquals: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    let _data = dashboardData;
+
+    let newData =  _data.filter(row => {
+      return (row[handler.field] === handler.value);
+    });
+
+    console.log('fDbP=', newData);
+    return [newData];
+  },
 
   /**
    * Parse a field as a date.
@@ -30,7 +50,7 @@ let dataHandlers = {
    *   name: 'parseFieldDate'
    * }
    */
-  parseDateField: function (componentData, dashboardData, handler, e, pipelineData) {
+  parseDateField: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let _data = pipelineData || componentData;
     return _data.map((row) => {
       row[handler.field] = Date.parse(row[handler.field]);
@@ -43,14 +63,22 @@ let dataHandlers = {
    * we just want the event value from the filter
    * In this case, we return it using the following dataHandler
    **/
-  getEventReturn: function (componentData, dashboardData, handler, e, pipelineData) {
+  getEventReturn: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     if (e) {
       return e.value;
     }
     return componentData; // if there is no event, we maintain the component data
   },
 
-  getXYByQueryData: function (componentData, dashboardData, handler, e, pipelineData) {
+  /**
+   * Select a keyed set of data from the dashboard's global data, and factor as XY series
+   *
+   * @param dashboardData {object}
+   * @param handler.queryKey {string} a valid key on dashboardData obj
+   * @param handler.xField {string} 
+   * @param handler.yField {string}
+   **/
+  getXYByQueryData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     if (dashboardData && dashboardData[handler.queryKey]) {
       let localData = dashboardData[handler.queryKey].result.records;
       let output =  localData.map(row => {
@@ -65,8 +93,12 @@ let dataHandlers = {
       return [];
     }
   },
+  
+  getPercentileSeries: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    
+  },
 
-  groupByRange: function (componentData, dashboardData, handler, e, pipelineData) {
+  groupByRange: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let data = pipelineData || componentData;
     let finalOutput = []; // array of series
     data.forEach(series => {
@@ -106,7 +138,7 @@ let dataHandlers = {
    * [{foo: 'bar'}, {foo:'baz'}]
    * ouput: NV3 consumable array of series where each object is its own series
    */
-  seriesFromRanges: function (componentData, dashboardData, handler, e, pipelineData) {
+  seriesFromRanges: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let data = pipelineData || componentData;
     if (data.length > 0) {
       let output = data[0].map((row, i) => {
@@ -133,7 +165,7 @@ let dataHandlers = {
   // pass array of new keys, iterate series and rekey objects
   // @@TODO currently only handles single series of form:
   // [ {key: val}, {key: val}, {key: val} ]
-  rekeySeries: function (componentData, dashboardData, handler, e, pipelineData) {
+  rekeySeries: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let data = pipelineData || componentData;
     if (data.length > 0) {
       let output = data[0].map((row) => {
@@ -150,7 +182,7 @@ let dataHandlers = {
   },
   
   // given array of fields (handler.fields) parse field values as ints
-  parseInts: function (componentData, dashboardData, handler, e, pipelineData) {
+  parseInts: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let data = pipelineData || componentData;
     data.forEach(series => {
       series.forEach(row => {
@@ -164,7 +196,7 @@ let dataHandlers = {
   
   // @@TODO this should go in nvd3 data handlers
   // NVD3 Pie charts need a different shape for data - make it so
-  toPieChartSeries: function (componentData, dashboardData, handler, e, pipelineData) {
+  toPieChartSeries: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let data = pipelineData || componentData;
     if (data.length > 0) {
       return data[0];
@@ -172,7 +204,7 @@ let dataHandlers = {
     return [];
   },
 
-  changeFieldNames: function (componentData, dashboardData, handler, e, pipelineData) {
+  changeFieldNames: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let data = pipelineData || componentData;
     let _data = [];
     data.forEach(series => {
@@ -187,8 +219,7 @@ let dataHandlers = {
   },
 }
 
-for (let k in dataHandlers) {
-  DataHandler.set(k, dataHandlers[k]);
-}
+
+DataHandler.setLib('common', dataHandlers);
 
 export default dataHandlers;

@@ -50,6 +50,7 @@ const stateIds =
 							{ value: 27, label: 'NH' },
 							{ value: 28, label: 'NJ' },
 							{ value: 29, label: 'NM' },
+              { value: 50, label: 'USA?'}
 						]
 
 export var settings = {
@@ -95,7 +96,7 @@ export var settings = {
           cid: 'a1',
           field: 'year',
           placeholder: 'Select year...',
-          dataHandlers: [{name: 'getEventReturn'}],
+          dataHandlers: [{name: 'common.getEventReturn'}],
           multi: true,
           fetch: true,
           options: [
@@ -113,7 +114,7 @@ export var settings = {
           field: 'state',
           id: 'autocomplete-state',
           placeholder: 'Select state...',
-          dataHandlers: [{name: 'getEventReturn'}],
+          dataHandlers: [{name: 'common.getEventReturn'}],
           multi: true,
           fetch: true,
           options: stateIds,
@@ -216,9 +217,9 @@ export var settings = {
           cardStyle: 'chart',
           header: 'Chart 1',
           style: {borderRight: '1px dotted gray'},
-          className: 'col-md-4',
+          className: 'col-md-6',
           data: [[{x: 1, y: 40}, {x: 2, y: 40}, {x: 3, y: 20}]],
-          dataHandlers: ['toPieChartSeries'],
+          dataHandlers: ['NVD3.toPieChartSeries'],
           settings: {
             type: 'pieChart',
             x: 'x',
@@ -230,24 +231,9 @@ export var settings = {
           type: 'Chart',
           cardStyle: 'chart',
           header: 'Chart 2',
-          style: {borderRight: '1px dotted gray'},
-          className: 'col-md-4',
+          className: 'col-md-6',
           data: [[{x: 1, y: 40}, {x: 2, y: 40}, {x: 3, y: 20}]],
-          dataHandlers: ['toPieChartSeries'],
-          settings: {
-            type: 'pieChart',
-            x: 'x',
-            y: 'y',
-            height: 400
-          },
-        }, 
-        {
-          type: 'Chart',
-          cardStyle: 'chart',
-          header: 'Chart 3',
-          className: 'col-md-4',
-          data: [[{x: 1, y: 40}, {x: 2, y: 40}, {x: 3, y: 20}]],
-          dataHandlers: ['toPieChartSeries'],
+          dataHandlers: ['NVD3.toPieChartSeries'],
           settings: {
             type: 'pieChart',
             x: 'x',
@@ -278,20 +264,26 @@ export var settings = {
           type: 'Chart',
           cardStyle: 'chart',
           header: 'Climate data by indicator',
-          data: [[ {x: 1, y:1}, {x: 2, y: 10}, {x:3, y:4}, {x: 4, y: 1} ]],
+          // data: [[ {x: 1, y:1}, {x: 2, y: 10}, {x:3, y:4}, {x: 4, y: 1} ]],
           settings: {
             type: 'lineChart',
-            x: 'x',
-            y: 'y',
+            forceY: ['-20', '80'],
+            x: 'YearMonth',
+            y: 'TAVG',
             height: 400
           },
           dataHandlers: [
+            {
+              name: 'common.filterDashboardDataByParamEquals',
+              field: 'StateCode',
+              value: 50
+            },
             {
               name: 'NVD3.returnChartSeries',
               series: 
                 [
                   {
-                    name: 'y',
+                    name: 'TAVG',
                     color: 'green'
                   }
                 ]
