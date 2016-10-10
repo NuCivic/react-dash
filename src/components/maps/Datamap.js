@@ -7,7 +7,6 @@ import DatamapSubunit from './DatamapSubunit';
 
 export default class Datamap extends Component {
   constructor(props) {
-    console.log('MAPPP000');
     super(props)
     this.handleMouseEnterOnSubunit = this.handleMouseEnterOnSubunit.bind(this)
     this.state = {
@@ -15,7 +14,6 @@ export default class Datamap extends Component {
       path: this.path(this.props.svgWidth, this.props.svgHeight),
       svgResized: false,
     }
-    console.log('MAPP0', this.state);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -26,7 +24,6 @@ export default class Datamap extends Component {
        nextProps.svgHeight !== this.props.svgHeight
     
     const geometryFeatures = geometry;
-    console.log('MAPP', this);
     this.setState({ path, geometryFeatures })
   }
 
@@ -54,7 +51,6 @@ export default class Datamap extends Component {
 
   renderDatamapSubunits() {
     const { colorScale, noDataColor, borderColor } = this.props
-    console.log('SSS', this);
     return this.state.geometryFeatures.map((feature, index) => {
       const key = (this.props.format === 'geojson') ?
         feature.properties[this.props.geometryKeyField] :

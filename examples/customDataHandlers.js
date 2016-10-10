@@ -40,7 +40,6 @@ let customDataHandlers = {
       Object.keys(row).forEach((k) => {
         row[k] = parseFloat(row[k]);
         if (parseFloat(row[k]) === -99.99 )  row[k] = 0; // not sure the cause of this but ain't got time to sort it out
-        //console.log(k,row[k]);
       });
 
       // assign label from stateArray to row, based on matching id
@@ -55,7 +54,6 @@ let customDataHandlers = {
       return row;
     });
 
-    console.log('NANValues', NaNRows);
     return mapped;
   }
 }
