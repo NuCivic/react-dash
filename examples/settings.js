@@ -51,6 +51,7 @@ const stateIds =
 							{ value: 28, label: 'NJ' },
 							{ value: 29, label: 'NM' },
 						]
+
 export var settings = {
   title: 'React-Dash Demo -- Climate Indices',
   queries: {},
@@ -275,11 +276,14 @@ export var settings = {
       children: [
         {
           type: 'Chart',
+          cardStyle: 'chart',
+          header: 'Climate data by indicator',
           data: [[ {x: 1, y:1}, {x: 2, y: 10}, {x:3, y:4}, {x: 4, y: 1} ]],
           settings: {
             type: 'lineChart',
             x: 'x',
-            y: 'y'
+            y: 'y',
+            height: 400
           },
           dataHandlers: [
             {
@@ -293,6 +297,10 @@ export var settings = {
                 ]
             }
           ]
+        },
+        {
+          type: 'p',
+          dangerouslySetInnerHTML: {__html: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'}
         }     
       ]
     }
