@@ -23,7 +23,7 @@ export default class Autocomplete extends BaseComponent {
     let val;
     if (this.props.appliedFilters && this.props.appliedFilters[this.props.field]) {
       val = this.props.appliedFilters[this.props.field];
-    } else if (this.props.defaultValue) {
+    } else if (this.props.initVal) {
       val = this.props.defaultValue;
     } else {
       val = this.props.options[0].value;

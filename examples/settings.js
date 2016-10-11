@@ -60,7 +60,7 @@ const stateIds =
 						]
 
 export var settings = {
-  title: 'React-Dash Demo -- Climate Indices',
+  title: 'React-Dash Demo -- Climate Indices by Year',
   queries: {},
 	// we will add this to globalData in app.js 
   // and use these labels in our customDatahandlers
@@ -103,10 +103,9 @@ export var settings = {
           field: 'year',
           placeholder: 'Select year...',
           dataHandlers: [{name: 'common.getEventReturn'}],
-          //multi: true,
+          initVal: '2015',
           fetch: true,
           options: [
-            { label: 'ALL', value: 'ALL' },
             { label: '2010', value: '2010' },
             { label: '2011', value: '2011' },
             { label: '2012', value: '2012' },
@@ -170,6 +169,8 @@ export var settings = {
         {
           type: 'Choropleth',
           cid: 'choro1',
+          cardStyle: 'map',
+          header: 'Palmer Hydrological Drought Index',
           format: 'topojson',
           dataHandlers: [
             {
@@ -206,7 +207,8 @@ export var settings = {
       children: [          
         {
           type: 'p',
-          dangerouslySetInnerHTML: {__html: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'}
+          dangerouslySetInnerHTML: {__html: 'The Palmer drought index is based on a supply-and-demand model of soil moisture. Supply is comparatively straightforward to calculate, but demand is more complicated, as it depends on many factors: not just temperature and the amount of moisture in the soil but also hard-to-calibrate factors including evapotranspiration and recharge rates. Palmer tried to overcome such difficulties by developing an algorithm that approximated them based on the most readily available data, precipitation and temperature.      <i>--from <a href="https://en.wikipedia.org/wiki/Palmer_drought_index" target="blank">Wikipedia</a></i>'
+          }
         }
         // line chart
         // bar chart
