@@ -103,9 +103,10 @@ export var settings = {
           field: 'year',
           placeholder: 'Select year...',
           dataHandlers: [{name: 'common.getEventReturn'}],
-          multi: true,
+          //multi: true,
           fetch: true,
           options: [
+            { label: 'ALL', value: 'ALL' },
             { label: '2010', value: '2010' },
             { label: '2011', value: '2011' },
             { label: '2012', value: '2012' },
@@ -182,7 +183,7 @@ export var settings = {
           geometry: '/data/map/usa.json', // topojson or geojson
           projection: 'albersUsa', // https://github.com/d3/d3/wiki/Geo-Projections
           scaleDenominator: .8,
-          borderColor: '#ffcccc',
+          borderColor: 'white',
           noDataColor: 'red',
           topologyObject: 'usa',
           startColor: 'red',

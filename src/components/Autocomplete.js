@@ -15,12 +15,23 @@ import Registry from '../utils/Registry';
 import {makeKey} from '../utils/utils';
 import BaseComponent from './BaseComponent';
 import ReactSelect from './ReactSelect';
+import { isArray } from 'lodash';
 
 export default class Autocomplete extends BaseComponent {
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.appliedFilters) {
-      this.setState({data: nextProps.appliedFilters[this.props.field]});
+
+  getFilterValue() {
+    let val;
+    if (this.props.appliedFilters && this.props.appliedFilters[this.props.field]) {
+      val = this.props.appliedFilters[this.props.field];
+    } else if (this.props.defaultValue) {
+      val = this.props.defaultValue;
+    } else {
+      val = this.props.options[0].value;
     }
+
+    if (!isArray(val)) val = [val];
+    return val;
+  
   }
   
   onFilter() {
@@ -31,11 +42,12 @@ export default class Autocomplete extends BaseComponent {
     // @@TODO wire param routing to Autocomplete!
     // Currently this overrides onFilter in BaseComponent
     // which does param handling
+    
     this.onFilter(e);
 
     this.emit({
       actionType: 'AUTOCOMPLETE_CHANGE',
-      value: e,
+      value: [e],
       field: this.props.field,
       fetch: this.props.fetch
     });
@@ -61,12 +73,13 @@ export default class Autocomplete extends BaseComponent {
     }
     return  Promise.resolve({options: [], isLoading: false});
   }
-
+  
   render(){
-    let data = [];
-    if (this.props.appliedFilters) data = this.props.appliedFilters[this.props.field];
+    let val = this.getFilterValue();
+    if (!this.props.multi) val = val[0];
+    console.log('AC-Render', val, this);
     return (
-      <ReactSelect.Async value={data} loadOptions={this.loadOptions.bind(this)} {...this.props} onChange={this.onChange.bind(this)}/>
+      <ReactSelect.Async value={val} loadOptions={this.loadOptions.bind(this)} {...this.props} onChange={this.onChange.bind(this)}/>
     );
   }
 }
