@@ -1,3 +1,9 @@
+import {time} from 'd3';
+
+let formatTime = function (d) {
+ return time.format('%b, %Y')(new Date(d));
+}
+
 const stateIds = 
 						[
 							{ value: 1, label: 'AK' },
@@ -77,7 +83,7 @@ export var settings = {
   fetchData: {
     type: 'backend',
     backend: 'csv',
-    url: 'examples/data/climate_indices.csv'
+    url: '/data/climate_indices.csv'
   },
   // if applied at the top level, datahandlers will filter global data
   dataHandlers: ['filterData'],
@@ -264,12 +270,14 @@ export var settings = {
           type: 'Chart',
           cardStyle: 'chart',
           header: 'Climate data by indicator',
-          // data: [[ {x: 1, y:1}, {x: 2, y: 10}, {x:3, y:4}, {x: 4, y: 1} ]],
           settings: {
             type: 'lineChart',
-            forceY: ['-20', '80'],
-            x: 'YearMonth',
+            forceY: ['-20', '100'],
+            x: 'time',
             y: 'TAVG',
+            xAxis: {
+              tickFormat: formatTime
+            },
             height: 400
           },
           dataHandlers: [

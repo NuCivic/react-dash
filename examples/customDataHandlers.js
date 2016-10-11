@@ -7,6 +7,15 @@ let customDataHandlers = {
     let _data = componentData || pipelineData;
     let _newData;
     
+    // let's clean up the data values a little
+    _data.forEach(row => {
+      let d = row.YearMonth.toString();
+      let y = d.slice(0,4);
+      let m = d.slice(4,7);
+      let date = new Date(y,m);
+      row.time = date.getTime();
+    });
+
     if (!appliedFilters) return _data;
     
     Object.keys(appliedFilters).forEach(k => {
