@@ -1,7 +1,7 @@
-DKAN Open Data Portal
-=====================
+React Dash aka React Dashboard
+===============================
 
-This is the central site for technical/developer documentation of DKAN.
+React Dashboard Developer Docs
 
 Table of Contents
 
@@ -9,6 +9,5 @@ Table of Contents
    :maxdepth: 1
 
    introduction/index
-   admin/index
    components/index
    development/index
