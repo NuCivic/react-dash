@@ -14,10 +14,11 @@ Features
 * DKAN API Integration
 
 Table of Contents
+-----------------
 
 .. toctree::
    :maxdepth: 1
 
    introduction/index
-   components/index
+   uses_and_examples/index
    development/index
