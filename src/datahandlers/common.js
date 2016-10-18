@@ -39,7 +39,6 @@ let dataHandlers = {
       return (row[handler.field] === handler.value);
     });
 
-    console.log('fDbP=', newData);
     return [newData];
   },
 
