@@ -1,9 +1,10 @@
-act Dash Overview and Hello World
+React Dash Overview and Hello World
 ===================================
 
 React Dash is a library for quickly building custom data visualization dashboards based on re-usable components.
 
-## Features
+Features
+--------
 * NVD3 Components
 * HTML Components
 * Choropleth Mapping in geoJson and topoJson
@@ -12,11 +13,13 @@ React Dash is a library for quickly building custom data visualization dashboard
 * CSV Integration
 * DKAN API Integration
 
-## Quick Start
-### Standalone Development
-Download the boilerplate project
-@@TODO instructions
+Quick Start
+-----------
+Standalone Development
+  Download the boilerplate project
+  @@TODO instructions
 
-### Drupal Development
-Download the react_dashboard drupal module
-@@TODO instructions
+Drupal Development
+------------------
+  Download the react_dashboard drupal module
+  @@TODO instructions

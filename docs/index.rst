@@ -1,6 +1,5 @@
 React Dash aka React Dashboard
 ===============================
-
 React Dashboard Developer Docs
 
 Table of Contents
