@@ -1,3 +1,4 @@
-.region {border-bottom: 1px grey solid}
+.region {border-bottom: 1px grey solid; margin-bottom:2em}
 .dashboard-title {margin-left: 100px, background: url('static/logo.png') 100px}
 .fa {font-size:3.5em !important; margin-top:.2em}
+.region-top, .region:last-child {border-bottom:none}
