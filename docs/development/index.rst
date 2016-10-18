@@ -1,8 +1,10 @@
-DKAN Developer's Guide
-----------------------
+React Dash Developer Guide
+--------------------------
 
 .. toctree::
    :maxdepth: 1
 
-   maintaining
-   subtheme
+   intro
+   components/index
+   dataHandlers
+   theming/index

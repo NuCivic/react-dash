@@ -20,5 +20,7 @@ Table of Contents
    :maxdepth: 1
 
    introduction/index
-   uses_and_examples/index
    development/index
+   uses
+   roadmap
+   contributing
