@@ -1,12 +1,19 @@
-DKAN Overview
-=============
+React Dash Overview and Hello World
+===================================
 
-DKAN is a Drupal-based open data tool with a full suite of cataloging, publishing and visualization features that allows governments, nonprofits and universities to easily publish data to the public. DKAN is maintained by GovDelivery.
+React Dash is a library for quickly building custom data visualization dashboards based on re-usable components.
+
+## Features
+* NVD3 Components
+* HTML Components
+* Choropleth Mapping in geoJson and topoJson
+* Custom Filtering
+* Custom Data Handling
+* CSV Integration
+* DKAN API Integration
 
 .. toctree::
    :maxdepth: 1
 
-   catalog-basics
-   dkan-ckan
-   get-dkan
-   installation
+   quickstart
+   ecosystem
