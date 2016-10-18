@@ -114,17 +114,6 @@ export var settings = {
             { label: '2015', value: '2015' },
           ]
         },
-        /*{
-          type: 'Autocomplete',
-          cid: 'a2',
-          field: 'state',
-          id: 'autocomplete-state',
-          placeholder: 'Select state...',
-          dataHandlers: [{name: 'common.getEventReturn'}],
-          multi: true,
-          fetch: true,
-          options: stateIds,
-        },*/
       ]
     },
     {
@@ -136,8 +125,8 @@ export var settings = {
           cardStyle: 'metric',
           iconClass: 'fa fa-level-up',
           className: 'col-md-4',
-          caption: 'Max avg temp',
-          dataHandlers: ['getNumRecords']
+          caption: 'Maximum Temp.',
+          dataHandlers: ['getMaxTemp']
         },
         {
           type: 'Metric',
@@ -145,17 +134,17 @@ export var settings = {
           iconClass: 'fa fa-level-down',
           className: 'col-md-4',
           background: '#53ACC9',
-          caption: 'Min avg temp',
-          value: '999 deg'
+          caption: 'Minimum Temp.',
+          dataHandlers: ['getMinTemp']
         },
         {
           type: 'Metric',
           cardStyle: 'metric',     
           iconClass: 'fa fa-fire',
           className: 'col-md-4',
-          caption: 'Max avg temp',
+          caption: 'Average Temp/',
           background: '#C97053',
-          value: '999 deg'
+          dataHandlers: ['getAvgTemp']
         }
       ]
     },
@@ -221,6 +210,26 @@ export var settings = {
         {
           type: 'Chart',
           cardStyle: 'chart',
+          header: 'Bars',
+          dataHandlers: ['getBarChartData'],
+          settings: {
+            type: 'multiBarChart',
+            x: 'x',
+            y: 'y',
+            height: 600,
+            color: ['red', 'pink', 'purple']
+
+          }
+        },
+      ]
+    },
+    {
+      type: 'Region',
+      className: 'region-piesI row',
+      children: [
+        {
+          type: 'Chart',
+          cardStyle: 'chart',
           header: 'Chart 1',
           style: {borderRight: '1px dotted gray'},
           className: 'col-md-6',
@@ -232,7 +241,7 @@ export var settings = {
             y: 'y',
             height: 400
           },
-        }, 
+        },
         {
           type: 'Chart',
           cardStyle: 'chart',
@@ -278,7 +287,6 @@ export var settings = {
             xAxis: {
               tickFormat: formatTime
             },
-            height: 400
           },
           dataHandlers: [
             {
@@ -292,7 +300,7 @@ export var settings = {
                 [
                   {
                     name: 'TAVG',
-                    color: 'green'
+                    color: 'purple'
                   }
                 ]
             }

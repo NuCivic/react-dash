@@ -1,5 +1,5 @@
 import DataHandler from '../src/utils/DataHandler'
-import { find } from 'lodash';
+import { find, min, max, mean } from 'lodash';
 
 let customDataHandlers = {
   // Global data filters
@@ -36,8 +36,20 @@ let customDataHandlers = {
     return _data;
   },
 
-  getNumRecords: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    return [dashboardData.length];
+  // @@DEPRECATE
+  getMinTemp: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    let _data = dashboardData.map(r => { return r.TMIN });
+    return [ min(_data) ];
+  },
+
+  getMaxTemp: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    let _data = dashboardData.map(r => { return r.TMAX });
+    return [ max(_data) ];
+  },
+
+  getAvgTemp: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    let _data = dashboardData.map(r => { return parseFloat(r.TAVG) });
+    return [ mean( _data ).toPrecision(4) ];
   },
   
   // @@TODO clean up NAN values
@@ -64,6 +76,15 @@ let customDataHandlers = {
     });
 
     return mapped;
+  },
+
+  getBarChartData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    const colors = ['#e5f5e0', '#a1d99b', '#31a354'];
+    return [
+      {key: 'a', values: [{x: 1, y:1}, {x: 2, y:2 }], color: colors[0]},
+      {key: 'b', values: [{x: 1, y:2}, {x: 2, y:5 }], color: colors[1]},
+      {key: 'c', values: [{x: 1, y:3}, {x: 2, y:7 }], color: colors[2]}, 
+    ]
   }
 }
 
