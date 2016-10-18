@@ -5,7 +5,6 @@ let customDataHandlers = {
   // Global data filters
   filterData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let _data = componentData || pipelineData;
-    let _newData;
     
     // let's clean up the data values a little
     _data.forEach(row => {
@@ -15,7 +14,7 @@ let customDataHandlers = {
       let date = new Date(y,m);
       row.time = date.getTime();
     });
-
+    console.log('filterData', appliedFilters)
     if (!appliedFilters) return _data;
     
     Object.keys(appliedFilters).forEach(k => {

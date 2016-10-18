@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { settings } from './settings';
 import { Router, Route, browserHistory } from 'react-router';
 import MyDashboard from './MyDashboard';
-import CustomActionHandlers from './customActionHandlers';
 
 // We extend the Dashboard so we can pass Routing info from the App
 class Dashboard extends MyDashboard {
