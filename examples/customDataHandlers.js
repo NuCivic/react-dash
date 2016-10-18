@@ -1,11 +1,10 @@
 import DataHandler from '../src/utils/DataHandler'
-import { find } from 'lodash';
+import { find, min, max, mean } from 'lodash';
 
 let customDataHandlers = {
   // Global data filters
   filterData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let _data = componentData || pipelineData;
-    let _newData;
     
     // let's clean up the data values a little
     _data.forEach(row => {
@@ -15,29 +14,32 @@ let customDataHandlers = {
       let date = new Date(y,m);
       row.time = date.getTime();
     });
-
     if (!appliedFilters) return _data;
     
     Object.keys(appliedFilters).forEach(k => {
-      if (k === "year" && appliedFilters[k].length >= 0) {
+      if (k === "year" && appliedFilters[k].length > 0) {
         _data =  _data.filter(row => {
           return _inYear(row, appliedFilters[k]);  
         })
       }
-      
-      if (k === "state" && appliedFilters[k].length >= 0) {
-        let states = appliedFilters[k].map(parseInt);
-        _data = _data.filter(row => {
-          return _inState(row, states);  
-        });
-      }
     });
-    
     return _data;
   },
 
-  getNumRecords: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    return [dashboardData.length];
+  // @@DEPRECATE
+  getMinTemp: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    let _data = dashboardData.map(r => { return r.TMIN });
+    return [ min(_data) ];
+  },
+
+  getMaxTemp: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    let _data = dashboardData.map(r => { return r.TMAX });
+    return [ max(_data) ];
+  },
+
+  getAvgTemp: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    let _data = dashboardData.map(r => { return parseFloat(r.TAVG) });
+    return [ mean( _data ).toPrecision(4) ];
   },
   
   // @@TODO clean up NAN values
@@ -64,6 +66,31 @@ let customDataHandlers = {
     });
 
     return mapped;
+  },
+
+  getBarChartData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    console.log("BCD", arguments);
+    const indicators = [ 'SP01', 'SP06', 'SP12', 'SP24' ];
+    const colors = [
+      '#edf8fb',
+      '#ccece6',
+      '#99d8c9',
+      '#66c2a4',
+      '#2ca25f',
+      '#006d2c',
+    ];
+    let _data = dashboardData || [];
+    let series = indicators.map((ind, i) => {
+      let data = dashboardData.map(row => {
+        return {
+          x: row['YearMonth'],
+          y: row[ind]
+        }
+      });
+      return {key: ind, values: data, color: colors[i]}
+    });
+
+    return series;
   }
 }
 

@@ -83,7 +83,7 @@ export var settings = {
   fetchData: {
     type: 'backend',
     backend: 'csv',
-    url: '/data/climate_indices.csv'
+    url: 'data/climate_indices.csv'
   },
   // if applied at the top level, datahandlers will filter global data
   dataHandlers: ['filterData'],
@@ -114,17 +114,6 @@ export var settings = {
             { label: '2015', value: '2015' },
           ]
         },
-        /*{
-          type: 'Autocomplete',
-          cid: 'a2',
-          field: 'state',
-          id: 'autocomplete-state',
-          placeholder: 'Select state...',
-          dataHandlers: [{name: 'common.getEventReturn'}],
-          multi: true,
-          fetch: true,
-          options: stateIds,
-        },*/
       ]
     },
     {
@@ -136,8 +125,8 @@ export var settings = {
           cardStyle: 'metric',
           iconClass: 'fa fa-level-up',
           className: 'col-md-4',
-          caption: 'Max avg temp',
-          dataHandlers: ['getNumRecords']
+          caption: 'Maximum Temp.',
+          dataHandlers: ['getMaxTemp']
         },
         {
           type: 'Metric',
@@ -145,17 +134,17 @@ export var settings = {
           iconClass: 'fa fa-level-down',
           className: 'col-md-4',
           background: '#53ACC9',
-          caption: 'Min avg temp',
-          value: '999 deg'
+          caption: 'Minimum Temp.',
+          dataHandlers: ['getMinTemp']
         },
         {
           type: 'Metric',
           cardStyle: 'metric',     
           iconClass: 'fa fa-fire',
           className: 'col-md-4',
-          caption: 'Max avg temp',
+          caption: 'Average Temp/',
           background: '#C97053',
-          value: '999 deg'
+          dataHandlers: ['getAvgTemp']
         }
       ]
     },
@@ -181,7 +170,7 @@ export var settings = {
           dataKeyField: 'name',
           dataValueField: 'PHDI',
           geometryKeyField: 'name',
-          geometry: '/data/map/usa.json', // topojson or geojson
+          geometry: 'data/map/usa.json', // topojson or geojson
           projection: 'albersUsa', // https://github.com/d3/d3/wiki/Geo-Projections
           scaleDenominator: .8,
           borderColor: 'white',
@@ -193,9 +182,7 @@ export var settings = {
           legend: {
             classesCount: 5,
             palleteKey: 'GnBu',
-            pallete: ['#ffcccc', '#ffb3b3', '#ff9999', '#ff8080', '#ff6666', '#ff4d4d', '#ff3333'],
-            domainStartValue: '',
-            domainEndValue: '',
+            pallete: ['#ff3333','#ff4d4d','#ff6666','#ff8080','#ff9999','#ffb3b3','#ffcccc'],
           }
         },
       ]
@@ -207,17 +194,42 @@ export var settings = {
       children: [          
         {
           type: 'p',
-          dangerouslySetInnerHTML: {__html: 'The Palmer drought index is based on a supply-and-demand model of soil moisture. Supply is comparatively straightforward to calculate, but demand is more complicated, as it depends on many factors: not just temperature and the amount of moisture in the soil but also hard-to-calibrate factors including evapotranspiration and recharge rates. Palmer tried to overcome such difficulties by developing an algorithm that approximated them based on the most readily available data, precipitation and temperature.      <i>--from <a href="https://en.wikipedia.org/wiki/Palmer_drought_index" target="blank">Wikipedia</a></i>'
-          }
+          dangerouslySetInnerHTML: {__html: 'Hydrological drought is described as a sustained and regionally extensive occurrence of below average natural water availability (Tallaksen and van Lanen, 2004). Hydrological drought as period of time below the average water content in streams, reservoirs, groundwater aquifers, lakes and soils. The period is associated effects of precipitation (including snowfall) shortfall on surface and subsurface water supply, rather than with direct shortfall in precipitation (Yevjevich et al., 1977). Hydrological drought may be the result of long term meteorological droughts that results in the drying up of reservoirs, lakes, streams, rivers and a decline in groundwater levels (Rathore 2004).'}
         }
-        // line chart
-        // bar chart
       ]
     },
 
 
     // region pie-charts
     {
+      type: 'Region',
+      className: 'region-piesI row',
+      children: [
+        {
+          type: 'Chart',
+          cardStyle: 'chart',
+          header: 'Standard Precipitation Index',
+          dataHandlers: ['getBarChartData'],
+          settings: {
+            type: 'multiBarChart',
+            x: 'x',
+            y: 'y',
+            height: 800
+          }
+        },
+      ]
+    },
+    {
+      type: 'Region',
+      className: 'region region-footer row',
+      children: [
+        {
+          type: 'p',
+          dangerouslySetInnerHTML: {__html: 'The Standardized Precipitation Index (SPI) is a tool which was developed primarily for defining and monitoring drought. It allows an analyst to determine the rarity of a drought at a given time scale (temporal resolution) of interest for any rainfall station with historic data. It can also be used to determine periods of anomalously wet events. The SPI is not a drought prediction tool. (http://drought.unl.edu/portals/0/docs/spi-program-alternative-method.pdf)'}
+        }     
+      ]
+    },
+    /*{
       type: 'Region',
       className: 'region-piesI row',
       children: [
@@ -235,7 +247,7 @@ export var settings = {
             y: 'y',
             height: 400
           },
-        }, 
+        },
         {
           type: 'Chart',
           cardStyle: 'chart',
@@ -251,19 +263,7 @@ export var settings = {
           },
         }, 
       ]
-    },
-
-    // region footer
-    {
-      type: 'Region',
-      className: 'region region-footer row',
-      children: [
-        {
-          type: 'p',
-          dangerouslySetInnerHTML: {__html: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'}
-        }     
-      ]
-    },
+    }, */
 
     {
       type: 'Region',
@@ -272,7 +272,7 @@ export var settings = {
         {
           type: 'Chart',
           cardStyle: 'chart',
-          header: 'Climate data by indicator',
+          header: 'Average Temperature',
           settings: {
             type: 'lineChart',
             forceY: ['-20', '100'],
@@ -281,7 +281,6 @@ export var settings = {
             xAxis: {
               tickFormat: formatTime
             },
-            height: 400
           },
           dataHandlers: [
             {
@@ -295,7 +294,7 @@ export var settings = {
                 [
                   {
                     name: 'TAVG',
-                    color: 'green'
+                    color: 'purple'
                   }
                 ]
             }
