@@ -13,7 +13,6 @@ export default class MyDashboard extends Dashboard {
       fetch(url).then(response => {
         return response.json();
       }).then(data => {
-        console.log('fetchData', data);
         this.setState({ data: data });
       }).catch(e => {
         console.warn('Failed to fetch data', e);

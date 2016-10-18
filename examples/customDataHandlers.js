@@ -14,24 +14,15 @@ let customDataHandlers = {
       let date = new Date(y,m);
       row.time = date.getTime();
     });
-    console.log('filterData', appliedFilters)
     if (!appliedFilters) return _data;
     
     Object.keys(appliedFilters).forEach(k => {
-      if (k === "year" && appliedFilters[k].length >= 0) {
+      if (k === "year" && appliedFilters[k].length > 0) {
         _data =  _data.filter(row => {
           return _inYear(row, appliedFilters[k]);  
         })
       }
-      
-      if (k === "state" && appliedFilters[k].length >= 0) {
-        let states = appliedFilters[k].map(parseInt);
-        _data = _data.filter(row => {
-          return _inState(row, states);  
-        });
-      }
     });
-    
     return _data;
   },
 
