@@ -158,6 +158,8 @@ export var settings = {
         {
           type: 'Choropleth',
           cid: 'choro1',
+          cardStyle: 'map',
+          header: 'Palmer Hydrological Drought Index',
           format: 'topojson',
           dataHandlers: [
             {
@@ -194,10 +196,8 @@ export var settings = {
       children: [          
         {
           type: 'p',
-          dangerouslySetInnerHTML: {__html: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'}
+          dangerouslySetInnerHTML: {__html: 'Hydrological drought is described as a sustained and regionally extensive occurrence of below average natural water availability (Tallaksen and van Lanen, 2004). Hydrological drought as period of time below the average water content in streams, reservoirs, groundwater aquifers, lakes and soils. The period is associated effects of precipitation (including snowfall) shortfall on surface and subsurface water supply, rather than with direct shortfall in precipitation (Yevjevich et al., 1977). Hydrological drought may be the result of long term meteorological droughts that results in the drying up of reservoirs, lakes, streams, rivers and a decline in groundwater levels (Rathore 2004). Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'}
         }
-        // line chart
-        // bar chart
       ]
     },
 
@@ -210,20 +210,28 @@ export var settings = {
         {
           type: 'Chart',
           cardStyle: 'chart',
-          header: 'Bars',
+          header: 'Standard Precipitation Index',
           dataHandlers: ['getBarChartData'],
           settings: {
             type: 'multiBarChart',
             x: 'x',
             y: 'y',
-            height: 600,
-            color: ['red', 'pink', 'purple']
-
+            height: 800
           }
         },
       ]
     },
     {
+      type: 'Region',
+      className: 'region region-footer row',
+      children: [
+        {
+          type: 'p',
+          dangerouslySetInnerHTML: {__html: 'The Standardized Precipitation Index (SPI) is a tool which was developed primarily for defining and monitoring drought. It allows an analyst to determine the rarity of a drought at a given time scale (temporal resolution) of interest for any rainfall station with historic data. It can also be used to determine periods of anomalously wet events. The SPI is not a drought prediction tool. (http://drought.unl.edu/portals/0/docs/spi-program-alternative-method.pdf)'}
+        }     
+      ]
+    },
+    /*{
       type: 'Region',
       className: 'region-piesI row',
       children: [
@@ -257,19 +265,7 @@ export var settings = {
           },
         }, 
       ]
-    },
-
-    // region footer
-    {
-      type: 'Region',
-      className: 'region region-footer row',
-      children: [
-        {
-          type: 'p',
-          dangerouslySetInnerHTML: {__html: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'}
-        }     
-      ]
-    },
+    }, */
 
     {
       type: 'Region',
@@ -278,7 +274,7 @@ export var settings = {
         {
           type: 'Chart',
           cardStyle: 'chart',
-          header: 'Climate data by indicator',
+          header: 'Average Temperature',
           settings: {
             type: 'lineChart',
             forceY: ['-20', '100'],
