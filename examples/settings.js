@@ -182,9 +182,7 @@ export var settings = {
           legend: {
             classesCount: 5,
             palleteKey: 'GnBu',
-            pallete: ['#ffcccc', '#ffb3b3', '#ff9999', '#ff8080', '#ff6666', '#ff4d4d', '#ff3333'],
-            domainStartValue: '',
-            domainEndValue: '',
+            pallete: ['#ff3333','#ff4d4d','#ff6666','#ff8080','#ff9999','#ffb3b3','#ffcccc'],
           }
         },
       ]
