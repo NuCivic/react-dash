@@ -19,7 +19,7 @@ Table of Contents
 .. toctree::
    :maxdepth: 1
 
-   introduction/index
+   intro
    development/index
    uses
    roadmap

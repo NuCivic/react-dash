@@ -1,3 +1,5 @@
+body, h1, h2, h3, h4, h5 {font-family: 'helvetica' !important}
+
 li.toctree-l3:first-child {
     display: none;
 }
