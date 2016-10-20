@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { settings } from './settings';
 import { Router, Route, browserHistory } from 'react-router';
-import MyDashboard from './MyDashboard';
+import { Dashboard } from '../src/ReactDashboard';
 
 // We extend the Dashboard so we can pass Routing info from the App
-class Dashboard extends MyDashboard {
+class MyDashboard extends Component {
   render() {
     let z = {};
-    z.appliedFilters = this.state.appliedFilters;
+    z.appliedFilters = (this.state) ? this.state.appliedFiltersi : {};
     const props = Object.assign({}, this.props, z, settings);
-    return <MyDashboard {...props}/>
+    return <Dashboard {...props}/>
   }
 }
 
@@ -20,8 +20,8 @@ class App extends Component {
     return (
       <div id="router-container">
         <Router history={browserHistory}>
-          <Route path='/' component={Dashboard} />
-          <Route path='/react-dashboard' component={Dashboard} />
+          <Route path='/' component={MyDashboard} />
+          <Route path='/react-dashboard' component={MyDashboard} />
         </Router>
       </div>
     )

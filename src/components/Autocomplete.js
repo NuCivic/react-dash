@@ -77,7 +77,6 @@ export default class Autocomplete extends BaseComponent {
   render(){
     let val = this.getFilterValue();
     if (!this.props.multi) val = val[0];
-    console.log('AC-Render', val, this);
     return (
       <ReactSelect.Async value={val} loadOptions={this.loadOptions.bind(this)} {...this.props} onChange={this.onChange.bind(this)}/>
     );
