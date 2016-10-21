@@ -5,6 +5,8 @@ React Dash Developer Guide
    :maxdepth: 1
 
    intro
+   app.js
+   settings.js
+   dataHandlers.js
    components/index
-   dataHandlers
    theming/index
