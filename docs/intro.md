@@ -29,7 +29,7 @@ npm install
 npm run start
 ```
 * Look in the `examples/` folder for the project source
-* Take a look at our [Developer's Guide](/development/index.html) for next steps to customize your dash!
+* Take a look at our [Developer's Guide](development/index.html) for next steps to customize your dash!
 
 ## Building a DKAN project
 
