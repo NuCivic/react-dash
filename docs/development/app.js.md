@@ -1,2 +1,6 @@
-# app.js
-app.js is the entry point to our react app.
+# App.js -- 
+```eval_rst
+.. literalinclude:: ../../examples/app.js
+    :linenos:
+    :language: javascript
+```

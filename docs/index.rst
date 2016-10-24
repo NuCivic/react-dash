@@ -1,6 +1,5 @@
-React Dash aka React Dashboard
-===============================
-
+.. image:: ../examples/static/logo.png
+   :scale: 40
 React Dash is a library for quickly building custom data visualization dashboards based on re-usable components.
 
 Features
