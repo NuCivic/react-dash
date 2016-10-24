@@ -4,7 +4,12 @@ Components
 .. toctree::
    :maxdepth: 1
 
-   provided
-   filters
+   base
+   dashboard
+   metric
+   chart
+   goal
+   autocomplete
    maps
    custom
+
