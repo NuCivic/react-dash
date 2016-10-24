@@ -2,10 +2,12 @@ React Dash Developer Guide
 --------------------------
 
 .. toctree::
-
    intro
    app.js
    settings.js
-   dataHandlers.js
+   dataHandlers
+   backends
+   actions
+   filters
    components/index
    theming/index

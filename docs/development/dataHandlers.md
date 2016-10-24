@@ -4,7 +4,24 @@
 All components that extend the [Base Component](../components/Base), including the [Dashboard Component](../components/Dashboard) can receive data in three ways, depending on how the component (or the dashboard) is configured:
 
 ### Raw Data
-raw data is passed via the _data_ prop. If the data is in the correct format, as specified by the component specification, it will be rendered as is.
+Raw data is passed via the _data_ prop. If the data is in the correct format, as specified by the component specification, it will be rendered as is. 
+
+example:
+```javascript
+{
+  type: 'chart',
+  settings: {
+    x: 'val',
+    y: 'key'
+    // ...
+  },
+  data: [
+    [{key: 'a', val: 1}, {key:'a', val: 2}, {key: 'a', val: 3}]
+  ]
+}
+```
+Here data is a an array containing a single series which represents variable a as a linear progression. Note that the series is contained as an array, as expected by most of our components. 
+See [Data Format](#data-format) below.
 
 ### Backends
 example:
@@ -20,9 +37,7 @@ example:
 }
 ```
 Data can fetched using one of the existing data backends. Currently, react dashboard supports the following backends:
-* [CSV](backends/csv)
-* [cartoDB](backends/cartoDB)
-* [DKAN](backends/DKAN)
+* [CSV](backends#csv)
 
 ### Custom Data Handlers
 Data handlers allow you to write custom code to determine how to generate component data or dashboard data.
@@ -30,6 +45,7 @@ Data handlers allow you to write custom code to determine how to generate compon
 An example of a component that uses a data handler to generate its data:
 
 in settings.js:
+```javascript
 {
   // ...other component configuration
   dataHandlers: [
@@ -39,6 +55,7 @@ in settings.js:
     }
   ]
 }
+```
 
 in customDatahanders.js
 ```javascript
@@ -56,12 +73,29 @@ getCustomData: function (componentData, dashboardData, handler, e, appliedFilter
 ```
 
 In this example, we tell our component to use a custom datahandler called getCustomData. We use an array of field names to select a subset of the dashboard's global data.
+See [datahandler settings object](datahandler-settings-object) amd [datahandler paramaters](datahandler-paramaters) below:
 
 #### datahandler settings object
 Datahandlers are defined in `settings.js` as an object with a unique `name` paramter. Dot notation can be used in the name to provide structure to your library of datahandlers, if needed.
 
 All paramters except for `name` will be passed to the datahandler function as paramaters to the `handler` argument, and can be used 
+example:
+```javascript
+// in settings.js
+{
+  type: 'metricComponent'
+  dataHandlers: [
+    {
+      name: 'anotherCustomeHandler',
+      arg1: {foo: 'bar', bar: 'baz'},
+      arg2: [1,2,3],
+      // etc - any valid javascript/json data can be passed to the data handler
+    }
+  ]
+}
+```
 
+These attributes can now be used within `anotherCustomHandler` by accessing `handler.arg1`, `handler.arg2`, etc.
 #### datahandler paramaters
 Data handler functions receive the following paramaters:
 * **componentData** - any data set on the calling component
@@ -72,9 +106,10 @@ Data handler functions receive the following paramaters:
 * **pipelineData** - If the component has defined an array of datahandlers, subsequent datahandlers will be passed the return value from the previous handler, otherwise `undefined`. See [chaining](#chaining)
 
 #### chaining
-Datahandlers can be chained, in which case the return value from each handler is passed to the following handler in the chain as `pipelineData`. A trivial example follows:
+Data handlers can be chained, in which case the return value from each handler is passed to the following handler in the chain as `pipelineData`. 
+A trivial example follows:
 ```javascript
-// globalData:
+// assume that globalData is as follows:
 {
     seriesOne: [{key: 1, val: 1}, {key: 1, val: 2}, {key: 2, val:2 }],
     seriesTwo: [{key: a, val: 11}, {key: b, val: 2}, {key: c, val:6 }]
@@ -104,14 +139,14 @@ Datahandlers can be chained, in which case the return value from each handler is
 /**
  * returns keyed data from globalData
  **/
-function getSeriesByIndex() {
+function getSeriesByIndex(componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
   return [globalData[handler.index]]
 }
 
 /**
  * Adds one to all values
  **/
-function addOne() {
+function addOne(componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
   // check for pipeline data first, or use componentData if exists
   let _data = pipelineData || componentData || [];
   _data.map(series => {
@@ -130,9 +165,9 @@ In order for everything to work, data handlers must be registered as follows:
 
 ```javascript
 // customDatahandlers.js
-import DataHandler from '../src/utils/DataHandler';
+import DataHandler from 'react-dash';
 
-function exampleHandler() {
+function exampleHandler(componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
   // ... your handler code
 }
 
@@ -140,12 +175,12 @@ DataHandler.set('exampleHandler', exampleHandler);
 
 // OR:
 let handlers = {
-  handler1: function() {
+  handler1: function(componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     // ... your code
   },
 
-  handler2: function () {
-  
+  handler2: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    // ... your code
   },
 
   // ...
@@ -158,7 +193,7 @@ for (let k in handlers) {
 ```
 
 ## Global Data
-Data which is set to the top-level Dashboard component is passed to all components as a globalData prop. It is also available inside of datahandlers as an argument to the datahandler.
+Data which is set to the top-level Dashboard component is passed to all components as a `globalData` prop. It is also available inside of data handlers as the `dashboardData` argument. Data is assigned to the dashboard as a whole in the same way as it is assigned components, using data, backends, or customDatahandlers. See `examples/settings.js` for an example of using the [CSV Backend](backends#csv)
 
 ## Data Format
 In most cases, data is considered as an array (`[]`). 
@@ -171,6 +206,8 @@ Multiple series of data can be represented as an array of arrays:
     ]
 ```
 Data for a [Metric Component](../components/Metric) could be represented as `[1234]` where 1234 is the value passed to the mertric.
+
+Note that in most places we assume that single series and even single scalar values will be represented within an array.
 
 This is not a hard and fast rule - [components](../components) define their own data formats, but [dataHandlers](#dataHandlers) will make some assumptions about data, so it is good to follow these conventions.
 
