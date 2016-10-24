@@ -3,13 +3,6 @@ Components
 
 .. toctree::
    :maxdepth: 1
+   :glob:
 
-   base
-   dashboard
-   metric
-   chart
-   goal
-   autocomplete
-   maps
-   custom
-
+   *
