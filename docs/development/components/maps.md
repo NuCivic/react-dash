@@ -1,4 +1,8 @@
 # Choropleth Maps
+```eval_rst
+.. image:: ../../_static/components/Choropleth_0.4.png
+```
+
 @@TODO UPDATE - !!!this is out of date!!!
 The **Choropleth** element provides a choropleth map (also known as a "heat map") and a legend. The component uses a set of functions (*choroplethFunctions*) to map domain data to map polygons. The following elements are required to generate the Choropleth:
 

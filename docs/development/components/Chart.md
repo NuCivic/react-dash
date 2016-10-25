@@ -1,5 +1,12 @@
 # Chart Component
-
+```eval_rst
+.. image:: ../../_static/components/lineChart_0.4.png
+     :height: 120px
+.. image:: ../../_static/components/pieChart_0.4.png
+     :height: 120px
+.. image:: ../../_static/components/multiBarChart_0.4.png
+     :height: 120px
+```
 **Chart** component is a wrapper of the *react-nvd3* library, which is also a wrapper of the *nvd3* chart library. That meanas all the charts and options available in nvd3 are also available in this component.
 
 

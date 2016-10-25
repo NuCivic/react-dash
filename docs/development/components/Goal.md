@@ -2,6 +2,10 @@
 
 **React Dash** allows you to define goals to accomplish and are measured against the data. Goals be displayed by *increase*, *decrease*, *maintain* or *measure*. 
 
+```eval_rst
+.. image:: ../../_static/components/Goal_0.4.png
+     :height: 120px
+```
 
 ```javascript
 {

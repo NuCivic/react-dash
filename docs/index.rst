@@ -21,5 +21,6 @@ Table of Contents
    intro
    development/index
    uses
+   ecosystem
    roadmap
    contributing

@@ -1,6 +1,10 @@
 # Data Table
 **DataTable** component provides a way to browse, filter, search and display datasets to end-users. 
 
+```eval_rst
+.. image:: ../../_static/components/DataTable_0.4.png
+```
+
 ```javascript    
 {
   type: 'GATable',
