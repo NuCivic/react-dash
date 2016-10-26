@@ -1,6 +1,3 @@
-.. image:: ../examples/static/logo.png
-   :scale: 10
-
 React Dash is a library for quickly building custom data visualization dashboards based on re-usable components.
 
 .. image:: https://github.com/NuCivic/react-dashboard/raw/master/static/example.gif
