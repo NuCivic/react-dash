@@ -60,7 +60,28 @@ const stateIds =
 						]
 
 export var settings = {
+  title: 'Hello World',
+  components: [
+    {
+      type: 'Chart',
+      cardStyle: 'Chart',
+      header: 'My Pie Chart',
+      data: [[{x: 1, y: 40}, {x: 2, y: 40}, {x: 3, y: 20}]],
+      dataHandlers: ['NVD3.toPieChartSeries'],
+      settings: {
+        type: 'pieChart',
+        x: 'x',
+        y: 'y',
+        height: '600'
+      },
+    }
+  ]
+}
+
+var _settings = {
+//export var settings = {
   title: 'React-Dash Demo -- Climate Indices by Year',
+          ://github.com/NuCivic/react_dashboard/issueslassName: 'col-md-6',
   queries: {},
 	// we will add this to globalData in app.js 
   // and use these labels in our customDatahandlers
