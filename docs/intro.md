@@ -32,4 +32,4 @@ npm run start
 * Take a look at our [Developer's Guide](development/index.html) for next steps to customize your dash!
 
 ## Building a DKAN project
-Visit https://github.com/NuCivic/react_dashboard for more on Drupal Dkan development
+Visit the [Drupal Module](https://github.com/NuCivic/react_dashboard) page for more on Drupal Dkan development

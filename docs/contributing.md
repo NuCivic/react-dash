@@ -1,7 +1,6 @@
 # Contribute to React Dash
 
-@@LINK - to github page
-
+Visit our [Github Page](https://github.com/NuCivic/react-dashboard) to:
 * Report a bug
 * Submit a patch or pull request
 * Suggest an improvement

@@ -1,12 +1,15 @@
 .. image:: ../examples/static/logo.png
-   :scale: 40
+   :scale: 10
+
 React Dash is a library for quickly building custom data visualization dashboards based on re-usable components.
+
+.. image:: https://github.com/NuCivic/react-dashboard/raw/master/static/example.gif
 
 Features
 --------
-* NVD3 Components
+* Chart Components Using NVD3
+* Choropleth Maps in geoJson and topoJson
 * HTML Components
-* Choropleth Mapping in geoJson and topoJson
 * Custom Filtering
 * Custom Data Handling
 * CSV Integration
