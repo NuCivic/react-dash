@@ -1,11 +1,11 @@
-settings.js
+# Configuring the dashboard - settings.js
 settings.js defines a declarative configuration for our react-dash.
 
 Lets look at a few examples.
 
 **NOTE** that these settings files ship with react-dash library. You can replace the examples/settings.js file with any of these files to see them run in your local environment.
 
-# EXAMPLE 1 - Simple pie chart with header
+## EXAMPLE 1 - Simple pie chart with header
 Our hello world example consists of a single pie chart with some static values.
 
 ```javascript
