@@ -26,7 +26,7 @@ example:
 ```javascript
 {
   // ... other component configuration
-  data: {
+  fetchData: {
     type: 'backend',
     backend: 'CSV',
     url: '/path/to/your.csv'
@@ -34,8 +34,10 @@ example:
   }
 }
 ```
-Data can fetched using one of the existing data backends. Currently, react dashboard supports the following backends:
+Currently the only supported (tested) backend is 
 * [CSV](backends#csv)
+
+If you need to fetch raw data or do other data initialization, it is recommended that you [add a fetchData call to App.js](../app.js.md)
 
 ### Custom Data Handlers
 Data handlers allow you to write custom code to determine how to generate component data or dashboard data.
