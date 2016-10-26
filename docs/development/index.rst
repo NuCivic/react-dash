@@ -7,7 +7,7 @@ Developer Guide
    intro
    app.js
    settings.js
-   dataHandlers
+   data/index
    backends
    actions
    filters

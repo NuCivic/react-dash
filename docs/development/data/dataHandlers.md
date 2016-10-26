@@ -1,6 +1,4 @@
-# Data Handling
-
-## Data Initialization
+# Data Handlers
 All components that extend the [Base Component](../components/Base), including the [Dashboard Component](../components/Dashboard) can receive data in three ways, depending on how the component (or the dashboard) is configured:
 
 ### Raw Data
@@ -21,7 +19,7 @@ example:
 }
 ```
 Here data is a an array containing a single series which represents variable a as a linear progression. Note that the series is contained as an array, as expected by most of our components. 
-See [Data Format](#data-format) below.
+See [Data Format](./dataFormat).
 
 ### Backends
 example:
@@ -192,30 +190,4 @@ for (let k in handlers) {
 
 ```
 
-## Global Data
-Data which is set to the top-level Dashboard component is passed to all components as a `globalData` prop. It is also available inside of data handlers as the `dashboardData` argument. Data is assigned to the dashboard as a whole in the same way as it is assigned components, using data, backends, or customDatahandlers. See `examples/settings.js` for an example of using the [CSV Backend](backends#csv)
-
-## Data Format
-In most cases, data is considered as an array (`[]`). 
-Multiple series of data can be represented as an array of arrays:
-```javascript
-    [ 
-        [ {key: 1, val: 2}, {key: 1: val: 1}, {key: 1, val: 5} ], 
-        [ {key: 2, val: 4}, {key: 2, val: 5}, {key: 2, val: 7} ],
-        // ...
-    ]
-```
-Data for a [Metric Component](../components/Metric) could be represented as `[1234]` where 1234 is the value passed to the mertric.
-
-Note that in most places we assume that single series and even single scalar values will be represented within an array.
-
-This is not a hard and fast rule - [components](../components) define their own data formats, but [dataHandlers](#dataHandlers) will make some assumptions about data, so it is good to follow these conventions.
-
-## DataHandlers
-### Common Datahandlers
-### NVD# Datahandlers
-### Custom Datahandlers
-
-## Data Object
-
-Data handlers do everything
+## @@TODO Provided Data Handlers
