@@ -5,6 +5,7 @@ Developer Guide
    :maxdepth: 1
 
    intro
+   building
    app.js
    settings.js
    data/index
