@@ -25,5 +25,4 @@ Table of Contents
    development/index
    uses
    ecosystem
-   roadmap
    contributing
