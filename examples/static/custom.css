@@ -2,3 +2,5 @@
 .dashboard-title {margin-left: 100px, background: url('static/logo.png') 100px}
 .fa {font-size:3.5em !important; margin-top:.2em}
 .region-top, .region:last-child {border-bottom:none}
+.footer {margin:0 auto; text-align:center}
+.logo-sm {height:50px}
