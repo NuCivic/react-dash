@@ -2,23 +2,25 @@
 ```eval_rst
 .. image:: ../../_static/components/Metric_0.4.png
 ```
-**Metrics** are intended to display a computed single value to the end-user. The basic class **Metrics** should be extended in order to override the base component's _getMetric_ function. 
-
-Your custom _getMetric_ function can compute metrics derived from the *globalData* prop.
-As with all components you can override the *fetchData* property to fecth external data.
+**Metrics** are intended to display a single value to the end-user. 
 
 ```javascript
 {
-  type:'GAMetric',
+  type:'Metric',
+  cardStyle: 'metric',
+  iconClass: 'fa fa-clock',
   background: '#9F3E69',
-  metric: 'getRandomMetric',
+  data: ['Provided Value'],
   caption: 'New Users',
-  fetchData: {type: 'function', name: 'externalData'}
 }
 ```
 
 **Available settings**
 * **background:** the background color to be used for this metric. 
-* **metric:** a function defined in the subclass component that retrives the metric number. 
 * **caption:** a description to be displayed 
+* **cardStyle:** REQUIRED: must be 'metric'
+* **iconClass:** [font-awesome icon class](http://fontawesome.io/icons/)
+* **data:** a value for the metric. It should be a scalar value contained within an array
+* **fetchData:** fetch datat callback 
+* **dataHandlers:** an array containing dataHandler object(s)
 * **options:** an array with options (e.g.: [{ value: 'one', label: 'One' }])
