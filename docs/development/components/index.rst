@@ -3,8 +3,6 @@ Components
 
 .. toctree::
    :maxdepth: 1
+   :glob:
 
-   provided
-   filters
-   maps
-   custom
+   *

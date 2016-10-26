@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 
-export default class Text extends Component {
+export default class Markup extends Component {
   render() {
     return (
       <div dangerouslySetInnerHTML={ {__html: this.props.content}}></div>
@@ -9,4 +9,4 @@ export default class Text extends Component {
   }
 }
 
-Registry.set('Text', Text);
+Registry.set('Markup', Markup);
