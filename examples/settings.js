@@ -59,10 +59,8 @@ const stateIds =
               { value: 50, label: 'USA?'}
 						]
 
-var _settings = {
-//export var settings = {
+export var settings = {
   title: 'React-Dash Demo -- Climate Indices by Year',
-          ://github.com/NuCivic/react_dashboard/issueslassName: 'col-md-6',
   queries: {},
 	// we will add this to globalData in app.js 
   // and use these labels in our customDatahandlers
@@ -85,7 +83,7 @@ var _settings = {
   fetchData: {
     type: 'backend',
     backend: 'csv',
-    url: 'data/climate_indices.csv'
+    url: 'https://dl.dropboxusercontent.com/u/73703010/react_dash_data_0.4/climate_indices.csv'
   },
   // if applied at the top level, datahandlers will filter global data
   dataHandlers: ['filterData'],
@@ -172,7 +170,7 @@ var _settings = {
           dataKeyField: 'name',
           dataValueField: 'PHDI',
           geometryKeyField: 'name',
-          geometry: 'data/map/usa.json', // topojson or geojson
+          geometry: 'https://dl.dropboxusercontent.com/u/73703010/react_dash_data_0.4/map/usa.json', // topojson or geojson
           projection: 'albersUsa', // https://github.com/d3/d3/wiki/Geo-Projections
           scaleDenominator: .8,
           borderColor: 'white',
