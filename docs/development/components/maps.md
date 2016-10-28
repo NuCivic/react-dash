@@ -12,7 +12,7 @@ Map data provides features suitable for rendering a d3 map. Two formats are supp
 #### Domain Data
 Domain data provides the statistical data necessary to calculate the levels of the choropleth. As with all components, this can be provided by the *globalData* parameter, or fetched via a custom function or using any of the available backends.
 
-#### Configuration object shape
+#### Configuration object
 ```
 {
   type: 'Choropleth',
@@ -28,7 +28,7 @@ Domain data provides the statistical data necessary to calculate the levels of t
   dataValueField: 'Total Observers',
   geometryKeyField: 'name',
   geometry: './data/zones.geojson', // topojson or geojson
-  projection: 'equirectangular', // https://github.com/d3/d3/wiki/Geo-Projections
+  projection: 'equirectangular', 
   scaleDenominator: .7,
   borderColor: '#000000',
   noDataColor: '#F3F3F3',
@@ -54,9 +54,12 @@ Domain data provides the statistical data necessary to calculate the levels of t
 * **dataKeyField**: [_string_] field in the domain data that will be used to join join the domain data with the proper polygon.
 * **dataValueField**: [_string_] field in the domain data to calculate the levels of the choropleth.
 * **projection**: [_string_] the projection to draw the geometry. Available projections can be found at https://github.com/d3/d3/wiki/Geo-Projections. 
-* **scaleDenominator**: [__number__] a number to scale the map
+* **scaleDenominator**: [__number__] a number to scale the map according to an arbitrary factor - experiment to find the best result
 * **borderColor**: [__string__] border color for each shape in the geometry
 * **noDataColor**: [__string__] shape color when no data is available in a given polygon.
 * **startColor(linear scale)**: [__string__] color mapped to the lowest value in the domain data.
 * **endColor(linear scale)**: [__string__] color mapped to the highest value in the domain data.
 * **dataClassification**: [__string__] kind of scale to be used for data classification. Linear and Equidistant scales are supported.
+* **legend**
+    * **classesCount** the number of ranges to divide the domain data into
+    * **pallete** An array of css colors to represent the choro[pleth gradient]
