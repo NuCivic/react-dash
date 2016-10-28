@@ -4,12 +4,15 @@ import { settings } from './settings';
 import { Router, Route, browserHistory } from 'react-router';
 import { Dashboard } from '../src/ReactDashboard';
 
+let _settings = settings;
+let url = 'https://gist.githubusercontent.com/starsinmypockets/f6395260c464b4ab49ed552532020c27/raw';
+
 // We extend the Dashboard so we can pass Routing info from the App
 class MyDashboard extends Component {
   render() {
     let z = {};
     z.appliedFilters = (this.state) ? this.state.appliedFiltersi : {};
-    const props = Object.assign({}, this.props, z, settings);
+    const props = Object.assign({}, this.props, z, _settings);
     return <Dashboard {...props}/>
   }
 }
@@ -30,5 +33,13 @@ class App extends Component {
 
 // Now put it in the DOM!
 document.addEventListener('DOMContentLoaded', function(event) {
-  ReactDOM.render(<App/>, document.getElementById('root'));
+  console.log('DOM -0'); 
+  fetch(url).then(res => {
+    return res.json();
+  }).then(json => {
+    console.log("GIST", json);
+    // now fetch functions
+    _settings = json;
+    ReactDOM.render(<App/>, document.getElementById('root'));
+  });
 });
