@@ -4,7 +4,7 @@ import { settings } from './settings';
 import { Router, Route, browserHistory } from 'react-router';
 import { Dashboard } from '../src/ReactDashboard';
 let _settings;
-if (type expressDashSettings != "undefined") {
+if (typeof expressDashSettings != "undefined") {
    _settings = expressDashSettings;
 } else {
   _settings = settings;
