@@ -4,12 +4,14 @@ import { settings } from './settings';
 import { Router, Route, browserHistory } from 'react-router';
 import { Dashboard } from '../src/ReactDashboard';
 
+let _settings = expressDashSettings || settings;
+
 // We extend the Dashboard so we can pass Routing info from the App
 class MyDashboard extends Component {
   render() {
     let z = {};
     z.appliedFilters = (this.state) ? this.state.appliedFiltersi : {};
-    const props = Object.assign({}, this.props, z, settings);
+    const props = Object.assign({}, this.props, z, _settings);
     return <Dashboard {...props}/>
   }
 }
@@ -20,7 +22,7 @@ class App extends Component {
     return (
       <div id="router-container">
         <Router history={browserHistory}>
-          <Route path='/' component={MyDashboard} />
+          <Route path='*' component={MyDashboard} />
           <Route path='/react-dashboard' component={MyDashboard} />
         </Router>
       </div>
@@ -30,5 +32,5 @@ class App extends Component {
 
 // Now put it in the DOM!
 document.addEventListener('DOMContentLoaded', function(event) {
-  ReactDOM.render(<App/>, document.getElementById('root'));
+    ReactDOM.render(<App/>, document.getElementById('root'));
 });
