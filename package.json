@@ -7,6 +7,7 @@
     "start": "bash scripts/start.sh",
     "build": "webpack --config webpack.config.production.js",
     "build-demo": "scripts/build-demo.sh",
+    "build-server": "webpack --config webpack.config.react-dash-server.js",
     "test": "bash scripts/runtests.sh",
     "lint": "eslint src"
   },
