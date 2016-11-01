@@ -3,8 +3,12 @@ import ReactDOM from 'react-dom';
 import { settings } from './settings';
 import { Router, Route, browserHistory } from 'react-router';
 import { Dashboard } from '../src/ReactDashboard';
-
-let _settings = expressDashSettings || settings;
+let _settings;
+if (type expressDashSettings != "undefined") {
+   _settings = expressDashSettings;
+} else {
+  _settings = settings;
+}
 
 // We extend the Dashboard so we can pass Routing info from the App
 class MyDashboard extends Component {
