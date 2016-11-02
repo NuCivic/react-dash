@@ -35,6 +35,17 @@ let dataHandlers = {
 
   /**
    * Convert componentData to series format expected by NVD3 (no pie-) charts
+   * Should provide a number of series objects equal to the numbers of series
+   * present in the data
+   *
+   * Example:
+   * {
+   *   name: 'returnChartSeries',
+   *   series: [
+   *    {name: MySeries, color: blue}
+   *   ]
+   * }
+   *
    */
   returnChartSeries: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let _data = pipelineData || componentData;
