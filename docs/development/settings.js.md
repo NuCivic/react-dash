@@ -3,7 +3,10 @@ settings.js defines a declarative configuration for our react-dash.
 
 Lets look at a few examples.
 
-**NOTE** that these settings files ship with react-dash library. You can replace the examples/settings.js file with any of these files to see them run in your local environment.
+**A NOTE ABOUT ENVIRONMENTS** 
+The examples assume that you are using the [react-dashboard-boilerplate module](https://github.com/NuCivic/react-dashboard-boilerplate) or a similar development environment which will load the examples from a settings.js file.
+
+If you are using gist files with [react-dash-server](https://github.com/NuCivic/react-dash-server/blob/master/README.md) you will need to remove the export statement and convert the javascript settings object to JSON. 
 
 ## EXAMPLE 1 - Simple pie chart with header
 Our hello world example consists of a single pie chart with some static values.
