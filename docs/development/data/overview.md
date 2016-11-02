@@ -1,4 +1,4 @@
-# Data Handlers
+# Overview
 All components that extend the [Base Component](../components/Base), including the [Dashboard Component](../components/Dashboard) can receive data in three ways, depending on how the component (or the dashboard) is configured:
 
 ### Raw Data

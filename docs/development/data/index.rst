@@ -10,4 +10,4 @@ React-dash can be instantiated without any data processing, simply by passing da
    datahandlers
    format
    backends
-
+   NVD3
