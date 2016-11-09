@@ -1,4 +1,4 @@
-import DataHandler from '../src/utils/DataHandler'
+import { DataHandler } from '../src/ReactDashboard'
 import { find, min, max, mean } from 'lodash';
 
 let customDataHandlers = {
