@@ -8,7 +8,6 @@ console.log(config);
 
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
-  hot: args.hot,
   historyApiFallback: true,
   contentBase: path.join(__dirname, 'examples'),
 }).listen(args.port, 'localhost', function (err, result) {
