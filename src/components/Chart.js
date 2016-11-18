@@ -7,13 +7,21 @@ import Filter from './Filter';
 import {makeKey} from '../utils/utils'
 
 export default class Chart extends BaseComponent {
+  constructor (props) {
+    super(props);
+
+    if (!this.state.key) {
+      console.log('no key');
+      this.state.key = makeKey();
+    }
+  }
+  
   render() {
-    const key = makeKey();
-    let settings = Object.assign({datum: this.state.data, key: key}, this.props.settings);
+    let settings = Object.assign({datum: this.state.data, key: this.state.key}, this.props.settings);
     return (
-      <Loader isFeching={this.state.isFeching} key={key}>
+      <Loader isFeching={this.state.isFeching} key={this.state.key}>
         {this.getFilters()}
-        <NVD3Chart {...settings} key={key}/>
+        <NVD3Chart {...settings} key={this.state.key}/>
       </Loader>
      )
   }
