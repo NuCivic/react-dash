@@ -10,7 +10,6 @@ export {default as Choropleth } from './components/maps/Choropleth';
 export {default as Dashboard } from './components/Dashboard';
 export {default as Region} from './components/Region';
 export {default as Goal } from './components/Goal';
-export {default as Layout } from './components/Layout';
 export {default as Metric } from './components/Metric';
 export {default as Multi} from './components/Multi';
 //export {default as Foo } from './components/Foo';
@@ -23,9 +22,6 @@ export {default as App} from './components/App';
 export {default as Registry } from './utils/Registry';
 export {default as DataHandler } from './utils/DataHandler';
 export * from './utils/utils';
-
-// LAYOUTS
-export {default as Geary} from './layouts/Geary';
 
 // MODELS
 export {default as Dataset} from './models/Dataset';
