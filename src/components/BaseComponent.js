@@ -20,6 +20,9 @@ export default class BaseComponent extends Component {
     };
   }
   
+  /**
+   * LIFECYCLE
+   **/
   componentWillMount() {
     // Register to all the actions
     EventDispatcher.register(this.onAction.bind(this));
@@ -30,20 +33,51 @@ export default class BaseComponent extends Component {
     }
 
     let ownParams = getOwnQueryParams(q, this.props.cid, this.props.multi) || {};
-//    if (this.props.type == 'Autocomplete') console.log('own', ownParams);
     this.setState({ownParams: ownParams});
+  }
+  
+  componentDidMount(){
+    // resize magic
+    let componentWidth = findDOMNode(this).getBoundingClientRect().width;
+    this.setState({ componentWidth : componentWidth});
+    this.addResizeListener();
+    this.fetchData();
+    this.onResize();
+  }
+  
+  componentWillReceiveProps() {
+    this.applyOwnFilters();
+  }
+  
+  componentDidUpdate(nextProps, nextState) {
+    let globalDataEqual = _.isEqual(nextProps.globalData, this.props.globalData);
+    let appliedFiltersEqual = _.isEqual(nextProps.appliedFilters, this.props.appliedFilters);
+    if (!globalDataEqual || !appliedFiltersEqual) {
+      this.fetchData(); 
+    }
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this._resizeHandler);
   }
-
-  componentWillReceiveProps() {
-    this.applyOwnFilters();
-  }
-
+  
   /**
-   * Allowable types:
+   * FETCH DATA
+   **/
+  fetchData() {
+    let type = this.getFetchType();
+    switch (type) {
+      case 'backend':
+        this.fetchBackend();   
+      case 'global':
+        this.applyDataHandlers();
+      case 'data':
+        this.applyDataHandlers(this.props.data);
+    }  
+  }
+  
+  /**
+   * returns type:
    *   backend - uses an existing data backend (CSV, CartoDB, etc)
    *   global - uses a dataHandler function to extract data from globalData
    *   data - component is supplied data via props.data which it will use directly
@@ -56,62 +90,6 @@ export default class BaseComponent extends Component {
       type = 'data';
     }
     return type;
-  }
-
-  addResizeListener() {
-    this._resizeHandler = (e) => {
-      let componentWidth = findDOMNode(this).getBoundingClientRect().width;
-      this.setState({ componentWidth : componentWidth});
-      this.onResize(e);
-    }
-    window.addEventListener('resize', this._resizeHandler);
-  }
-
-  componentDidMount(){
-    // resize magic
-    let componentWidth = findDOMNode(this).getBoundingClientRect().width;
-    this.setState({ componentWidth : componentWidth});
-    this.addResizeListener();
-    this.fetchData();
-    this.onResize();
-  }
-  
-  /* shouldComponentUpdate(nextProps) {
-    let globalDataEqual = _.isEqual(nextProps.globalData, this.props.globalData);
-    let appliedFiltersEqual = _.isEqual(nextProps.appliedFilters, this.props.appliedFilters);
-    return (!globalDataEqual || !appliedFiltersEqual); 
-  } */
-  
-  // if global data
-  componentDidUpdate(nextProps, nextState) {
-    let globalDataEqual = _.isEqual(nextProps.globalData, this.props.globalData);
-    let appliedFiltersEqual = _.isEqual(nextProps.appliedFilters, this.props.appliedFilters);
-    // if globalData has been updated, we should run fetchData again
-    if (!globalDataEqual || !appliedFiltersEqual) {
-      this.fetchData(); 
-    }
-  }
-  
-  /**
-   * NOTE:
-   * fetchData and datahandling generally should ultimately be
-   * handled OUTSIDE OF THE REACT-DASHBOARD APPLICATION
-   * All components should be able to accept a know data format 
-   * and render from state.data
-   *
-   *  The fetchData logic here represents an interim model layer
-   *  that will eventually be a redux store or even another app
-   */
-  fetchData() {
-    let type = this.getFetchType();
-    switch (type) {
-      case 'backend':
-        this.fetchBackend();   
-      case 'global':
-        this.applyDataHandlers();
-      case 'data':
-        this.applyDataHandlers(this.props.data);
-    }  
   }
   
   /**
@@ -129,6 +107,18 @@ export default class BaseComponent extends Component {
     });
   } 
   
+  applyDataHandlers(data = [], handlers) {
+    let _handlers = handlers || this.state.filterHandlers || this.props.dataHandlers;
+    let _data = data.hits || data;
+    let _total = data.total || data.length;
+    _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData(), this.state.filterEvent, this.state.appliedFilters);
+    if (isEmpty(_data) && this.state.filterEvent) _data = this.state.filterEvent.value;
+    this.setState({data: _data, total: _total, isFeching: false});
+  }
+  
+  /**
+   * FILTERS
+   **/
   getFilters() {
 		let filters;
   	if (Array.isArray(this.props.filters)) {
@@ -236,15 +226,6 @@ export default class BaseComponent extends Component {
     }
   }  
 
-  applyDataHandlers(data = [], handlers) {
-    let _handlers = handlers || this.state.filterHandlers || this.props.dataHandlers;
-    let _data = data.hits || data;
-    let _total = data.total || data.length;
-    _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData(), this.state.filterEvent, this.state.appliedFilters);
-    // @@TODO this is a cheat for autocomplete to get the value
-    if (isEmpty(_data) && this.state.filterEvent) _data = this.state.filterEvent.value;
-    this.setState({data: _data, total: _total, isFeching: false});
-  }
 
   emit(payload) {
     console.log('emit', payload);
@@ -256,6 +237,15 @@ export default class BaseComponent extends Component {
     return this.props.globalData || [];
   }
 
+  addResizeListener() {
+    this._resizeHandler = (e) => {
+      let componentWidth = findDOMNode(this).getBoundingClientRect().width;
+      this.setState({ componentWidth : componentWidth});
+      this.onResize(e);
+    }
+    window.addEventListener('resize', this._resizeHandler);
+  }
+  
   /**
    * Abstract
    */
