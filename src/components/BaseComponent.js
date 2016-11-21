@@ -101,16 +101,21 @@ export default class BaseComponent extends Component {
     this.setState({isFeching: true, dataset: dataset});
     dataset.fetch().then(() => {
       this.state.dataset.query(queryObj).then(queryRes => {
-        this.applyDataHandlers(queryRes);
+        this.applyDataHandlers(queryRes, true);
       }).catch(e => {
       });
     });
   } 
   
-  applyDataHandlers(data = [], handlers) {
-    let _handlers = handlers || this.state.filterHandlers || this.props.dataHandlers;
-    let _data = data.hits || data;
-    let _total = data.total || data.length;
+  // @@TODO handle filter logic separately from datahandlers
+  applyDataHandlers(data = [], isDataset = false) {
+    let _handlers = this.state.filterHandlers || this.props.dataHandlers;
+    let _data = data;
+    let _total = data.length;
+    if (isDataset) {
+      _data = data.hits;
+      let _total = data.total || data.length;
+    }
     _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData(), this.state.filterEvent, this.state.appliedFilters);
     if (isEmpty(_data) && this.state.filterEvent) _data = this.state.filterEvent.value;
     this.setState({data: _data, total: _total, isFeching: false});
