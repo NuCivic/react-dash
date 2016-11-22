@@ -1,5 +1,5 @@
 import './stylesheets/main.scss';
-console.log('React Dashboard -- 0.4.0 candidate- 10 20 2016');
+console.log('React Dashboard -- 0.4.x');
 
 // COMPONENTS
 export {default as Autocomplete } from './components/Autocomplete';
@@ -10,10 +10,8 @@ export {default as Choropleth } from './components/maps/Choropleth';
 export {default as Dashboard } from './components/Dashboard';
 export {default as Region} from './components/Region';
 export {default as Goal } from './components/Goal';
-export {default as Layout } from './components/Layout';
 export {default as Metric } from './components/Metric';
 export {default as Multi} from './components/Multi';
-//export {default as Foo } from './components/Foo';
 export {default as DataTable } from './components/DataTable';
 export {default as Markup } from './components/Markup';
 export {default as ReactSelect} from './components/ReactSelect';
@@ -23,9 +21,6 @@ export {default as App} from './components/App';
 export {default as Registry } from './utils/Registry';
 export {default as DataHandler } from './utils/DataHandler';
 export * from './utils/utils';
-
-// LAYOUTS
-export {default as Geary} from './layouts/Geary';
 
 // MODELS
 export {default as Dataset} from './models/Dataset';
@@ -37,3 +32,4 @@ export {default as DashboardConstants} from './constants/DashboardConstants';
 
 // DATAHANDLERS
 export {default as DataHandlerList} from './datahandlers/index';
+
