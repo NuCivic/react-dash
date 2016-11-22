@@ -155,7 +155,7 @@ export var settings = {
       className: 'region-choropleth',
       children: [
         // choropleth
-        {
+        /*{
           type: 'Choropleth',
           cid: 'choro1',
           cardStyle: 'map',
@@ -184,7 +184,7 @@ export var settings = {
             palleteKey: 'GnBu',
             pallete: ['#ff3333','#ff4d4d','#ff6666','#ff8080','#ff9999','#ffb3b3','#ffcccc'],
           },
-        },
+        },*/
       ]
     },
     {

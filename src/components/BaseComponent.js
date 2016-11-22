@@ -39,7 +39,8 @@ export default class BaseComponent extends Component {
   componentDidMount(){
     // resize magic
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
-    this.addResizeListener();
+    this.setState({ componentWidth : componentWidth});
+    //this.fetchData();
     this.onResize();
   }
   
@@ -107,6 +108,7 @@ export default class BaseComponent extends Component {
     this.setState({isFeching: true});
     dataset.fetch().then(() => {
       dataset.query(queryObj).then(queryRes => {
+        console.log('QR', queryRes);
         this.applyDataHandlers(queryRes, true);
       }).catch(e => {
         console.error('Error fetching dataset', e);
