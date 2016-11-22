@@ -32,16 +32,15 @@ export default class BaseComponent extends Component {
       q = this.props.location.query;
     }
 
-    let ownParams = getOwnQueryParams(q, this.props.cid, this.props.multi) || {};
-    this.setState({ownParams: ownParams});
+    //let ownParams = getOwnQueryParams(q, this.props.cid, this.props.multi) || {};
+    //this.setState({ownParams: ownParams});
   }
   
   componentDidMount(){
     // resize magic
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
-    this.setState({ componentWidth : componentWidth});
     this.addResizeListener();
-    this.fetchData();
+    //this.fetchData();
     this.onResize();
   }
   
@@ -50,9 +49,10 @@ export default class BaseComponent extends Component {
   }
   
   componentDidUpdate(nextProps, nextState) {
+    let isDash = this.props.type == undefined; 
     let globalDataEqual = _.isEqual(nextProps.globalData, this.props.globalData);
     let appliedFiltersEqual = _.isEqual(nextProps.appliedFilters, this.props.appliedFilters);
-    if (!globalDataEqual || !appliedFiltersEqual) {
+    if (!isDash && !globalDataEqual || !appliedFiltersEqual) {
       this.fetchData(); 
     }
   }
@@ -68,11 +68,14 @@ export default class BaseComponent extends Component {
     let type = this.getFetchType();
     switch (type) {
       case 'backend':
-        this.fetchBackend();   
+        this.fetchBackend();
+        break;
       case 'global':
         this.applyDataHandlers();
+        break;
       case 'data':
         this.applyDataHandlers(this.props.data);
+        break;
     }  
   }
   
@@ -98,22 +101,26 @@ export default class BaseComponent extends Component {
   fetchBackend() {
     let dataset = new Dataset(omit(this.props.fetchData, 'type'));
     let queryObj = this.state.queryObj;
-    this.setState({isFeching: true, dataset: dataset});
+    this.setState({isFeching: true});
     dataset.fetch().then(() => {
-      this.state.dataset.query(queryObj).then(queryRes => {
+      dataset.query(queryObj).then(queryRes => {
+        console.log('backend data', queryRes);
         this.applyDataHandlers(queryRes, true);
       }).catch(e => {
+        console.error('Error fetching dataset', e);
       });
     });
   } 
   
   // @@TODO handle filter logic separately from datahandlers
   applyDataHandlers(data = [], isDataset = false) {
+    console.log("applyD", data, isDataset);
     let _handlers = this.state.filterHandlers || this.props.dataHandlers;
     let _data = data;
     let _total = data.length;
     if (isDataset) {
-      _data = data.hits;
+      console.log('isDataHandler', _data.hits);
+      _data = _data.hits;
       let _total = data.total || data.length;
     }
     _data = DataHandler.handle.call(this, _handlers, _data, this.getGlobalData(), this.state.filterEvent, this.state.appliedFilters);
@@ -233,7 +240,6 @@ export default class BaseComponent extends Component {
 
 
   emit(payload) {
-    console.log('emit', payload);
     EventDispatcher.dispatch(payload);
   }
 

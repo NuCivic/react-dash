@@ -69,7 +69,6 @@ let customDataHandlers = {
   },
 
   getBarChartData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    console.log("BCD", arguments);
     const indicators = [ 'SP01', 'SP06', 'SP12', 'SP24' ];
     const colors = [
       '#edf8fb',
@@ -81,7 +80,7 @@ let customDataHandlers = {
     ];
     let _data = dashboardData || [];
     let series = indicators.map((ind, i) => {
-      let data = dashboardData.map(row => {
+      let data = _data.map(row => {
         return {
           x: row['YearMonth'],
           y: row[ind]
