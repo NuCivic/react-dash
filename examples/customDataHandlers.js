@@ -85,6 +85,8 @@ let customDataHandlers = {
           x: row['YearMonth'],
           y: row[ind]
         }
+      }).filter(row => {
+        return (!isNaN(row.y) && row.y > -10 && row.y < 10);
       });
       return {key: ind, values: data, color: colors[i]}
     });

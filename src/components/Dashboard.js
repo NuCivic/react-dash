@@ -34,11 +34,8 @@ export default class Dashboard extends BaseComponent {
         let appliedFilters = Object.assign({}, this.state.appliedFilters);
         let data = Object.assign({}, this.state.data);
         appliedFilters[field] = filters;
-//        data.appliedFilters = appliedFilters;
         
-        // go
-        //
-        this.setState({ appliedFilters: appliedFilters, data: [data] });
+        this.setState({ appliedFilters: appliedFilters });
         if (payload.fetch) this.fetchData();
         break;
      } 
