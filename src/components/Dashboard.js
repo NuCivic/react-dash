@@ -10,6 +10,11 @@ import { pick } from 'lodash';
  * We should refactor so this is not the case
  */
 export default class Dashboard extends BaseComponent {
+  componentWillMount() {
+    super.componentWillMount();
+    this.fetchData();
+  }
+
   /**
    * Apply filters to Dashboard
    * @param payload.id {string} 'autocomplete-FIELDNAME'
@@ -20,6 +25,7 @@ export default class Dashboard extends BaseComponent {
       case 'AUTOCOMPLETE_CHANGE':
         let field = payload.field;
         let values = payload.value.map(v => {return v.value});
+        console.log('VV', values);
         let filters = values.map((v,k) => {
           return v;
         });
@@ -28,11 +34,8 @@ export default class Dashboard extends BaseComponent {
         let appliedFilters = Object.assign({}, this.state.appliedFilters);
         let data = Object.assign({}, this.state.data);
         appliedFilters[field] = filters;
-        data.appliedFilters = appliedFilters;
         
-        // go
-        //
-        this.setState({ appliedFilters: appliedFilters, data: data });
+        this.setState({ appliedFilters: appliedFilters });
         if (payload.fetch) this.fetchData();
         break;
      } 
