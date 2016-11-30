@@ -1,6 +1,6 @@
 {
   "name": "react-dash-dev",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "Another react dashboard component",
   "main": "./dist/react-dashboard.min.js",
   "scripts": {
