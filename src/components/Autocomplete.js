@@ -9,15 +9,17 @@
  * For more documentation about  this component please go
  * to https://github.com/JedWatson/react-select
  */
-
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import {makeKey} from '../utils/utils';
 import BaseComponent from './BaseComponent';
 import ReactSelect from './ReactSelect';
 import { isArray } from 'lodash';
-
+console.log('Autocomplete 0');
 export default class Autocomplete extends BaseComponent {
+  componentDidMount() {
+    this.fetchData();
+  }
 
   getFilterValue() {
     let val;
@@ -25,8 +27,10 @@ export default class Autocomplete extends BaseComponent {
       val = this.props.appliedFilters[this.props.field];
     } else if (this.props.initVal) {
       val = this.props.defaultValue;
-    } else {
+    } else if (this.props.options) {
       val = this.props.options[0].value;
+    } else if (this.state.data && this.state.data[0]) {
+      val = this.state.data[0][0].value
     }
 
     if (!isArray(val)) val = [val];
@@ -60,7 +64,9 @@ export default class Autocomplete extends BaseComponent {
    * @return {Promise}        A promise with the request
    */
   loadOptions(input, cb){
+    console.log('AC, LO0', this);
     let re = /\{\{(.+)\}\}/;
+    // URL Endpoint returns filter options
     if(this.props.url) {
       return fetch(this.props.url.replace(re, input))
         .then((response) => {
@@ -68,13 +74,20 @@ export default class Autocomplete extends BaseComponent {
         }).then((json) => {
           return { options: json };
         });
+    // Pass options directly
     } else if(this.props.options) {
-      return Promise.resolve({options: this.props.options, isLoading: false});
+      return Promise.resolve({ options: this.props.options, isLoading: false });
+    // Use component level data
+    } else if (this.state.data) {
+      console.log('OOO', this.state.data)
+      let options = this.state.data[0];
+      return Promise.resolve({ options: options });
     }
     return  Promise.resolve({options: [], isLoading: false});
   }
   
   render(){
+    console.log('isMuti', this.props.multi);
     let val = this.getFilterValue();
     if (!this.props.multi) val = val[0];
     return (

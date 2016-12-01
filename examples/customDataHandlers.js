@@ -92,6 +92,10 @@ let customDataHandlers = {
     });
 
     return series;
+  },
+  
+  getFilterOpts: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    return [[{label: 'FOO', value: 'FOO'}, {label: 'BAR', value: 'BAR'}, {label: 'BAZ', value: 'BAZ'}]]
   }
 }
 

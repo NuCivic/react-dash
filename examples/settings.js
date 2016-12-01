@@ -114,6 +114,12 @@ export var settings = {
             { label: '2015', value: '2015' },
           ]
         },
+        {
+          type: 'Autocomplete',
+          cid: 'a2',
+          placeholder: 'Foo',
+          dataHandlers: [{name: 'getFilterOpts'}],
+        },
       ]
     },
     {
