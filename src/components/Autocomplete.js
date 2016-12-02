@@ -15,7 +15,6 @@ import {makeKey} from '../utils/utils';
 import BaseComponent from './BaseComponent';
 import ReactSelect from './ReactSelect';
 import { isArray } from 'lodash';
-console.log('Autocomplete 0');
 export default class Autocomplete extends BaseComponent {
   componentDidMount() {
     this.fetchData();
@@ -66,6 +65,7 @@ export default class Autocomplete extends BaseComponent {
   loadOptions(input, cb){
     console.log('AC, LO0', this);
     let re = /\{\{(.+)\}\}/;
+
     // URL Endpoint returns filter options
     if(this.props.url) {
       return fetch(this.props.url.replace(re, input))
@@ -74,15 +74,18 @@ export default class Autocomplete extends BaseComponent {
         }).then((json) => {
           return { options: json };
         });
+    
     // Pass options directly
     } else if(this.props.options) {
       return Promise.resolve({ options: this.props.options, isLoading: false });
+    
     // Use component level data
-    } else if (this.state.data) {
-      console.log('OOO', this.state.data)
+    } else if (this.state.data && this.state.data[0]) {
       let options = this.state.data[0];
-      return Promise.resolve({ options: options });
+      console.log('OOO', this.state.data, options);
+      return Promise.resolve({ options: options, isLoading: false });
     }
+    
     return  Promise.resolve({options: [], isLoading: false});
   }
   

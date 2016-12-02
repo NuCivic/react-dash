@@ -114,12 +114,19 @@ export var settings = {
             { label: '2015', value: '2015' },
           ]
         },
+        /*
+        // This filter doesn't do anything -
+        // It illustrates how to use a dataHandler
+        // to get filter options
         {
           type: 'Autocomplete',
           cid: 'a2',
+          field: 'foo',
+          initVal: 'FOO',
           placeholder: 'Foo',
           dataHandlers: [{name: 'getFilterOpts'}],
         },
+        */
       ]
     },
     {

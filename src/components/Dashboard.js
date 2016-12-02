@@ -24,7 +24,10 @@ export default class Dashboard extends BaseComponent {
     switch(payload.actionType) {
       case 'AUTOCOMPLETE_CHANGE':
         let field = payload.field;
-        let values = payload.value.map(v => {return v.value});
+        let values = payload.value.map(v => {
+          return (v) ? v.value : '';
+        });
+
         console.log('VV', values);
         let filters = values.map((v,k) => {
           return v;

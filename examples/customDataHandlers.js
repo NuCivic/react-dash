@@ -95,7 +95,15 @@ let customDataHandlers = {
   },
   
   getFilterOpts: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    return [[{label: 'FOO', value: 'FOO'}, {label: 'BAR', value: 'BAR'}, {label: 'BAZ', value: 'BAZ'}]]
+    let output = [
+      [
+        { label: 'FOO', value: 'FOO' },
+        { label: 'BAR', value: 'BAR' },
+        { label: 'BAZ', value: 'BAZ' }
+      ]
+    ]
+    console.log('filterOpts', arguments, output);
+    return output
   }
 }
 
