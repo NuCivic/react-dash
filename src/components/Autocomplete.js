@@ -15,8 +15,17 @@ import {makeKey} from '../utils/utils';
 import BaseComponent from './BaseComponent';
 import ReactSelect from './ReactSelect';
 import { isArray } from 'lodash';
+
+console.log('Hello autocomp[lete]');
+
+// @@TODO - generalize filter functionality, this should not need to be autocomplete
+// @@TODO - any input element should work as filter component by inheriting from superclass
 export default class Autocomplete extends BaseComponent {
   componentDidMount() {
+    // @@TODO -  this is confusing, because 
+    // the datahandlers are used to fetc
+    // h and set component.state.data
+    // initially, as WELL as to process 
     this.fetchData();
   }
 
@@ -42,18 +51,14 @@ export default class Autocomplete extends BaseComponent {
   }
   
   onChange(e) {
-    // @@TODO wire param routing to Autocomplete!
-    // Currently this overrides onFilter in BaseComponent
-    // which does param handling
-    
     this.onFilter(e);
-
-    this.emit({
-      actionType: 'AUTOCOMPLETE_CHANGE',
-      value: [e],
-      field: this.props.field,
-      fetch: this.props.fetch
-    });
+    
+    let filter = Object.assign({}, this.props);
+    
+    filter.value = [e];
+    filter.actionType = 'AUTOCOMPLETE_CHANGE';
+    console.log('autocomplete onCh', filter);
+    this.emit(filter);
   }
 
   /**

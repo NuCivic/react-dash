@@ -99,6 +99,7 @@ export var settings = {
       children: [
         {
           type: 'Autocomplete',
+          id: 'year-autocomplete',
           cid: 'a1',
           field: 'year',
           placeholder: 'Select year...',
