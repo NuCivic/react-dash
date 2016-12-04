@@ -16,8 +16,6 @@ import BaseComponent from './BaseComponent';
 import ReactSelect from './ReactSelect';
 import { isArray } from 'lodash';
 
-console.log('Hello autocomp[lete]');
-
 // @@TODO - generalize filter functionality, this should not need to be autocomplete
 // @@TODO - any input element should work as filter component by inheriting from superclass
 export default class Autocomplete extends BaseComponent {
@@ -31,19 +29,26 @@ export default class Autocomplete extends BaseComponent {
 
   getFilterValue() {
     let val;
+    //console.log('getFilter', this);
     if (this.props.appliedFilters && this.props.appliedFilters[this.props.field]) {
-      val = this.props.appliedFilters[this.props.field];
+      val = this.props.appliedFilters[this.props.field].value;
+      //console.log('ac-gf-0', val, this);
     } else if (this.props.initVal) {
       val = this.props.defaultValue;
+      //console.log('ac-gf-1', val, this);
     } else if (this.props.options) {
       val = this.props.options[0].value;
+      //console.log('ac-gf-2', val, this);
     } else if (this.state.data && this.state.data[0]) {
-      val = this.state.data[0][0].value
+      val = this.state.data[0][0].value.values;
+      //console.log('ac-gf-3',  val, this);
     }
 
-    if (!isArray(val)) val = [val];
+
+    //if (!isArray(val)) val = [val];
+
+    //console.log('ac-gf-F', val, this);
     return val;
-  
   }
   
   onFilter() {
@@ -55,9 +60,8 @@ export default class Autocomplete extends BaseComponent {
     
     let filter = Object.assign({}, this.props);
     
-    filter.value = [e];
+    filter.value = e;
     filter.actionType = 'AUTOCOMPLETE_CHANGE';
-    console.log('autocomplete onCh', filter);
     this.emit(filter);
   }
 
@@ -68,7 +72,6 @@ export default class Autocomplete extends BaseComponent {
    * @return {Promise}        A promise with the request
    */
   loadOptions(input, cb){
-    console.log('AC, LO0', this);
     let re = /\{\{(.+)\}\}/;
 
     // URL Endpoint returns filter options
@@ -87,7 +90,6 @@ export default class Autocomplete extends BaseComponent {
     // Use component level data
     } else if (this.state.data && this.state.data[0]) {
       let options = this.state.data[0];
-      console.log('OOO', this.state.data, options);
       return Promise.resolve({ options: options, isLoading: false });
     }
     
@@ -95,7 +97,6 @@ export default class Autocomplete extends BaseComponent {
   }
   
   render(){
-    console.log('isMuti', this.props.multi);
     let val = this.getFilterValue();
     if (!this.props.multi) val = val[0];
     return (
