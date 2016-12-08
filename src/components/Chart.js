@@ -17,12 +17,10 @@ export default class Chart extends BaseComponent {
   }
   
   render() {
-    let settings = Object.assign({datum: this.state.data, key: this.state.key}, this.props.settings);
+    let settings = Object.assign({datum: this.props.data, key: this.state.key}, this.props.settings);
+    console.log('CHAFRT', settings);
     return (
-      <Loader isFeching={this.state.isFeching} key={this.state.key}>
-        {this.getFilters()}
         <NVD3Chart {...settings} key={this.state.key}/>
-      </Loader>
      )
   }
 }

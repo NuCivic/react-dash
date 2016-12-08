@@ -12,7 +12,6 @@ import { pick } from 'lodash';
 export default class Dashboard extends BaseComponent {
   componentWillMount() {
     super.componentWillMount();
-    this.fetchData();
   }
 
   /**
@@ -39,7 +38,6 @@ export default class Dashboard extends BaseComponent {
         appliedFilters[field] = filters;
         
         this.setState({ appliedFilters: appliedFilters });
-        if (payload.fetch) this.fetchData();
         break;
      } 
   }

@@ -19,13 +19,6 @@ import { isArray } from 'lodash';
 // @@TODO - generalize filter functionality, this should not need to be autocomplete
 // @@TODO - any input element should work as filter component by inheriting from superclass
 export default class Autocomplete extends BaseComponent {
-  componentDidMount() {
-    // @@TODO -  this is confusing, because 
-    // the datahandlers are used to fetc
-    // h and set component.state.data
-    // initially, as WELL as to process 
-    this.fetchData();
-  }
 
   getFilterValue() {
     let val;
@@ -88,8 +81,8 @@ export default class Autocomplete extends BaseComponent {
       return Promise.resolve({ options: this.props.options, isLoading: false });
     
     // Use component level data
-    } else if (this.state.data && this.state.data[0]) {
-      let options = this.state.data[0];
+    } else if (this.props.data && this.props.data[0]) {
+      let options = this.props.data[0];
       return Promise.resolve({ options: options, isLoading: false });
     }
     
