@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
 import Loader from './Loader';
+import { format } from 'd3';
 
 export default class Metric extends BaseComponent {
   getValue() {
-    let val = this.props.value || this.state.data[0];
-    
-    if (typeof this.props.format === 'function') {
-      val = this.props.format(val);
+    let val = this.props.value || this.props.data[0];
+    let formatter;
+    if (this.props.format) {
+      formatter = format(this.props.format);
+      val = formatter(val);
       console.log('AA', val);
     }
 
