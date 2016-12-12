@@ -8,12 +8,13 @@ export default class Metric extends BaseComponent {
   getValue() {
     let val = this.props.value || this.props.data[0];
     let formatter;
+    
     if (this.props.format) {
       formatter = format(this.props.format);
       val = formatter(val);
-      console.log('AA', val);
     }
-
+    
+    if (val == "NaN") return '...';
     return val;
   }
 
@@ -24,7 +25,7 @@ export default class Metric extends BaseComponent {
     style = Object.assign({}, style, this.props.style);
     return (
       <Loader isFeching={this.state.isFeching}>
-        <div className="metric" style={style}>
+        <div className="metric {}" style={style}>
           <div className="col-sm-3 col-lg-4">
             <div className="card-metric-icon"><span className={this.props.iconClass}></span></div>
           </div>
