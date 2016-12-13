@@ -50,10 +50,16 @@ class DataTable extends BaseComponent {
       start = current - centroid;
       end = current + centroid;
     }
+    console.log('TABLE PAGER', current, centroid, totalPages);
     return range(start, end + 1);
   }
 
   getPageNumbers(size, total, current) {
+    if (!this.getTotalPages() || this.getTotalPages() < 2) {
+      console.log('no pager');
+      return;
+    }
+    
     return this.getPages(size, total, current).map((pageNumber) => {
       return (
         <li
