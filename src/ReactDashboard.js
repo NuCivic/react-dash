@@ -14,6 +14,7 @@ export {default as Metric } from './components/Metric';
 export {default as Multi} from './components/Multi';
 export {default as DataTable } from './components/DataTable';
 export {default as Markup } from './components/Markup';
+export {default as CheckboxFilter } from './components/CheckboxFilter';
 export {default as ReactSelect} from './components/ReactSelect';
 export {default as App} from './components/App';
 
