@@ -11,7 +11,8 @@ export default class Autocomplete extends BaseFilter {
   
   render(){
     let val = this.getFilterValue();
-    if (!this.props.multi) val = val[0];
+    if (val && !this.props.multi) val = val[0];
+    console.log('AC', val, this);
     return (
       <ReactSelect.Async value={val} loadOptions={this.loadOptions.bind(this)} {...this.props} onChange={this.onChange.bind(this)}/>
     );

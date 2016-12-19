@@ -19,7 +19,6 @@ export default class Chart extends BaseComponent {
   
   render() {
     let settings = Object.assign({datum: this.props.data, key: this.state.key}, this.props.settings);
-    console.log('CHAFRT', settings);
     return (
         <NVD3Chart {...settings} key={this.state.key}/>
      )

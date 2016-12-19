@@ -27,7 +27,6 @@ export default class Dashboard extends BaseComponent {
           return (v) ? v.value : '';
         });
 
-        console.log('VV', values);
         let filters = values.map((v,k) => {
           return v;
         });
