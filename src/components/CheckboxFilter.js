@@ -7,12 +7,22 @@ export default class CheckboxFilter extends BaseFilter {
   constructor(props) {
     super(props);
     this.state.checked = this.state.checked || false;
-    this.state.actionType = 'CHECKBOX_CHANGE';
+    this.state.value = (this.state.checked) ? this.props.value : null;
+    this.state.actionType = 'AUTOCOMPLETE_CHANGE';
   }
 
   onClick () {
-    let payload = [{label: this.props.label, value: !this.state.checked}];
-    this.setState({ checked: !this.state.checked });
+    let checked = !this.state.checked; // toggle checked state
+    let payload;
+
+    this.setState({ checked: checked });
+    
+    if (checked) {
+      payload = [{label: this.props.label, value: this.props.value}];
+    } else {
+      payload = []; // pass empty payload value to reset filter
+    }
+    
     this.onChange(payload);
   }
  	
