@@ -11,16 +11,16 @@ export default class BaseFilter extends BaseComponent {
     //console.log('getFilter', this);
     if (this.props.appliedFilters && this.props.appliedFilters[this.props.field]) {
       val = this.props.appliedFilters[this.props.field].value;
-      //console.log('ac-gf-0', val, this);
+      console.log('ac-gf-0', val, this);
     } else if (this.props.initVal) {
       val = this.props.defaultValue;
-      //console.log('ac-gf-1', val, this);
+      console.log('ac-gf-1', val, this);
     } else if (this.props.options) {
       val = this.props.options[0].value;
-      //console.log('ac-gf-2', val, this);
+      console.log('ac-gf-2', val, this);
     } else if (this.state.data && this.state.data[0]) {
       val = this.state.data[0][0].value.values;
-      //console.log('ac-gf-3',  val, this);
+      console.log('ac-gf-3',  val, this);
     }
 
 
@@ -35,11 +35,13 @@ export default class BaseFilter extends BaseComponent {
   }
   
   onChange(e) {
+    console.log('onFilter', e);
     this.onFilter(e);
     
     let filter = Object.assign({}, this.props);
     
     filter.value = e;
+    filter.multi = this.props.multi;
     filter.actionType = this.state.actionType;
     this.emit(filter);
   }
