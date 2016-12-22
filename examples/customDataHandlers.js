@@ -28,25 +28,26 @@ let customDataHandlers = {
 
   // @@DEPRECATE
   getMinTemp: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    let _data = dashboardData.map(r => { return r.TMIN });
-    return [ min(_data) ];
+    console.log('dbd', dashboardData);
+    let _data = dashboardData.climateData.map(r => { return r.TMIN });
+    return  min(_data) ;
   },
 
   getMaxTemp: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    let _data = dashboardData.map(r => { return r.TMAX });
-    return [ max(_data) ];
+    let _data = dashboardData.climateData.map(r => { return r.TMAX });
+    return  max(_data) ;
   },
 
   getAvgTemp: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    let _data = dashboardData.map(r => { return parseFloat(r.TAVG) });
-    return [ mean( _data ).toPrecision(4) ];
+    let _data = dashboardData.climateData.map(r => { return parseFloat(r.TAVG) });
+    return  mean( _data ).toPrecision(4) ;
   },
   
   // @@TODO clean up NAN values
   getMapData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let field = 'PHDI';
     let NaNRows = {};
-    let mapped = dashboardData.map(row => {
+    let mapped = dashboardData.climateData.map(row => {
       
       Object.keys(row).forEach((k) => {
         row[k] = parseFloat(row[k]);

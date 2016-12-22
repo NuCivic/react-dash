@@ -1,20 +1,36 @@
 
 2016-08-31 ** 0.5.x
+* Flux-ISH data flow in example app
+Data is fetched, processed and updated at the App implementation level
+(@@DASHBOARD LEVEL?). 
+Only Dashboard level actions can change state.
+Dashboard uses component settings from settings.js and dataHandlers (read:
+reducers) to calculate component data. 
+All components are passed static data at render.
+For a component to update data / application state it must trigger an action
+at the dashboard / app level
+
+* Regions
+Regions will render rows, allowing for easy responsive grid rendering.
+
+* Multi Regions
+Regions can now be define 'multi: true' in props, in which case the named
+dataHandler will be called. The data handler should return a string which will
+serve as a key, this key is used to select which sub-region to render from the
+multi-region. Replaces Multi Component.
+
 * data abstraction - dataKeys
 We add an abstraction for dataKeys - a dataKey represents an individual
 app-level data source, which contains query objects
 
-* BaseFilter component 
+* Added BaseFilter component 
 Move event handling to base class to unify filter implementations
 
-* Checkbox Filter
+* Added Checkbox Filter
 A simple checkbox input inherits from BaseFilter component
 
-* Flux-ISH data flow in example app
-The example app (@@TODO) is based heavily on the DKAN Dashboard app. Data is
-fetched, processed and updated at the Dashboard component level. Only
-Dashboard filters can change state. Dashboard uses component settings from
-settings.js and dataHandlers (read: reducers) to calculate data for children.
+* Removed Multi Component
+See Multi Regions above
 
 * Add datahandlers:
 getXYBYQueryDataWhere

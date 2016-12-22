@@ -19,22 +19,20 @@ export var settings = {
   
   // if defined at the top level, fetchData will populate
   // the dashboard with globalData
-  fetchData: {
-    type: 'backend',
-    backend: 'csv',
-    url: 'https://dl.dropboxusercontent.com/u/73703010/react_dash_data_0.4/climate_indices.csv'
+  dataResources: {
+    climateData: {
+      fetchData: {
+        type: 'backend',
+        backend: 'csv',
+        url: 'https://dl.dropboxusercontent.com/u/73703010/react_dash_data_0.4/climate_indices.csv'
+      },
+    }
   },
-  // if applied at the top level, datahandlers will filter global data
-  dataHandlers: ['filterData'],
 
-  components: [
-    
-    // region top
+  regions: [
     {
-      type: 'Region',
-      cardStyle: 'content',
-      header: "Climate Metrics",
-      className: 'region region-top row',
+      id: 'top-row filters-row',
+      className: 'row',
       children: [
         {
           type: 'Autocomplete',
@@ -54,24 +52,11 @@ export var settings = {
             { label: '2015', value: '2015' },
           ]
         },
-        /*
-        // This filter doesn't do anything -
-        // It illustrates how to use a dataHandler
-        // to get filter options
-        {
-          type: 'Autocomplete',
-          cid: 'a2',
-          field: 'foo',
-          initVal: 'FOO',
-          placeholder: 'Foo',
-          dataHandlers: [{name: 'getFilterOpts'}],
-        },
-        */
       ]
     },
     {
-      type: 'Region',
-      className: 'region-metrics region row',
+      id: 'metrics-row',
+      className: 'row',
       children: [
         {
           type: 'Metric',
@@ -101,14 +86,13 @@ export var settings = {
         }
       ]
     },
-
-    // region choropleth
+    /*
     {
-      type: 'Region',
-      className: 'region-choropleth',
+      id: 'map-row',
+      className: 'row',
       children: [
         // choropleth
-        /*{
+        {
           type: 'Choropleth',
           cid: 'choro1',
           cardStyle: 'map',
@@ -137,12 +121,12 @@ export var settings = {
             palleteKey: 'GnBu',
             pallete: ['#ff3333','#ff4d4d','#ff6666','#ff8080','#ff9999','#ffb3b3','#ffcccc'],
           },
-        },*/
+        },
       ]
     },
     {
-      type: 'Region',
-      className: 'region region-lower row',
+      id: 'text-row',
+      className: 'row',
       children: [          
         {
           type: 'Markup',
@@ -154,8 +138,8 @@ export var settings = {
 
     // region pie-charts
     {
-      type: 'Region',
-      className: 'region-piesI row',
+      id: 'chart-row',
+      className: 'row',
       children: [
         {
           type: 'Chart',
@@ -170,17 +154,7 @@ export var settings = {
           }
         },
       ]
-    },
-    {
-      type: 'Region',
-      className: 'region region-footer row',
-      children: [
-        {
-          type: 'Markup',
-          content: '<p>The Standardized Precipitation Index (SPI) is a tool which was developed primarily for defining and monitoring drought. It allows an analyst to determine the rarity of a drought at a given time scale (temporal resolution) of interest for any rainfall station with historic data. It can also be used to determine periods of anomalously wet events. The SPI is not a drought prediction tool. (http://drought.unl.edu/portals/0/docs/spi-program-alternative-method.pdf)</p>'
-        }     
-      ]
-    },
+    }, */
     /*{
       type: 'Region',
       className: 'region-piesI row',
@@ -218,8 +192,8 @@ export var settings = {
     }, */
 
     {
-      type: 'Region',
-      className: 'region region-footer',
+      id: 'footer',
+      className: 'row',
       children: [
         {
           type: 'Chart',
@@ -230,9 +204,6 @@ export var settings = {
             forceY: ['-20', '100'],
             x: 'time',
             y: 'TAVG',
-            xAxis: {
-              tickFormat: formatTime
-            },
           },
           dataHandlers: [
             {
