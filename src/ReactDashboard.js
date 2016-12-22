@@ -32,5 +32,5 @@ export {default as EventDispatcher} from './dispatcher/EventDispatcher';
 export {default as DashboardConstants} from './constants/DashboardConstants';
 
 // DATAHANDLERS
-export {default as DataHandlerList} from './datahandlers/index';
+export {default as DataHandlers} from './datahandlers/index';
 
