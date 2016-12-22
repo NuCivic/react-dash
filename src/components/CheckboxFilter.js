@@ -31,9 +31,6 @@ export default class CheckboxFilter extends BaseFilter {
 		
     return (
        <span className='react-dash-checkbox'>
-          <label for={this.props.name} value={this.props.label}>
-            {this.props.label}
-          </label>
           <input
             type="checkbox"
             name={this.props.name}
@@ -41,6 +38,9 @@ export default class CheckboxFilter extends BaseFilter {
             checked={this.state.checked}
             onClick={this.onClick.bind(this)}
           />
+          <label for={this.props.name} value={this.props.label}>
+            {this.props.label}
+          </label>
         </span>  
     );
   }
