@@ -36,14 +36,15 @@ export var settings = {
       children: [
         {
           type: 'Autocomplete',
-          id: 'year-autocomplete',
-          cid: 'a1',
-          field: 'year',
-          placeholder: 'Select year...',
-          dataHandlers: [{name: 'common.getEventReturn'}],
-          initVal: '2015',
-          fetch: true,
-          options: [
+          className: 'col-md-6',
+          name: 'specialty-autocomplete',
+          id: 'specialty-autocomplete',
+          className: 'specialty-autocomplete',
+          field: 'Specialty',
+          action: 'filter', // sort / groupBy / etc
+          willFilter: ['climateData'], // array of dkanDataResources keys that filters affect 
+          data: [
+          [
             { label: '2010', value: '2010' },
             { label: '2011', value: '2011' },
             { label: '2012', value: '2012' },
@@ -51,6 +52,8 @@ export var settings = {
             { label: '2014', value: '2014' },
             { label: '2015', value: '2015' },
           ]
+          ],
+          placeholder: 'Select year to filter dashboard...'
         },
       ]
     },

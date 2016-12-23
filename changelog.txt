@@ -23,7 +23,11 @@ multi-region. Replaces Multi Component.
 We add an abstraction for dataKeys - a dataKey represents an individual
 app-level data source, which contains query objects
 
-* Added BaseFilter component 
+* Filters
+We have a common filter settings definition that includes the field to filter
+and a willFilter array to determine which dataKey's data we are filtering...
+see full documentation @@LINK 
+Added BaseFilter component 
 Move event handling to base class to unify filter implementations
 
 * Added Checkbox Filter
