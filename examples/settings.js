@@ -54,7 +54,7 @@ let stateIds =
         { value: 50, label: 'USA?'}
     ];
 export var settings = {
-  title: 'React-Dash Demo -- Climate Indices by Year',
+  title: 'React-Dash v0.5 -- Climate Indices by Year',
   queries: {},
 	// we will add this to globalData in app.js 
   // and use these labels in our customDatahandlers
