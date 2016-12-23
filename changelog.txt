@@ -29,6 +29,7 @@ and a willFilter array to determine which dataKey's data we are filtering...
 see full documentation @@LINK 
 Added BaseFilter component 
 Move event handling to base class to unify filter implementations
+Add example of app filtering in example app
 
 * Added Checkbox Filter
 A simple checkbox input inherits from BaseFilter component
@@ -36,7 +37,7 @@ A simple checkbox input inherits from BaseFilter component
 * Removed Multi Component
 See Multi Regions above
 
-* Add datahandlers:
+* Add datahandlers to common library:
 getXYBYQueryDataWhere
 whiteListValues
 inspect
