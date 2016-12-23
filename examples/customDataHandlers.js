@@ -1,5 +1,5 @@
 import { DataHandler } from '../src/ReactDashboard'
-import { find, min, max, mean } from 'lodash';
+import { find, min, max, mean, isArray } from 'lodash';
 
 let customDataHandlers = {
   // Global data filters
@@ -26,23 +26,32 @@ let customDataHandlers = {
     return _data;
   },
 
-  // @@DEPRECATE
-  getMinTemp: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    console.log('dbd', dashboardData);
-    let _data = dashboardData.climateData.map(r => { return r.TMIN });
-    return  min(_data) ;
+  getClimateMetric: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    let data = dashboardData.climateData;
+    let output;
+
+    if (isArray(data) && data.length > 0) {
+      if (handler.field === 'TMIN') {
+        output = data.map(r => { return r.TMIN });
+        return [min(output)]
+      }
+      
+      if (handler.field === 'TMAX') {
+        output = data.map(r => { return r.TMAX });
+        return [max(output)]
+      }
+
+      if (handler.field === 'TAVG') {
+        output = data.map(r => { return parseInt(r.TAVG) });
+        return [mean(output).toPrecision(4)];
+        let n = mean(output).toPrecision(4);
+        return [n];
+      }
+    }
+    
+    return ["..."];
   },
 
-  getMaxTemp: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    let _data = dashboardData.climateData.map(r => { return r.TMAX });
-    return  max(_data) ;
-  },
-
-  getAvgTemp: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    let _data = dashboardData.climateData.map(r => { return parseFloat(r.TAVG) });
-    return  mean( _data ).toPrecision(4) ;
-  },
-  
   // @@TODO clean up NAN values
   getMapData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let field = 'PHDI';

@@ -64,7 +64,12 @@ export var settings = {
           iconClass: 'fa fa-level-up',
           className: 'col-md-4',
           caption: 'Maximum Temp.',
-          dataHandlers: ['getMaxTemp']
+          dataHandlers: [
+            {
+              name: 'getClimateMetric',
+              field: 'TMAX'
+            }
+          ]
         },
         {
           type: 'Metric',
@@ -73,7 +78,12 @@ export var settings = {
           className: 'col-md-4',
           background: '#53ACC9',
           caption: 'Minimum Temp.',
-          dataHandlers: ['getMinTemp']
+          dataHandlers: [
+            {
+              name: 'getClimateMetric',
+              field: 'TMIN'
+            }
+          ]
         },
         {
           type: 'Metric',
@@ -82,7 +92,12 @@ export var settings = {
           className: 'col-md-4',
           caption: 'Average Temp/',
           background: '#C97053',
-          dataHandlers: ['getAvgTemp']
+          dataHandlers: [
+            {
+              name: 'getClimateMetric',
+              field: 'TAVG'
+            }
+          ]
         }
       ]
     },
@@ -191,38 +206,10 @@ export var settings = {
       ]
     }, */
 
-    {
+   {
       id: 'footer',
       className: 'row',
       children: [
-        {
-          type: 'Chart',
-          cardStyle: 'chart',
-          header: 'Average Temperature',
-          settings: {
-            type: 'lineChart',
-            forceY: ['-20', '100'],
-            x: 'time',
-            y: 'TAVG',
-          },
-          dataHandlers: [
-            {
-              name: 'common.filterDashboardDataByParamEquals',
-              field: 'StateCode',
-              value: 50
-            },
-            {
-              name: 'NVD3.returnChartSeries',
-              series: 
-                [
-                  {
-                    name: 'TAVG',
-                    color: 'purple'
-                  }
-                ]
-            }
-          ]
-        },
         {
           type: 'Markup',
           content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>'
