@@ -1,21 +1,63 @@
+
+let stateIds =
+      [
+        { value: 1, label: 'AK' },
+        { value: 30, label: 'NY' },
+        { value: 2, label: 'AZ' },
+        { value: 31, label: 'NC' },
+        { value: 3, label: 'AR' },
+        { value: 32, label: 'ND' },
+        { value: 4, label: 'CA' },
+        { value: 33, label: 'OH' },
+        { value: 5, label: 'CO' },
+        { value: 34, label: 'OK' },
+        { value: 6, label: 'CT' },
+        { value: 35, label: 'OR' },
+        { value: 7, label: 'DE' },
+        { value: 36, label: 'PA' },
+        { value: 8, label: 'FL' },
+        { value: 7, label: 'RI' },
+        { value: 9, label: 'GA' },
+        { value: 38, label: 'SC' },
+        { value: 10, label: 'ID' },
+        { value: 39, label: 'SD' },
+        { value: 11, label: 'IL' },
+        { value: 40, label: 'TN' },
+        { value: 12, label: 'IA' },
+        { value: 41, label: 'TX' },
+        { value: 13, label: 'IA' },
+        { value: 42, label: 'UT' },
+        { value: 14, label: 'KS' },
+        { value: 43, label: 'VT' },
+        { value: 15, label: 'KT' },
+        { value: 44, label: 'VA' },
+        { value: 16, label: 'LA' },
+        { value: 45, label: 'WA' },
+        { value: 17, label: 'ME' },
+        { value: 46, label: 'WV' },
+        { value: 18, label: 'MD' },
+        { value: 47, label: 'WI' },
+        { value: 19, label: 'MA' },
+        { value: 48, label: 'WY' },
+        { value: 20, label: 'MI' },
+        { value: 21, label: 'MN' },
+        { value: 22, label: 'MI' },
+        { value: 103, label: 'Central Region' },
+        { value: 23, label: 'MO' },
+        { value: 24, label: 'MT' },
+        { value: 25, label: 'NE' },
+        { value: 106, label: 'South Region' },
+        { value: 26, label: 'NV' },
+        { value: 27, label: 'NH' },
+        { value: 28, label: 'NJ' },
+        { value: 29, label: 'NM' },
+        { value: 50, label: 'USA?'}
+    ];
 export var settings = {
   title: 'React-Dash Demo -- Climate Indices by Year',
   queries: {},
 	// we will add this to globalData in app.js 
   // and use these labels in our customDatahandlers
-  climate_vars: {
-    PCP: 'Precipitation Index',
-    TAVG: 'Temperature Index',
-    TMIN: 'Minimum Temperature Index',
-    TMAX: 'Maximum Temperature Index',
-    PDSI: 'Palmer Drought Severity Index',
-    PHDI: 'Palmer Hydrological Drought Index',
-    ZNDX: 'Palmer Z-Index',
-    PMDI: 'Modified Palmer Drought Severity Index',
-    CDD: 'Cooling Degree Days',
-    HDD: 'Heating Degree Days',
-    SPnn: 'Standard Precipitation Index'
-	},
   
   // if defined at the top level, fetchData will populate
   // the dashboard with globalData
@@ -104,7 +146,6 @@ export var settings = {
         }
       ]
     },
-    /*
     {
       id: 'map-row',
       className: 'row',
@@ -153,7 +194,7 @@ export var settings = {
       ]
     },
 
-
+/*
     // region pie-charts
     {
       id: 'chart-row',
@@ -219,5 +260,20 @@ export var settings = {
         }     
       ]
     }
-  ]
+  ],
 }
+
+
+let climateVars = {
+			PCP: 'Precipitation Index',
+			TAVG: 'Temperature Index',
+			TMIN: 'Minimum Temperature Index',
+			TMAX: 'Maximum Temperature Index',
+			PDSI: 'Palmer Drought Severity Index',
+			PHDI: 'Palmer Hydrological Drought Index',
+			ZNDX: 'Palmer Z-Index',
+			PMDI: 'Modified Palmer Drought Severity Index',
+			CDD: 'Cooling Degree Days',
+			HDD: 'Heating Degree Days',
+			SPnn: 'Standard Precipitation Index'
+		};

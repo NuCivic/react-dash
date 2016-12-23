@@ -16,6 +16,7 @@ export default class Choropleth extends BaseComponent {
       infoWindowActive: true,
       activeSubunitName: 'default',
     };
+    let data = this.props.data;
     this.state = Object.assign(this.state, newState);
   }
 
@@ -66,7 +67,7 @@ export default class Choropleth extends BaseComponent {
 
   extremeValues(){
     const valueField = this.props.dataValueField;
-    const data = this.state.data;
+    const data = this.props.data || [];
     const max = d3.max(data.map((d) => d[valueField]));
     const min = d3.min(data.map((d) => d[valueField]));
     return new Map([ ['min', min], ['max', max] ]);
@@ -134,7 +135,7 @@ export default class Choropleth extends BaseComponent {
     const noDataColor = this.props.noDataColor || '#f5f5f5';
     const borderColor = this.props.borderColor || '#cccccc';
     const geometryFeatures = this.state.geometryFeatures || [];
-    const loading = this.state.geometryFeatures && this.state.data;
+    const loading = this.state.geometryFeatures && this.props.data;
     const svgStyle = {
       width: svgWidth,
       height: svgHeight,
@@ -159,7 +160,7 @@ export default class Choropleth extends BaseComponent {
                 mouseEnterOnDatamap={this.mouseEnterOnDatamap.bind(this)}
                 mouseLeaveDatamap={this.mouseLeaveDatamap.bind(this)}
                 mouseEnterOnSubunit={this.mouseEnterOnSubunit.bind(this)}
-                regionData={this.state.data}
+                regionData={this.props.data}
               />
               {extremeValues && mapLegend}
             </g>

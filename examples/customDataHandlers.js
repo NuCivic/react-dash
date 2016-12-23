@@ -56,25 +56,31 @@ let customDataHandlers = {
   getMapData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let field = 'PHDI';
     let NaNRows = {};
-    let mapped = dashboardData.climateData.map(row => {
-      
-      Object.keys(row).forEach((k) => {
-        row[k] = parseFloat(row[k]);
-        if (parseFloat(row[k]) === -99.99 )  row[k] = 0; // not sure the cause of this but ain't got time to sort it out
-      });
+    let _data = dashboardData.climateData;
+    let mapped;
+    console.log('MAP 0-', arguments); 
+    if (_data && _data.length > 0) {
+      mapped = _data.map(row => {
+        
+        Object.keys(row).forEach((k) => {
+          row[k] = Number(row[k]);
+          if (row[k] === -99.99 )  row[k] = 0; // not sure the cause of this but ain't got time to sort it out
+        });
 
-      // assign label from stateArray to row, based on matching id
-      let state = find(handler.stateArray, r => {
-       return ( r.value === row.StateCode ) 
-      });
-      
-      if (state) {
-        row.name = state.label;
-      }
-      
-      return row;
-    });
+        // assign label from stateArray to row, based on matching id
+        let state = find(handler.stateArray, r => {
+         return ( r.value === row.StateCode ) 
+        });
 
+        if (state) {
+          row.name = state.label;
+        }
+        
+        return row;
+      });
+    }
+
+    console.log('MAP', mapped);
     return mapped;
   },
 
