@@ -7,8 +7,7 @@ export default class Dashboard extends BaseComponent {
   constructor(props) {
     super(props);
   }
-  
-  // @@TODO add to documentation - need to call super on lifecycle methods
+
   componentWillMount() {
     super.componentWillMount();
     this.getDashboardData();
@@ -19,7 +18,11 @@ export default class Dashboard extends BaseComponent {
       this.getDashboardData();
     }
   }
-
+  
+  /**
+   * Apply datahandlers in sequence, passing data returned to subsequent handler
+   *    makes global leve data and @@TODO event object available to ahndler
+   **/
   applyDataHandlers(datahandlers, componentData=[]) {
     let _handlers = datahandlers;
     let _appliedFilters = this.state.appliedFilters || {};
@@ -27,11 +30,20 @@ export default class Dashboard extends BaseComponent {
     return _data;
   }
 
+  /**
+   * Override this method in your application and insert data fetching stuff here!
+   *    API integrations
+   *    Flat file Loading
+   *    Whatever you want
+   **/
   getDashboardData() {
     console.log('Warning. getDashboardData should be defined in your application which extends this dashboard component. getDashboardData should return an object with dataKeys. See @@LINK');
-    this.fetchData();
   }
 
+  
+  /**
+   * Maps data to components based on component settings
+   **/
   getChildData(component) {
     let data = [];
 
@@ -42,10 +54,13 @@ export default class Dashboard extends BaseComponent {
         data = component.data;
       }
     }
-    console.log('GCD', data);
+    
     return data;
   }
   
+  /**
+   * Figure out which appliedFilters apply to which dataKeys
+   **/
   getFilters(key, qs) {
     let filters = [];
     let appliedFilters = Object.assign({}, this.state.appliedFilters);
@@ -68,31 +83,31 @@ export default class Dashboard extends BaseComponent {
 
     return filters;
   }
-
+  
+  /**
+   * Handle actions here.
+   *    Update appliedFilters on state triggers re-render
+   *    App parses appliedFilters and updates dash accordingly
+   **/
   onAction(payload) {
     console.log('ACT', payload, this);
     switch(payload.actionType) {
       case 'AUTOCOMPLETE_CHANGE':
-        console.log('AC_C');
         let appliedFilters = Object.assign({}, this.state.appliedFilters);
         let field = payload.field;
         
         // payload value is a non-empty array of values
         if (isArray(payload.value) && payload.value.length > 0) {
-          console.log('AC0')
           payload.vals = payload.value.map(row => {
             if (!isNaN(row.value)) return parseInt(row.value);  // ints are easier
             return row.value;
           });
           appliedFilters[field] = payload;
         } else if (payload.value && payload.value.value) { // payload value is an object with a value attribute
-          console.log('AC1', payload.value, isNaN(payload.value));
-
           if (!isNaN(payload.value.value)) payload.value.value =  parseInt(payload.value.value);  // ints are easier
           payload.value = [payload.value]
           appliedFilters[field] = payload;
         } else { // if there is no value, remove this filter from appliedFilters
-          console.log('AC3')
           delete appliedFilters[field];
         }
         
@@ -108,8 +123,6 @@ export default class Dashboard extends BaseComponent {
     let markup;
     let routeParams = pick(this.props, ['history', 'location', 'params', 'route', 'routeParams', 'routes']);
     console.log('DASH RENDER', this);
-    // We wrap the whole dashboard in the route so we that we get paramater info in the els
-    // @@TODO this needs to be repeated in Region because of our dumb scheme
     return (
         <div className="container">
           <link rel="stylesheet" type="text/css" href={this.props.faPath} />
@@ -137,6 +150,7 @@ export default class Dashboard extends BaseComponent {
                     output = 
                       React.createElement(Registry.get(element.type), props)
                   }
+
                   return output;
                 })}  
               </div>
