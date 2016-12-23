@@ -153,8 +153,8 @@ export var settings = {
         // choropleth
         {
           type: 'Choropleth',
-          cid: 'choro1',
           cardStyle: 'map',
+          iconClass: 'fa fa-balance-scale',
           header: 'Palmer Hydrological Drought Index',
           format: 'topojson',
           dataHandlers: [
@@ -203,6 +203,7 @@ export var settings = {
           type: 'Chart',
           cardStyle: 'chart',
           header: 'Standard Precipitation Index',
+          iconClass: 'fa fa-cloud',
           dataHandlers: ['getBarChartData'],
           settings: {
             type: 'multiBarChart',
