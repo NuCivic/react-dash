@@ -58,7 +58,7 @@ let customDataHandlers = {
     let NaNRows = {};
     let _data = dashboardData.climateData;
     let mapped;
-    console.log('MAP 0-', arguments); 
+    
     if (_data && _data.length > 0) {
       mapped = _data.map(row => {
         
@@ -80,7 +80,6 @@ let customDataHandlers = {
       });
     }
 
-    console.log('MAP', mapped);
     return mapped;
   },
 
@@ -94,7 +93,7 @@ let customDataHandlers = {
       '#2ca25f',
       '#006d2c',
     ];
-    let _data = dashboardData || [];
+    let _data = dashboardData.climateData || [];
     let series = indicators.map((ind, i) => {
       let data = _data.map(row => {
         return {
@@ -109,18 +108,6 @@ let customDataHandlers = {
 
     return series;
   },
-  
-  getFilterOpts: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    let output = [
-      [
-        { label: 'FOO', value: 'FOO' },
-        { label: 'BAR', value: 'BAR' },
-        { label: 'BAZ', value: 'BAZ' }
-      ]
-    ]
-    console.log('filterOpts', arguments, output);
-    return output
-  }
 }
 
 for (let k in customDataHandlers) {

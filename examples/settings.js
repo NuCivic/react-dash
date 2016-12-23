@@ -194,8 +194,7 @@ export var settings = {
       ]
     },
 
-/*
-    // region pie-charts
+
     {
       id: 'chart-row',
       className: 'row',
@@ -213,7 +212,7 @@ export var settings = {
           }
         },
       ]
-    }, */
+    },
     /*{
       type: 'Region',
       className: 'region-piesI row',
