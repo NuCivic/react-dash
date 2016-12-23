@@ -61,7 +61,7 @@ export default class Dashboard extends BaseComponent {
   /**
    * Figure out which appliedFilters apply to which dataKeys
    **/
-  getFilters(key, qs) {
+  getFilters(key) {
     let filters = [];
     let appliedFilters = Object.assign({}, this.state.appliedFilters);
     let toFilter = Object.keys(appliedFilters).filter(k => { 
@@ -83,7 +83,7 @@ export default class Dashboard extends BaseComponent {
 
     return filters;
   }
-  
+
   /**
    * Handle actions here.
    *    Update appliedFilters on state triggers re-render
