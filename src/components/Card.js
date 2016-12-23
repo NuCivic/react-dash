@@ -14,8 +14,8 @@ export default class Card extends Component {
     if(this.props.header) {
       header = (
         <div className="card-header">
-          <span className={this.props.iconClass} aria-hidden="true"></span>
-          <span className="card-header-content">{props.header}</span>
+          <span className={'card-header-icon ' + this.props.iconClass} aria-hidden="true"></span>
+          <span className='card-header-content'>{props.header}</span>
         </div>
       );
     }
@@ -25,7 +25,7 @@ export default class Card extends Component {
     }
     
     return (
-      <div className={'card-' + props.cardStyle + ' ' + className} style={style} {...card}>
+      <div className={'card card-' + props.cardStyle + ' ' + className} style={style} {...card}>
         {header}
         <div className="card-content">
           {props.children}

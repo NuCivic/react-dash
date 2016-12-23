@@ -1,5 +1,5 @@
 import { DataHandler } from '../src/ReactDashboard'
-import { find, min, max, mean } from 'lodash';
+import { find, min, max, mean, isArray } from 'lodash';
 
 let customDataHandlers = {
   // Global data filters
@@ -26,44 +26,59 @@ let customDataHandlers = {
     return _data;
   },
 
-  // @@DEPRECATE
-  getMinTemp: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    let _data = dashboardData.map(r => { return r.TMIN });
-    return [ min(_data) ];
+  getClimateMetric: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    let data = dashboardData.climateData;
+    let output;
+
+    if (isArray(data) && data.length > 0) {
+      if (handler.field === 'TMIN') {
+        output = data.map(r => { return r.TMIN });
+        return [min(output)]
+      }
+      
+      if (handler.field === 'TMAX') {
+        output = data.map(r => { return r.TMAX });
+        return [max(output)]
+      }
+
+      if (handler.field === 'TAVG') {
+        output = data.map(r => { return parseInt(r.TAVG) });
+        return [mean(output).toPrecision(4)];
+        let n = mean(output).toPrecision(4);
+        return [n];
+      }
+    }
+    
+    return ["..."];
   },
 
-  getMaxTemp: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    let _data = dashboardData.map(r => { return r.TMAX });
-    return [ max(_data) ];
-  },
-
-  getAvgTemp: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    let _data = dashboardData.map(r => { return parseFloat(r.TAVG) });
-    return [ mean( _data ).toPrecision(4) ];
-  },
-  
   // @@TODO clean up NAN values
   getMapData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let field = 'PHDI';
     let NaNRows = {};
-    let mapped = dashboardData.map(row => {
-      
-      Object.keys(row).forEach((k) => {
-        row[k] = parseFloat(row[k]);
-        if (parseFloat(row[k]) === -99.99 )  row[k] = 0; // not sure the cause of this but ain't got time to sort it out
-      });
+    let _data = dashboardData.climateData;
+    let mapped;
+    
+    if (_data && _data.length > 0) {
+      mapped = _data.map(row => {
+        
+        Object.keys(row).forEach((k) => {
+          row[k] = Number(row[k]);
+          if (row[k] === -99.99 )  row[k] = 0; // not sure the cause of this but ain't got time to sort it out
+        });
 
-      // assign label from stateArray to row, based on matching id
-      let state = find(handler.stateArray, r => {
-       return ( r.value === row.StateCode ) 
+        // assign label from stateArray to row, based on matching id
+        let state = find(handler.stateArray, r => {
+         return ( r.value === row.StateCode ) 
+        });
+
+        if (state) {
+          row.name = state.label;
+        }
+        
+        return row;
       });
-      
-      if (state) {
-        row.name = state.label;
-      }
-      
-      return row;
-    });
+    }
 
     return mapped;
   },
@@ -78,7 +93,7 @@ let customDataHandlers = {
       '#2ca25f',
       '#006d2c',
     ];
-    let _data = dashboardData || [];
+    let _data = dashboardData.climateData || [];
     let series = indicators.map((ind, i) => {
       let data = _data.map(row => {
         return {
@@ -92,7 +107,7 @@ let customDataHandlers = {
     });
 
     return series;
-  }
+  },
 }
 
 for (let k in customDataHandlers) {

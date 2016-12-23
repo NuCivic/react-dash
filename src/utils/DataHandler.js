@@ -30,17 +30,19 @@ export default class DataHandler {
    * @@TODO - provide meaningful error messages
    */
   static handle(hs, componentData, dashboardData, e, appliedFilters) {
+    let cur;
     try {
       let handlers = (hs || []).map((h) => {
         let handler = isString(h) ? { name: h } : h ;
         let funcHandler = DataHandler.get(handler.name);
         let args = omit(handler,'name');
+        cur = h;
         return funcHandler.bind(this, componentData, dashboardData, args, e, appliedFilters);
       });
       let handle = flow(handlers);
       return (isFunction(handle)) ? handle(componentData, dashboardData) : componentData;
     } catch (e) {
-      console.error("Error in data handler. This could mean that one of your data handlers is missing from the registry. Here are the handlers we're trying to process:", e, arguments);
+      console.error("Error in data handler. This could mean that one of your data handlers is missing from the registry. Here are the handlers we're trying to process:", e, cur, arguments);
     }
   }
 }

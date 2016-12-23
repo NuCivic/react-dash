@@ -1,22 +1,55 @@
-2016-07-05 ** 0.2.0
-* Add Changelog!
 
-2016-07-06 ** 0.2.1
-* Add ReactSelect element to component registry
-* Add Registry support for native react elements
-* Document data handlers
+2016-08-31 ** 0.5.x
+* Flux-ISH data flow in example app
+Data is fetched, processed and updated at the App implementation level
+(@@DASHBOARD LEVEL?). 
+Only Dashboard level actions can change state.
+Dashboard uses component settings from settings.js and dataHandlers (read:
+reducers) to calculate component data. 
+All components are passed static data at render.
+For a component to update data / application state it must trigger an action
+at the dashboard / app level
 
-2016-07-11 ** 0.3.0
-* Add react-router support
+* Regions
+Regions will render rows, allowing for easy responsive grid rendering.
 
-2016-08-23 ** 0.3.4
-2016-08-23 ** 0.3.5
-2016-08-23 ** 0.3.6
-* Remove Multi-component from /examples project since it is breaking
-react-dashboard-boilerplate automated install
-2016-08-23 ** 0.3.7
-* pass globalData as props to all components (BUG FIX)
-2016-08-31 ** 0.4.0
+* Multi Regions
+Regions can now be define 'multi: true' in props, in which case the named
+dataHandler will be called. The data handler should return a string which will
+serve as a key, this key is used to select which sub-region to render from the
+multi-region. Replaces Multi Component.
+
+* data abstraction - dataKeys
+We add an abstraction for dataKeys - a dataKey represents an individual
+app-level data source, which contains query objects
+
+* Filters
+We have a common filter settings definition that includes the field to filter
+and a willFilter array to determine which dataKey's data we are filtering...
+see full documentation @@LINK 
+Added BaseFilter component 
+Move event handling to base class to unify filter implementations
+Add example of app filtering in example app
+
+* Added Checkbox Filter
+A simple checkbox input inherits from BaseFilter component
+
+* Removed Multi Component
+See Multi Regions above
+
+* Add datahandlers to common library:
+getXYBYQueryDataWhere
+whiteListValues
+inspect
+
+
+& update datahandlers:
+common.getXYBYQueryData - add dashboardData.dataKey level of data abstraction (see
+above)
+common.groupByRange - remove check for isPieChart - use NVD3 handler instead
+common.rekeySeries - return values array as array [output]
+
+2016-08-31 ** 0.4.x
 * Update data handling
 ** DATA TABLE COMPONENT**
 *    Rename Table component to DataTable to avoid namespace collisions
@@ -37,3 +70,25 @@ Update Filter Handling for autocomplete component
 (defined in settings on Autocomplete component)
 * Add appliedFilters to Dashboard state and pass to children in props
 * Make appliedFiters avaiable in dataHandlers
+
+2016-08-23 ** 0.3.7
+* pass globalData as props to all components (BUG FIX)
+
+2016-08-23 ** 0.3.6
+
+2016-08-23 ** 0.3.5
+
+2016-08-23 ** 0.3.4
+* Remove Multi-component from /examples project since it is breaking
+react-dashboard-boilerplate automated install
+
+2016-07-11 ** 0.3.0
+* Add react-router support
+
+2016-07-06 ** 0.2.1
+* Add ReactSelect element to component registry
+* Add Registry support for native react elements
+* Document data handlers
+
+2016-07-05 ** 0.2.0
+* Add Changelog!

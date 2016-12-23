@@ -1,124 +1,107 @@
-import {time} from 'd3';
 
-let formatTime = function (d) {
- return time.format('%b, %Y')(new Date(d));
-}
-
-const stateIds = 
-						[
-							{ value: 1, label: 'AK' },
-							{ value: 30, label: 'NY' },
-							{ value: 2, label: 'AZ' },
-							{ value: 31, label: 'NC' },
-							{ value: 3, label: 'AR' },
-							{ value: 32, label: 'ND' },
-							{ value: 4, label: 'CA' },
-							{ value: 33, label: 'OH' },
-							{ value: 5, label: 'CO' },
-							{ value: 34, label: 'OK' },
-							{ value: 6, label: 'CT' },
-							{ value: 35, label: 'OR' },
-							{ value: 7, label: 'DE' },
-							{ value: 36, label: 'PA' },
-							{ value: 8, label: 'FL' },
-							{ value: 7, label: 'RI' },
-							{ value: 9, label: 'GA' },
-							{ value: 38, label: 'SC' },
-							{ value: 10, label: 'ID' },
-							{ value: 39, label: 'SD' },
-							{ value: 11, label: 'IL' },
-							{ value: 40, label: 'TN' },
-							{ value: 12, label: 'IA' },
-							{ value: 41, label: 'TX' },
-							{ value: 13, label: 'IA' },
-							{ value: 42, label: 'UT' },
-							{ value: 14, label: 'KS' },
-							{ value: 43, label: 'VT' },
-							{ value: 15, label: 'KT' },
-							{ value: 44, label: 'VA' },
-							{ value: 16, label: 'LA' },
-							{ value: 45, label: 'WA' },
-							{ value: 17, label: 'ME' },
-							{ value: 46, label: 'WV' },
-							{ value: 18, label: 'MD' },
-							{ value: 47, label: 'WI' },
-							{ value: 19, label: 'MA' },
-							{ value: 48, label: 'WY' },
-							{ value: 20, label: 'MI' },
-							{ value: 21, label: 'MN' },
-							{ value: 22, label: 'MI' },
-							{ value: 103, label: 'Central Region' },
-							{ value: 23, label: 'MO' },
-							{ value: 24, label: 'MT' },
-							{ value: 25, label: 'NE' },
-							{ value: 106, label: 'South Region' },
-							{ value: 26, label: 'NV' },
-							{ value: 27, label: 'NH' },
-							{ value: 28, label: 'NJ' },
-							{ value: 29, label: 'NM' },
-              { value: 50, label: 'USA?'}
-						]
-
+let stateIds =
+      [
+        { value: 1, label: 'AK' },
+        { value: 30, label: 'NY' },
+        { value: 2, label: 'AZ' },
+        { value: 31, label: 'NC' },
+        { value: 3, label: 'AR' },
+        { value: 32, label: 'ND' },
+        { value: 4, label: 'CA' },
+        { value: 33, label: 'OH' },
+        { value: 5, label: 'CO' },
+        { value: 34, label: 'OK' },
+        { value: 6, label: 'CT' },
+        { value: 35, label: 'OR' },
+        { value: 7, label: 'DE' },
+        { value: 36, label: 'PA' },
+        { value: 8, label: 'FL' },
+        { value: 7, label: 'RI' },
+        { value: 9, label: 'GA' },
+        { value: 38, label: 'SC' },
+        { value: 10, label: 'ID' },
+        { value: 39, label: 'SD' },
+        { value: 11, label: 'IL' },
+        { value: 40, label: 'TN' },
+        { value: 12, label: 'IA' },
+        { value: 41, label: 'TX' },
+        { value: 13, label: 'IA' },
+        { value: 42, label: 'UT' },
+        { value: 14, label: 'KS' },
+        { value: 43, label: 'VT' },
+        { value: 15, label: 'KT' },
+        { value: 44, label: 'VA' },
+        { value: 16, label: 'LA' },
+        { value: 45, label: 'WA' },
+        { value: 17, label: 'ME' },
+        { value: 46, label: 'WV' },
+        { value: 18, label: 'MD' },
+        { value: 47, label: 'WI' },
+        { value: 19, label: 'MA' },
+        { value: 48, label: 'WY' },
+        { value: 20, label: 'MI' },
+        { value: 21, label: 'MN' },
+        { value: 22, label: 'MI' },
+        { value: 103, label: 'Central Region' },
+        { value: 23, label: 'MO' },
+        { value: 24, label: 'MT' },
+        { value: 25, label: 'NE' },
+        { value: 106, label: 'South Region' },
+        { value: 26, label: 'NV' },
+        { value: 27, label: 'NH' },
+        { value: 28, label: 'NJ' },
+        { value: 29, label: 'NM' },
+        { value: 50, label: 'USA?'}
+    ];
 export var settings = {
-  title: 'React-Dash Demo -- Climate Indices by Year',
+  title: 'React-Dash v0.5 -- Climate Indices by Year',
   queries: {},
 	// we will add this to globalData in app.js 
   // and use these labels in our customDatahandlers
-  climate_vars: {
-    PCP: 'Precipitation Index',
-    TAVG: 'Temperature Index',
-    TMIN: 'Minimum Temperature Index',
-    TMAX: 'Maximum Temperature Index',
-    PDSI: 'Palmer Drought Severity Index',
-    PHDI: 'Palmer Hydrological Drought Index',
-    ZNDX: 'Palmer Z-Index',
-    PMDI: 'Modified Palmer Drought Severity Index',
-    CDD: 'Cooling Degree Days',
-    HDD: 'Heating Degree Days',
-    SPnn: 'Standard Precipitation Index'
-	},
   
   // if defined at the top level, fetchData will populate
   // the dashboard with globalData
-  fetchData: {
-    type: 'backend',
-    backend: 'csv',
-    url: 'https://dl.dropboxusercontent.com/u/73703010/react_dash_data_0.4/climate_indices.csv'
+  dataResources: {
+    climateData: {
+      fetchData: {
+        type: 'backend',
+        backend: 'csv',
+        url: 'https://dl.dropboxusercontent.com/u/73703010/react_dash_data_0.4/climate_indices.csv'
+      },
+    }
   },
-  // if applied at the top level, datahandlers will filter global data
-  dataHandlers: ['filterData'],
 
-  components: [
-    
-    // region top
+  regions: [
     {
-      type: 'Region',
-      cardStyle: 'content',
-      header: "Climate Metrics",
-      className: 'region region-top row',
+      id: 'top-row filters-row',
+      className: 'row',
       children: [
         {
           type: 'Autocomplete',
-          cid: 'a1',
-          field: 'year',
-          placeholder: 'Select year...',
-          dataHandlers: [{name: 'common.getEventReturn'}],
-          initVal: '2015',
-          fetch: true,
-          options: [
-            { label: '2010', value: '2010' },
-            { label: '2011', value: '2011' },
-            { label: '2012', value: '2012' },
-            { label: '2013', value: '2013' },
-            { label: '2014', value: '2014' },
-            { label: '2015', value: '2015' },
-          ]
+          className: 'col-md-6',
+          name: 'specialty-autocomplete',
+          id: 'specialty-autocomplete',
+          className: 'specialty-autocomplete',
+          field: 'YearMonth',
+          action: 'filter', // sort / groupBy / etc
+          willFilter: ['climateData'], // array of dkanDataResources keys that filters affect 
+          data: [
+            [
+              { label: '2010', value: '2010' },
+              { label: '2011', value: '2011' },
+              { label: '2012', value: '2012' },
+              { label: '2013', value: '2013' },
+              { label: '2014', value: '2014' },
+              { label: '2015', value: '2015' },
+            ]
+          ],
+          placeholder: 'Select year to filter dashboard...'
         },
       ]
     },
     {
-      type: 'Region',
-      className: 'region-metrics region row',
+      id: 'metrics-row',
+      className: 'row',
       children: [
         {
           type: 'Metric',
@@ -126,7 +109,12 @@ export var settings = {
           iconClass: 'fa fa-level-up',
           className: 'col-md-4',
           caption: 'Maximum Temp.',
-          dataHandlers: ['getMaxTemp']
+          dataHandlers: [
+            {
+              name: 'getClimateMetric',
+              field: 'TMAX'
+            }
+          ]
         },
         {
           type: 'Metric',
@@ -135,7 +123,12 @@ export var settings = {
           className: 'col-md-4',
           background: '#53ACC9',
           caption: 'Minimum Temp.',
-          dataHandlers: ['getMinTemp']
+          dataHandlers: [
+            {
+              name: 'getClimateMetric',
+              field: 'TMIN'
+            }
+          ]
         },
         {
           type: 'Metric',
@@ -144,21 +137,24 @@ export var settings = {
           className: 'col-md-4',
           caption: 'Average Temp/',
           background: '#C97053',
-          dataHandlers: ['getAvgTemp']
+          dataHandlers: [
+            {
+              name: 'getClimateMetric',
+              field: 'TAVG'
+            }
+          ]
         }
       ]
     },
-
-    // region choropleth
     {
-      type: 'Region',
-      className: 'region-choropleth',
+      id: 'map-row',
+      className: 'row',
       children: [
         // choropleth
-        /*{
+        {
           type: 'Choropleth',
-          cid: 'choro1',
           cardStyle: 'map',
+          iconClass: 'fa fa-balance-scale',
           header: 'Palmer Hydrological Drought Index',
           format: 'topojson',
           dataHandlers: [
@@ -184,12 +180,12 @@ export var settings = {
             palleteKey: 'GnBu',
             pallete: ['#ff3333','#ff4d4d','#ff6666','#ff8080','#ff9999','#ffb3b3','#ffcccc'],
           },
-        },*/
+        },
       ]
     },
     {
-      type: 'Region',
-      className: 'region region-lower row',
+      id: 'text-row',
+      className: 'row',
       children: [          
         {
           type: 'Markup',
@@ -199,15 +195,15 @@ export var settings = {
     },
 
 
-    // region pie-charts
     {
-      type: 'Region',
-      className: 'region-piesI row',
+      id: 'chart-row',
+      className: 'row',
       children: [
         {
           type: 'Chart',
           cardStyle: 'chart',
           header: 'Standard Precipitation Index',
+          iconClass: 'fa fa-cloud',
           dataHandlers: ['getBarChartData'],
           settings: {
             type: 'multiBarChart',
@@ -216,16 +212,6 @@ export var settings = {
             height: 800
           }
         },
-      ]
-    },
-    {
-      type: 'Region',
-      className: 'region region-footer row',
-      children: [
-        {
-          type: 'Markup',
-          content: '<p>The Standardized Precipitation Index (SPI) is a tool which was developed primarily for defining and monitoring drought. It allows an analyst to determine the rarity of a drought at a given time scale (temporal resolution) of interest for any rainfall station with historic data. It can also be used to determine periods of anomalously wet events. The SPI is not a drought prediction tool. (http://drought.unl.edu/portals/0/docs/spi-program-alternative-method.pdf)</p>'
-        }     
       ]
     },
     /*{
@@ -264,46 +250,30 @@ export var settings = {
       ]
     }, */
 
-    {
-      type: 'Region',
-      className: 'region region-footer',
+   {
+      id: 'footer',
+      className: 'row',
       children: [
-        {
-          type: 'Chart',
-          cardStyle: 'chart',
-          header: 'Average Temperature',
-          settings: {
-            type: 'lineChart',
-            forceY: ['-20', '100'],
-            x: 'time',
-            y: 'TAVG',
-            xAxis: {
-              tickFormat: formatTime
-            },
-          },
-          dataHandlers: [
-            {
-              name: 'common.filterDashboardDataByParamEquals',
-              field: 'StateCode',
-              value: 50
-            },
-            {
-              name: 'NVD3.returnChartSeries',
-              series: 
-                [
-                  {
-                    name: 'TAVG',
-                    color: 'purple'
-                  }
-                ]
-            }
-          ]
-        },
         {
           type: 'Markup',
           content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>'
         }     
       ]
     }
-  ]
+  ],
 }
+
+
+let climateVars = {
+			PCP: 'Precipitation Index',
+			TAVG: 'Temperature Index',
+			TMIN: 'Minimum Temperature Index',
+			TMAX: 'Maximum Temperature Index',
+			PDSI: 'Palmer Drought Severity Index',
+			PHDI: 'Palmer Hydrological Drought Index',
+			ZNDX: 'Palmer Z-Index',
+			PMDI: 'Modified Palmer Drought Severity Index',
+			CDD: 'Cooling Degree Days',
+			HDD: 'Heating Degree Days',
+			SPnn: 'Standard Precipitation Index'
+		};
