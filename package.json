@@ -1,8 +1,9 @@
 {
   "name": "react-dash-dev",
-  "version": "0.4.8",
+  "version": "0.5.4",
   "description": "Another react dashboard component",
   "main": "./dist/react-dashboard.min.js",
+  "style": "./dist/react-dashboard.min.css",
   "scripts": {
     "start": "bash scripts/start.sh",
     "build": "webpack --config webpack.config.production.js",

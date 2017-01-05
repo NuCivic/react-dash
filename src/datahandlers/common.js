@@ -113,7 +113,37 @@ let dataHandlers = {
       return [];
     }
   },
+  
+  // given a set of field names, return records that match value(s) given
+  getXYByQueryDataWhereFieldsIn: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    if (dashboardData && dashboardData[handler.dataKey] && dashboardData[handler.dataKey][handler.queryKey]) {
+      let localData = dashboardData[handler.dataKey][handler.queryKey].result.records;
+      let localDataWhere = localData.filter(row => {
+        let test;
+        // whereField is an array of possible fieldNames
+        handler.whereField.forEach(field => {
+          test = handler.whereFieldValueIn.indexOf(row[field]) >= 0;
+          //console.log('>>>>', field, handler.whereFieldValueIn, row[field], JSON.stringify(test));
+        });
+        
+        return test;
+      });
 
+      console.log('DATATA', JSON.parse(JSON.stringify(localDataWhere)));
+      let output =  localDataWhere.map(row => {
+        // use handler fields to select fields to return!
+        let newRow = {};
+        newRow[handler.xField] = row[handler.xField];
+        newRow[handler.yField] = row[handler.yField];
+        return newRow;
+      });
+
+      console.log("OUTT", output);
+      return [output];
+    } else {
+      return [];
+    }
+  },
   
   getPercentileSeries: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     
