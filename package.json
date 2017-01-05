@@ -1,6 +1,6 @@
 {
-  "name": "react-dash-dev",
-  "version": "0.5.5",
+  "name": "react-dash",
+  "version": "0.5.0",
   "description": "Another react dashboard component",
   "main": "./dist/react-dashboard.min.js",
   "style": "./dist/react-dashboard.min.css",
@@ -25,8 +25,8 @@
     "visualizations",
     "d3"
   ],
-  "author": "Mariano Carballal <marianocarballal@gmail.com> (http://github.com/topicus)",
-  "contributors": [
+  "author": [
+    "Mariano Carballal <marianocarballal@gmail.com> (http://github.com/topicus)",
     "Paul Walker <pjwalker76@gmail.com> (http://github.com/starsinmypockets@gmail.com)"
   ],
   "license": "MIT",
