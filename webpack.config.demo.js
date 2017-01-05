@@ -44,14 +44,7 @@ module.exports = {
           path.join(__dirname, 'examples')
         ]
       },
-      { 
-        test: /\.css$/, 
-        loader: 'style-loader!css-loader',
-        include: [
-          path.join(__dirname, 'src'),
-          path.join(__dirname, 'examples')
-        ]
-      },
+      { test: /\.css$/, loader: 'style-loader!css-loader' },
       { test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/, loader: 'file-loader' },
       { test: /\.scss$/, loader: ExtractTextPlugin.extract('css-loader!sass-loader') }
     ]
