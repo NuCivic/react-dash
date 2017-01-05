@@ -8,4 +8,3 @@ import customDataHandlers from './customDataHandlers';
 import { settings } from './settings';
 import App from './app';
 import { Router, Route, browserHistory } from 'react-router';
-//ReactDOM.render(React.createElement(App), document.getElementById('root'));
