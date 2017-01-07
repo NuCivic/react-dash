@@ -25,7 +25,7 @@ class Dash extends Dashboard {
       let filters = this.getFilters(dataKey);
 
       this.fetchBackend(this.props.dataResources[dataKey]).then(data => {
-        // Note that, because of the shape of our data and the need for custom processing, that we do our filtering AFTER we fetch. In other cases (The DKAN Dash implementation for example),  we use the appropriate filters to update our API calls to return filtered data. The details of implementation are up to you, but we suggest you stick with the appliedFilters pattern, which maintains a FLUX/ish top down data flow
+        // Note that, because of the shape of our data and the need for custom processing, that we do our filtering AFTER we fetch. In other cases (The DKAN Dash implementation for example),  we use the appropriate filters to update our API calls to return filtered data. The details of implementation are up to you, but we suggest you stick with the appliedFilters pattern, which maintains the proper top down data flow
         dashData[dataKey] = this.applyFilters(data.hits, filters);  
         if (Object.keys(dashData).length === dataKeys.length) {
           this.setState({data: dashData});
