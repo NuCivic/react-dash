@@ -18,18 +18,24 @@ class App extends Component {
             [
               <Metric 
                 caption='Caption A'
+                cardStyle="metric"
+                className="col-md-4"
                 data={[1]}
                 background='#687a99'
                 iconClass='fa fa-bed'
               />,
               <Metric
                 caption='Caption B'
+                cardStyle="metric"
+                className="col-md-4"
                 data={[2]}
                 background='#689994'
                 iconClass='fa fa-bomb'
               />,
               <Metric
                 caption='Caption C'
+                cardStyle="metric"
+                className="col-md-4"
                 data={[3]}
                 background='#8f6899'
                 iconClass='fa fa-bathtub'
