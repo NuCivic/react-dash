@@ -71,7 +71,6 @@ class App extends Component {
                   {
                     type: 'pieChart',
                     height: 300,
-                    colors: ['green', 'grey', 'blue']
                   }
                 }
               />
