@@ -154,7 +154,7 @@ export default class Dashboard extends BaseComponent {
 
                   if (props.cardStyle) {
                     output = 
-                      <Card key={key} {...element}>
+                      <Card key={key} {...props}>
                         {el}
                       </Card>
                   } else {

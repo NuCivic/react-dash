@@ -4,14 +4,17 @@
  **/
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Dashboard, Card, Metric } from '../src/ReactDashboard';
+import { Dashboard, Card, Metric, Chart } from '../src/ReactDashboard';
 
 class App extends Component {
   render() {
     return (
       <Dashboard 
+        title="A Frivolous Dashboard Writ in JSX"
         regions={[
-          { children: 
+          // First Region
+          { className: 'row',
+            children:
             [
               <Metric 
                 caption='Caption A'
@@ -32,7 +35,42 @@ class App extends Component {
                 iconClass='fa fa-bathtub'
               />
             ]
-          } 
+          }, 
+          // Second Region
+          {
+            className: 'row',
+            children: [
+              <Chart 
+                cardStyle="chart"
+                header="Foo"
+                iconClass="fa fa-cloud"
+                className="col-md-6"
+                key="chart1"
+                data={[{x: 'foo', y: 10}, {x: 'bar', y: 20}, {x: 'bax', y: 30}]}
+                settings={
+                  {
+                    type: 'pieChart',
+                    height: 300
+                  }
+                }
+              />,
+              <Chart 
+                cardStyle="chart"
+                className="col-md-6"
+                header="Eeny"
+                iconClass="fa fa-cogs"
+                key="chart2"
+                data={[{x: 'Eeny', y: 1122}, {x: 'Meeny', y: 2220}, {x: 'Miney', y: 910}]}
+                settings={
+                  {
+                    type: 'pieChart',
+                    height: 300,
+                    colors: ['green', 'grey', 'blue']
+                  }
+                }
+              />
+            ]
+          }
         ]}
       />
     )
