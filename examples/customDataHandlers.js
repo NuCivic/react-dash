@@ -2,30 +2,6 @@ import { DataHandler } from '../src/ReactDashboard'
 import { find, min, max, mean, isArray } from 'lodash';
 
 let customDataHandlers = {
-  // Global data filters
-  filterData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    let _data = componentData || pipelineData;
-    
-    // let's clean up the data values a little
-    _data.forEach(row => {
-      let d = row.YearMonth.toString();
-      let y = d.slice(0,4);
-      let m = d.slice(4,7);
-      let date = new Date(y,m);
-      row.time = date.getTime();
-    });
-    if (!appliedFilters) return _data;
-    
-    Object.keys(appliedFilters).forEach(k => {
-      if (k === "year" && appliedFilters[k].length > 0) {
-        _data =  _data.filter(row => {
-          return _inYear(row, appliedFilters[k]);  
-        })
-      }
-    });
-    return _data;
-  },
-
   getClimateMetric: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let data = dashboardData.climateData;
     let output;
