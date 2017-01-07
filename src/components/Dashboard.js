@@ -23,7 +23,7 @@ export default class Dashboard extends BaseComponent {
    * Apply datahandlers in sequence, passing data returned to subsequent handler
    *    makes global leve data and @@TODO event object available to ahndler
    **/
-  applyDataHandlers(datahandlers, componentData=[]) {
+  _applyDataHandlers(datahandlers, componentData=[]) {
     let _handlers = datahandlers;
     let _appliedFilters = this.state.appliedFilters || {};
     let _data = DataHandler.handle.call(this, _handlers, componentData, this.state.data, {e:'foo'}, _appliedFilters);
@@ -48,7 +48,7 @@ export default class Dashboard extends BaseComponent {
     let data = [];
 
     if (component.dataHandlers) {
-      data = this.applyDataHandlers(component.dataHandlers, component.data);
+      data = this._applyDataHandlers(component.dataHandlers, component.data);
     } else if (component.data) {
       if (component.data.length > 0) {
         data = component.data;
@@ -90,7 +90,6 @@ export default class Dashboard extends BaseComponent {
    *    App parses appliedFilters and updates dash accordingly
    **/
   onAction(payload) {
-    console.log('ACT', payload, this);
     switch(payload.actionType) {
       case 'AUTOCOMPLETE_CHANGE':
         let appliedFilters = Object.assign({}, this.state.appliedFilters);
@@ -137,18 +136,29 @@ export default class Dashboard extends BaseComponent {
             return (
               <div id={region.id} className={region.className} >
                 {region.children.map( (element, key) => {
-                  let props = Object.assign(element, {globalData: this.state.data, appliedFilters: this.state.appliedFilters, vars: this.props.vars}, routeParams);
-                  props.data = this.getChildData(element);
+                  let isReactEl = React.isValidElement(element);
                   let output;
+                  let el;
+                  // if it isn't a react element, the element is a settings object
+                  let _props = (isReactEl) ? element.props : element;
+                  let props = Object.assign({}, _props);
                   
+                  props.data = this.getChildData(element) || [];
+                  props.globalData = Object.assign({}, this.state.data || {});
+                  props.appliedFilters = Object.assign({}, this.state.appliedFilters || {});
+                  props.vars = Object.assign({}, this.props.vars || {});
+                  props.routeParams = routeParams;
+
+                   el = (isReactEl) ? element : React.createElement(Registry.get(element.type), props);
+
+
                   if (props.cardStyle) {
                     output = 
                       <Card key={key} {...element}>
-                        {React.createElement(Registry.get(element.type), props)}
+                        {el}
                       </Card>
                   } else {
-                    output = 
-                      React.createElement(Registry.get(element.type), props)
+                    output = el;
                   }
 
                   return output;
