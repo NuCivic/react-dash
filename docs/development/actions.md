@@ -1,9 +1,9 @@
-# Actions
-Sometimes you need to tell other components about a change that happened in your dashboard. For example, a change in the underlying dashboard data after adding a new selection in the autocomplete. 
+# Filters
+*Filters* update the dashboard state based on user input. The data flow is as follows:
 
-This is handled through **actions**. 
+In order to change dashboard state, components need to fire actions. Actions are handled at the Dashboard level and can update the state. For instance, filters fire actions that update `state.appliedFilters`. The appliedFilters object is passed to dataHandlers and can be used for filtering data or making decisions about component state.
 
-All components have a method called *emit*. Emit triggers actions and an *onAction method* that is automatically called when an action is fired from any component.
+All components that inherit from *BaseComponent* have a method called *emit*. Emit triggers actions and an *onAction method* that is automatically called when an action is fired from any component.
 
 It's worth mentioning the *emit method* returns a regular javascript object. By convention it should have an *actionType* but the rest is up to you.
 
@@ -27,3 +27,6 @@ onAction(action){
   }
 }
 ```
+
+See also the section on `filters` @@TODO LINK FILTERS 
+.. :doc:`/filters`

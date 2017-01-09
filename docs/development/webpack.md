@@ -1,4 +1,4 @@
-# Building the Dashboard
+# Building the Dashboard with Webpack
 When development is done, you need to build the dashboard.
 
 ## standalone project
