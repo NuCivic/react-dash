@@ -7,7 +7,7 @@ In order to facilitate the custom handling of data we have introduced the concep
 
 Consider:
 
-``javascript
+```javascript
 // settings.js:
 {
   type: 'Metric',
