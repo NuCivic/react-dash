@@ -36,6 +36,7 @@ export default class CheckboxFilter extends BaseFilter {
             name={this.props.name}
             value={this.state.checked}
             checked={this.state.checked}
+            disabled={this.isDisabled()}
             onClick={this.onClick.bind(this)}
           />
           <label for={this.props.name} value={this.props.label}>

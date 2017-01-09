@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
-import {makeKey} from '../utils/utils';
+import { makeKey } from '../utils/utils';
 import BaseComponent from './BaseComponent';
 import { isArray } from 'lodash';
 
 export default class BaseFilter extends BaseComponent {
+  
+  constructor(props) {
+    super(props);
+    console.log('FFF', this);
+  }
 
   getFilterValue() {
     let val;
@@ -38,6 +43,24 @@ export default class BaseFilter extends BaseComponent {
     this.emit(filter);
   }
 
+  // Check if the filter is disabled
+  // Filters can be disabled via props, or if a specified filter is present
+  // in applied filters
+  isDisabled() {
+    let disabled = false;
+    let appliedFilters = (this.props.appliedFilters) ? Object.keys(this.props.appliedFilters) : [];
+
+    if (this.props.disabled) disabled = true;
+    
+    if (this.props.disabledBy) {
+      this.props.disabledBy.forEach(field => {
+        if (appliedFilters.indexOf(field) >= 0) disabled = true;
+      });
+    }
+
+    return disabled;
+  }
+
   /**
    * Load autocomplete options
    * @param  {String}   input A text with the query to be sent to the server
@@ -55,7 +78,6 @@ export default class BaseFilter extends BaseComponent {
         }).then((json) => {
           return { options: json };
         });
-    
     // Pass options directly
     } else if(this.props.options) {
       return Promise.resolve({ options: this.props.options, isLoading: false });
