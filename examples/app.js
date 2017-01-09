@@ -5,6 +5,9 @@ import { Router, Route, browserHistory } from 'react-router';
 import { Dashboard, Dataset } from '../src/ReactDashboard';
 let _settings;
 import { omit } from 'lodash';
+import { Es2Sql } from 'es2sql';
+
+console.log('E', Es2Sql);
 
 // get settings object from global, if available
 if (typeof expressDashSettings != "undefined") {
