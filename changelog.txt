@@ -1,3 +1,11 @@
+2017-1-10 ** 0.5.1
+* Add `npm run js-example` -- runs simple js config'd app from
+/examples/js_static_example
+* Add `npm run jsx-example` -- runs simple jsx flavor app from
+/examples/jsx_static_example
+* Documentation updates
+* Add `disabledBy` prop to filters - allows other filters to disable a filter
+when present as appliedFilter
 
 2016-08-31 ** 0.5.x
 * Flux-ISH data flow in example app
