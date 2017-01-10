@@ -4,7 +4,7 @@
 The *react-dash-boilerplate* project provides a starter project and a development environment for doing react-dash development. It's a good place to start.
 
 * Make sure that you have npm installed on your system
-* Install the react-dashboard-boilerplate project and its dependencies:
+* Install the react-dash-boilerplate project and its dependencies:
   ```
   git clone https://github.com/NuCivic/react-dash-boilerplate.git
   cd react-dash-boilerplate
