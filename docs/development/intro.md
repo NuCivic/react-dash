@@ -26,9 +26,23 @@ The most important files here are in the `src/` directory. Not counting static f
 ### [app.js](app.js.md)
 This file contains the boilerplate code to load a dashboard component into the root element of your index.html file. It is possible, but not necessary, to do initial preparatory work here, for instance fetching dashboard data (see [Initializeing Dashboard Data](@@LINK))
 
+Currently, there are two formats avialable for defining dashboards: 
 
-### [settings.js](settings.js.md) 
-This file contains a javascript object with a declarative configuration for the dashboard. Here we define the dashboard components and settings.
+
+
+#### JSX
+You can define a dashboard using familiar JSX syntax. Following is a complete example of a simple dashboard defined in JSX:
+
+```eval_rst
+.. literalinclude:: ../../examples/jsx_example.js 
+```
+
+#### Javascript Settings object [settings.js](settings.js.md) 
+In many cases it is useful to define dashboard configuration in JSON - allowing for database storage, programmatic creation, etc. Here is the same Dashboard defined as a Javascript object. 
+
+```eval_rst
+.. literalinclude:: ../../examples/js_example.js 
+```
 
 ### [customDatahandlers.js](customDatahandlers.js.md)
 A library of functions that we use to preprocess data.
