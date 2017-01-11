@@ -1,48 +1,22 @@
 # Data Table
-**DataTable** component provides a way to browse, filter, search and display datasets to end-users. 
+This is a fork of facebook's [fixed-data-table product](https://facebook.github.io/fixed-data-table/).
 
 ```eval_rst
 .. image:: ../../_static/components/DataTable_0.4.png
 ```
 
-```javascript    
-{
-  type: 'GATable',
-  header: 'Mi titulo',
-  fetchData: {
-    type:'backend',
-    backend: 'csv',
-    url: 'http://demo.getdkan.com/node/9/download',
-  },
-  settings: {
-    table: {
-      rowHeight: 40,
-      width: 800,
-      maxHeight: 300,
-      headerHeight:40
-    },
-    columns: {
-      flexGrow: 1,
-      width: 150,
-      overrides: {
-        a1: {
-          flexGrow: 0.5
-        }
-      }
-    },
-    cells: {
-      height: 40,
-      width: 500,
-      overrides: {
-        1: {
-          height: 40
-        }
-      }
-    }
-  }
-},
+Here's an example of the configuration:
+
+```eval_rst
+.. literalinclude:: ../../../examples/js_static_example/settings.js 
+    :start-after: start DataTable Example
+    :end-before: end DataTable Example
+    :dedent: 4
 ```
+
 **Available settings**
+* *hideControls* Hide the controls
+* **hideFilterHeader** Hide the filter controls
 * **settings**:
   - **settings.table:** allows to configure all the properties for a table
   - **settings.columns:** allows to configure all the properties for columns

@@ -64,9 +64,40 @@ export var settings = {
           settings: {
             type: 'pieChart',
             height: 300
-          }
-        }
-      ]
+          },
+			},
+      // start DataTable Example
+			{
+				type: 'DataTable',
+				header: 'Mi titulo',
+				data: 
+        [
+          [
+            {foo: 1, bar: 2},
+            {foo: 11, bar: 21},
+            {foo: 111, bar: 222},
+            {foo: 1, bar: 2},
+          ]
+        ],
+				settings: {
+					table: {
+						rowHeight: 40, 
+						width: 800,
+						maxHeight: 300,
+						headerHeight:40
+					},  
+					columns: {
+						flexGrow: 1,
+						width: 150,
+					},  
+					cells: {
+						height: 40, 
+						width: 500,
+					}
+				}
+			},
+      // end DataTable Example
+     ]
     }
   ]
 }

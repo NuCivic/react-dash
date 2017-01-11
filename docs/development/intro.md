@@ -7,21 +7,16 @@ You can define a dashboard using familiar JSX syntax. Following is a complete ex
 `npm run jsx-example` will load the following dashboard:
 
 ```eval_rst
-.. literalinclude:: ../../examples/jsx_example.js 
+.. literalinclude:: ../../examples/jsx_static_example/app.js 
 ```
 
-## Javascript Settings object [settings.js](settings.js.md) 
-In many cases it is useful to define dashboard configuration in JSON - allowing for database storage, programmatic creation, etc. Here is the same Dashboard defined as a Javascript object. 
+## Javascript Settings object 
+In many cases it iis useful to define dashboard configuration in JSON - allowing for database storage, programmatic creation, etc. Here is the above Dashboard defined as a Javascript object.
 
 `npm run js-example` will load the following dashboard configuration at `localhost:3000`:
 
 ```eval_rst
 .. literalinclude:: ../../examples/js_static_example/app.js 
-```
-
-
-```eval_rst
-.. literalinclude:: ../../examples/jsx_static_example/app.js 
 ```
 
 ## Complete Dashboard Application
