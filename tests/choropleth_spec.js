@@ -76,7 +76,7 @@ describe('Test Choropleth functions', () => {
   it('_domainValue should return proper value', () => {
     //expect(typeof Component._domainValue).toBe('function');
     //expect(Component._domainValue(row)).toBe(1000);
-		expect("needs work").toBe("needs work");
+    expect("needs work").toBe("needs work");
   });
 });
 
@@ -85,6 +85,6 @@ describe('Test Choropleth Component Render', () => {
   //let el = Component.render();
   it('Should render a real react component', () => {
     //expect(ReactTestUtils.isElement(el)).toBeTruthy();
-		expect("needs work").toBe("needs work");
+    expect("needs work").toBe("needs work");
   })
 });
