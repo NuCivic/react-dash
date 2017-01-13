@@ -1,0 +1,7 @@
+.region {border-bottom: 1px grey solid; margin-bottom:2em}
+.dashboard-title {font-size:4em;}
+.card-header-content {font-size:2em; margin-left:20px}
+.region-top, .region:last-child {border-bottom:none}
+.footer {margin:0 auto; text-align:center}
+.logo-sm {height:50px}
+.card-header-icon.fa {heightdd:2em}

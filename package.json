@@ -60,8 +60,9 @@
     "karma-spec-reporter": "0.0.20",
     "karma-webpack": "^1.7.0",
     "node-sass": "^3.7.0",
-    "phantomjs": "^2.1.7",
     "phantomjs-polyfill": "0.0.2",
+    "phantomjs-prebuilt": "^2.1.7",
+    "react-addons-test-utils": "^15.4.2",
     "react-hot-loader": "^3.0.0-beta.6",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.0",
@@ -70,6 +71,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
+    "cartodb-es6-data-backend": "0.0.5",
     "classnames": "^2.2.3",
     "csv-es6-data-backend": "git+https://github.com/NuCivic/csv-es6-data-backend.git",
     "d3": "^3.5.16",
