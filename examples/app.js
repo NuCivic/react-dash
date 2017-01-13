@@ -13,7 +13,6 @@ if (typeof expressDashSettings != "undefined") {
   _settings = settings;
 }
 
-
 // Extend Dashboard with our data fetch logic
 // @@TODO - this is a good case for a higher order function as mariano discussed 
 class Dash extends Dashboard {

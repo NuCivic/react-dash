@@ -6,6 +6,8 @@
   "style": "./dist/react-dashboard.min.css",
   "scripts": {
     "start": "bash scripts/start.sh",
+    "jsx-example": "REACT_DASH_EX=jsx_static bash scripts/start.sh",
+    "js-example": "REACT_DASH_EX=js_static bash scripts/start.sh",
     "build": "webpack --config webpack.config.production.js",
     "build-demo": "scripts/build-demo.sh",
     "build-server": "webpack --config webpack.config.react-dash-server.js",

@@ -6,7 +6,6 @@ React-dash can be instantiated without any data processing, simply by passing da
    :maxdepth: 1
 
    overview
-   globalData
    datahandlers
    format
    backends

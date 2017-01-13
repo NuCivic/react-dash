@@ -1,15 +1,16 @@
 /**
- * This example shows how to build a basica dashboard using available components
+ * This example shows how to build a basic dashboard using available components
  * and basic React JSX syntax.
  **/
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Dashboard, Card, Metric, Chart } from '../src/ReactDashboard';
+import { Dashboard, Card, Metric, Chart } from '../../src/ReactDashboard';
 
 class App extends Component {
   render() {
     return (
-      <Dashboard 
+   <Dashboard 
         title="A Frivolous Dashboard Writ in JSX"
         regions={[
           // First Region

@@ -9,6 +9,7 @@ Filters take the following props:
 **field** This represents a key that will be used on the `state.appliedFilters` object. Depending on the implementation, it can also represent a field in the data.
 **action**: NOT IMPLEMENTED. (This will allow for sort or other filter actions in the future)
 **willFilter** An array of strings, each string corresponds with a *dataResource* or *dataKey*. This property indicates which part of the dashboard data the filter will be applied to.
+**disabledBy** An array of strings, where each string corresponds to a *field* value of another filter. When that field value is present in *appliedFilters*, the filter's html element will have the attribute `disabled=true`.
 **data / dataHandlers** As with all components, data can be passed as an object literal, or calculated via *dataHandlers*. It should be an array of arrays, where each array is a series of key value pairs.
 **initVal** An initial value for the filter.
 
@@ -66,13 +67,4 @@ Out *`dataHandlers`* have access to the *appliedFilters* values and can filter d
     });
 ```
 
-
-### getFilterValue
-If the Dashboard has an *appliedFilter* that matches the filters *field* prop, these values will be used.
-
-If no *appliedFilter* is set, the *initVal* prop will be used.
-
-Otherwise, we try to extrapolate a sensible initialization value from the component data.
-
-### Actions & appliedFilters
-Filters emit actions which are handled at the Dashboard level. The Dashboard will set the filterValues to appliedFilters, using the filters field prop. 
+See also [Actions](./actions.md).
