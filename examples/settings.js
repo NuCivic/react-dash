@@ -54,13 +54,8 @@ let stateIds =
         { value: 50, label: 'USA?'}
     ];
 export var settings = {
-  title: 'React-Dash v0.5 -- Climate Indices by Year',
+  title: 'React-Dash v0.5.x -- Climate Indices by Year',
   queries: {},
-	// we will add this to globalData in app.js 
-  // and use these labels in our customDatahandlers
-  
-  // if defined at the top level, fetchData will populate
-  // the dashboard with globalData
   dataResources: {
     climateData: {
       fetchData: {
@@ -108,12 +103,13 @@ export var settings = {
           cardStyle: 'metric',
           iconClass: 'fa fa-level-up',
           className: 'col-md-4',
+          background: "#00b3b3",
           caption: 'Maximum Temp.',
           dataHandlers: [
             {
               name: 'getClimateMetric',
               field: 'TMAX'
-            }
+            },
           ]
         },
         {
@@ -121,7 +117,7 @@ export var settings = {
           cardStyle: 'metric',
           iconClass: 'fa fa-level-down',
           className: 'col-md-4',
-          background: '#53ACC9',
+          background: '#009999',
           caption: 'Minimum Temp.',
           dataHandlers: [
             {
@@ -136,7 +132,7 @@ export var settings = {
           iconClass: 'fa fa-fire',
           className: 'col-md-4',
           caption: 'Average Temp/',
-          background: '#C97053',
+          background: '#004d4d',
           dataHandlers: [
             {
               name: 'getClimateMetric',
@@ -168,17 +164,25 @@ export var settings = {
           geometryKeyField: 'name',
           geometry: 'https://dl.dropboxusercontent.com/u/73703010/react_dash_data_0.4/map/usa.json', // topojson or geojson
           projection: 'albersUsa', // https://github.com/d3/d3/wiki/Geo-Projections
-          scaleDenominator: .8,
-          borderColor: 'white',
-          noDataColor: 'red',
+          scaleDenominator: .75,
+          borderColor: 'yellow',
+          noDataColor: 'yellow',
           topologyObject: 'usa',
-          startColor: 'red',
-          endColor: 'yellow',
+          startColor: '#e6ffff',
+          endColor: '#004d4d',
           dataClassification: 'equidistant',
           legend: {
             classesCount: 5,
-            palleteKey: 'GnBu',
-            pallete: ['#ff3333','#ff4d4d','#ff6666','#ff8080','#ff9999','#ffb3b3','#ffcccc'],
+            pallete:
+							[
+								"#e6ffff",
+								"#00ffff",
+								"#00cccc",
+								"#00b3b3",
+								"#009999",
+								"#008080",
+								"#004d4d"
+							]
           },
         },
       ]
@@ -204,7 +208,11 @@ export var settings = {
           cardStyle: 'chart',
           header: 'Standard Precipitation Index',
           iconClass: 'fa fa-cloud',
-          dataHandlers: ['getBarChartData'],
+          dataHandlers: [
+            {
+              name: 'getBarChartData'
+            },
+          ],
           settings: {
             type: 'multiBarChart',
             x: 'x',
