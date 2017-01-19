@@ -8,7 +8,6 @@ export default class BaseFilter extends BaseComponent {
   
   constructor(props) {
     super(props);
-    console.log('FFF', this);
   }
 
   getFilterValue() {
