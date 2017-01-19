@@ -20,7 +20,6 @@ export default class Chart extends BaseComponent {
   // given a d3 format specifier, return a d3 formatting
   // function for use by react-nvd3 component
   getFormatter(specifier, time=false) {
-    console.log('SPEC', specifier);
     if (typeof specifier === 'string') {
       return format(specifier);
     }
