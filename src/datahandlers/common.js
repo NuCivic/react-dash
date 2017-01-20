@@ -1,4 +1,5 @@
 import DataHandler from '../utils/DataHandler';
+import { format } from 'd3';
 
 const libName = 'common';
 
@@ -23,6 +24,20 @@ let dataHandlers = {
     });
     
     return series;
+  },
+  
+  fieldToD3Format: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    let data = pipelineData || componentData || [];
+    let formatter = format(handler.format);
+
+    data.map(series => {
+      return series.map(row => {
+        row[handler.field] = formatter(row[handler.field]);
+        return row;
+      });
+    });
+
+    return data;
   },
   
   /**
