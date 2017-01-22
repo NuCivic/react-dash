@@ -104,6 +104,18 @@ export default class Dashboard extends BaseComponent {
     return filters;
   }
 
+  getFilterByField(field) {
+    let filter;
+
+    this.props.regions.forEach(region => {
+      return region.children.forEach(child => {
+        if (child.field === field) filter = child; 
+      })
+    });
+
+    return filter;
+  }
+
   /**
    * Handle actions here.
    *    Update appliedFilters on state triggers re-render
@@ -124,8 +136,13 @@ export default class Dashboard extends BaseComponent {
     } 
   }
 
-  getUpdatedAppliedFilters(payload, appliedFilters) {
-    let field = payload.field;
+  getUpdatedAppliedFilters(_payload, appliedFilters) {
+    let field = _payload.field;
+    let filter = this.getFilterByField(field);
+    let payload = Object.assign(_payload, filter);
+
+    console.log('FILTERbyF',filter, payload);
+
     // value is a non-empty array of values
     if (isArray(payload.value) && payload.value.length > 0) {
       payload.vals = payload.value.map(row => {
@@ -136,7 +153,7 @@ export default class Dashboard extends BaseComponent {
     } else if (payload.value && payload.value.value) { // payload value is an object with a value attribute
       if (!isNaN(payload.value.value)) payload.value.value =  parseInt(payload.value.value);  // ints are easier
       payload.value = [payload.value]
-      appliedFilters[field] = [payload];
+      appliedFilters[field] = payload;
     } else if (payload.value && typeof payload.value === 'string' || typeof payload.value === 'number') { // payload value is a scalar value
       console.log('gAppl-3');
       payload.value = [payload.value];
