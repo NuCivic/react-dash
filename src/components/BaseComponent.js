@@ -11,6 +11,7 @@ import {qFromParams, getOwnQueryParams, getFID, objToQueryString} from '../utils
 export default class BaseComponent extends Component {
 
   constructor(props) {
+    console.log('PROPS', props);
     super(props);
     this.state = {
       data: [],

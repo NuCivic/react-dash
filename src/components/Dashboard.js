@@ -10,6 +10,7 @@ export default class Dashboard extends BaseComponent {
 
   componentWillMount() {
     super.componentWillMount();
+    // getUrlFilters();
     this.getDashboardData();
   }
 
@@ -92,30 +93,36 @@ export default class Dashboard extends BaseComponent {
   onAction(payload) {
     switch(payload.actionType) {
       case 'AUTOCOMPLETE_CHANGE':
+        console.log('0000000');
         let appliedFilters = Object.assign({}, this.state.appliedFilters);
-        let field = payload.field;
-        
-        // payload value is a non-empty array of values
-        if (isArray(payload.value) && payload.value.length > 0) {
-          payload.vals = payload.value.map(row => {
-            if (!isNaN(row.value)) return parseInt(row.value);  // ints are easier
-            return row.value;
-          });
-          appliedFilters[field] = payload;
-        } else if (payload.value && payload.value.value) { // payload value is an object with a value attribute
-          if (!isNaN(payload.value.value)) payload.value.value =  parseInt(payload.value.value);  // ints are easier
-          payload.value = [payload.value]
-          appliedFilters[field] = payload;
-        } else { // if there is no value, remove this filter from appliedFilters
-          delete appliedFilters[field];
-        }
-        
-        this.setState({appliedFilters: appliedFilters});
+        let updatedAppliedFilters = this.getUpdatedAppliedFilters(payload, appliedFilters);
+        console.log ('>>>>>>>>>>>', updatedAppliedFilters);
+        this.setState({appliedFilters: updatedAppliedFilters});
         break;
-
-      case 'CHECKBOX_CHANGE':
-        break;
+      
+      default:
+        console.warn('Actions should define an actionType. See docs @@LINK');
     } 
+  }
+
+  getUpdatedAppliedFilters(payload, appliedFilters) {
+    let field = payload.field;
+    // value is a non-empty array of values
+    if (isArray(payload.value) && payload.value.length > 0) {
+      payload.vals = payload.value.map(row => {
+        if (!isNaN(row.value)) return parseInt(row.value);  // ints are easier
+        return row.value;
+      });
+      appliedFilters[field] = payload;
+    } else if (payload.value && payload.value.value) { // payload value is an object with a value attribute
+      if (!isNaN(payload.value.value)) payload.value.value =  parseInt(payload.value.value);  // ints are easier
+      payload.value = [payload.value]
+      appliedFilters[field] = payload;
+    } else { // if there is no value, remove this filter from appliedFilters
+      delete appliedFilters[field];
+    }
+
+    return appliedFilters;
   }
   
   render() {
@@ -150,7 +157,6 @@ export default class Dashboard extends BaseComponent {
                   props.routeParams = routeParams;
 
                    el = (isReactEl) ? element : React.createElement(Registry.get(element.type), props);
-
 
                   if (props.cardStyle) {
                     output = 
