@@ -10,7 +10,7 @@ export default class Dashboard extends BaseComponent {
 
   componentWillMount() {
     super.componentWillMount();
-    // getUrlFilters();
+    this.applyUrlFilters();
     this.getDashboardData();
   }
 
@@ -29,6 +29,25 @@ export default class Dashboard extends BaseComponent {
     let _appliedFilters = this.state.appliedFilters || {};
     let _data = DataHandler.handle.call(this, _handlers, componentData, this.state.data, {e:'foo'}, _appliedFilters);
     return _data;
+  }
+
+  applyUrlFilters() {
+    let q = this.props.location.query;
+    let appliedFilters = {};
+
+    console.log('aURL0',q, Object.keys(q));
+    Object.keys(q).forEach(key => {
+      let payload = {}; // mock url filter as regular Dashboard filter
+      payload.field = key;
+      payload.value = q[key];
+      appliedFilters = this.getUpdatedAppliedFilters(payload, appliedFilters);
+      console.log('>>><>', payload, appliedFilters);
+    });
+
+    console.log('aURL1', appliedFilters);
+
+    this.setState({appliedFilters: appliedFilters});
+    // turn this into something that looks 
   }
 
   /**
@@ -117,6 +136,10 @@ export default class Dashboard extends BaseComponent {
     } else if (payload.value && payload.value.value) { // payload value is an object with a value attribute
       if (!isNaN(payload.value.value)) payload.value.value =  parseInt(payload.value.value);  // ints are easier
       payload.value = [payload.value]
+      appliedFilters[field] = [payload];
+    } else if (payload.value && typeof payload.value === 'string' || typeof payload.value === 'number') { // payload value is a scalar value
+      console.log('gAppl-3');
+      payload.value = [payload.value];
       appliedFilters[field] = payload;
     } else { // if there is no value, remove this filter from appliedFilters
       delete appliedFilters[field];

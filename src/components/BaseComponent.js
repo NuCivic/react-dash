@@ -11,7 +11,6 @@ import {qFromParams, getOwnQueryParams, getFID, objToQueryString} from '../utils
 export default class BaseComponent extends Component {
 
   constructor(props) {
-    console.log('PROPS', props);
     super(props);
     this.state = {
       data: [],
@@ -27,14 +26,6 @@ export default class BaseComponent extends Component {
   componentWillMount() {
     // Register to all the actions
     EventDispatcher.register(this.onAction.bind(this));
-    let q = '';
-    
-    if (this.props.location) {
-      q = this.props.location.query;
-    }
-
-    //let ownParams = getOwnQueryParams(q, this.props.cid, this.props.multi) || {};
-    //this.setState({ownParams: ownParams});
   }
   
   componentDidMount(){
