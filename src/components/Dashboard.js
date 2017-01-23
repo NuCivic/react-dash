@@ -10,12 +10,16 @@ export default class Dashboard extends BaseComponent {
 
   componentWillMount() {
     super.componentWillMount();
-    this.applyUrlFilters();
+    let appliedFilters = this.getUrlFilters();
+    console.log('willMount', appliedFilters);
+    this.state.appliedFilters = appliedFilters;
     this.getDashboardData();
   }
 
   componentDidUpdate(nextProps, nextState) {
+    console.log('didUpdate', this, nextState, nextProps);
     if (!isEqual(nextState.appliedFilters, this.state.appliedFilters)) {
+      console.log('REFECTH');
       this.getDashboardData();
     }
   }
@@ -31,7 +35,7 @@ export default class Dashboard extends BaseComponent {
     return _data;
   }
 
-  applyUrlFilters() {
+  getUrlFilters() {
     let q = this.props.location.query;
     let appliedFilters = {};
 
@@ -45,9 +49,7 @@ export default class Dashboard extends BaseComponent {
     });
 
     console.log('aURL1', appliedFilters);
-
-    this.setState({appliedFilters: appliedFilters});
-    // turn this into something that looks 
+    return appliedFilters;
   }
 
   /**
@@ -81,27 +83,18 @@ export default class Dashboard extends BaseComponent {
   /**
    * Figure out which appliedFilters apply to which dataKeys
    **/
-  getFilters(key) {
+  getFilters(key, appliedFilters) {
     let filters = [];
-    let appliedFilters = Object.assign({}, this.state.appliedFilters);
-    let toFilter = Object.keys(appliedFilters).filter(k => { 
+    //let appliedFilters = Object.assign({}, this.state.appliedFilters);
+    console.log('GF', appliedFilters);
+    return Object.keys(appliedFilters).map(k => { 
       let next = appliedFilters[k];
+      console.log('N>>', next);
       if (next && next.willFilter && next.willFilter.length > 0 ) {
         let will = next.willFilter.indexOf(key);
-        return (will >= 0);
+        if (will >= 0) return appliedFilters[k];
       }
     });
-    
-    toFilter.forEach(filter => {
-      let addThis = {};
-      let vals = appliedFilters[filter].value.map(row  => {
-        return (!isNaN(row.value)) ? parseInt(row.value) : row.value;
-      })
-      addThis[filter] = vals;
-      filters.push(addThis);
-    });
-
-    return filters;
   }
 
   getFilterByField(field) {
@@ -124,7 +117,7 @@ export default class Dashboard extends BaseComponent {
   onAction(payload) {
     switch(payload.actionType) {
       case 'AUTOCOMPLETE_CHANGE':
-        console.log('0000000');
+        console.log('0000000', payload, this);
         let appliedFilters = Object.assign({}, this.state.appliedFilters);
         let updatedAppliedFilters = this.getUpdatedAppliedFilters(payload, appliedFilters);
         console.log ('>>>>>>>>>>>', updatedAppliedFilters);
@@ -161,7 +154,7 @@ export default class Dashboard extends BaseComponent {
     } else { // if there is no value, remove this filter from appliedFilters
       delete appliedFilters[field];
     }
-
+    console.log('AFF', appliedFilters);
     return appliedFilters;
   }
   

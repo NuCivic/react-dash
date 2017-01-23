@@ -19,10 +19,12 @@ class Dash extends Dashboard {
   getDashboardData() {
     let dashData = Object.assign({}, this.state.data);
     let dataKeys = Object.keys(this.props.dataResources);
+    let appliedFilters = Object.assign({}, this.state.appliedFilters);
+    console.log('GDD', this, dataKeys, appliedFilters);
     
     dataKeys.forEach(dataKey => {
-      let filters = this.getFilters(dataKey);
-
+      let filters = this.getFilters(dataKey, appliedFilters);
+      console.log('FILTERS', filters, this.state.appliedFilters);
       this.fetchBackend(this.props.dataResources[dataKey]).then(data => {
         // Note that, because of the shape of our data and the need for custom processing, that we do our filtering AFTER we fetch. In other cases (The DKAN Dash implementation for example),  we use the appropriate filters to update our API calls to return filtered data. The details of implementation are up to you, but we suggest you stick with the appliedFilters pattern, which maintains the proper top down data flow
         dashData[dataKey] = this.applyFilters(data.hits, filters);  
@@ -61,8 +63,9 @@ class Dash extends Dashboard {
     // In this case we need to compare the year value with the YearMonth value as strings
     if (filters && filters.length > 0) {
       filters.forEach(f => {
-        if (f.YearMonth) {
-          filterVal = filters[0].YearMonth[0];
+        if (f.field === 'YearMonth') {
+          console.log('FFF',f);
+          filterVal = f.value[0].value || f.value[0];
           _data = _data.filter(row => {
             return row.YearMonth.toString().indexOf(filterVal.toString()) >= 0;
           })          
