@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import { Card, BaseComponent, Dataset, DataHandler, DataHandlers, Registry, EventDispatcher } from '../ReactDashboard';
 import { isArray, isEqual, pick} from 'lodash';
+import { appliedFiltersToQueryString } from '../utils/utils';
 
 export default class Dashboard extends BaseComponent {
 
@@ -11,15 +13,12 @@ export default class Dashboard extends BaseComponent {
   componentWillMount() {
     super.componentWillMount();
     let appliedFilters = this.getUrlFilters();
-    console.log('willMount', appliedFilters);
     this.state.appliedFilters = appliedFilters;
     this.getDashboardData();
   }
 
   componentDidUpdate(nextProps, nextState) {
-    console.log('didUpdate', this, nextState, nextProps);
     if (!isEqual(nextState.appliedFilters, this.state.appliedFilters)) {
-      console.log('REFECTH');
       this.getDashboardData();
     }
   }
@@ -39,16 +38,13 @@ export default class Dashboard extends BaseComponent {
     let q = this.props.location.query;
     let appliedFilters = {};
 
-    console.log('aURL0',q, Object.keys(q));
     Object.keys(q).forEach(key => {
       let payload = {}; // mock url filter as regular Dashboard filter
       payload.field = key;
       payload.value = q[key];
       appliedFilters = this.getUpdatedAppliedFilters(payload, appliedFilters);
-      console.log('>>><>', payload, appliedFilters);
     });
 
-    console.log('aURL1', appliedFilters);
     return appliedFilters;
   }
 
@@ -86,10 +82,8 @@ export default class Dashboard extends BaseComponent {
   getFilters(key, appliedFilters) {
     let filters = [];
     //let appliedFilters = Object.assign({}, this.state.appliedFilters);
-    console.log('GF', appliedFilters);
     return Object.keys(appliedFilters).map(k => { 
       let next = appliedFilters[k];
-      console.log('N>>', next);
       if (next && next.willFilter && next.willFilter.length > 0 ) {
         let will = next.willFilter.indexOf(key);
         if (will >= 0) return appliedFilters[k];
@@ -117,10 +111,10 @@ export default class Dashboard extends BaseComponent {
   onAction(payload) {
     switch(payload.actionType) {
       case 'AUTOCOMPLETE_CHANGE':
-        console.log('0000000', payload, this);
         let appliedFilters = Object.assign({}, this.state.appliedFilters);
         let updatedAppliedFilters = this.getUpdatedAppliedFilters(payload, appliedFilters);
-        console.log ('>>>>>>>>>>>', updatedAppliedFilters);
+        let q = appliedFiltersToQueryString(updatedAppliedFilters);
+        browserHistory.push('?'+q);
         this.setState({appliedFilters: updatedAppliedFilters});
         break;
       
@@ -134,7 +128,6 @@ export default class Dashboard extends BaseComponent {
     let filter = this.getFilterByField(field);
     let payload = Object.assign(_payload, filter);
 
-    console.log('FILTERbyF',filter, payload);
 
     // value is a non-empty array of values
     if (isArray(payload.value) && payload.value.length > 0) {
@@ -148,13 +141,11 @@ export default class Dashboard extends BaseComponent {
       payload.value = [payload.value]
       appliedFilters[field] = payload;
     } else if (payload.value && typeof payload.value === 'string' || typeof payload.value === 'number') { // payload value is a scalar value
-      console.log('gAppl-3');
       payload.value = [payload.value];
       appliedFilters[field] = payload;
     } else { // if there is no value, remove this filter from appliedFilters
       delete appliedFilters[field];
     }
-    console.log('AFF', appliedFilters);
     return appliedFilters;
   }
   
