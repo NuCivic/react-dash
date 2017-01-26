@@ -22,8 +22,8 @@ npm run start
 * Visit localhost:5000 on your system
 
 ## Example sites
-http://nucivic.github.io/react-dash/
-http://dev-ucr-dashboard.getnucivic.com/dashboard/12
+* http://nucivic.github.io/react-dash/
+* http://dev-ucr-dashboard.getnucivic.com/dashboard/12
 
 ## Complete Documentation
 Check out the complete docs at http://react-dashboard.readthedocs.io/en/latest/
