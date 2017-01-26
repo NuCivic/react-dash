@@ -13,7 +13,7 @@ React Dash is a library for quickly building custom data visualization dashboard
 ## Quick Start
 To set up the example project locallyt\:
 ```
-https://github.com/NuCivic/react-dash.git
+git clone https://github.com/NuCivic/react-dash.git
 cd react-dash
 npm install
 npm run start
