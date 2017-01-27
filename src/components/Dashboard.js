@@ -161,6 +161,7 @@ export default class Dashboard extends BaseComponent {
             
             if (region.multi) {
               let multiRegionKey = this.getChildData(region);
+              region.key = key;
               region.children = region.elements[multiRegionKey];
             }
 
@@ -179,12 +180,13 @@ export default class Dashboard extends BaseComponent {
                   props.appliedFilters = Object.assign({}, this.state.appliedFilters || {});
                   props.vars = Object.assign({}, this.props.vars || {});
                   props.routeParams = routeParams;
+                  props.key = 'el_' + key;
 
                    el = (isReactEl) ? element : React.createElement(Registry.get(element.type), props);
 
                   if (props.cardStyle) {
                     output = 
-                      <Card key={key} {...props}>
+                      <Card key={'card_'+key} {...props}>
                         {el}
                       </Card>
                   } else {
