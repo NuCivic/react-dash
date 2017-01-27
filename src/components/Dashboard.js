@@ -93,14 +93,11 @@ export default class Dashboard extends BaseComponent {
 
   getFilterByField(field) {
     let filter;
-    
+
     this.props.regions.forEach(region => {
-      if (region.children) {
-        return region.children.forEach(child => {
-          if (child.field === field) filter = child; 
-        })
-      }
-      // @@TODO this should support multi regions which have elementsobject keyed to array of components
+      return region.children.forEach(child => {
+        if (child.field === field) filter = child; 
+      })
     });
 
     return filter;
