@@ -46,9 +46,13 @@ export default class Dashboard extends BaseComponent {
       payload.field = key;
       payload.value = q[key].split(',');
       payload.vals = payload.value.map(v => {
-        if (!isNaN(v)) return parseInt(v);
+        console.log('V',v);
+        if (!isNaN(v)) parseInt(v);
+        console.log('VV',v)
         return v;
       });
+      
+      console.log('PAYLOAD', payload);
       appliedFilters = this.getUpdatedAppliedFilters(payload, appliedFilters);
     });
     
@@ -151,6 +155,7 @@ export default class Dashboard extends BaseComponent {
     // value is a non-empty array of values
     if (isArray(payload.value) && payload.value.length > 0) {
       payload.vals = payload.value.map(row => {
+        if (!isNaN(row)) return parseInt(row); // the row is just a numeric value
         if (!isNaN(row.value)) return parseInt(row.value);  // ints are easier
         return row.value;
       });
