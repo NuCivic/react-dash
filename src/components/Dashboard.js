@@ -35,15 +35,24 @@ export default class Dashboard extends BaseComponent {
   }
 
   getUrlFilters() {
+    console.log('gUrlF0');
     let q = this.props.location.query;
     let appliedFilters = {};
+    
+    console.log('getUrlF1', q);
 
     Object.keys(q).forEach(key => {
       let payload = {}; // mock url filter as regular Dashboard filter
       payload.field = key;
-      payload.value = q[key];
+      payload.value = q[key].split(',');
+      payload.vals = payload.value.map(v => {
+        if (!isNaN(v)) return parseInt(v);
+        return v;
+      });
       appliedFilters = this.getUpdatedAppliedFilters(payload, appliedFilters);
     });
+    
+    console.log('getUrlF2', appliedFilters);
 
     return appliedFilters;
   }
@@ -92,12 +101,21 @@ export default class Dashboard extends BaseComponent {
   }
 
   getFilterByField(field) {
+    console.log('gFbF', field);
     let filter;
 
     this.props.regions.forEach(region => {
-      return region.children.forEach(child => {
-        if (child.field === field) filter = child; 
-      })
+      if (region.children) {
+        return region.children.forEach(child => {
+          if (child.field === field) filter = child; 
+        })
+      } else if (region.elements) { // drill down through multi-component sections
+        Object.keys(region.elements).forEach(k => {
+          region.elements[k].forEach(el => {
+            if (el.field === field) filter = el;
+          });
+        })
+      }
     });
 
     return filter;
@@ -114,7 +132,8 @@ export default class Dashboard extends BaseComponent {
         let appliedFilters = Object.assign({}, this.state.appliedFilters);
         let updatedAppliedFilters = this.getUpdatedAppliedFilters(payload, appliedFilters);
         let q = appliedFiltersToQueryString(updatedAppliedFilters);
-        browserHistory.push('?'+q);
+        console.log('WW', window.location.pathName);
+        browserHistory.push({ search: '?' + q });
         this.setState({appliedFilters: updatedAppliedFilters});
         break;
       
