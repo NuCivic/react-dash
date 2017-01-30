@@ -13,17 +13,23 @@ export default class MultiCheckboxFilter extends BaseFilter {
   }
 
   checkboxClick(el) {
-    console.log('foob', el);
     let checked = Object.assign({}, this.state.checked);
+    let filter = Object.assign({}, this.props);
+
+    filter.actionType = this.state.actionType;
+
     if (checked[el.value] && checked[el.value] === true) {
       checked[el.value] = false;
     } else {
       checked[el.value] = true;
     }
-    console.log(checked);
+    
+    filter.value = Object.keys(checked).map(k => {
+      if (checked[k]) return k;
+    }).filter(k => { return k != undefined })
+
     this.setState({checked: checked});
-    // mangle state
-    // fire onFilter event
+    this.emit(filter);
   }
 
   render(){

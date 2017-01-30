@@ -131,6 +131,10 @@ export default class Dashboard extends BaseComponent {
         browserHistory.push(basePath + '?' + q);
         this.setState({appliedFilters: updatedAppliedFilters});
         break;
+
+      case 'MULTICHECKBOX_CHANGE':
+        console.log('xyz', payload);
+        break;
       
       default:
         console.warn('Actions should define an actionType. See docs @@LINK');
