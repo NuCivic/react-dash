@@ -35,28 +35,20 @@ export default class Dashboard extends BaseComponent {
   }
 
   getUrlFilters() {
-    console.log('gUrlF0');
     let q = this.props.location.query;
     let appliedFilters = {};
     
-    console.log('getUrlF1', q);
-
     Object.keys(q).forEach(key => {
       let payload = {}; // mock url filter as regular Dashboard filter
       payload.field = key;
       payload.value = q[key].split(',');
       payload.vals = payload.value.map(v => {
-        console.log('V',v);
         if (!isNaN(v)) parseInt(v);
-        console.log('VV',v)
         return v;
       });
       
-      console.log('PAYLOAD', payload);
       appliedFilters = this.getUpdatedAppliedFilters(payload, appliedFilters);
     });
-    
-    console.log('getUrlF2', appliedFilters);
 
     return appliedFilters;
   }
@@ -105,7 +97,6 @@ export default class Dashboard extends BaseComponent {
   }
 
   getFilterByField(field) {
-    console.log('gFbF', field);
     let filter;
 
     this.props.regions.forEach(region => {
@@ -136,8 +127,8 @@ export default class Dashboard extends BaseComponent {
         let appliedFilters = Object.assign({}, this.state.appliedFilters);
         let updatedAppliedFilters = this.getUpdatedAppliedFilters(payload, appliedFilters);
         let q = appliedFiltersToQueryString(updatedAppliedFilters);
-        console.log('WW', window.location.pathName);
-        browserHistory.push({ search: '?' + q });
+        let basePath = this.props.basePath || '';
+        browserHistory.push(basePath + '?' + q);
         this.setState({appliedFilters: updatedAppliedFilters});
         break;
       
