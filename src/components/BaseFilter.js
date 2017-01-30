@@ -63,10 +63,9 @@ export default class BaseFilter extends BaseComponent {
   /**
    * Load autocomplete options
    * @param  {String}   input A text with the query to be sent to the server
-   * @param  {Function} cb    Callback to be called right after server response
    * @return {Promise}        A promise with the request
    */
-  loadOptions(input, cb){
+  loadOptions(input){
     let re = /\{\{(.+)\}\}/;
 
     // URL Endpoint returns filter options

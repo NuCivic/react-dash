@@ -92,6 +92,18 @@ export var settings = {
           ],
           placeholder: 'Select year to filter dashboard...'
         },
+        {
+          type: 'MultiCheckboxFilter',
+          className: 'col-md-6',
+          name: 'checkbox-multi',
+          className: 'checkbox-multi',
+          field: 'foo',
+          options: [
+            { label: 'foo', value: '1' },
+            { label: 'bar', value: '2' },
+            { label: 'baz', value: '3' }
+          ]
+        }
       ]
     },
     {
