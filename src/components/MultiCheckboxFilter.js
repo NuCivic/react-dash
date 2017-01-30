@@ -7,7 +7,7 @@ import { makeKey } from '../utils/utils';
 export default class MultiCheckboxFilter extends BaseFilter {
   constructor(props) {
     super(props);
-    this.state.actionType = "MULTICHECKBOX_CHANGE";
+    this.state.actionType = "AUTOCOMPLETE_CHANGE";
     this.state.elKey = makeKey();
     this.state.checked = this.state.checked || {};
   }
