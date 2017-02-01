@@ -23,7 +23,7 @@ project = u'React Dash'
 copyright = u'2016, Test'
 author = u'Mariano Carballal <marianocarballal@gmail.com> (http://github.com/topicus), Paul Walker <pjwalker76@gmail.com> (http://github.com/starsinmypockets@gmail.com)'
 
-
+version = 'latest'
 language = 'en'
 
 # List of patterns, relative to source directory, that match files and
