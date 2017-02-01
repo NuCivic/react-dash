@@ -24,7 +24,6 @@ copyright = u'2016, Test'
 author = u'Mariano Carballal <marianocarballal@gmail.com> (http://github.com/topicus), Paul Walker <pjwalker76@gmail.com> (http://github.com/starsinmypockets@gmail.com)'
 
 
-version = '0.4.0'
 language = 'en'
 
 # List of patterns, relative to source directory, that match files and
