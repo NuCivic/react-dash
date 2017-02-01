@@ -19,6 +19,7 @@ Table of Contents
    :maxdepth: 1
 
    intro
+   features/index
    development/index
    uses
    ecosystem
