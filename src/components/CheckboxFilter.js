@@ -16,19 +16,19 @@ export default class CheckboxFilter extends BaseFilter {
     let payload;
 
     this.setState({ checked: checked });
-    
+
     if (checked) {
       payload = [{label: this.props.label, value: this.props.value}];
     } else {
       payload = []; // pass empty payload value to reset filter
     }
-    
+
     this.onChange(payload);
   }
- 	
+
   render(){
     let val = this.getFilterValue();
-		
+
     return (
        <span className='react-dash-checkbox'>
           <input
@@ -39,10 +39,10 @@ export default class CheckboxFilter extends BaseFilter {
             disabled={this.isDisabled()}
             onClick={this.onClick.bind(this)}
           />
-          <label for={this.props.name} value={this.props.label}>
+          <label htmlFor={this.props.name} value={this.props.label}>
             {this.props.label}
           </label>
-        </span>  
+        </span>
     );
   }
 }

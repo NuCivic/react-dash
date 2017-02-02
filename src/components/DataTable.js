@@ -57,7 +57,7 @@ class DataTable extends BaseComponent {
     if (!this.getTotalPages() || this.getTotalPages() < 2) {
       return;
     }
-    
+
     return this.getPages(size, total, current).map((pageNumber) => {
       return (
         <li
@@ -131,11 +131,11 @@ class DataTable extends BaseComponent {
     let content;
 
     // Create the colums
-    let columns = headers.map((header) => {
+    let columns = headers.map((header, headerIndex) => {
       let overrides = getProp('overrides.' + header, columnDefaultProps);
       return <Column
         header={<Cell>{header}</Cell>}
-        key={header}
+        key={header + headerIndex}
         columnKey={header}
         cell={props => {
           let overrides = getProp('overrides.' + props.rowIndex, cellsDefaultProps);
@@ -152,7 +152,7 @@ class DataTable extends BaseComponent {
     let headerControls = '';
 
     if (!this.props.hideFilterHeader) {
-      filterHeader = 
+      filterHeader =
         <div className="col-md-10">
           <div className="form-group">
             <input
@@ -163,9 +163,9 @@ class DataTable extends BaseComponent {
           </div>
         </div>
     }
-    
+
     if (!this.props.hideControls) {
-      headerControls = 
+      headerControls =
             <div className="col-md-2">
               <div onChange={this._onRowsPerPageChange.bind(this)} className="form-group">
                 <select className="form-control">
@@ -178,7 +178,7 @@ class DataTable extends BaseComponent {
               </div>
             </div>
     }
-    
+
     // Return the renderable elements
     return (
 
