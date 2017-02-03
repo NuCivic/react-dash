@@ -2,6 +2,8 @@
 * Add Multicheckbox component - this works widd the onAction ->
 AUTOCOMPLETE_CHANGE event. See /examples/settings.js for configuration
 options.
+* Filter Routing - EXPERIMENTAL - this can be disabed with
+disableFilterRouting in settings
 
 2017-1-10 ** 0.5.1
 * Add `npm run js-example` -- runs simple js config'd app from
