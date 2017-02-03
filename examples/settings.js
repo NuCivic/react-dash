@@ -56,6 +56,7 @@ let stateIds =
 export var settings = {
   title: 'React-Dash v0.5.x -- Climate Indices by Year',
   queries: {},
+  doFilterRouting: false,
   dataResources: {
     climateData: {
       fetchData: {

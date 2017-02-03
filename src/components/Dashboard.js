@@ -12,8 +12,13 @@ export default class Dashboard extends BaseComponent {
 
   componentWillMount() {
     super.componentWillMount();
-    let appliedFilters = this.getUrlFilters();
-    this.state.appliedFilters = appliedFilters;
+    
+    // if doFilterRouting flag is present, get url filters
+    if (this.props.doFilterRouting !== false) {
+      let appliedFilters = this.getUrlFilters();
+      this.state.appliedFilters = appliedFilters;
+    }
+
     this.getDashboardData();
   }
 
@@ -128,7 +133,11 @@ export default class Dashboard extends BaseComponent {
         let updatedAppliedFilters = this.getUpdatedAppliedFilters(payload, appliedFilters);
         let q = appliedFiltersToQueryString(updatedAppliedFilters);
         let basePath = this.props.basePath || '';
-        browserHistory.push(basePath + '?' + q);
+
+        if (this.props.doFilterRouting !== false) {
+          browserHistory.push(basePath + '?' + q);
+        }
+
         this.setState({appliedFilters: updatedAppliedFilters});
         break;
 
