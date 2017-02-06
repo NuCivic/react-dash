@@ -12,7 +12,13 @@ export default class BaseFilter extends BaseComponent {
 
   getFilterValue() {
     let val;
-    
+
+    console.log('HEY', this.isDisabled());
+   
+    if (this.isDisabled()) {
+      return [];
+    }
+
     if (this.props.appliedFilters && this.props.appliedFilters[this.props.field]) {
       val = this.props.appliedFilters[this.props.field].value;
     } else if (this.props.initVal) {
@@ -26,6 +32,9 @@ export default class BaseFilter extends BaseComponent {
     return val;
   }
   
+  /**
+   * @@IMPLEMEMT
+   */
   onFilter() {
     // noop / overrides basecomponent onFilter
   }
