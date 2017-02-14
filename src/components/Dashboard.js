@@ -18,16 +18,24 @@ export default class Dashboard extends BaseComponent {
       let appliedFilters = this.getUrlFilters();
       this.state.appliedFilters = appliedFilters;
     }
-
+    
+    // initialize data
+    this.state.isFeching = true;
     this.getDashboardData();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.isFeching) return false; // wait for all data before updating.
+    return true;
   }
 
   componentDidUpdate(nextProps, nextState) {
     if (!isEqual(nextState.appliedFilters, this.state.appliedFilters)) {
+      this.setState({isFeching: true});
       this.getDashboardData();
     }
   }
-  
+
   /**
    * Apply datahandlers in sequence, passing data returned to subsequent handler
    *    makes global leve data and @@TODO event object available to ahndler
@@ -138,7 +146,8 @@ export default class Dashboard extends BaseComponent {
           browserHistory.push(basePath + '?' + q);
         }
 
-        this.setState({appliedFilters: updatedAppliedFilters});
+        this.setState({appliedFilters: updatedAppliedFilters, isFeching: true});
+        this.getDashboardData(updatedAppliedFilters);
         break;
 
       case 'MULTICHECKBOX_CHANGE':
