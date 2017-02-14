@@ -13,8 +13,6 @@ export default class BaseFilter extends BaseComponent {
   getFilterValue() {
     let val;
 
-    console.log('HEY', this.isDisabled());
-   
     if (this.isDisabled()) {
       return [];
     }
