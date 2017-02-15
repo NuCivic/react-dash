@@ -5,7 +5,7 @@ import BaseComponent from './BaseComponent';
 import Loader from './Loader';
 import Filter from './Filter';
 import { makeKey } from '../utils/utils';
-import { isFunction } from 'lodash';
+import { isFunction, map, uniq, pick, values, flatten} from 'lodash';
 import { format } from 'd3';
 
 export default class Chart extends BaseComponent {
@@ -16,7 +16,7 @@ export default class Chart extends BaseComponent {
       this.state.key = makeKey();
     }
   }
-  
+
   // given a d3 format specifier, return a d3 formatting
   // function for use by react-nvd3 component
   getFormatter(specifier, time=false) {
@@ -27,10 +27,21 @@ export default class Chart extends BaseComponent {
       return specifier;
     }
   }
-  
+
   getFormattedSettings() {
     let _settings = Object.assign({}, this.props.settings);
-    
+
+    // Allow use object for colors to keep order after filter changes.
+    if(_settings.color && !Array.isArray(_settings.color)) {
+      let labels;
+      if(this.props.data.length && this.props.data[0].values) {
+        labels = map(flatten(map(this.props.data, 'values')), _settings.x);
+      } else {
+        labels = uniq(map(this.props.data, _settings.x));
+      }
+      _settings.color = values(pick(_settings.color, labels));
+    }
+
     Object.keys(_settings).forEach(k => {
       if (_settings[k].tickFormat) {
         _settings[k].tickFormat = this.getFormatter(_settings[k].tickFormat);
