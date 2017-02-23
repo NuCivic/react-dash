@@ -44,7 +44,7 @@ class Dash extends Dashboard {
     return new Promise((resolve, reject) => {
       let dataset = new Dataset(omit(fetcher.fetchData, 'type'));
       let queryObj = this.state.queryObj;
-      this.setState({isFeching: true, dataset: dataset});
+      this.setState({isFetching: true, dataset: dataset});
       dataset.fetch().then((data) => {
         this.state.dataset.query(queryObj).then(queryRes => {
           resolve(queryRes);
