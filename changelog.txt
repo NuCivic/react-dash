@@ -1,3 +1,8 @@
+2017-2-23-2017 ** 0.5.x
+* Dashboard.props.isFetching is set to true during dashboard instantiation and
+should reset to false in Dashboard.getDashboardData() once all dashboard data
+is loaded. 
+
 2017-1-30-2017 ** 0.5.x
 * Add Multicheckbox component - this works widd the onAction ->
 AUTOCOMPLETE_CHANGE event. See /examples/settings.js for configuration

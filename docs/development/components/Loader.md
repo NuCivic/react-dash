@@ -7,7 +7,7 @@
 class MyComponent extends BaseComponent {
   render(){
     return (
-      <Loader isFeching={this.state.isFeching}>
+      <Loader isFetching={this.state.isFetching}>
 
       </Loader>
     );
@@ -17,6 +17,6 @@ class MyComponent extends BaseComponent {
 
 As soon as *state.isFetching* is true then all the components inside <Loader> and </Loader> will display.
 
-If you are extending from the *BaseComponent* and using the *fetchData* property to fetch resources then the *isFeching* state is handled for you.
+If you are extending from the *BaseComponent* and using the *fetchData* property to fetch resources then the *isFetching* state is handled for you.
 
 If you aren't using *fetchData* to fetch resources then you need to switch this variable manually.

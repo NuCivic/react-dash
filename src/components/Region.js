@@ -7,12 +7,11 @@ export default class Region extends Component {
   constructor(props) {
     super(props);
   }
-  
-  render() {
-    let routeParams = pick(this.props, ['history', 'location', 'params', 'route', 'routeParams', 'routes']);
-    return (
-      <div className={this.props.className}>
-        {this.props.children.map((element,key) => {
+
+  getChildren() {
+    let children;
+    if (this.props.children) {
+        children = this.props.children.map((element,key) => {
           let output;
            let props = Object.assign(element, {globalData: this.props.globalData, appliedFilters: this.props.appliedFilters}, routeParams); 
            if (element.cardStyle) {
@@ -26,8 +25,18 @@ export default class Region extends Component {
            }
            return output;
         })}
-      </div>
-    );
+    return children; 
+  }
+  
+  render() {
+    let routeParams = pick(this.props, ['history', 'location', 'params', 'route', 'routeParams', 'routes']);
+    let children = this.getChildren();
+
+      return (
+        <div className={this.props.className}>
+          {children}
+        </div>
+      )
   }
 }
 

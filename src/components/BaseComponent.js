@@ -16,7 +16,7 @@ export default class BaseComponent extends Component {
       data: [],
       dataset: null,
       queryObj: Object.assign({from: 0}, this.props.queryObj), // dataset query
-      isFeching: false,
+      isFetching: false,
     };
   }
   

@@ -142,7 +142,7 @@ export default class Choropleth extends BaseComponent {
       fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
     }
     return (
-      <Loader isFeching={!loading}>
+      <Loader isFetching={!loading}>
         <div className="map-container">
           <svg className="map-svg" style={svgStyle}>
             <g id="root-svg-group">

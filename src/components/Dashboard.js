@@ -20,18 +20,18 @@ export default class Dashboard extends BaseComponent {
     }
     
     // initialize data
-    this.state.isFeching = true;
+    this.state.isFetching = true;
     this.getDashboardData();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.isFeching) return false; // wait for all data before updating.
+    if (nextState.isFetching) return false; // wait for all data before updating.
     return true;
   }
 
   componentDidUpdate(nextProps, nextState) {
     if (!isEqual(nextState.appliedFilters, this.state.appliedFilters)) {
-      this.setState({isFeching: true});
+      this.setState({isFetching: true});
       this.getDashboardData();
     }
   }
@@ -146,7 +146,7 @@ export default class Dashboard extends BaseComponent {
           browserHistory.push(basePath + '?' + q);
         }
 
-        this.setState({appliedFilters: updatedAppliedFilters, isFeching: true});
+        this.setState({appliedFilters: updatedAppliedFilters, isFetching: true});
         this.getDashboardData(updatedAppliedFilters);
         break;
 
@@ -185,57 +185,69 @@ export default class Dashboard extends BaseComponent {
     }
     return appliedFilters;
   }
+
+  getRegions() {
+    let regions;
+    if (this.props.regions) {
+      regions = this.props.regions.map( (region, key) => {
+      
+      if (region.multi) {
+        let multiRegionKey = this.getChildData(region);
+        region.key = key;
+        region.children = region.elements[multiRegionKey];
+      }
+
+      return (
+        <div id={region.id} className={region.className} >
+          {region.children.map( (element, key) => {
+            let isReactEl = React.isValidElement(element);
+            let output;
+            let el;
+            // if it isn't a react element, the element is a settings object
+            let _props = (isReactEl) ? element.props : element;
+            let props = Object.assign({}, _props);
+            
+            props.data = this.getChildData(element) || [];
+            props.globalData = Object.assign({}, this.state.data || {});
+            props.appliedFilters = Object.assign({}, this.state.appliedFilters || {});
+            props.vars = Object.assign({}, this.props.vars || {});
+            props.routeParams = routeParams;
+            props.key = 'el_' + key;
+
+             el = (isReactEl) ? element : React.createElement(Registry.get(element.type), props);
+
+            if (props.cardStyle) {
+              output = 
+                <Card key={'card_'+key} {...props}>
+                  {el}
+                </Card>
+            } else {
+              output = el;
+            }
+
+            return output;
+          })}  
+        </div>
+      )
+    })} else {
+      regions = this.props.children;
+    }
+
+    return regions;
+  }
   
   render() {
     let markup;
     let routeParams = pick(this.props, ['history', 'location', 'params', 'route', 'routeParams', 'routes']);
+    let regions = this.getRegions();
+
     console.log('DASH RENDER', this);
-    return (
-        <div className="container">
-          <link rel="stylesheet" type="text/css" href={this.props.faPath} />
-          <h1 className="dashboard-title">{this.props.title}</h1>
-          {this.props.regions.map( (region, key) => {
-            
-            if (region.multi) {
-              let multiRegionKey = this.getChildData(region);
-              region.key = key;
-              region.children = region.elements[multiRegionKey];
-            }
-
-            return (
-              <div id={region.id} className={region.className} >
-                {region.children.map( (element, key) => {
-                  let isReactEl = React.isValidElement(element);
-                  let output;
-                  let el;
-                  // if it isn't a react element, the element is a settings object
-                  let _props = (isReactEl) ? element.props : element;
-                  let props = Object.assign({}, _props);
-                  
-                  props.data = this.getChildData(element) || [];
-                  props.globalData = Object.assign({}, this.state.data || {});
-                  props.appliedFilters = Object.assign({}, this.state.appliedFilters || {});
-                  props.vars = Object.assign({}, this.props.vars || {});
-                  props.routeParams = routeParams;
-                  props.key = 'el_' + key;
-
-                   el = (isReactEl) ? element : React.createElement(Registry.get(element.type), props);
-
-                  if (props.cardStyle) {
-                    output = 
-                      <Card key={'card_'+key} {...props}>
-                        {el}
-                      </Card>
-                  } else {
-                    output = el;
-                  }
-
-                  return output;
-                })}  
-              </div>
-            )
-          })}
-        </div>
-    );
+      return (
+          <div className="container">
+            <link rel="stylesheet" type="text/css" href={this.props.faPath} />
+            <h1 className="dashboard-title">{this.props.title}</h1>
+            {regions}
+          </div>
+      );
   }
 }
