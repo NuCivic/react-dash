@@ -187,6 +187,7 @@ export default class Dashboard extends BaseComponent {
   }
 
   getRegions() {
+    let routeParams = pick(this.props, ['history', 'location', 'params', 'route', 'routeParams', 'routes']);
     let regions;
     if (this.props.regions) {
       regions = this.props.regions.map( (region, key) => {
@@ -238,7 +239,6 @@ export default class Dashboard extends BaseComponent {
   
   render() {
     let markup;
-    let routeParams = pick(this.props, ['history', 'location', 'params', 'route', 'routeParams', 'routes']);
     let regions = this.getRegions();
 
     console.log('DASH RENDER', this);
