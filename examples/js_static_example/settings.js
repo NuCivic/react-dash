@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 export var settings = {
   title: 'React-Dash Javascript Settings Example',
+  doFilterRouting: false,
   regions: [
     {
       id: 'metrics-row',

@@ -6,7 +6,7 @@ export default class Loader extends Component {
   render() {
     let content;
 
-    if(this.props.isFeching) {
+    if(this.props.isFetching) {
       content = <div className="loader"><div className="sp sp-slices"></div></div>;
     } else {
       content = <span>{this.props.children}</span>

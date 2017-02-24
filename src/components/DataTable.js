@@ -187,7 +187,7 @@ class DataTable extends BaseComponent {
             {filterHeader}
             {headerControls}
           </div>
-          <Loader isFeching={this.state.isFeching}>
+          <Loader isFetching={this.state.isFetching}>
             <div className="table-container">
               <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth}>
                 {columns}

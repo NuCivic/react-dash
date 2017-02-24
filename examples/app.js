@@ -16,10 +16,10 @@ if (typeof expressDashSettings != "undefined") {
 // Extend Dashboard with our data fetch logic
 // @@TODO - this is a good case for a higher order function as mariano discussed 
 class Dash extends Dashboard {
-  getDashboardData() {
+  getDashboardData(_appliedFilters) {
     let dashData = Object.assign({}, this.state.data);
     let dataKeys = Object.keys(this.props.dataResources);
-    let appliedFilters = Object.assign({}, this.state.appliedFilters);
+    let appliedFilters = _appliedFilters || Object.assign({}, this.state.appliedFilters);
     
     dataKeys.forEach(dataKey => {
       let filters = this.getFilters(dataKey, appliedFilters);
@@ -29,7 +29,7 @@ class Dash extends Dashboard {
       // Note that, because of the shape of our data and the need for custom processing, that we do our filtering AFTER we fetch. In other cases (The DKAN Dash implementation for example),  we use the appropriate filters to update our API calls to return filtered data. The details of implementation are up to you, but we suggest you stick with the appliedFilters pattern, which maintains the proper top down data flow
         dashData[dataKey] = this.applyFilters(data.hits, filters);  
         if (Object.keys(dashData).length === dataKeys.length) {
-          this.setState({data: dashData});
+          this.setState({data: dashData, isFetching: false});
         }
       }).catch(e => {
         console.log('Error fetching dashboard data', e);
@@ -44,7 +44,7 @@ class Dash extends Dashboard {
     return new Promise((resolve, reject) => {
       let dataset = new Dataset(omit(fetcher.fetchData, 'type'));
       let queryObj = this.state.queryObj;
-      this.setState({isFeching: true, dataset: dataset});
+      this.setState({isFetching: true, dataset: dataset});
       dataset.fetch().then((data) => {
         this.state.dataset.query(queryObj).then(queryRes => {
           resolve(queryRes);

@@ -24,7 +24,7 @@ export default class Metric extends BaseComponent {
     };
     style = Object.assign({}, style, this.props.style);
     return (
-      <Loader isFeching={this.state.isFeching}>
+      <Loader isFetching={this.state.isFetching}>
         <div className="metric {}" style={style}>
           <div className="col-sm-3 col-lg-4">
             <div className="card-metric-icon"><span className={this.props.iconClass}></span></div>

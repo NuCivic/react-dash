@@ -5,7 +5,7 @@
 Calls *`getDashboard`* when Dashboard is initally loaded.
 
 ### method *`componentDidUpdate`*
-Checks *`state.appliedFilters`* for changes - calls *`getDashboard`* if filters have changed.
+Sets `state.isFetching` to true. Calls `getDashboardData()`.
 
 ### method *`getDashboardData`*
 This is an abstract method. Your Dashboard should implement its own *`getDashboardData`* method which sets a data object to the dashboard in the following way:
@@ -13,7 +13,8 @@ This is an abstract method. Your Dashboard should implement its own *`getDashboa
 // fetch data
 setState({data: data});
 ```
-The `stae.data` object is availbe in your *`dataHandlers`* (@@LINK datahandlers)
+
+When all data has been returned, `getDashboardData()` should set `state.isFetching = false`
 
 ### method *`getFilters`*
 Given a *`key`*, determine which filters should be applied to `state.data[key]`;

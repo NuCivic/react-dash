@@ -115,7 +115,7 @@ export default class Goal extends BaseComponent {
     }
 
     return (
-      <Loader isFeching={this.props.isFeching}>
+      <Loader isFetching={this.props.isFetching}>
         <div className="goal" style={style}>
           <div className="row">
             <div className="col-md-4">
