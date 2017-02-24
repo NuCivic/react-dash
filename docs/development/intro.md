@@ -11,7 +11,7 @@ You can define a dashboard using familiar JSX syntax. Following is a complete ex
 ```
 
 ## Javascript Settings object 
-In many cases it iis useful to define dashboard configuration in JSON - allowing for database storage, programmatic creation, etc. Here is the above Dashboard defined as a Javascript object.
+In many cases it is useful to define dashboard configuration in JSON - allowing for database storage, programmatic creation, etc. Here is the above Dashboard defined as a Javascript object.
 
 `npm run js-example` will load the following dashboard configuration at `localhost:3000`:
 

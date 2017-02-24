@@ -17,6 +17,8 @@ The dashboard is initialized with `state.isFetching = false`. *getDashboardData*
 
 In the example we loop through each *dataResource* and call *fetchBackend* which sets the response object to `state.data[dataKey]`
 
+Also, *getDashboardData()* should set `state.isFetching = false` once all data has been returned.
+
 As per normal REACT, the *setState* call will trigger a re-render of the dashboard, updating components as needed.
 
 Note that we use a custom *applyFilters* method that maps current application state (*appliedFilters*) onto our data fetching code. You can use this opportunity to apply filter paramters to an API call, to remap current dashboard data, etc.

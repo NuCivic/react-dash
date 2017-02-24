@@ -21,6 +21,5 @@
 * **cardStyle:** REQUIRED: must be 'metric'
 * **iconClass:** [font-awesome icon class](http://fontawesome.io/icons/)
 * **data:** a value for the metric. It should be a scalar value contained within an array
-* **fetchData:** fetch data callback 
 * **dataHandlers:** an arry containing dataHandler object(s)
 * **options:** an array with options (e.g.: [{ value: 'one', label: 'One' }])
