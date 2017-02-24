@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import { Card, BaseComponent, Dataset, DataHandler, DataHandlers, Registry, EventDispatcher } from '../ReactDashboard';
 import { isArray, isEqual, pick} from 'lodash';
+import { appliedFiltersToQueryString } from '../utils/utils';
 
 export default class Dashboard extends BaseComponent {
 
@@ -10,15 +12,30 @@ export default class Dashboard extends BaseComponent {
 
   componentWillMount() {
     super.componentWillMount();
+    
+    // if doFilterRouting flag is present, get url filters
+    if (this.props.doFilterRouting !== false) {
+      let appliedFilters = this.getUrlFilters();
+      this.state.appliedFilters = appliedFilters;
+    }
+    
+    // initialize data
+    this.state.isFeching = true;
     this.getDashboardData();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.isFeching) return false; // wait for all data before updating.
+    return true;
   }
 
   componentDidUpdate(nextProps, nextState) {
     if (!isEqual(nextState.appliedFilters, this.state.appliedFilters)) {
+      this.setState({isFeching: true});
       this.getDashboardData();
     }
   }
-  
+
   /**
    * Apply datahandlers in sequence, passing data returned to subsequent handler
    *    makes global leve data and @@TODO event object available to ahndler
@@ -28,6 +45,25 @@ export default class Dashboard extends BaseComponent {
     let _appliedFilters = this.state.appliedFilters || {};
     let _data = DataHandler.handle.call(this, _handlers, componentData, this.state.data, {e:'foo'}, _appliedFilters);
     return _data;
+  }
+
+  getUrlFilters() {
+    let q = this.props.location.query;
+    let appliedFilters = {};
+    
+    Object.keys(q).forEach(key => {
+      let payload = {}; // mock url filter as regular Dashboard filter
+      payload.field = key;
+      payload.value = q[key].split(',');
+      payload.vals = payload.value.map(v => {
+        if (!isNaN(v)) parseInt(v);
+        return v;
+      });
+      
+      appliedFilters = this.getUpdatedAppliedFilters(payload, appliedFilters);
+    });
+
+    return appliedFilters;
   }
 
   /**
@@ -61,27 +97,36 @@ export default class Dashboard extends BaseComponent {
   /**
    * Figure out which appliedFilters apply to which dataKeys
    **/
-  getFilters(key) {
+  getFilters(key, appliedFilters) {
     let filters = [];
-    let appliedFilters = Object.assign({}, this.state.appliedFilters);
-    let toFilter = Object.keys(appliedFilters).filter(k => { 
+    //let appliedFilters = Object.assign({}, this.state.appliedFilters);
+    return Object.keys(appliedFilters).map(k => { 
       let next = appliedFilters[k];
       if (next && next.willFilter && next.willFilter.length > 0 ) {
         let will = next.willFilter.indexOf(key);
-        return (will >= 0);
+        if (will >= 0) return appliedFilters[k];
       }
     });
-    
-    toFilter.forEach(filter => {
-      let addThis = {};
-      let vals = appliedFilters[filter].value.map(row  => {
-        return (!isNaN(row.value)) ? parseInt(row.value) : row.value;
-      })
-      addThis[filter] = vals;
-      filters.push(addThis);
+  }
+
+  getFilterByField(field) {
+    let filter;
+
+    this.props.regions.forEach(region => {
+      if (region.children) {
+        return region.children.forEach(child => {
+          if (child.field === field) filter = child; 
+        })
+      } else if (region.elements) { // drill down through multi-component sections
+        Object.keys(region.elements).forEach(k => {
+          region.elements[k].forEach(el => {
+            if (el.field === field) filter = el;
+          });
+        })
+      }
     });
 
-    return filters;
+    return filter;
   }
 
   /**
@@ -93,29 +138,52 @@ export default class Dashboard extends BaseComponent {
     switch(payload.actionType) {
       case 'AUTOCOMPLETE_CHANGE':
         let appliedFilters = Object.assign({}, this.state.appliedFilters);
-        let field = payload.field;
-        
-        // payload value is a non-empty array of values
-        if (isArray(payload.value) && payload.value.length > 0) {
-          payload.vals = payload.value.map(row => {
-            if (!isNaN(row.value)) return parseInt(row.value);  // ints are easier
-            return row.value;
-          });
-          appliedFilters[field] = payload;
-        } else if (payload.value && payload.value.value) { // payload value is an object with a value attribute
-          if (!isNaN(payload.value.value)) payload.value.value =  parseInt(payload.value.value);  // ints are easier
-          payload.value = [payload.value]
-          appliedFilters[field] = payload;
-        } else { // if there is no value, remove this filter from appliedFilters
-          delete appliedFilters[field];
+        let updatedAppliedFilters = this.getUpdatedAppliedFilters(payload, appliedFilters);
+        let q = appliedFiltersToQueryString(updatedAppliedFilters);
+        let basePath = this.props.basePath || '';
+
+        if (this.props.doFilterRouting !== false) {
+          browserHistory.push(basePath + '?' + q);
         }
-        
-        this.setState({appliedFilters: appliedFilters});
+
+        this.setState({appliedFilters: updatedAppliedFilters, isFeching: true});
+        this.getDashboardData(updatedAppliedFilters);
         break;
 
-      case 'CHECKBOX_CHANGE':
+      case 'MULTICHECKBOX_CHANGE':
+        console.log('xyz', payload);
         break;
+      
+      default:
+        console.warn('Actions should define an actionType. See docs @@LINK');
     } 
+  }
+
+  getUpdatedAppliedFilters(_payload, appliedFilters) {
+    let field = _payload.field;
+    let filter = this.getFilterByField(field);
+    let payload = Object.assign(_payload, filter);
+
+
+    // value is a non-empty array of values
+    if (isArray(payload.value) && payload.value.length > 0) {
+      payload.vals = payload.value.map(row => {
+        if (!isNaN(row)) return parseInt(row); // the row is just a numeric value
+        if (!isNaN(row.value)) return parseInt(row.value);  // ints are easier
+        return row.value;
+      });
+      appliedFilters[field] = payload;
+    } else if (payload.value && payload.value.value) { // payload value is an object with a value attribute
+      if (!isNaN(payload.value.value)) payload.value.value =  parseInt(payload.value.value);  // ints are easier
+      payload.value = [payload.value]
+      appliedFilters[field] = payload;
+    } else if (payload.value && typeof payload.value === 'string' || typeof payload.value === 'number') { // payload value is a scalar value
+      payload.value = [payload.value];
+      appliedFilters[field] = payload;
+    } else { // if there is no value, remove this filter from appliedFilters
+      delete appliedFilters[field];
+    }
+    return appliedFilters;
   }
   
   render() {
@@ -130,6 +198,7 @@ export default class Dashboard extends BaseComponent {
             
             if (region.multi) {
               let multiRegionKey = this.getChildData(region);
+              region.key = key;
               region.children = region.elements[multiRegionKey];
             }
 
@@ -148,13 +217,13 @@ export default class Dashboard extends BaseComponent {
                   props.appliedFilters = Object.assign({}, this.state.appliedFilters || {});
                   props.vars = Object.assign({}, this.props.vars || {});
                   props.routeParams = routeParams;
+                  props.key = 'el_' + key;
 
                    el = (isReactEl) ? element : React.createElement(Registry.get(element.type), props);
 
-
                   if (props.cardStyle) {
                     output = 
-                      <Card key={key} {...props}>
+                      <Card key={'card_'+key} {...props}>
                         {el}
                       </Card>
                   } else {

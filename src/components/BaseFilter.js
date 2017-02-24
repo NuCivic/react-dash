@@ -12,7 +12,11 @@ export default class BaseFilter extends BaseComponent {
 
   getFilterValue() {
     let val;
-    
+
+    if (this.isDisabled()) {
+      return [];
+    }
+
     if (this.props.appliedFilters && this.props.appliedFilters[this.props.field]) {
       val = this.props.appliedFilters[this.props.field].value;
     } else if (this.props.initVal) {
@@ -26,6 +30,9 @@ export default class BaseFilter extends BaseComponent {
     return val;
   }
   
+  /**
+   * @@IMPLEMEMT
+   */
   onFilter() {
     // noop / overrides basecomponent onFilter
   }
@@ -63,10 +70,9 @@ export default class BaseFilter extends BaseComponent {
   /**
    * Load autocomplete options
    * @param  {String}   input A text with the query to be sent to the server
-   * @param  {Function} cb    Callback to be called right after server response
    * @return {Promise}        A promise with the request
    */
-  loadOptions(input, cb){
+  loadOptions(input){
     let re = /\{\{(.+)\}\}/;
 
     // URL Endpoint returns filter options

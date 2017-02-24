@@ -56,6 +56,7 @@ let stateIds =
 export var settings = {
   title: 'React-Dash v0.5.x -- Climate Indices by Year',
   queries: {},
+  doFilterRouting: false,
   dataResources: {
     climateData: {
       fetchData: {
@@ -92,6 +93,18 @@ export var settings = {
           ],
           placeholder: 'Select year to filter dashboard...'
         },
+        {
+          type: 'MultiCheckboxFilter',
+          className: 'col-md-6',
+          name: 'checkbox-multi',
+          className: 'checkbox-multi',
+          field: 'foo',
+          options: [
+            { label: 'foo', value: '1' },
+            { label: 'bar', value: '2' },
+            { label: 'baz', value: '3' }
+          ]
+        }
       ]
     },
     {

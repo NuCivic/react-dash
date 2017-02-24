@@ -1,0 +1,13 @@
+.react-dash-checkbox input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  padding: 10px;
+  margin-right: 1em;
+}
+.react-dash-checkbox li { font-size: 2.5em; list-style:none; float:left; margin-right:2em; }
+
+.react-dash-checkbox li label {font-weight:300}

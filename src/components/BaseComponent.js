@@ -26,14 +26,6 @@ export default class BaseComponent extends Component {
   componentWillMount() {
     // Register to all the actions
     EventDispatcher.register(this.onAction.bind(this));
-    let q = '';
-    
-    if (this.props.location) {
-      q = this.props.location.query;
-    }
-
-    //let ownParams = getOwnQueryParams(q, this.props.cid, this.props.multi) || {};
-    //this.setState({ownParams: ownParams});
   }
   
   componentDidMount(){
