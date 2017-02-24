@@ -9,12 +9,16 @@ It's worth mentioning the *emit method* returns a regular javascript object. By 
 Actions deliver a payload. The payload has the following attributes:
 * **actionType** This determines which onAction hook is fired by the dashboard. You can define new onAction cases by extending the dashboard in your app. Filter components should define an *actionType*.
 * **field** Field value defines the key on the appliedFilters object (`state.appliedFilters[field]`). It is often useful for the *field* value to correspond to a column in your data (for instance, filter by *year* field, where *year* is a column in your data)
-* **value** In all of our current filter implementations, this is the javascript event object. 
+* **value** In all of our current filter implementations, this is an array of objects:
+```javascript
+  [
+    {label: '2012', value}
+  ]
+```
+* **filter props** As a matter of convention we include all filter props as attributes to the payload. Some of these attributes are used to determine how to apply the filters. See [Filter](./filters.md)
 
 ##appliedFilters
 The react-dash has a *state.appliedFilters* object which encapsulates the current dashboard configuration. The object looks like:
-
-NOTE that all non-array values are converted to array, so `"foo"` becomes `["foo"]` - this is so we can use `map`.
 
 ```javascript
 apliedFilters: {
@@ -23,5 +27,7 @@ apliedFilters: {
   // ...
 }
 ```
+
+Applied filters should be used to filter data in your app, update application state, etc.
 
 See also the section on [Filter](./filters.md)
