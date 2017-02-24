@@ -137,6 +137,7 @@ class DataTable extends BaseComponent {
         header={<Cell>{header}</Cell>}
         key={header + headerIndex}
         columnKey={header}
+        flexGrow={1}
         cell={props => {
           let overrides = getProp('overrides.' + props.rowIndex, cellsDefaultProps);
           return <Cell {...props} {...cellsDefaultProps} {...overrides}>
@@ -181,7 +182,6 @@ class DataTable extends BaseComponent {
 
     // Return the renderable elements
     return (
-
         <div ref="table">
           <div className="row">
             {filterHeader}
