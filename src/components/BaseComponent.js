@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-import {browserHistory} from 'react-router';
-import {findDOMNode} from 'react-dom';
+import { browserHistory } from 'react-router';
+import { findDOMNode } from 'react-dom';
 import EventDispatcher from '../dispatcher/EventDispatcher';
 import Dataset from '../models/Dataset';
 import {omit, isEqual, isEmpty, isFunction, isPlainObject, isString, isArray, debounce} from 'lodash';
 import DataHandler from '../utils/DataHandler';
 import Registry from '../utils/Registry';
-import {qFromParams, getOwnQueryParams, getFID, objToQueryString} from '../utils/paramRouting';
+import { makeKey } from '../utils/utils';
+import { qFromParams, getOwnQueryParams, getFID, objToQueryString } from '../utils/paramRouting';
 
 export default class BaseComponent extends Component {
 
   constructor(props) {
     super(props);
+
+    this.makeKey = makeKey;
     this.state = {
       data: [],
       dataset: null,
