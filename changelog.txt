@@ -1,3 +1,6 @@
+2017-2-27-2017 ** 0.6.x
+* Add Highlight component which provides a very basic profile type list
+
 2017-2-23-2017 ** 0.5.x
 * Dashboard.props.isFetching is set to true during dashboard instantiation and
 should reset to false in Dashboard.getDashboardData() once all dashboard data

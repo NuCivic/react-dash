@@ -18,6 +18,7 @@ export {default as CheckboxFilter } from './components/CheckboxFilter';
 export {default as MultiCheckboxFilter} from './components/MultiCheckboxFilter';
 export {default as ReactSelect} from './components/ReactSelect';
 export {default as App} from './components/App';
+export {default as Highlight} from './components/Highlight';
 
 // UTILS
 export {default as Registry } from './utils/Registry';
