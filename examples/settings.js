@@ -111,6 +111,12 @@ export var settings = {
               name: 'getClimateMetric',
               field: 'TMAX'
             },
+          ],
+          stateHandlers: [
+            {
+              name: 'getMaxTempMetricColor',
+              attr: 'bg'
+            }
           ]
         },
         {

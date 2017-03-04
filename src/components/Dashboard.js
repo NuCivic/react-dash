@@ -32,7 +32,7 @@ export default class Dashboard extends BaseComponent {
   componentDidUpdate(nextProps, nextState) {
     if (!isEqual(nextState.appliedFilters, this.state.appliedFilters)) {
       this.setState({isFetching: true});
-      this.getDashboardData();
+      this.getDashboardData(); // getDashboard should reset isFetching to false
     }
   }
 
@@ -151,7 +151,6 @@ export default class Dashboard extends BaseComponent {
         break;
 
       case 'MULTICHECKBOX_CHANGE':
-        console.log('xyz', payload);
         break;
       
       default:

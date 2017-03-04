@@ -19,8 +19,9 @@ export default class Metric extends BaseComponent {
   }
 
   render() {
+    let bg = this.state.bg || this.props.background;
     let style = {
-      background: this.props.background,
+      background: bg,
     };
     style = Object.assign({}, style, this.props.style);
     return (

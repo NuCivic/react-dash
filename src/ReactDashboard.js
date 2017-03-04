@@ -23,6 +23,7 @@ export {default as Highlight} from './components/Highlight';
 // UTILS
 export {default as Registry } from './utils/Registry';
 export {default as DataHandler } from './utils/DataHandler';
+export {default as StateHandler } from './utils/StateHandler';
 export * from './utils/utils';
 
 // MODELS
