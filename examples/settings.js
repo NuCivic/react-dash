@@ -99,6 +99,7 @@ export var settings = {
       id: 'metrics-row',
       className: 'row',
       children: [
+        // start-handlers-example
         {
           type: 'Metric',
           cardStyle: 'metric',
@@ -119,6 +120,7 @@ export var settings = {
             }
           ]
         },
+        // end-handlers-example
         {
           type: 'Metric',
           cardStyle: 'metric',

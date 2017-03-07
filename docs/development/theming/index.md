@@ -36,21 +36,25 @@ regions: [
 Note that we're just using the bootstrap classes to define the responsive grid.
 
 ## cards
-Cards allow you to use pre-defined themed layouts at the component level. See [Cards](../components/Card).
-To enable card layout, add *cardStyle* prop to your component in settings.js:
-```javascript
-{
-  type: 'Chart',
-  cardStyle: 'chart',
-  header: 'Card renders headers!',
-  oconClass: 'fa fa-clock'
-  // .... your settings follow
-}
-```
-Components rendered as Cards (ie, components with *cardStyle* prop) can accept the following props:
+Some elements are rendered inside of a Card component: Chart, DataTable, Metric, Goal, Highlight, Markup, Metric and Choropleth.
+
+Components rendered inside Card can accept the following props:
+
 **cardStyle** Provides css class for additional styling
 **iconClass** Font awesome icon class will render icon to the left of any header text (use format `fa fa-icon`)
-**header** Render header text
+**header** Render header text/markup
+**footer** Render footer text/markup
+
+Also, the component can define these properties on the `state` (using stateHandlers or native component code) and they will be passed to the wrapping Card component as follows:
+
+```eval_rst
+.. literalinclude:: ../../../src/components/Chart.js
+  :start-after: doc-block-start
+  :end-before: doc-block-end
+  :language: javascript
+```
+
+See also [State Handlers](../stateHandlers.md)
 
 ## custom css
 The `index.html` file in the examples project loads `static/custom.css`. Add custom css here.

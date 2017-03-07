@@ -15,3 +15,6 @@ Regions are rendered into divs, allowing you to add bootstrap `row` class, and t
 If `region.multi = true` then you can use conditional rendering to render the region. If this is the case, then the region should contain an `elements` object. The elements object has keys which each contain a different array of elements. The muli-region should also define a datahandler. The datahandler returns a string which is used as the key to chose an array from the elements object.
 
 @@TODO add example
+@@TODO also - this will probably / potentially be handled by stateHandlers
+
+

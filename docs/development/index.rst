@@ -12,5 +12,6 @@ Developer Guide
    backends
    actions
    filters
+   stateHandlers.md
    components/index
    theming/index
