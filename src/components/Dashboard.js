@@ -214,18 +214,9 @@ export default class Dashboard extends BaseComponent {
             props.routeParams = routeParams;
             props.key = 'el_' + key;
 
-             el = (isReactEl) ? element : React.createElement(Registry.get(element.type), props);
-
-            if (props.cardStyle) {
-              output = 
-                <Card key={'card_'+key} {...props}>
-                  {el}
-                </Card>
-            } else {
-              output = el;
-            }
-
-            return output;
+            el = (isReactEl) ? element : React.createElement(Registry.get(element.type), props);
+            
+            return el;
           })}  
         </div>
       )

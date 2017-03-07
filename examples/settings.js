@@ -220,6 +220,12 @@ export var settings = {
               name: 'getBarChartData'
             },
           ],
+          stateHandlers: [
+            {
+              name: 'isStatSignificant',
+              attr: 'footer'
+            }
+          ],
           settings: {
             type: 'multiBarChart',
             x: 'x',

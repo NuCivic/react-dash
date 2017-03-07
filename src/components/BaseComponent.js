@@ -47,6 +47,7 @@ export default class BaseComponent extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (!isEqual(this.props.data, prevProps.data)) {
+      console.log('didUpdate StateH');
       this.setState(this.executeStateHandlers());
     }
   }

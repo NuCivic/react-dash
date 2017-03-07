@@ -1,4 +1,6 @@
-import { StateHandler } from '../src/ReactDashboard'
+import { StateHandler } from '../src/ReactDashboard';
+import React, { Component } from 'react';
+
 
 let customStateHandlers = {
   /**
@@ -11,7 +13,18 @@ let customStateHandlers = {
     } else {
       return 'blue';
     }
-  }
+  },
+
+  isStatSignificant: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+      console.log('STATSIG', arguments); 
+      return "STAT GO HERE";
+      /* return (
+        <div class="significant">
+          <span>* Statistically significant data</span>
+        </div>
+      )
+      */
+    }
 }
 
 for (let k in customStateHandlers) {
