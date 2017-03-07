@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Registry from '../../utils/Registry';
 import BaseComponent from '../BaseComponent';
+import Card from '../Card';
 import Loader from '../Loader';
 import Datamap from './Datamap';
 import HoverInfo from './HoverInfo';
@@ -142,6 +143,7 @@ export default class Choropleth extends BaseComponent {
       fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
     }
     return (
+    <Card {...this.state.cardVariables}>
       <Loader isFetching={!loading}>
         <div className="map-container">
           <svg className="map-svg" style={svgStyle}>
@@ -173,6 +175,7 @@ export default class Choropleth extends BaseComponent {
           />
         </div>
      </Loader>
+    </Card>
     );
   }
 }

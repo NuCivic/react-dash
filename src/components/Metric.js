@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
+import Card from './Card';
 import Loader from './Loader';
 import { format } from 'd3';
 
@@ -25,6 +26,7 @@ export default class Metric extends BaseComponent {
     };
     style = Object.assign({}, style, this.props.style);
     return (
+    <Card {...this.state.cardVariables}>
       <Loader isFetching={this.state.isFetching}>
         <div className="metric {}" style={style}>
           <div className="col-sm-3 col-lg-4">
@@ -40,6 +42,7 @@ export default class Metric extends BaseComponent {
           </div>
         </div>
       </Loader>
+    </Card>
     )
   }
 }

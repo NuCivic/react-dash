@@ -9,22 +9,19 @@ let customStateHandlers = {
   getMaxTempMetricColor: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     console.log('gMTMC', this, arguments);
     if (componentData[0] && componentData[0] >= 100) {
-      return 'red';
+      return '#f4e542';
     } else {
-      return 'blue';
+      return '#41c1f4';
     }
   },
 
   isStatSignificant: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-      console.log('STATSIG', arguments); 
-      return "STAT GO HERE";
-      /* return (
-        <div class="significant">
-          <span>* Statistically significant data</span>
-        </div>
+     return (
+        <p style={{backgroundColor: "#f4e542", padding: "1em", marginTop: "1em", width: "100%"}}>
+          [This is an example of a programatically generated footer]
+        </p>
       )
-      */
-    }
+  }
 }
 
 for (let k in customStateHandlers) {

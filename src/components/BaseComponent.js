@@ -9,6 +9,8 @@ import Registry from '../utils/Registry';
 import { makeKey } from '../utils/utils';
 import { qFromParams, getOwnQueryParams, getFID, objToQueryString } from '../utils/paramRouting';
 
+const CARD_VARS = ['header', 'footer', 'iconClass', 'cardStyle'];
+
 export default class BaseComponent extends Component {
 
   constructor(props) {
@@ -37,9 +39,7 @@ export default class BaseComponent extends Component {
     let newState = this.executeStateHandlers();
 
     newState.componentWidth = componentWidth;
-
-    // @@TODO encapsulate this in a function _applyStateHandlers();
-    
+    newState.cardVariables = this.getCardVariables(); 
     
     this.setState(newState);
     this.onResize();
@@ -47,8 +47,10 @@ export default class BaseComponent extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (!isEqual(this.props.data, prevProps.data)) {
-      console.log('didUpdate StateH');
-      this.setState(this.executeStateHandlers());
+      let newState = this.executeStateHandlers();
+      newState.cardVariables = this.getCardVariables();
+      console.log('BEWSSS', newState)
+      this.setState(newState);
     }
   }
   
@@ -78,6 +80,18 @@ export default class BaseComponent extends Component {
     }
     
     return newState;
+  }
+
+  // if we have card variables set on the state, return them 
+  // otherwise use props or undefined
+  getCardVariables() {
+    let cardVars = {};
+    
+    CARD_VARS.forEach(v => {
+      cardVars[v] = this.state[v] || this.props[v];
+    });
+    
+    return cardVars;
   }
 
   addResizeListener() {

@@ -1,3 +1,13 @@
+2017-3-7-2017 ** 0.6.x
+* Add stateHandlers
+* Move Card wrapping to render method of 'Card-able' components. This allows
+us to pass Card variables to card based on component state - so we can do
+dynamic rendering based on conditional logic capture in stateHandlers
+* add cardVariables to component state. These can be derived from props, or
+can be generated computationally using stateHandlers. Also we could use this
+mechanism in component code to pass component state or config  to the wrapping
+Card
+
 2017-2-27-2017 ** 0.6.x
 * Add Highlight component which provides a very basic profile type list
 
