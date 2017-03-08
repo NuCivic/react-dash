@@ -13,6 +13,7 @@ export {default as Goal } from './components/Goal';
 export {default as Metric } from './components/Metric';
 export {default as Multi} from './components/Multi';
 export {default as DataTable } from './components/DataTable';
+export {default as GoalTable } from './components/GoalTable';
 export {default as Markup } from './components/Markup';
 export {default as CheckboxFilter } from './components/CheckboxFilter';
 export {default as MultiCheckboxFilter} from './components/MultiCheckboxFilter';
