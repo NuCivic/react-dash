@@ -3,93 +3,39 @@ import Registry from '../utils/Registry';
 import React, {Component} from 'react';
 import {getProp} from '../utils/utils';
 import Card from './Card';
-import BaseComponent from './BaseComponent';
 import Loader from './Loader';
 import DataTable from './DataTable';
 import { partialRight } from 'lodash';
 
-export default class GoalTable extends BaseComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      gridWidth: 1,
-      gridHeight: 1
-    }
-  }
-  
-  onResize() {
-    const { offsetWidth, offsetHeight } = this.refs.table;
-    this.setState({
-      gridWidth: offsetWidth,
-      gridHeight: offsetHeight
-    });
-  }
-
-  getGoalHeaders() {
-    let headers = ['<strong>Points Available</strong>', '<strong>Points Earned</strong>'];
-    headers.unshift('Description value goes her bruh');
-    return headers;
-  }
-  
+export default class GoalTable extends DataTable {
   render() {
     const { gridWidth, gridHeight } = this.state;
     let data = this.props.data[0] || [];
-    let headers = Object.keys(data[0] || {});
-    let props = Object.assign({}, this.props);
     let tableDefaultProps = getProp('settings.table', this.props);
     let columnDefaultProps = getProp('settings.columns', this.props);
     let cellsDefaultProps = getProp('settings.cells', this.props);
+    let headers = Object.keys(data[0] || {});
+    let totalPages = this.getTotalPages(this.state.rowsPerPage, this.state.total);
     let content;
-    
-    console.log('>>>>>', props);
 
-    let col0 =
-      <Column
-        header={
-          <Cell>
-            <strong className="goal-name">{this.props.goalName}</strong>
-            <span className="goal-desc">{this.props.description}</span>
-          </Cell>
-        }
-        key={this.state.key + '_col0'}
-        columnKey={0}
+    // Create the colums
+    let columns = headers.map((header, headerIndex) => {
+      let overrides = getProp('overrides.' + header, columnDefaultProps);
+      return <Column
+        header={<Cell>{header}</Cell>}
+        key={header + headerIndex}
+        columnKey={header}
         flexGrow={1}
-        {...columnDefaultProps}
-        cell={_props => {
-          console.log("PORPS", _props);
-          return <Cell {..._props} {...cellsDefaultProps}>
-            <strong>
-              {props.goalLevels[_props.rowIndex].goal}
-            </strong>
-            <span>
-              {props.goalLevels[_props.rowIndex].description}
-            </span>
+        cell={props => {
+          let overrides = getProp('overrides.' + props.rowIndex, cellsDefaultProps);
+          return <Cell {...props} {...cellsDefaultProps} {...overrides}>
+            {data[props.rowIndex][props.columnKey]}
           </Cell>
         }}
-      />
-
-    let col1 =
-      <Column
-        header={
-          <Cell>
-            <strong>Points Available</strong>
-          </Cell>
-        }
-        key={this.state.key + '_col1'}
-        columnKey={1}
-        flexGrow={1}
         {...columnDefaultProps}
-        cell={_props => {
-          console.log("_PORPS", _props);
-          return <Cell {..._props} {...cellsDefaultProps}>
-              <strong>
-                {props.goalLevels[_props.rowIndex].points}
-              </strong>
-            </Cell>
-        }}
+        {...overrides}
       />
-
-    let columns=[col0, col1];
+    });
 
     // Return the renderable elements
     return (
@@ -97,10 +43,42 @@ export default class GoalTable extends BaseComponent {
         <div ref="table">
           <Loader isFetching={this.state.isFetching}>
             <div className="table-container">
-              <FixedTable {...tableDefaultProps} rowsCount={props.goalLevels.length} width={gridWidth}>
+              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth}>
                 {columns}
               </FixedTable>
             </div>
+
+            <nav>
+              <ul className="pagination">
+
+                <li className={(this.state.currentPage === 1) ? 'hide' : ''}>
+                  <a onClick={partialRight(this._onPageChange, 1).bind(this)} href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+
+                <li className={(this.state.currentPage === 1) ? 'hide' : ''}>
+                  <a onClick={partialRight(this._onPageChange, this.state.currentPage - 1).bind(this)} href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+
+                {this.getPageNumbers(this.state.rowsPerPage, this.state.total, this.state.currentPage)}
+
+                <li className={(!totalPages || this.state.currentPage === totalPages ) ? 'hide' : ''}>
+                  <a onClick={partialRight(this._onPageChange, this.state.currentPage + 1).bind(this)} href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+
+                <li className={(!totalPages || this.state.currentPage === totalPages ) ? 'hide' : ''}>
+                  <a onClick={partialRight(this._onPageChange, totalPages).bind(this)} href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+
+              </ul>
+            </nav>
           </Loader>
         </div>
       </Card>

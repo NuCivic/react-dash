@@ -233,37 +233,10 @@ export var settings = {
           type: 'GoalTable',
           cardStyle: 'chart',
           header: 'Test Goal Component',
-          goalName: 'Goal name here: measure 1a',
-          description: 'consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud e',
-          goalLevels: [
-            {
-              goal: 'Meets Standard',
-              description: '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',
-              points: 0,
-              color: 'green'
-            },
-            {
-              goal: 'Approaches Standard',
-              description: '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',
-              points: 50,
-              color: 'yellow'
-            },
-            {
-              goal: "Doesn't Meet Standard",
-              description: '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',
-              points: 60,
-              color: 'red'
-            },
+          data: [
+            ['h1', 'h2', 'h3'],
+            [10,20,30]
           ],
-          data: 
-					[
-						[
-							{fox: 1, barf: 2},
-							{fox: 11, barf: 21},
-							{fox: 111, barf: 222},
-							{fox: 1, barf: 2},
-						]
-					],
           settings: {
             table: {
               rowHeight: 40,
@@ -280,6 +253,7 @@ export var settings = {
               width: 500, 
             }
           }
+
         }
       ]
     }
