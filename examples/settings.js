@@ -228,32 +228,6 @@ export var settings = {
             y: 'y',
             height: 800
           }
-        },
-        {
-          type: 'GoalTable',
-          cardStyle: 'chart',
-          header: 'Test Goal Component',
-          data: [
-            ['h1', 'h2', 'h3'],
-            [10,20,30]
-          ],
-          settings: {
-            table: {
-              rowHeight: 40,
-              width: 800, 
-              maxHeight: 300, 
-              headerHeight:40
-            },
-            columns: {
-              flexGrow: 1,
-              width: 150, 
-            },
-            cells: {
-              height: 40,
-              width: 500, 
-            }
-          }
-
         }
       ]
     }
