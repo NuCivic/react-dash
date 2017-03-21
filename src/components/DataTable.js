@@ -3,6 +3,7 @@ import Registry from '../utils/Registry';
 import {getProp} from '../utils/utils';
 import React, {Component} from 'react';
 import BaseComponent from './BaseComponent';
+import Card from './Card';
 import Loader from './Loader';
 import {isString, isEmpty, range, partialRight} from 'lodash';
 
@@ -182,6 +183,7 @@ class DataTable extends BaseComponent {
 
     // Return the renderable elements
     return (
+      <Card key={'card_'+this.state.key} {...this.state.cardVariables}>
         <div ref="table">
           <div className="row">
             {filterHeader}
@@ -227,7 +229,7 @@ class DataTable extends BaseComponent {
             </nav>
           </Loader>
         </div>
-
+      </Card>
     );
   }
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import NVD3Chart from 'react-nvd3';
 import BaseComponent from './BaseComponent';
+import Card from './Card';
 import Loader from './Loader';
 import Filter from './Filter';
 import { makeKey } from '../utils/utils';
@@ -52,9 +53,17 @@ export default class Chart extends BaseComponent {
   }
 
   render() {
+    let props = Object.assign({}, this.props);
     let settings = Object.assign({datum: this.props.data, key: this.state.key}, this.getFormattedSettings());
+
+    // Add card regions from state if available
+    props.header = this.state.header || props.header;
+    props.footer = this.state.footer || props.footer;
+
     return (
+      <Card key={'card_'+this.state.key} {...this.state.cardVariables}>
         <NVD3Chart {...settings} key={this.state.key}/>
+      </Card>
      )
   }
 }

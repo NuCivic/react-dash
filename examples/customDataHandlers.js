@@ -84,6 +84,13 @@ let customDataHandlers = {
 
     return series;
   },
+
+  getTableData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    console.log(arguments);
+    if (dashboardData.climateData) {
+      return dashboardData.climateData;
+    }
+  }
 }
 
 for (let k in customDataHandlers) {

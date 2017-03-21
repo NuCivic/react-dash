@@ -111,6 +111,12 @@ export var settings = {
               name: 'getClimateMetric',
               field: 'TMAX'
             },
+          ],
+          stateHandlers: [
+            {
+              name: 'getMaxTempMetricColor',
+              attr: 'bg'
+            }
           ]
         },
         {
@@ -194,12 +200,12 @@ export var settings = {
       children: [          
         {
           type: 'Markup',
+          header: "What is hydrological drought index?",
+          iconClass: 'fa fa-question-circle',
           content: '<p>Hydrological drought is described as a sustained and regionally extensive occurrence of below average natural water availability (Tallaksen and van Lanen, 2004). Hydrological drought as period of time below the average water content in streams, reservoirs, groundwater aquifers, lakes and soils. The period is associated effects of precipitation (including snowfall) shortfall on surface and subsurface water supply, rather than with direct shortfall in precipitation (Yevjevich et al., 1977). Hydrological drought may be the result of long term meteorological droughts that results in the drying up of reservoirs, lakes, streams, rivers and a decline in groundwater levels (Rathore 2004).</p>'
         }
       ]
     },
-
-
     {
       id: 'chart-row',
       className: 'row',
@@ -209,10 +215,12 @@ export var settings = {
           cardStyle: 'chart',
           header: 'Standard Precipitation Index',
           iconClass: 'fa fa-cloud',
-          dataHandlers: [
+          dataHandlers: [ 'getBarChartData' ],
+          stateHandlers: [
             {
-              name: 'getBarChartData'
-            },
+              name: 'isStatSignificant',
+              attr: 'footer'
+            }
           ],
           settings: {
             type: 'multiBarChart',
@@ -220,56 +228,10 @@ export var settings = {
             y: 'y',
             height: 800
           }
-        },
-      ]
-    },
-    /*{
-      type: 'Region',
-      className: 'region-piesI row',
-      children: [
-        {
-          type: 'Chart',
-          cardStyle: 'chart',
-          header: 'Chart 1',
-          style: {borderRight: '1px dotted gray'},
-          className: 'col-md-6',
-          data: [[{x: 1, y: 40}, {x: 2, y: 40}, {x: 3, y: 20}]],
-          dataHandlers: ['NVD3.toPieChartSeries'],
-          settings: {
-            type: 'pieChart',
-            x: 'x',
-            y: 'y',
-            height: 400
-          },
-        },
-        {
-          type: 'Chart',
-          cardStyle: 'chart',
-          header: 'Chart 2',
-          className: 'col-md-6',
-          data: [[{x: 1, y: 40}, {x: 2, y: 40}, {x: 3, y: 20}]],
-          dataHandlers: ['NVD3.toPieChartSeries'],
-          settings: {
-            type: 'pieChart',
-            x: 'x',
-            y: 'y',
-            height: 400
-          },
-        }, 
-      ]
-    }, */
-
-   {
-      id: 'footer',
-      className: 'row',
-      children: [
-        {
-          type: 'Markup',
-          content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>'
-        }     
+        }
       ]
     }
-  ],
+  ]
 }
 
 
