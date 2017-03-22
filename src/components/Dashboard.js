@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { Card, BaseComponent, Dataset, DataHandler, DataHandlers, Registry, EventDispatcher } from '../ReactDashboard';
 import { isArray, isEqual, pick} from 'lodash';
-import { appliedFiltersToQueryString } from '../utils/utils';
+import { appliedFiltersToQueryStringi, makeKey } from '../utils/utils';
 
 export default class Dashboard extends BaseComponent {
 
@@ -185,8 +185,21 @@ export default class Dashboard extends BaseComponent {
     return appliedFilters;
   }
 
-  getRegions() {
+  updateProps(element, _props) {
     let routeParams = pick(this.props, ['history', 'location', 'params', 'route', 'routeParams', 'routes']);
+    let props = Object.assign({}, _props);
+    
+    props.data = this.getChildData(element) || [];
+    props.globalData = Object.assign({}, this.state.data || {});
+    props.appliedFilters = Object.assign({}, this.state.appliedFilters || {});
+    props.vars = Object.assign({}, this.props.vars || {});
+    props.routeParams = routeParams;
+    props.key = 'el_' + makeKey();
+    
+    return props;
+  }
+
+  getRegions() {
     let regions;
     if (this.props.regions) {
       regions = this.props.regions.map( (region, key) => {
@@ -200,21 +213,11 @@ export default class Dashboard extends BaseComponent {
       return (
         <div id={region.id} className={region.className} >
           {region.children.map( (element, key) => {
-            let isReactEl = React.isValidElement(element);
-            let output;
-            let el;
             // if it isn't a react element, the element is a settings object
-            let _props = (isReactEl) ? element.props : element;
-            let props = Object.assign({}, _props);
-            
-            props.data = this.getChildData(element) || [];
-            props.globalData = Object.assign({}, this.state.data || {});
-            props.appliedFilters = Object.assign({}, this.state.appliedFilters || {});
-            props.vars = Object.assign({}, this.props.vars || {});
-            props.routeParams = routeParams;
-            props.key = 'el_' + key;
-
-            el = (isReactEl) ? element : React.createElement(Registry.get(element.type), props);
+            let _props = (React.isValidElement(element)) ? element.props : element;
+            let output;
+            let props = this.updateProps(element, _props);
+            let el = (React.isValidElement(element)) ? element : React.createElement(Registry.get(element.type), props);
             
             return el;
           })}  

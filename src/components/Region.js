@@ -1,3 +1,12 @@
+/**
+ * @@DEPRECATED
+ * @@DEPRECATED
+ * @@DEPRECATED
+ *
+ * All of this functionality has been moved
+ * to the Dashboard component
+ */
+
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import Card from './Card';
