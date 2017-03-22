@@ -22,14 +22,13 @@ export default class Region extends Component {
     if (this.props.children) {
         children = this.props.children.map((element,key) => {
           let output;
-          let props = Object.assign(element, {globalData: this.props.globalData, appliedFilters: this.props.appliedFilters}, routeParams);
+          let props = Object.assign(element, {globalData: this.props.globalData, appliedFilters: this.props.appliedFilters});
           return React.createElement(Registry.get(element.type), props);
         })}
     return children;
   }
 
   render() {
-    let routeParams = pick(this.props, ['history', 'location', 'params', 'route', 'routeParams', 'routes']);
     let children = this.getChildren();
 
       return (

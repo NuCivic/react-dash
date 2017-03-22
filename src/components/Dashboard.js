@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { Card, BaseComponent, Dataset, DataHandler, DataHandlers, Registry, EventDispatcher } from '../ReactDashboard';
 import { isArray, isEqual, pick} from 'lodash';
-import { appliedFiltersToQueryStringi, makeKey } from '../utils/utils';
+import { appliedFiltersToQueryString, makeKey } from '../utils/utils';
+import Accordion from 'react-responsive-accordion';
 
 export default class Dashboard extends BaseComponent {
 
@@ -76,7 +77,6 @@ export default class Dashboard extends BaseComponent {
     console.log('Warning. getDashboardData should be defined in your application which extends this dashboard component. getDashboardData should return an object with dataKeys. See @@LINK');
   }
 
-  
   /**
    * Maps data to components based on component settings
    **/
@@ -163,7 +163,6 @@ export default class Dashboard extends BaseComponent {
     let filter = this.getFilterByField(field);
     let payload = Object.assign(_payload, filter);
 
-
     // value is a non-empty array of values
     if (isArray(payload.value) && payload.value.length > 0) {
       payload.vals = payload.value.map(row => {
@@ -185,9 +184,9 @@ export default class Dashboard extends BaseComponent {
     return appliedFilters;
   }
 
-  updateProps(element, _props) {
+  updateProps(element) {
+    let props = (React.isValidElement(element)) ? element.props : element;
     let routeParams = pick(this.props, ['history', 'location', 'params', 'route', 'routeParams', 'routes']);
-    let props = Object.assign({}, _props);
     
     props.data = this.getChildData(element) || [];
     props.globalData = Object.assign({}, this.state.data || {});
@@ -199,33 +198,63 @@ export default class Dashboard extends BaseComponent {
     return props;
   }
 
+  getRegion(region) {
+    return (
+      <div id={region.id} className={region.className} >
+        {region.children.map( (element, key) => {
+          // if it isn't a react element, the element is a settings object
+          let props = this.updateProps(element);
+          let el = (React.isValidElement(element)) ? element : React.createElement(Registry.get(element.type), props);
+          
+          return el;
+        })}  
+      </div>
+    )
+  }
+
+  getAccordionRegion(region) {
+    return (
+      <div id={region.id} className={region.className} key={makeKey()} >
+        <Accordion key={makeKey()}>
+        {region.children.map( (element, key) => {
+          // if it isn't a react element, the element is a settings object
+          let props = this.updateProps(element);
+          let el = (React.isValidElement(element)) ? element : React.createElement(Registry.get(element.type), props);
+          
+          return (
+            <div data-trigger={element.dataTrigger} key={"wrap_" + key}>
+              {el}
+            </div>
+          )
+        })}  
+        </Accordion>
+      </div>
+    )
+  }
+  
   getRegions() {
     let regions;
+    console.log('>>>>', this.props.regions);
     if (this.props.regions) {
       regions = this.props.regions.map( (region, key) => {
-      
-      if (region.multi) {
-        let multiRegionKey = this.getChildData(region);
-        region.key = key;
-        region.children = region.elements[multiRegionKey];
+        console.log('RRR', region, region.accordion);
+        if (region.multi) {
+          let multiRegionKey = this.getChildData(region);
+          region.key = key;
+          region.children = region.elements[multiRegionKey];
+        }
+        
+        // render accordion region
+        if (region.accordion) {
+          console.log('ACC', region);
+          return this.getAccordionRegion(region)
+        } else { // render default region
+          
+          return this.getRegion(region)
+        }
+      })} else {
+        regions = this.props.children;
       }
-
-      return (
-        <div id={region.id} className={region.className} >
-          {region.children.map( (element, key) => {
-            // if it isn't a react element, the element is a settings object
-            let _props = (React.isValidElement(element)) ? element.props : element;
-            let output;
-            let props = this.updateProps(element, _props);
-            let el = (React.isValidElement(element)) ? element : React.createElement(Registry.get(element.type), props);
-            
-            return el;
-          })}  
-        </div>
-      )
-    })} else {
-      regions = this.props.children;
-    }
 
     return regions;
   }
@@ -234,13 +263,12 @@ export default class Dashboard extends BaseComponent {
     let markup;
     let regions = this.getRegions();
 
-    console.log('DASH RENDER', this);
-      return (
-          <div className="container">
-            <link rel="stylesheet" type="text/css" href={this.props.faPath} />
-            <h1 className="dashboard-title">{this.props.title}</h1>
-            {regions}
-          </div>
-      );
+    return (
+      <div className="container" key={makeKey()}>
+        <link rel="stylesheet" type="text/css" href={this.props.faPath} />
+        <h1 className="dashboard-title">{this.props.title}</h1>
+        {regions}
+      </div>
+    );
   }
 }
