@@ -54,8 +54,13 @@ export default class Chart extends BaseComponent {
 
   // doc-block-start
   render() {
+    let props = Object.assign({}, this.props);
     let settings = Object.assign({datum: this.props.data, key: this.state.key}, this.getFormattedSettings());
-  
+
+    // Add card regions from state if available
+    props.header = this.state.header || props.header;
+    props.footer = this.state.footer || props.footer;
+
     return (
       <Card key={'card_'+this.state.key} {...this.state.cardVariables}>
         <NVD3Chart {...settings} key={this.state.key}/>
