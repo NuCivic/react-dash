@@ -23,7 +23,7 @@ export default class MultiCheckboxFilter extends BaseFilter {
     } else {
       checked[el.value] = true;
     }
-    
+
     filter.value = Object.keys(checked).map(k => {
       if (checked[k]) return k;
     }).filter(k => { return k != undefined })
@@ -34,14 +34,14 @@ export default class MultiCheckboxFilter extends BaseFilter {
 
   render(){
       let val = this.getFilterValue();
-      
+
       return (
         <ul className='react-dash-checkbox'>
-          { this.props.options.map(el => {
+          { this.props.options.map((el, idx) => {
             el.checked = this.state.checked[el.value];
             return (
               // figure out if it's checked
-							 <li className='react-dash-checkbox-item'>
+							 <li className='react-dash-checkbox-item' key={idx}>
 									<input
 										type="checkbox"
 										name={this.props.name}
@@ -52,7 +52,7 @@ export default class MultiCheckboxFilter extends BaseFilter {
 									<label htmlFor={this.props.name} value={el.label}>
 										{el.label}
 									</label>
-								</li>  
+								</li>
               );
             })
           }

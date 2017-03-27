@@ -9,7 +9,7 @@ import Registry from '../utils/Registry';
 import { makeKey } from '../utils/utils';
 import { qFromParams, getOwnQueryParams, getFID, objToQueryString } from '../utils/paramRouting';
 
-const CARD_VARS = ['header', 'footer', 'iconClass', 'cardStyle'];
+const CARD_VARS = ['header', 'footer', 'iconClass', 'cardStyle', 'cardClasses'];
 
 export default class BaseComponent extends Component {
 
@@ -24,7 +24,7 @@ export default class BaseComponent extends Component {
       isFetching: false,
     };
   }
-  
+
   /**
    * LIFECYCLE
    **/
@@ -32,15 +32,15 @@ export default class BaseComponent extends Component {
     // Register to all the actions
     EventDispatcher.register(this.onAction.bind(this));
   }
-  
+
   componentDidMount(){
     // resize magic
     let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     let newState = this.executeStateHandlers();
 
     newState.componentWidth = componentWidth;
-    newState.cardVariables = this.getCardVariables(); 
-    
+    newState.cardVariables = this.getCardVariables();
+
     this.setState(newState);
     this.onResize();
   }
@@ -49,15 +49,14 @@ export default class BaseComponent extends Component {
     if (!isEqual(this.props.data, prevProps.data)) {
       let newState = this.executeStateHandlers();
       newState.cardVariables = this.getCardVariables();
-      console.log('BEWSSS', newState)
       this.setState(newState);
     }
   }
-  
+
   componentWillUnmount() {
     window.removeEventListener('resize', this._resizeHandler);
   }
-  
+
   emit(payload) {
     EventDispatcher.dispatch(payload);
   }
@@ -73,37 +72,37 @@ export default class BaseComponent extends Component {
    */
   executeStateHandlers() {
     let newState = {};
-    
+
     if (this.props.stateHandlers && this.props.stateHandlers.length > 0) {
       let handledState = StateHandler.handle(this.props.stateHandlers, this.props.data, this.state.dashboardData);
       newState = Object.assign(newState, handledState);
     }
-    
+
     return newState;
   }
 
-  // if we have card variables set on the state, return them 
+  // if we have card variables set on the state, return them
   // otherwise use props or undefined
   getCardVariables() {
     let cardVars = {};
-    
+
     CARD_VARS.forEach(v => {
       cardVars[v] = this.state[v] || this.props[v];
     });
-    
+
     return cardVars;
   }
 
   addResizeListener() {
     this._resizeHandler = (e) => {
       let componentWidth = findDOMNode(this).getBoundingClientRect().width;
-      
+
       this.setState({ componentWidth : componentWidth});
       this.onResize(e);
     }
     window.addEventListener('resize', this._resizeHandler);
   }
-  
+
   /**
    * Abstract
    */
@@ -115,5 +114,5 @@ export default class BaseComponent extends Component {
   onAction() {
     /* IMPLEMENT */
   }
-  
+
 }

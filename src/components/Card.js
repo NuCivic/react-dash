@@ -5,27 +5,26 @@ import {omit, pick} from 'lodash';
 
 export default class Card extends Component {
   render() {
-    let card = pick(this.props, 'card').card;
-    let props = omit(this.props, 'card');
+    let props = this.props;
     let header, footer;
-    let style = this.props.style || {};
-    let className = this.props.className || '';
+    let style = props.style || {};
+    let classNames = (props.cardClasses || []).join(' ') || '';
 
-    if(this.props.header) {
+    if(props.header) {
       header = (
         <div className="card-header">
-          <span className={'card-header-icon ' + this.props.iconClass} aria-hidden="true"></span>
+          <span className={'card-header-icon ' + props.iconClass} aria-hidden="true"></span>
           <span className='card-header-content'>{props.header}</span>
         </div>
       );
     }
 
-    if(this.props.footer) {
+    if(props.footer) {
       footer = <div className="card-footer">{props.footer}</div>;
     }
-    
+
     return (
-      <div className={'card card-' + props.cardStyle + ' ' + className} style={style} {...card}>
+      <div className={'card card-' + props.cardStyle + ' ' + classNames} style={style}>
         {header}
         <div className="card-content">
           {props.children}
