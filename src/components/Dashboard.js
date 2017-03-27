@@ -186,7 +186,8 @@ export default class Dashboard extends BaseComponent {
 
   updateProps(element) {
     let props = (React.isValidElement(element)) ? element.props : element;
-    let routeParams = pick(this.props, ['history', 'location', 'params', 'route', 'routeParams', 'routes']);
+    let routeParams = []; 
+    if (this.props.doFilterRouting) routeParams =  pick(this.props, ['history', 'location', 'params', 'route', 'routeParams', 'routes']);
     
     props.data = this.getChildData(element) || [];
     props.globalData = Object.assign({}, this.state.data || {});
