@@ -235,10 +235,8 @@ export default class Dashboard extends BaseComponent {
   
   getRegions() {
     let regions;
-    console.log('>>>>', this.props.regions);
     if (this.props.regions) {
       regions = this.props.regions.map( (region, key) => {
-        console.log('RRR', region, region.accordion);
         if (region.multi) {
           let multiRegionKey = this.getChildData(region);
           region.key = key;
