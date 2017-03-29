@@ -96,58 +96,6 @@ export var settings = {
       ]
     },
     {
-      accordion: true,
-      className: 'row',
-      children: [
-        {
-          type: 'Markup',
-          dataTrigger: '',
-          content: ''
-        },
-        {
-          type: 'Markup',
-          dataTrigger: "Sample Header 1",
-          iconClass: 'fa fa-question-circle',
-          content: '<p>Hydrological drought is described as a sustained and regionally extensive occurrence of below average natural water availability (Tallaksen and van Lanen, 2004). Hydrological drought as period of time below the average water content in streams, reservoirs, groundwater aquifers, lakes and soils. The period is associated effects of precipitation (including snowfall) shortfall on surface and subsurface water supply, rather than with direct shortfall in precipitation (Yevjevich et al., 1977). Hydrological drought may be the result of long term meteorological droughts that results in the drying up of reservoirs, lakes, streams, rivers and a decline in groundwater levels (Rathore 2004).</p>'
-        },
-        {
-          type: 'Region',
-          className: 'row',
-          dataTrigger: "Sample Header 2",
-          children: [
-            {
-              type: 'Chart',
-              cardClasses: ['col-md-6'],
-              header: 'Sample data 1',
-              key: 'c1',
-              data: [{x: 'x', y: 10}, {x: 'y', y: 20}, {x: 'z', y: 30}],
-              settings: {
-                type: 'pieChart',
-                height: 300
-              }
-            },
-            {
-              type: 'Chart',
-              cardClasses: ['col-md-6'],
-              key: 'c2',
-              header: 'Sample data 2',
-              data: [{x: 'x', y: 110}, {x: 'y', y: 920}, {x: 'z', y: 430}],
-              settings: {
-                type: 'pieChart',
-                height: 300
-              },
-            }  
-          ]
-        },
-        {
-          type: 'Markup',
-          dataTrigger: "Sample Header 3",
-          iconClass: 'fa fa-question-circle',
-          content: '<p>Hydrological drought is described as a sustained and regionally extensive occurrence of below average natural water availability (Tallaksen and van Lanen, 2004). Hydrological drought as period of time below the average water content in streams, reservoirs, groundwater aquifers, lakes and soils. The period is associated effects of precipitation (including snowfall) shortfall on surface and subsurface water supply, rather than with direct shortfall in precipitation (Yevjevich et al., 1977). Hydrological drought may be the result of long term meteorological droughts that results in the drying up of reservoirs, lakes, streams, rivers and a decline in groundwater levels (Rathore 2004).</p>'
-        }
-      ]
-    },
-    {
       id: 'metrics-row',
       className: 'row',
       children: [
