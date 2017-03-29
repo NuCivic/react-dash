@@ -265,6 +265,89 @@ export var settings = {
       ]
     },
     {
+      id: 'appendix-row',
+      children: [          
+        {
+          type: 'Iter',
+          elType: 'Iter',
+          cardClasses: ['row'],
+          header: 'Iter Header I',
+          rows: [
+              {
+                elType: 'Chart',
+                header: 'Iter Header Ia',
+                cardClasses: ['col-md-12'],
+                rows: [
+                  {
+                    header: 'Chart Header 1a-i',
+                    cardClasses: ['col-md-6'],
+                    data: [{x: 'x', y: 110}, {x: 'y', y: 920}, {x: 'z', y: 430}],
+                    settings: {
+                      type: 'pieChart',
+                      height: 300 
+                    },
+                  },
+                  {
+                    header: 'Chart Header 1a-ii',
+                    cardClasses: ['col-md-6'],
+                    data: [{x: 'x', y: 110}, {x: 'y', y: 920}, {x: 'z', y: 430}],
+                    data: [{x: 'x', y: 110}, {x: 'y', y: 920}, {x: 'z', y: 430}],
+                    settings: {
+                      type: 'pieChart',
+                      height: 300 
+                    },
+                  },
+                ]
+              },
+              {
+                elType: 'Chart',
+                header: 'Iter Header Ib-i',
+                cardClasses: ['row'],
+                rows: [
+                  {
+                    header: 'Chart Header 1b-ia',
+                    cardClasses: ['col-md-3'],
+                    data: [{x: 'x', y: 110}, {x: 'y', y: 920}, {x: 'z', y: 430}],
+                    data: [{x: 'x', y: 110}, {x: 'y', y: 920}, {x: 'z', y: 430}],
+                    settings: {
+                      type: 'pieChart',
+                      height: 300 
+                    },
+                  },
+                  {
+                    header: 'Chart Header 1b-ib',
+                    cardClasses: ['col-md-3'],
+                    data: [{x: 'x', y: 110}, {x: 'y', y: 920}, {x: 'z', y: 430}],
+                    settings: {
+                      type: 'pieChart',
+                      height: 300 
+                    },
+                  },
+                  {
+                    header: 'Chart Header 1b-ic',
+                    cardClasses: ['col-md-3'],
+                    data: [{x: 'x', y: 110}, {x: 'y', y: 920}, {x: 'z', y: 430}],
+                    settings: {
+                      type: 'pieChart',
+                      height: 300 
+                    },
+                  },
+                  {
+                    header: 'Chart Header 1b-id',
+                    cardClasses: ['col-md-3'],
+                    data: [{x: 'x', y: 110}, {x: 'y', y: 920}, {x: 'z', y: 430}],
+                    settings: {
+                      type: 'pieChart',
+                      height: 300 
+                    },
+                  },
+                ]
+              }
+            ]
+          }
+        ]
+    },
+    {
       id: 'chart-row',
       className: 'row',
       children: [
