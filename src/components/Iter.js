@@ -11,7 +11,8 @@ export default class Iter extends BaseComponent {
   
   render() {
     let cardVars = this.getCardVariables();
-    let els = this.props.rows.map( row => {
+    let rows = this.state.rows || this.props.rows;
+    let els = rows.map( row => {
       let props = Object.assign({}, this.props, row);
       props.key = makeKey();
       return React.createElement(Registry.get(this.props.elType), props);
