@@ -1,7 +1,20 @@
-master
+0.6.x 2017-4-1
 ------
 - Add cardClasses to components.
+- Add regions to Card component:
+  * header
+  * subheader
+  * topmatter
+  * subheader2
+  * topmatter2
+  * footerHeader
+  * footerSubheader
+  * bottommatter
+  * footerSubheader2
+  * bottommatter2
+Card regions can be set as props on the wrapped element, and as a consequence can be set via stateHandlers, allowing us to change the appearance of the card based on component state for wrapped elements.
 - Add stateHandlers
+State handlers fire on component mount and state update. They should be passed an `attr` attribute which tells the stateHandler which component prop to update. If the handler updates a cardVar (card region above or cardClasses narray, etc, the properties will be passed to the wrapping Card element for the wrapped component)
 
 0.6.x 2017-3-7-2017 
 -------------------
