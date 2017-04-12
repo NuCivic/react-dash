@@ -1,3 +1,6 @@
+4-8-2017 ** 0.6.x
+* Change baseFilter `props.defaultValue` to `props.initVal`
+
 2017-3-7-2017 ** 0.6.x
 * Add stateHandlers
 * Move Card wrapping to render method of 'Card-able' components. This allows
