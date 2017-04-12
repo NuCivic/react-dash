@@ -24,22 +24,41 @@ export default class Metric extends BaseComponent {
     let style = {
       background: bg,
     };
+    let metric;
+    
+    if (this.props.iconClass) {
+      metric = 
+      <div className="metric-with-icon">
+        <div className="col-sm-3 col-lg-4">
+          <div className="card-metric-icon"><span className={this.props.iconClass}></span></div>
+        </div>
+        <div className="col-sm-9 col-lg-8">
+          <div className="card-metric-number">
+            {this.getValue()}
+          </div>
+          <div className="card-metric-caption">
+          {this.props.caption}
+          </div>
+        </div>
+      </div>
+    } else {
+      metric =
+      <div className="metric-without-icon">
+        <div className="card-metric-number">
+          {this.getValue()}
+        </div>
+        <div className="card-metric-caption">
+        {this.props.caption}
+        </div>
+      </div>
+    }
+    
     style = Object.assign({}, style, this.props.style);
     return (
     <Card {...this.state.cardVariables}>
       <Loader isFetching={this.state.isFetching}>
         <div className="metric {}" style={style}>
-          <div className="col-sm-3 col-lg-4">
-            <div className="card-metric-icon"><span className={this.props.iconClass}></span></div>
-          </div>
-          <div className="col-sm-9 col-lg-8">
-            <div className="card-metric-number">
-              {this.getValue()}
-            </div>
-            <div className="card-metric-caption">
-            {this.props.caption}
-            </div>
-          </div>
+          {metric}
         </div>
       </Loader>
     </Card>
