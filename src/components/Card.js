@@ -16,7 +16,7 @@ export default class Card extends Component {
       if (props[region]) {
         regions[region] = (
           <div className={"card-" + region}>
-            <span>{props[region]}</span>
+            <span className={"card-" + region + "-inner"}>{props[region]}</span>
           </div>
         )
       }
@@ -40,8 +40,10 @@ export default class Card extends Component {
           {regions.bottommatter}
           {regions.footerSubheader2}
           {regions.bottommatter2}
-        </div>;
+        </div>
       </div>
     )
   }
 }
+
+Registry.set('Card', Card);
