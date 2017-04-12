@@ -274,7 +274,7 @@ export var settings = {
         }
       ]
     },
-    {
+  /*  {
       id: 'appendix-row',
       children: [          
         {
@@ -356,7 +356,7 @@ export var settings = {
             ]
           }
         ]
-    },
+    },*/
     {
       id: 'chart-row',
       className: 'row',

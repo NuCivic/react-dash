@@ -245,10 +245,8 @@ export default class Dashboard extends BaseComponent {
         
         // render accordion region
         if (region.accordion) {
-          console.log('ACC', region);
           return this.getAccordionRegion(region)
         } else { // render default region
-          
           return this.getRegion(region)
         }
       })} else {
