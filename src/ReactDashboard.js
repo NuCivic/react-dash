@@ -1,5 +1,5 @@
 import './stylesheets/main.scss';
-console.log('React Dashboard -- 0.6.7');
+console.log('React Dashboard -- 0.6.10.0.2');
 
 // COMPONENTS
 export {default as Autocomplete } from './components/Autocomplete';
