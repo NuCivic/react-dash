@@ -16,7 +16,7 @@ export default class Card extends Component {
       if (props[region]) {
         regions[region] = (
           <div className={"card-" + region}>
-            <span className={"card-" + region + "-inner"}>{props[region]}</span>
+            <div className={"card-" + region + "-inner"}>{props[region]}</div>
           </div>
         )
       }
