@@ -1,6 +1,6 @@
 {
   "name": "react-dash",
-  "version": "0.5.3",
+  "version": "0.6.10",
   "description": "Another react dashboard component",
   "main": "./dist/react-dashboard.min.js",
   "style": "./dist/react-dashboard.min.css",
@@ -84,7 +84,9 @@
     "geojson": "^0.3.0",
     "lodash": "^4.6.1",
     "phantomjs": "^2.1.7",
+    "react-collapsible": "^1.4.0",
     "react-nvd3": "git+https://github.com/NuCivic/react-nvd3.git",
+    "react-responsive-accordion": "^1.0.0",
     "react-router": "^2.7.0",
     "react-select": "git+https://github.com/JedWatson/react-select.git#v1.0.0-rc.1",
     "topojson": "^1.6.24"

@@ -61,7 +61,6 @@ export default class StateHandler {
       console.error("Error in state handler. This could mean that one of your state handlers is missing from the registry. Here are the handlers we're trying to process:", e, cur, arguments);
     }
     
-    console.log('newState', newState);
     return newState;
   }
 }

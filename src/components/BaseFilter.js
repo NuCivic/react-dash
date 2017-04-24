@@ -20,7 +20,7 @@ export default class BaseFilter extends BaseComponent {
     if (this.props.appliedFilters && this.props.appliedFilters[this.props.field]) {
       val = this.props.appliedFilters[this.props.field].value;
     } else if (this.props.initVal) {
-      val = this.props.defaultValue;
+      val = this.props.initVal;
     } else if (this.props.options) {
       val = this.props.options[0].value;
     } else if (this.state.data && this.state.data[0]) {

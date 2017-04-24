@@ -1,5 +1,5 @@
 import './stylesheets/main.scss';
-console.log('React Dashboard -- 0.5.0');
+console.log('React Dashboard -- 0.6.10.0.2');
 
 // COMPONENTS
 export {default as Autocomplete } from './components/Autocomplete';
@@ -9,6 +9,7 @@ export {default as Chart } from './components/Chart';
 export {default as Choropleth } from './components/maps/Choropleth';
 export {default as Dashboard } from './components/Dashboard';
 export {default as Region} from './components/Region';
+export {default as Iter} from './components/Iter';
 export {default as Goal } from './components/Goal';
 export {default as Metric } from './components/Metric';
 export {default as Multi} from './components/Multi';
