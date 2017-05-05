@@ -3,11 +3,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 export var settings = {
   title: 'React-Dash Javascript Settings Example',
   doFilterRouting: false,
+  // regions are used by the dashboard to divide
+  // the layout into rows using the bootstrap grid
   regions: [
     {
       id: 'metrics-row',
       className: 'row',
       children: [
+        // each child is a react component defined by type
+        // paramaters are passed as props
         {
           type: 'Metric',
           caption: 'Caption A',
@@ -44,7 +48,7 @@ export var settings = {
         {
           type: 'Chart',
           cardStyle: 'chart',
-          header: 'Foo',
+          header: 'Header 1',
           iconClass: 'fa fa-cloud',
           className: 'col-md-6',
           key: 'c1',
@@ -57,7 +61,7 @@ export var settings = {
         {
           type: 'Chart',
           cardStyle: 'chart',
-          header: 'Eeny',
+          header: 'Header 2',
           iconClass: 'fa fa-cloud',
           className: 'col-md-6',
           key: 'c2',
