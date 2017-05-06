@@ -23,14 +23,3 @@ In many cases it is useful to define dashboard configuration in JSON - allowing 
 The app at `/examples/app.js` runs an example of a more robust application with datahandling, filtering, etc.
 
 `npm run start` will from the react-dash repository will run the application.
-
-## Boilerplate project
-The boilerplate module includes the above application in a complete development environment suitable for doing dashbaord development.
-
-`git clone https://github.com/NuCivic/react-dash-boilerplate.git`
-`cd react-dash-boilerplate`
-`npm install`
-`npm run init`
-`npm run start`
-
-This will spin up the example application, and you can use it as a starting point for developing your own app.

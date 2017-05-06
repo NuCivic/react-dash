@@ -1,32 +1,49 @@
 # Getting Started
 
-## Starting a project with the boilerplate module
-The *react-dash-boilerplate* project provides a starter project and a development environment for doing react-dash development. It's a good place to start.
-
-* Make sure that you have npm installed on your system
-* Install the react-dash-boilerplate project and its dependencies:
-  ```
-  git clone https://github.com/NuCivic/react-dash-boilerplate.git
-  cd react-dash-boilerplate
-  npm install
-  npm run init
-  npm run start
-  ```
-* Visit http://localhost:5000 on your system - if everything was successful, you should see an example dashboard
-* Look at our [Developer's Guide](development/index.rst) for next steps to customize your dash!
-
-## Run the example project that ships with the react-dash project
-If you can't get the boilerplate project to install, just install the react-dash library and use the example project as a starting place.
-
 * Make sure that you have npm installed on your system
 * Set up an npm project
+
 ```
 npm init
 npm install react-dash
 npm run start
 ```
-* Look in the `examples/` folder for the project source
-* Take a look at our [Developer's Guide](development/index.html) for next steps to customize your dash!
 
-## Building a DKAN project
-Visit the [Drupal Module](https://github.com/NuCivic/react_dashboard) page for more on Drupal Dkan development
+## Building a Project using JSX syntax
+You can build a dash using JSX syntax by loading the react-dash Dashboard and other components, as follows. This is more or less standard react stuff, and should make sense if you are familiar with react.
+
+To run the example type `npm run jsx-example`
+
+The application code:
+```eval_rst
+.. literalinclude:: ../examples/jsx_static_example/app.js 
+    :start-after: start read-the-docs example
+    :end-before:  end read-the-docs example
+```
+
+## Building a project using a settings object
+React Dash also supports a javascript syntax which allows you to build your application using JSON or javascript objects. The settings are translated to props by the component. 
+
+To run the example, type `npm run js-example`
+
+The application:
+```eval_rst
+.. literalinclude:: ../examples/js_static_example/app.js 
+    :start-after: start read-the-docs example
+    :end-before:  end read-the-docs example
+```
+
+And the settings:
+```eval_rst
+.. literalinclude:: ../examples/js_static_example/settings.js 
+```
+
+## Building a project in DKAN
+[DKAN](http://demo.getdkan.com/) is an open data platform implemented in Drupal. React Dash provides a dkan integration which takes advantage of the DKAN Datastore API and provides a Drupal module for easily building and embedding data visualization dashboards in DKAN. Visit the [DKAN Dash](https://github.com/NuCivic/dkan_dash) page for more. 
+
+## Keep it Moving
+### Wiring up the Data
+The example application at `examples/app.js` shows a working example of an application using the [CSV backend](development/backends/csv.md) to parse a data file, as well as an example of how to implement [filters](development/filters.md).
+
+## Further Reading
+Take a look at our [Developer's Guide](development/index.html) for next steps to customize your dash!

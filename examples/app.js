@@ -14,7 +14,6 @@ if (typeof expressDashSettings != "undefined") {
 }
 
 // Extend Dashboard with our data fetch logic
-// @@TODO - this is a good case for a higher order function as mariano discussed 
 class Dash extends Dashboard {
   getDashboardData(_appliedFilters) {
     let dashData = Object.assign({}, this.state.data);

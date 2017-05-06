@@ -72,10 +72,10 @@ export var settings = {
           },
 			},
       // start DataTable Example
-			{
-				type: 'DataTable',
-				header: 'Mi titulo',
-				data: 
+      {
+        type: 'DataTable',
+        header: 'Mi titulo',
+        data: 
         [
           [
             {foo: 1, bar: 2},
@@ -84,25 +84,25 @@ export var settings = {
             {foo: 1, bar: 2},
           ]
         ],
-				settings: {
-					table: {
-						rowHeight: 40, 
-						width: 800,
-						maxHeight: 300,
-						headerHeight:40
-					},  
-					columns: {
-						flexGrow: 1,
-						width: 150,
-					},  
-					cells: {
-						height: 40, 
-						width: 500,
-					}
-				}
-			},
+        settings: {
+          table: {
+            rowHeight: 40, 
+            width: 800,
+            maxHeight: 300,
+            headerHeight:40
+          },  
+          columns: {
+            flexGrow: 1,
+            width: 150,
+          },  
+          cells: {
+            height: 40, 
+            width: 500,
+          }
+        }
+      },
       // end DataTable Example
-     ]
-    }
-  ]
+    ]
+   }
+ ]
 }

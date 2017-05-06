@@ -7,7 +7,7 @@
 .. image:: ../../_static/components/multiBarChart_0.4.png
      :height: 120px
 ```
-**Chart** component is a wrapper of the *react-nvd3* library (@@LINK), which is also a wrapper of the *nvd3* chart library. That meanas all the charts and options available in nvd3 are also available in this component.
+**Chart** component is a wrapper for the [react-nvd3](https://github.com/NuCivic/react-nvd3) library, which is a react implementation of the [nvd3](http://nvd3.org/) chart library. All of the charts and options available in nvd3 are also available in this component.
 
 
 ```javascript
@@ -30,7 +30,7 @@
 }
 ```
 
-Notice that all the chart configuration goes inside the settings object. 
+Notice that all the chart configuration which will be passed to the nvd3 chart goes inside the settings object. 
 
 If the x and y columns on your data already have the names you want, then you don't need to specify the x and y settings. 
 
