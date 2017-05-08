@@ -54,7 +54,7 @@ let stateIds =
         { value: 50, label: 'USA?'}
     ];
 export var settings = {
-  title: 'React-Dash v0.5.x -- Climate Indices by Year',
+  title: 'React-Dash v0.6.x -- Climate Indices by Year',
   queries: {},
   doFilterRouting: false,
   dataResources: {
