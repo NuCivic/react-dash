@@ -85,7 +85,7 @@
     "lodash": "^4.6.1",
     "phantomjs": "^2.1.7",
     "react-collapsible": "^1.4.0",
-    "react-input-autosize": "^1.1.0",
+    "react-input-autosize": "1.1.0",
     "react-nvd3": "git+https://github.com/NuCivic/react-nvd3.git",
     "react-responsive-accordion": "^1.0.0",
     "react-router": "^2.7.0",
