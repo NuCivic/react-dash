@@ -1,3 +1,8 @@
+5-9-2017 ** 0.6.12
+* Update DataTable component to allow overrides - see
+examples/js_static_example/settings.js for working example 
+`npm run js-example` to see it in works
+
 4-19-2017
 * Add Iter component
 * Add accordion rendering for regions
