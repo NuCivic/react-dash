@@ -94,12 +94,35 @@ export var settings = {
           columns: {
             flexGrow: 1,
             width: 150,
-          },  
-          cells: {
+          },
+          rows: {
             height: 40, 
-            width: 500,
           }
-        }
+        },
+        overrides: {
+          // target table columns with custom attributes
+          // use column header name as key
+          columns: {
+            bar: {
+              flexGrow: 9,
+              className: 'greenCell'
+            },
+          },
+          // target table rows with custom attributes
+          // use row index as key
+          rows: {
+            1: {
+              className: 'yellow'
+            }  
+          },
+          // target individual cells with custom attributes
+          // define key using coordinate: headerName_rowIndex 
+          cells: {
+            foo_1: {
+              className: 'red'
+            },
+          }
+        },
       },
       // end DataTable Example
     ]
