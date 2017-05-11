@@ -6,6 +6,44 @@ export var settings = {
   // regions are used by the dashboard to divide
   // the layout into rows using the bootstrap grid
   regions: [
+
+    {
+      id: 'text-row',
+      className: 'row',
+      children: [
+        {
+          type: 'DataTable',
+          header: 'Mi titulo',
+          cardClasses: ['col-md-6'],
+          key:"my_table",
+          data:
+          [
+            [
+              {foo: 1, bar: 2},
+              {foo: 11, bar: 21},
+              {foo: 111, bar: 222},
+              {foo: 1, bar: 2},
+            ]
+          ],
+          settings: {
+            table: {
+              rowHeight: 40,
+              width: 800,
+              maxHeight: 300,
+              headerHeight:40
+            },
+            columns: {
+              flexGrow: 1,
+              width: 150,
+            },
+            rows: {
+              height: 40,
+            }
+          }
+        }
+      ]
+    },
+
     {
       id: 'metrics-row',
       className: 'row',
@@ -20,6 +58,7 @@ export var settings = {
           data: [1],
           background: '#687a99',
           className: 'col-md-4',
+          key:"caption_1"
         },
         {
           type: 'Metric',
@@ -29,6 +68,7 @@ export var settings = {
           data: [2],
           background: '#689994',
           className: 'col-md-4',
+          key:"caption_1"
         },
         {
           type: 'Metric',
@@ -36,6 +76,7 @@ export var settings = {
           cardStyle: 'metric',
           iconClass: 'fa fa-bed',
           data: [3],
+          key:"caption_2",
           background: '#8f6899',
           className: 'col-md-4',
         }

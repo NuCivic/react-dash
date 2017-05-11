@@ -24,7 +24,7 @@ export default class Card extends Component {
 
     return (
       <div className={'card card-' + props.cardStyle + ' ' + classNames} style={style}>
-        <div className="card-header">
+        <div className="card-top">
           {regions.header}
           {regions.subheader}
           {regions.topmatter}
@@ -34,7 +34,7 @@ export default class Card extends Component {
         <div className="card-content">
           {props.children}
         </div>
-        <div className="card-footer">
+        <div className="card-bottom">
           {regions.footerHeader}
           {regions.footerSubheader}
           {regions.bottommatter}
