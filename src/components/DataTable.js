@@ -1,4 +1,4 @@
-import {Table as FixedTable, Column, Cell} from 'fixed-data-table';
+import {Table as FixedTable, Column, Cell} from 'fixed-data-table-2';
 import Registry from '../utils/Registry';
 import {getProp} from '../utils/utils';
 import React, {Component} from 'react';
@@ -7,7 +7,7 @@ import Card from './Card';
 import Loader from './Loader';
 import {isString, isEmpty, range, partialRight} from 'lodash';
 
-class DataTable extends BaseComponent {
+export default class DataTable extends BaseComponent {
   static defaultProps = {
     rowsPerPage: 10,
     queryObj: {
@@ -121,32 +121,41 @@ class DataTable extends BaseComponent {
     this.setState({rowsPerPage: Number(e.target.value), currentPage: 1});
   }
 
+  rowHeightGetter(index) {
+    console.log("rhg", index, this);
+    return 1000;
+  }
+
   render() {
     const { gridWidth, gridHeight } = this.state;
     let data = this.props.data[0] || [];
     let tableDefaultProps = getProp('settings.table', this.props);
     let columnDefaultProps = getProp('settings.columns', this.props);
-    let cellsDefaultProps = getProp('settings.cells', this.props);
+    // not that there is no 'row' abstraction in FixedDataTable
+    // module  - a 'row' here refers to the cells at the same
+    // index of the column, eg: col[1][3], col[2][3], col[3][3]
+    let rowDefaultProps = getProp('settings.rows', this.props);
     let headers = Object.keys(data[0] || {});
     let totalPages = this.getTotalPages(this.state.rowsPerPage, this.state.total);
     let content;
 
     // Create the colums
     let columns = headers.map((header, headerIndex) => {
-      let overrides = getProp('overrides.' + header, columnDefaultProps);
+      let columnOverrides = getProp('columns.' + header, this.props.overrides);
       return <Column
         header={<Cell>{header}</Cell>}
         key={header + headerIndex}
         columnKey={header}
         flexGrow={1}
         cell={props => {
-          let overrides = getProp('overrides.' + props.rowIndex, cellsDefaultProps);
-          return <Cell {...props} {...cellsDefaultProps} {...overrides}>
+          let rowOverrides = getProp('rows.' + props.rowIndex, this.props.overrides);
+          let cellOverrides = getProp('cells.' + header + '_' + props.rowIndex, this.props.overrides);
+          return <Cell {...props} {...columnOverrides} {...rowDefaultProps} {...rowOverrides} {...cellOverrides}>
             {data[props.rowIndex][props.columnKey]}
           </Cell>
         }}
         {...columnDefaultProps}
-        {...overrides}
+        {...columnOverrides}
       />
     });
 
@@ -191,7 +200,7 @@ class DataTable extends BaseComponent {
           </div>
           <Loader isFetching={this.state.isFetching}>
             <div className="table-container">
-              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth}>
+              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth} rowHeightGetter={this.rowHeightGetter}>
                 {columns}
               </FixedTable>
             </div>

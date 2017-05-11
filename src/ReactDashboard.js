@@ -1,5 +1,5 @@
 import './stylesheets/main.scss';
-console.log('React Dashboard -- 0.5.0');
+console.log('React Dashboard -- 0.6.12.x');
 
 // COMPONENTS
 export {default as Autocomplete } from './components/Autocomplete';
@@ -8,7 +8,7 @@ export {default as Card } from './components/Card';
 export {default as Chart } from './components/Chart';
 export {default as Choropleth } from './components/maps/Choropleth';
 export {default as Dashboard } from './components/Dashboard';
-export {default as Region} from './components/Region';
+export {default as Iter} from './components/Iter';
 export {default as Goal } from './components/Goal';
 export {default as Metric } from './components/Metric';
 export {default as Multi} from './components/Multi';
@@ -17,6 +17,7 @@ export {default as Markup } from './components/Markup';
 export {default as CheckboxFilter } from './components/CheckboxFilter';
 export {default as MultiCheckboxFilter} from './components/MultiCheckboxFilter';
 export {default as ReactSelect} from './components/ReactSelect';
+export {default as Region} from './components/Region';
 export {default as App} from './components/App';
 export {default as Highlight} from './components/Highlight';
 

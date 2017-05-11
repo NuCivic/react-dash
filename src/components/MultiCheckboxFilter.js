@@ -3,6 +3,7 @@ import Registry from '../utils/Registry';
 import BaseFilter from './BaseFilter';
 import CheckboxFilter from '../ReactDashboard';
 import { makeKey } from '../utils/utils';
+import cx from 'classnames';
 
 export default class MultiCheckboxFilter extends BaseFilter {
   constructor(props) {
@@ -34,14 +35,13 @@ export default class MultiCheckboxFilter extends BaseFilter {
 
   render(){
       let val = this.getFilterValue();
-
       return (
-        <ul className='react-dash-checkbox'>
+        <ul className={`react-dash-checkbox ${this.props.className}`}>
           { this.props.options.map((el, idx) => {
             el.checked = this.state.checked[el.value];
             return (
               // figure out if it's checked
-							 <li className='react-dash-checkbox-item' key={idx}>
+							 <li className="react-dash-checkbox-item" key={idx}>
 									<input
 										type="checkbox"
 										name={this.props.name}

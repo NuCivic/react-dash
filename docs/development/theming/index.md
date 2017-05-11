@@ -36,25 +36,10 @@ regions: [
 Note that we're just using the bootstrap classes to define the responsive grid.
 
 ## cards
-Some elements are rendered inside of a Card component: Chart, DataTable, Metric, Goal, Highlight, Markup, Metric and Choropleth.
+Component are rendered inside of the [Card component](../components/Card).
 
-Components rendered inside Card can accept the following props:
+The Card component exposes a number of regions which can be targeted as props:
 
-**cardStyle** Provides css class for additional styling
-**iconClass** Font awesome icon class will render icon to the left of any header text (use format `fa fa-icon`)
-**header** Render header text/markup
-**footer** Render footer text/markup
-
-Also, the component can define these properties on the `state` (using stateHandlers or native component code) and they will be passed to the wrapping Card component as follows:
-
-```eval_rst
-.. literalinclude:: ../../../src/components/Chart.js
-  :start-after: doc-block-start
-  :end-before: doc-block-end
-  :language: javascript
-```
-
-See also [State Handlers](../stateHandlers.md)
 
 ## custom css
 The `index.html` file in the examples project loads `static/custom.css`. Add custom css here.

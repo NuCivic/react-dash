@@ -54,9 +54,10 @@ let stateIds =
         { value: 50, label: 'USA?'}
     ];
 export var settings = {
-  title: 'React-Dash v0.5.x -- Climate Indices by Year',
+  title: 'React-Dash v0.6.x -- Climate Indices by Year',
   queries: {},
   doFilterRouting: false,
+  // start dataResources example
   dataResources: {
     climateData: {
       fetchData: {
@@ -65,6 +66,7 @@ export var settings = {
         url: 'https://dl.dropboxusercontent.com/u/73703010/react_dash_data_0.4/climate_indices.csv'
       },
     }
+    // end dataResources example
   },
 
   regions: [
@@ -194,18 +196,6 @@ export var settings = {
 							]
           },
         },
-      ]
-    },
-    {
-      id: 'text-row',
-      className: 'row',
-      children: [          
-        {
-          type: 'Markup',
-          header: "What is hydrological drought index?",
-          iconClass: 'fa fa-question-circle',
-          content: '<p>Hydrological drought is described as a sustained and regionally extensive occurrence of below average natural water availability (Tallaksen and van Lanen, 2004). Hydrological drought as period of time below the average water content in streams, reservoirs, groundwater aquifers, lakes and soils. The period is associated effects of precipitation (including snowfall) shortfall on surface and subsurface water supply, rather than with direct shortfall in precipitation (Yevjevich et al., 1977). Hydrological drought may be the result of long term meteorological droughts that results in the drying up of reservoirs, lakes, streams, rivers and a decline in groundwater levels (Rathore 2004).</p>'
-        }
       ]
     },
     {

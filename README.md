@@ -10,18 +10,8 @@ React Dash is a library for quickly building custom data visualization dashboard
 * CSV Integration
 * DKAN API Integration
 
-## Quick Start
-To set up the example project locallyt\:
-```
-git clone https://github.com/NuCivic/react-dash.git
-cd react-dash
-npm install
-npm run start
-```
-* Visit localhost:3000 on your system
-
-## Boilerplate project
-For a more robust development environment check out: 
+## QUICK START: Boilerplate project
+To start a react-dash project clone and install the react-dash-boilerplate project: 
 https://github.com/NuCivic/react-dash-boilerplate
 
 ## Example sites
