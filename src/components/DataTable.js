@@ -3,6 +3,7 @@ import Registry from '../utils/Registry';
 import {getProp} from '../utils/utils';
 import React, {Component} from 'react';
 import BaseComponent from './BaseComponent';
+import StateHandler from '../utils/StateHandler';
 import Card from './Card';
 import Loader from './Loader';
 import {isString, isEmpty, range, partialRight} from 'lodash';
@@ -121,11 +122,6 @@ export default class DataTable extends BaseComponent {
     this.setState({rowsPerPage: Number(e.target.value), currentPage: 1});
   }
 
-  rowHeightGetter(index) {
-    console.log("rhg", index, this);
-    return 1000;
-  }
-
   render() {
     const { gridWidth, gridHeight } = this.state;
     let data = this.props.data[0] || [];
@@ -150,7 +146,7 @@ export default class DataTable extends BaseComponent {
         cell={props => {
           let rowOverrides = getProp('rows.' + props.rowIndex, this.props.overrides);
           let cellOverrides = getProp('cells.' + header + '_' + props.rowIndex, this.props.overrides);
-          return <Cell {...props} {...columnOverrides} {...rowDefaultProps} {...rowOverrides} {...cellOverrides}>
+          return <Cell {...props} {...columnOverrides} {...rowDefaultProps} {...rowOverrides} {...cellOverrides} >
             {data[props.rowIndex][props.columnKey]}
           </Cell>
         }}
@@ -200,7 +196,7 @@ export default class DataTable extends BaseComponent {
           </div>
           <Loader isFetching={this.state.isFetching}>
             <div className="table-container">
-              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth} rowHeightGetter={this.rowHeightGetter}>
+              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth} >
                 {columns}
               </FixedTable>
             </div>
