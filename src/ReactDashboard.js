@@ -1,5 +1,5 @@
 import './stylesheets/main.scss';
-console.log('React Dashboard -- 0.6.10.0.2');
+console.log('React Dashboard -- 0.6.12.x');
 
 // COMPONENTS
 export {default as Autocomplete } from './components/Autocomplete';
@@ -13,11 +13,11 @@ export {default as Goal } from './components/Goal';
 export {default as Metric } from './components/Metric';
 export {default as Multi} from './components/Multi';
 export {default as DataTable } from './components/DataTable';
-export {default as DataTable2 } from './components/DataTable2';
 export {default as Markup } from './components/Markup';
 export {default as CheckboxFilter } from './components/CheckboxFilter';
 export {default as MultiCheckboxFilter} from './components/MultiCheckboxFilter';
 export {default as ReactSelect} from './components/ReactSelect';
+export {default as Region} from './components/Region';
 export {default as App} from './components/App';
 export {default as Highlight} from './components/Highlight';
 

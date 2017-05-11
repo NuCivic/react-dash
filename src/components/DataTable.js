@@ -1,4 +1,4 @@
-import {Table as FixedTable, Column, Cell} from 'fixed-data-table';
+import {Table as FixedTable, Column, Cell} from 'fixed-data-table-2';
 import Registry from '../utils/Registry';
 import {getProp} from '../utils/utils';
 import React, {Component} from 'react';
@@ -7,7 +7,7 @@ import Card from './Card';
 import Loader from './Loader';
 import {isString, isEmpty, range, partialRight} from 'lodash';
 
-class DataTable extends BaseComponent {
+export default class DataTable extends BaseComponent {
   static defaultProps = {
     rowsPerPage: 10,
     queryObj: {
@@ -84,7 +84,7 @@ class DataTable extends BaseComponent {
   }
 
   onResize() {
-    const { offsetWidth, offsetHeight } = this.table;
+    const { offsetWidth, offsetHeight } = this.refs.table;
     this.setState({
       gridWidth: offsetWidth,
       gridHeight: offsetHeight
@@ -119,6 +119,11 @@ class DataTable extends BaseComponent {
     query.from = 0;
     this.query(query);
     this.setState({rowsPerPage: Number(e.target.value), currentPage: 1});
+  }
+
+  rowHeightGetter(index) {
+    console.log("rhg", index, this);
+    return 1000;
   }
 
   render() {
@@ -188,14 +193,14 @@ class DataTable extends BaseComponent {
     // Return the renderable elements
     return (
       <Card key={'card_'+this.state.key} {...this.state.cardVariables}>
-        <div ref={t => this.table = t} className="table-wrapper">
+        <div ref="table">
           <div className="row">
             {filterHeader}
             {headerControls}
           </div>
-          <Loader isFetching={this.props.isFetching}>
+          <Loader isFetching={this.state.isFetching}>
             <div className="table-container">
-              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth}>
+              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth} rowHeightGetter={this.rowHeightGetter}>
                 {columns}
               </FixedTable>
             </div>
