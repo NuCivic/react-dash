@@ -57,6 +57,7 @@ export var settings = {
   title: 'React-Dash v0.6.x -- Climate Indices by Year',
   queries: {},
   doFilterRouting: false,
+  // start dataResources example
   dataResources: {
     climateData: {
       fetchData: {
@@ -65,6 +66,7 @@ export var settings = {
         url: 'https://dl.dropboxusercontent.com/u/73703010/react_dash_data_0.4/climate_indices.csv'
       },
     }
+    // end dataResources example
   },
 
   regions: [

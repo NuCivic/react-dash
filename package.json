@@ -80,6 +80,7 @@
     "dkan-es6-data-backend": "git+https://github.com/NuCivic/dkan-es6-data-backend.git",
     "fetch-polyfill": "^0.8.2",
     "fixed-data-table": "^0.6.1",
+    "fixed-data-table-2": "^0.7.15",
     "flux": "^2.1.1",
     "geojson": "^0.3.0",
     "lodash": "^4.6.1",

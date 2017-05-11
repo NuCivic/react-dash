@@ -73,7 +73,7 @@ export var settings = {
 			},
       // start DataTable Example
       {
-        type: 'DataTable',
+        type: 'DataTable2',
         header: 'Mi titulo',
         data: 
         [
