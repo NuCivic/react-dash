@@ -13,13 +13,13 @@ export default class Dashboard extends BaseComponent {
 
   componentWillMount() {
     super.componentWillMount();
-    
+
     // if doFilterRouting flag is present, get url filters
     if (this.props.doFilterRouting !== false) {
       let appliedFilters = this.getUrlFilters();
       this.state.appliedFilters = appliedFilters;
     }
-    
+
     // initialize data
     this.state.isFetching = true;
     this.getDashboardData();
@@ -51,7 +51,7 @@ export default class Dashboard extends BaseComponent {
   getUrlFilters() {
     let q = this.props.location.query;
     let appliedFilters = {};
-    
+
     Object.keys(q).forEach(key => {
       let payload = {}; // mock url filter as regular Dashboard filter
       payload.field = key;
@@ -60,7 +60,7 @@ export default class Dashboard extends BaseComponent {
         if (!isNaN(v)) parseInt(v);
         return v;
       });
-      
+
       appliedFilters = this.getUpdatedAppliedFilters(payload, appliedFilters);
     });
 
@@ -90,17 +90,17 @@ export default class Dashboard extends BaseComponent {
         data = component.data;
       }
     }
-    
+
     return data;
   }
-  
+
   /**
    * Figure out which appliedFilters apply to which dataKeys
    **/
   getFilters(key, appliedFilters) {
     let filters = [];
     //let appliedFilters = Object.assign({}, this.state.appliedFilters);
-    return Object.keys(appliedFilters).map(k => { 
+    return Object.keys(appliedFilters).map(k => {
       let next = appliedFilters[k];
       if (next && next.willFilter && next.willFilter.length > 0 ) {
         let will = next.willFilter.indexOf(key);
@@ -115,7 +115,7 @@ export default class Dashboard extends BaseComponent {
     this.props.regions.forEach(region => {
       if (region.children) {
         return region.children.forEach(child => {
-          if (child.field === field) filter = child; 
+          if (child.field === field) filter = child;
         })
       } else if (region.elements) { // drill down through multi-component sections
         Object.keys(region.elements).forEach(k => {
@@ -152,10 +152,10 @@ export default class Dashboard extends BaseComponent {
 
       case 'MULTICHECKBOX_CHANGE':
         break;
-      
+
       default:
         console.warn('Actions should define an actionType. See docs @@LINK');
-    } 
+    }
   }
 
   getUpdatedAppliedFilters(_payload, appliedFilters) {
@@ -186,16 +186,15 @@ export default class Dashboard extends BaseComponent {
 
   updateProps(element) {
     let props = (React.isValidElement(element)) ? element.props : element;
-    let routeParams = []; 
+    let routeParams = [];
     if (this.props.doFilterRouting) routeParams =  pick(this.props, ['history', 'location', 'params', 'route', 'routeParams', 'routes']);
-    
+
     props.data = this.getChildData(element) || [];
     props.globalData = Object.assign({}, this.state.data || {});
     props.appliedFilters = Object.assign({}, this.state.appliedFilters || {});
     props.vars = Object.assign({}, this.props.vars || {});
     props.routeParams = routeParams;
-    props.key = 'el_' + makeKey();
-    
+
     return props;
   }
 
@@ -205,10 +204,10 @@ export default class Dashboard extends BaseComponent {
         {region.children.map( (element, key) => {
           // if it isn't a react element, the element is a settings object
           let props = this.updateProps(element);
+          element.isFetching = this.state.isFetching;
           let el = (React.isValidElement(element)) ? element : React.createElement(Registry.get(element.type), props);
-          
           return el;
-        })}  
+        })}
       </div>
     )
   }
@@ -221,18 +220,18 @@ export default class Dashboard extends BaseComponent {
           // if it isn't a react element, the element is a settings object
           let props = this.updateProps(element);
           let el = (React.isValidElement(element)) ? element : React.createElement(Registry.get(element.type), props);
-          
+
           return (
             <div data-trigger={element.dataTrigger} key={"wrap_" + key}>
               {el}
             </div>
           )
-        })}  
+        })}
         </Accordion>
       </div>
     )
   }
-  
+
   getRegions() {
     let regions;
     if (this.props.regions) {
@@ -242,7 +241,7 @@ export default class Dashboard extends BaseComponent {
           region.key = key;
           region.children = region.elements[multiRegionKey];
         }
-        
+
         // render accordion region
         if (region.accordion) {
           return this.getAccordionRegion(region)
@@ -255,16 +254,15 @@ export default class Dashboard extends BaseComponent {
 
     return regions;
   }
-  
+
   render() {
     let markup;
-    let regions = this.getRegions();
 
     return (
-      <div className="container" key={makeKey()}>
+      <div className="container" key="dashboard-container">
         <link rel="stylesheet" type="text/css" href={this.props.faPath} />
         <h1 className="dashboard-title">{this.props.title}</h1>
-        {regions}
+        {this.getRegions()}
       </div>
     );
   }
