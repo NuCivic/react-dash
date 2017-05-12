@@ -63,7 +63,7 @@ export default class Chart extends BaseComponent {
 
     return (
       <Card key={'card_'+this.state.key} {...this.state.cardVariables}>
-        <NVD3Chart {...settings} key={this.state.key}/>
+        <NVD3Chart {...settings} />
       </Card>
      )
   }

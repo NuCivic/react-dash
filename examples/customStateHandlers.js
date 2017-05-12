@@ -7,7 +7,6 @@ let customStateHandlers = {
    * get the background color for the Maximum Temp. Metric based on value
    */
   getMaxTempMetricColor: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    console.log('gMTMC', this, arguments);
     if (componentData[0] && componentData[0] >= 100) {
       return '#f4e542';
     } else {
