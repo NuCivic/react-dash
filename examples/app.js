@@ -82,7 +82,7 @@ class MyDashboard extends Component {
     let z = {};
     z.appliedFilters = (this.state) ? this.state.appliedFilters : {};
     const props = Object.assign({}, this.props, z, _settings);
-    return <Dash {...props}/>
+    return <Dash {...props} key="dash"/>
   }
 }
 
