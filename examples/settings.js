@@ -205,7 +205,15 @@ export var settings = {
           cardStyle: 'chart',
           header: 'Standard Precipitation Index',
           iconClass: 'fa fa-cloud',
-          dataHandlers: [ 'getBarChartData' ],
+					// start dataHandler example
+          dataHandlers: [ 
+            {
+              name: 'getBarChartData',
+              indicators: [ 'SP01', 'SP06', 'SP12', 'SP24' ],
+              colors: [ '#edf8fb', '#ccece6', '#99d8c9', '#66c2a4', '#2ca25f', '#006d2c']
+            }
+          ],
+          // end dataHandler example
           stateHandlers: [
             {
               name: 'isStatSignificant',

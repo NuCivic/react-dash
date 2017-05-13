@@ -59,19 +59,16 @@ let customDataHandlers = {
     return mapped;
   },
 
+  // start dataHandler example
+  /**
+   * Extract indicator values from dashboard data
+   */
   getBarChartData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    const indicators = [ 'SP01', 'SP06', 'SP12', 'SP24' ];
-    const colors = [
-      '#edf8fb',
-      '#ccece6',
-      '#99d8c9',
-      '#66c2a4',
-      '#2ca25f',
-      '#006d2c',
-    ];
-    let _data = dashboardData.climateData || [];
+    let indicators = handler.indicators;
+    let colors = handler.colors;
+    let data = dashboardData.climateData || [];
     let series = indicators.map((ind, i) => {
-      let data = _data.map(row => {
+      let values = data.map(row => {
         return {
           x: row['YearMonth'],
           y: row[ind]
@@ -84,9 +81,9 @@ let customDataHandlers = {
 
     return series;
   },
+  // end dataHandler example
 
   getTableData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    console.log(arguments);
     if (dashboardData.climateData) {
       return dashboardData.climateData;
     }
