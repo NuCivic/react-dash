@@ -114,12 +114,14 @@ export var settings = {
               field: 'TMAX'
             },
           ],
+          // start stateHandler example
           stateHandlers: [
             {
               name: 'getMaxTempMetricColor',
               attr: 'bg'
             }
           ]
+          // end stateHandler example
         },
         {
           type: 'Metric',

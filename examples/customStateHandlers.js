@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 
 let customStateHandlers = {
+  // start stateHandler example
   /**
    * get the background color for the Maximum Temp. Metric based on value
    */
@@ -13,6 +14,7 @@ let customStateHandlers = {
       return '#41c1f4';
     }
   },
+  // end stateHandler example
 
   isStatSignificant: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
      return (
