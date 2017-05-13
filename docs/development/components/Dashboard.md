@@ -1,5 +1,9 @@
 # Dashboard Component
 
+## Required Props
+* *regions* Regions is an array of objects, each object representing a region. See [Regions](./Region.md)
+* *doFilterRouting* **filter routinig is under construction - this should be set to FALSE**
+
 ## Public Methods
 ### method *`componentWillMount`*
 Calls *`getDashboard`* when Dashboard is initally loaded.
