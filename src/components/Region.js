@@ -44,11 +44,14 @@ export default class Region extends Component {
 
   render() {
     let children = this.getChildren();
+    let cardVars = (this.state) ? this.state.cardVariables : {};
 
       return (
-        <div className={this.props.className}>
-          {children}
-        </div>
+        <Card {...cardVars} >
+          <div className={this.props.className}>
+            {children}
+          </div>
+        </Card>
       )
   }
 }

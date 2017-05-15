@@ -17,28 +17,23 @@ export default class Multi extends BaseComponent {
     }
  
     return curEls.map((element, key) => {
-    			 let props = Object.assign(element, {globalData: this.props.globalData});
-           if (element.cardStyle) {
-              output =
-               <Card key={key} {...element}>
-                {React.createElement(Registry.get(element.type), props)}
-               </Card>
-           } else {
-             output =
-                React.createElement(Registry.get(element.type), props);
-           }
-					return output;
+      let props = Object.assign(element, {globalData: this.props.globalData});
+      output = React.createElement(Registry.get(element.type), props);
+			return output;
     });
   }
  
   render() {
-    let v = 
-    <div class="multi-container">
-      <div class="multi-elements-container">
-        {this.renderChildren()}
-      </div>
-    </div> 
-    return v;
+    let cardVars = (this.state) ? this.state.cardVariables : {};
+    return (
+      <Card {...cardVars} >
+        <div class="multi-container">
+          <div class="multi-elements-container">
+            {this.renderChildren()}
+          </div>
+        </div>
+      </Card>
+    );
   }
 }
 
