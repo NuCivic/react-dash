@@ -9,6 +9,7 @@ export default class Dashboard extends BaseComponent {
 
   constructor(props) {
     super(props);
+    this.state.key = this.state.key || makeKey();
   }
 
   componentWillMount() {
@@ -74,7 +75,7 @@ export default class Dashboard extends BaseComponent {
    *    Whatever you want
    **/
   getDashboardData() {
-    console.log('Warning. getDashboardData should be defined in your application which extends this dashboard component. getDashboardData should return an object with dataKeys. See @@LINK');
+    console.warn('Warning. getDashboardData should be defined in your application which extends this dashboard component. getDashboardData should return an object with dataKeys. See @@LINK');
   }
 
   /**
@@ -212,17 +213,17 @@ export default class Dashboard extends BaseComponent {
     )
   }
 
-  getAccordionRegion(region) {
+  getAccordionRegion(region, key) {
     return (
-      <div id={region.id} className={region.className} key={makeKey()} >
-        <Accordion key={makeKey()}>
-        {region.children.map( (element, key) => {
+      <div id={region.id} className={region.className} key={'accordion_region_' + key} >
+        <Accordion key={'accordion_' + key}>
+        {region.children.map( (element, key2) => {
           // if it isn't a react element, the element is a settings object
           let props = this.updateProps(element);
           let el = (React.isValidElement(element)) ? element : React.createElement(Registry.get(element.type), props);
 
           return (
-            <div data-trigger={element.dataTrigger} key={"wrap_" + key}>
+            <div data-trigger={element.dataTrigger} key={key + "_wrap_" + key2}>
               {el}
             </div>
           )
@@ -244,7 +245,7 @@ export default class Dashboard extends BaseComponent {
 
         // render accordion region
         if (region.accordion) {
-          return this.getAccordionRegion(region)
+          return this.getAccordionRegion(region, key)
         } else { // render default region
           return this.getRegion(region)
         }
