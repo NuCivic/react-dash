@@ -8,7 +8,7 @@ module.exports = function (config) {
       './node_modules/babel-polyfill/dist/polyfill.js',
       './node_modules/phantomjs-polyfill/bind-polyfill.js',
       './node_modules/fetch-polyfill/fetch.js',
-      
+
       // tests
       'tests/**/*_spec.js',
 
