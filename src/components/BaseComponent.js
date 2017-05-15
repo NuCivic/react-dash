@@ -42,6 +42,7 @@ export default class BaseComponent extends Component {
     newState.cardVariables = this.getCardVariables();
 
     this.setState(newState);
+    this.addResizeListener();
     this.onResize();
   }
 
@@ -50,6 +51,7 @@ export default class BaseComponent extends Component {
       let newState = this.executeStateHandlers();
       newState.cardVariables = this.getCardVariables();
       this.setState(newState);
+      this.onResize();
     }
   }
 

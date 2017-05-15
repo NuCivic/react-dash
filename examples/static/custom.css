@@ -12,3 +12,8 @@
 .Collapsible__trigger {font-size:2em; font-weight:400; width:100%; display:inline-block;background-color:red; padding:.4em;-webkit-border-radius: 12px 12px 12px 12px;
 border-radius: 12px 12px 12px 12px;margin:.2em; cursor:pointer;background-color: rgba(181, 189, 201, .6);}
 .Collapsible .card-content {padding:1em}
+
+.red {background-color:red}
+.yelloW {background-color:yellow}
+.greenCell {background-color:green; border: 1px solid white}
+

@@ -1,5 +1,5 @@
 # Dashboard Filtering
-The user interface is represented through filters components. Filters trigger actions on the Dashboard which update `state.appliedFilters`. This triggers a re-render, allowing the Dashboard to respond to the updated application state - by re-fetching data, filtering existing data, reconfiguring the Dashboard etc.
+The dashboard's user interface is represented through filters components. Filters trigger actions on the Dashboard which update `state.appliedFilters`. This triggers a re-render, allowing the Dashboard to respond to the updated application state - by re-fetching data, filtering existing data, reconfiguring the Dashboard etc.
 
 ## Filter 
 
