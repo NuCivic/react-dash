@@ -9,7 +9,30 @@ import Registry from '../utils/Registry';
 import { makeKey } from '../utils/utils';
 import { qFromParams, getOwnQueryParams, getFID, objToQueryString } from '../utils/paramRouting';
 
-const CARD_VARS = ['header', 'footer', 'iconClass', 'cardStyle', 'cardClasses', 'subheader', 'topmatter', 'subheader2', 'topmatter2', 'footerHeader', 'footerSubheader', 'bottommatter', 'footerSubheader2', 'bottommatter2'];
+/**
+ *  Props which will be passed to the Card component 
+ *  if set on a component renders inside a Card.
+ *
+ *  All components except filters are wrapped in Card com  
+ **/
+const CARD_VARS = [
+  'iconClass', // Adds a font-awesome (or other) icon to 
+  'cardStyle', // deprecated?
+  'cardClasses', // an array of classes to add to the card element, perfect for adding bootstrap classes eg. 'col-md-6'
+  
+  // regions defined in the Card component:
+  'header',
+  'footer',
+  'subheader',
+  'topmatter',
+  'subheader2',
+  'topmatter2',
+  'footerHeader',
+  'footerSubheader',
+  'bottommatter',
+  'footerSubheader2',
+  'bottommatter2'
+];
 
 export default class BaseComponent extends Component {
 

@@ -122,7 +122,6 @@ export default class DataTable extends BaseComponent {
   }
 
   rowHeightGetter(index) {
-    console.log("rhg", index, this);
     return 1000;
   }
 
@@ -131,7 +130,7 @@ export default class DataTable extends BaseComponent {
     let data = this.props.data[0] || [];
     let tableDefaultProps = getProp('settings.table', this.props);
     let columnDefaultProps = getProp('settings.columns', this.props);
-    // not that there is no 'row' abstraction in FixedDataTable
+    // note that there is no 'row' abstraction in FixedDataTable
     // module  - a 'row' here refers to the cells at the same
     // index of the column, eg: col[1][3], col[2][3], col[3][3]
     let rowDefaultProps = getProp('settings.rows', this.props);
