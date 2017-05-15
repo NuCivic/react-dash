@@ -13,6 +13,7 @@ Consider the following stateHandler configuration for a chart component:
     :dedent: 4
 ```
 
+The *stateHandler* should return a literal value, which will be applied the state using the handlers *attribute* property. When looking up props, the component checks the state first, and if that prop is set on the state, will use that instead, allowing the state to override props on a case-by-case basis, using *stateHandler.attribute* 
 
 ```eval_rst
 .. literalinclude:: ../../../examples/customStateHandlers.js
@@ -20,5 +21,11 @@ Consider the following stateHandler configuration for a chart component:
     :end-before: end stateHandler example
 ```
 
+## Attributes
+* **name** the name of the stateHandler function
+* **attribute** the attribute of the component state which will be set with the return value of the stateHandler
+* Any additional paramaters defined in the stateHandler's settings will be available inside the stateHandler function as `handler.myParam` (for example)
+
 ## Arguments
+stateHandler arguments are the same as dataHandler arguments:
 See [data handler arguments](datahandlers#arguments)
