@@ -4,9 +4,6 @@
  *
  **/
 
-
-// start read-the-docs example
-
 /**
  * Import the required elements
  **/
@@ -89,5 +86,3 @@ class App extends Component {
 document.addEventListener('DOMContentLoaded', function(event) {
     ReactDOM.render(<App/>, document.getElementById('root'));
 });
-
-// end read-the-docs example

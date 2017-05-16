@@ -20,9 +20,15 @@ Here's an example of the configuration:
 * **settings**:
   - **settings.table:** allows to configure all the properties for a table
   - **settings.columns:** allows to configure all the properties for columns
-    - **overrides:** allows to override configurations for the column name number used as key.
   - **settings.cells:** allows to configure all the properties for cells
   - **overrides:** allows to override configurations for the cell in the row number used as key.
   - **settings.hideControls:** Hide row-numbers select in table header..
   - **settings.hideFilterHeader:** Hide filter box in table header.
-  
+* **overrides**
+  - **overrides.columns** An object keyed to the header title
+  - **overrides.rows**
+  - **overrides.cells**
+
+** DATA **
+Data should be in the format given in the example above. The first row of data will be used as headers.
+

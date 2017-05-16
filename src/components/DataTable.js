@@ -1,4 +1,4 @@
-import {Table as FixedTable, Column, Cell} from 'fixed-data-table';
+import {Table as FixedTable, Column, Cell} from 'fixed-data-table-2';
 import Registry from '../utils/Registry';
 import {getProp} from '../utils/utils';
 import React, {Component} from 'react';
@@ -7,7 +7,7 @@ import Card from './Card';
 import Loader from './Loader';
 import {isString, isEmpty, range, partialRight} from 'lodash';
 
-class DataTable extends BaseComponent {
+export default class DataTable extends BaseComponent {
   static defaultProps = {
     rowsPerPage: 10,
     queryObj: {
@@ -121,6 +121,11 @@ class DataTable extends BaseComponent {
     this.setState({rowsPerPage: Number(e.target.value), currentPage: 1});
   }
 
+  rowHeightGetter(index) {
+    console.log("rhg", index, this);
+    return 1000;
+  }
+
   render() {
     const { gridWidth, gridHeight } = this.state;
     let data = this.props.data[0] || [];
@@ -195,7 +200,7 @@ class DataTable extends BaseComponent {
           </div>
           <Loader isFetching={this.props.isFetching || !data.length}>
             <div className="table-container">
-              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth}>
+              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth} rowHeightGetter={this.rowHeightGetter}>
                 {columns}
               </FixedTable>
             </div>
