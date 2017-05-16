@@ -17,7 +17,6 @@ export {default as Markup } from './components/Markup';
 export {default as CheckboxFilter } from './components/CheckboxFilter';
 export {default as MultiCheckboxFilter} from './components/MultiCheckboxFilter';
 export {default as ReactSelect} from './components/ReactSelect';
-export {default as Region} from './components/Region';
 export {default as App} from './components/App';
 export {default as Highlight} from './components/Highlight';
 
