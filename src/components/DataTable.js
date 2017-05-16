@@ -121,11 +121,6 @@ export default class DataTable extends BaseComponent {
     this.setState({rowsPerPage: Number(e.target.value), currentPage: 1});
   }
 
-  rowHeightGetter(index) {
-    console.log("rhg", index, this);
-    return 1000;
-  }
-
   render() {
     const { gridWidth, gridHeight } = this.state;
     let data = this.props.data[0] || [];
