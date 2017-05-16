@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
-import BaseComponent from './BaseComponent';
-import {omit, pick} from 'lodash';
 
-const CARD_REGIONS = ['header', 'subheader', 'topmatter', 'subheader2', 'topmatter2', 'footer', 'footerHeader', 'footerSubheader', 'bottommatter', 'footerSubheader2', 'bottommatter2'];
+const CARD_REGIONS = [
+  'header', 'subheader', 'topmatter',
+  'subheader2', 'topmatter2', 'footer',
+  'footerHeader', 'footerSubheader', 'bottommatter',
+  'footerSubheader2', 'bottommatter2'
+];
 
 export default class Card extends Component {
   render() {
@@ -14,9 +17,10 @@ export default class Card extends Component {
 
     CARD_REGIONS.forEach(region => {
       if (props[region]) {
+        let icon = region === 'header' && props.iconClass ? <span className={`fa ${props.iconClass}`}></span> : false;
         regions[region] = (
           <div className={"card-" + region}>
-            <div className={"card-" + region + "-inner"}>{props[region]}</div>
+            <div className={"card-" + region + "-inner"}>{icon}{props[region]}</div>
           </div>
         )
       }

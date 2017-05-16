@@ -193,7 +193,7 @@ class DataTable extends BaseComponent {
             {filterHeader}
             {headerControls}
           </div>
-          <Loader isFetching={this.props.isFetching}>
+          <Loader isFetching={this.props.isFetching || !data.length}>
             <div className="table-container">
               <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth}>
                 {columns}
