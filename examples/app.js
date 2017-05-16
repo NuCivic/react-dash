@@ -15,6 +15,7 @@ if (typeof expressDashSettings != "undefined") {
 
 // Extend Dashboard with our data fetch logic
 class Dash extends Dashboard {
+  // start getDashboardData example
   getDashboardData(_appliedFilters) {
     let dashData = Object.assign({}, this.state.data);
     let dataKeys = Object.keys(this.props.dataResources);
@@ -25,7 +26,6 @@ class Dash extends Dashboard {
       
       this.fetchBackend(this.props.dataResources[dataKey]).then(data => {
       
-      // Note that, because of the shape of our data and the need for custom processing, that we do our filtering AFTER we fetch. In other cases (The DKAN Dash implementation for example),  we use the appropriate filters to update our API calls to return filtered data. The details of implementation are up to you, but we suggest you stick with the appliedFilters pattern, which maintains the proper top down data flow
         dashData[dataKey] = this.applyFilters(data.hits, filters);  
         if (Object.keys(dashData).length === dataKeys.length) {
           this.setState({data: dashData, isFetching: false});
@@ -43,7 +43,7 @@ class Dash extends Dashboard {
     return new Promise((resolve, reject) => {
       let dataset = new Dataset(omit(fetcher.fetchData, 'type'));
       let queryObj = this.state.queryObj;
-      this.setState({isFetching: true, dataset: dataset});
+      this.setState({dataset: dataset});
       dataset.fetch().then((data) => {
         this.state.dataset.query(queryObj).then(queryRes => {
           resolve(queryRes);
@@ -53,6 +53,7 @@ class Dash extends Dashboard {
       });
     });
   }
+  // end getDashboardData example
 
   // A bit of a trivial example of how to use filters to return filtered data
   applyFilters(data, filters) {
@@ -81,7 +82,7 @@ class MyDashboard extends Component {
     let z = {};
     z.appliedFilters = (this.state) ? this.state.appliedFilters : {};
     const props = Object.assign({}, this.props, z, _settings);
-    return <Dash {...props}/>
+    return <Dash {...props} key="dash"/>
   }
 }
 

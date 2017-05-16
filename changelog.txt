@@ -1,3 +1,7 @@
+5-11-2017 ** 0.6.12
+* Fix issue with random keys causing re-render
+* Update DataTable to fixed-data-table 0.7.x
+
 5-9-2017 ** 0.6.12
 * Update DataTable component to allow overrides - see
 examples/js_static_example/settings.js for working example 

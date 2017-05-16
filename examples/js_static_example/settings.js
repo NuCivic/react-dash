@@ -111,7 +111,61 @@ export var settings = {
             type: 'pieChart',
             height: 300
           },
-			}
+			},
+      // start DataTable Example
+      {
+        type: 'DataTable',
+        header: 'Mi titulo',
+        data: 
+        [
+          [
+            {foo: 1, bar: 2},
+            {foo: 11, bar: 21},
+            {foo: 111, bar: 222},
+            {foo: 1, bar: 2},
+          ]
+        ],
+        settings: {
+          table: {
+            rowHeight: 40, 
+            width: 800,
+            maxHeight: 300,
+            headerHeight:40
+          },  
+          columns: {
+            flexGrow: 1,
+            width: 150,
+          },
+          rows: {
+            height: 40, 
+          }
+        },
+        overrides: {
+          // target table columns with custom attributes
+          // use column header name as key
+          columns: {
+            bar: {
+              flexGrow: 9,
+              className: 'greenCell'
+            },
+          },
+          // target table rows with custom attributes
+          // use row index as key
+          rows: {
+            1: {
+              className: 'yellow'
+            }  
+          },
+          // target individual cells with custom attributes
+          // define key using coordinate: headerName_rowIndex 
+          cells: {
+            foo_1: {
+              className: 'red'
+            },
+          }
+        },
+      },
+      // end DataTable Example
     ]
    }
  ]
