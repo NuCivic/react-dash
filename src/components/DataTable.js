@@ -121,10 +121,6 @@ export default class DataTable extends BaseComponent {
     this.setState({rowsPerPage: Number(e.target.value), currentPage: 1});
   }
 
-  rowHeightGetter(index) {
-    return 1000;
-  }
-
   render() {
     const { gridWidth, gridHeight } = this.state;
     let data = this.props.data[0] || [];
@@ -199,7 +195,7 @@ export default class DataTable extends BaseComponent {
           </div>
           <Loader isFetching={this.state.isFetching}>
             <div className="table-container">
-              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth} rowHeightGetter={this.rowHeightGetter}>
+              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth} >
                 {columns}
               </FixedTable>
             </div>
