@@ -33,7 +33,7 @@ export default class DataHandler {
     let handler, funcHandler, args;
     try {
       let handle = flow(
-        (hs || []).map((h) => {
+        (hs || []).map( h => {
           handler = isString(h) ? { name: h } : h ;
           funcHandler = DataHandler.get(handler.name);
           args = omit(handler,'name');
@@ -42,7 +42,7 @@ export default class DataHandler {
       );
       return (isFunction(handle)) ? handle(componentData, dashboardData) : componentData;
     } catch (err) {
-      console.error(`Error in data handler ${handler.name}. This could mean that one of your data handlers is missing from the registry. Here are the handlers we're trying to process:`, handler, err);
+      console.error(`Error in data handler ${handler.name}. This could mean that one of your data handlers is missing from the registry. Here are the handlers we're trying to process:`, handler, args, err);
     }
   }
 }
