@@ -18,7 +18,7 @@ export default class Region extends Component {
     super(props);
   }
 
-	// ** NOTE - this is duplicated from Dashboard to mimic Dash's region rendering
+  // ** NOTE - this is duplicated from Dashboard to mimic Dash's region rendering
   _applyDataHandlers(dataHandlers, appliedFilters, componentData=[]) {
     return  DataHandler.handle.call(this, dataHandlers, componentData, this.props.globalData, {}, appliedFilters);
   }
@@ -36,7 +36,7 @@ export default class Region extends Component {
           } else if (element.data && element.data.length > 0) {
             props.data = element.data;
           }
-					
+
           return React.createElement(Registry.get(element.type), props);
         })}
     return children;

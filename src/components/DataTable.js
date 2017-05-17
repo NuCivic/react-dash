@@ -84,7 +84,7 @@ export default class DataTable extends BaseComponent {
   }
 
   onResize() {
-    const { offsetWidth, offsetHeight } = this.refs.table;
+    const { offsetWidth, offsetHeight } = this.table;
     this.setState({
       gridWidth: offsetWidth,
       gridHeight: offsetHeight
@@ -119,11 +119,6 @@ export default class DataTable extends BaseComponent {
     query.from = 0;
     this.query(query);
     this.setState({rowsPerPage: Number(e.target.value), currentPage: 1});
-  }
-
-  rowHeightGetter(index) {
-    console.log("rhg", index, this);
-    return 1000;
   }
 
   render() {
@@ -193,12 +188,12 @@ export default class DataTable extends BaseComponent {
     // Return the renderable elements
     return (
       <Card key={'card_'+this.state.key} {...this.state.cardVariables}>
-        <div ref="table">
+        <div ref={t => this.table = t} className="table-wrapper">
           <div className="row">
             {filterHeader}
             {headerControls}
           </div>
-          <Loader isFetching={this.state.isFetching}>
+          <Loader isFetching={this.props.isFetching || !data.length}>
             <div className="table-container">
               <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth} rowHeightGetter={this.rowHeightGetter}>
                 {columns}
