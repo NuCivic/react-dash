@@ -259,7 +259,7 @@ export default class Dashboard extends BaseComponent {
     let markup;
 
     return (
-      <div className="container" key="dashboard-container">
+      <div className="container-fluid" key="dashboard-container">
         <link rel="stylesheet" type="text/css" href={this.props.faPath} />
         <h1 className="dashboard-title">{this.props.title}</h1>
         {this.getRegions()}
