@@ -257,11 +257,14 @@ export default class Dashboard extends BaseComponent {
 
   render() {
     let markup;
-
+    let title;
+    if (this.props.title) {
+      title = <h1 className="dashboard-title"> + {this.props.title} + </h1>;
+    }
     return (
-      <div className="container" key="dashboard-container">
+      <div className="container-fluid" key="dashboard-container">
         <link rel="stylesheet" type="text/css" href={this.props.faPath} />
-        <h1 className="dashboard-title">{this.props.title}</h1>
+        {title}
         {this.getRegions()}
       </div>
     );
