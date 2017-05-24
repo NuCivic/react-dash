@@ -47,6 +47,7 @@ export var settings = {
     {
       id: 'metrics-row',
       className: 'row',
+      accordion: true,
       children: [
         // each child is a react component defined by type
         // paramaters are passed as props
@@ -54,6 +55,7 @@ export var settings = {
           type: 'Metric',
           caption: 'Caption A',
           cardStyle: 'metric',
+          dataTrigger: 'A',
           iconClass: 'fa fa-bed',
           data: [1],
           background: '#687a99',
@@ -62,7 +64,8 @@ export var settings = {
         },
         {
           type: 'Metric',
-          caption: 'Caption A',
+          caption: 'Caption B',
+          dataTrigger: 'B',
           cardStyle: 'metric',
           iconClass: 'fa fa-bed',
           data: [2],
@@ -72,8 +75,9 @@ export var settings = {
         },
         {
           type: 'Metric',
-          caption: 'Caption A',
+          caption: 'Caption C',
           cardStyle: 'metric',
+          dataTrigger: 'C',
           iconClass: 'fa fa-bed',
           data: [3],
           key:"caption_2",

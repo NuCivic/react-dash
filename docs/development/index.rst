@@ -12,3 +12,5 @@ Developer Guide
    filters
    components/index
    theming/index
+   workflows/index
+   roadmap

@@ -215,7 +215,7 @@ export default class Dashboard extends BaseComponent {
   getAccordionRegion(region) {
     return (
       <div id={region.id} className={region.className} key={makeKey()} >
-        <Accordion key={makeKey()}>
+        <Accordion key={makeKey()} closeable={true}>
         {region.children.map( (element, key) => {
           // if it isn't a react element, the element is a settings object
           let props = this.updateProps(element);
