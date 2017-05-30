@@ -8,7 +8,6 @@ import StateHandler from '../utils/StateHandler';
 import Registry from '../utils/Registry';
 import { makeKey } from '../utils/utils';
 import { qFromParams, getOwnQueryParams, getFID, objToQueryString } from '../utils/paramRouting';
-import 'react-json-schema-proptypes';
 
 const CARD_VARS = ['header', 'footer', 'iconClass', 'cardStyle', 'cardClasses', 'subheader', 'topmatter', 'subheader2', 'topmatter2', 'footerHeader', 'footerSubheader', 'bottommatter', 'footerSubheader2', 'bottommatter2'];
 
