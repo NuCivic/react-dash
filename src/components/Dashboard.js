@@ -204,6 +204,7 @@ export default class Dashboard extends BaseComponent {
       <div id={region.id} className={region.className} >
         {region.children.map( (element, key) => {
           // if it isn't a react element, the element is a settings object
+          
           let props = this.updateProps(element);
           element.isFetching = this.state.isFetching;
           let el = (React.isValidElement(element)) ? element : React.createElement(Registry.get(element.type), props);
