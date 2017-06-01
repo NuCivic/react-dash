@@ -4,6 +4,7 @@ import { Card, BaseComponent, Dataset, DataHandler, DataHandlers, Registry, Even
 import { isArray, isEqual, pick} from 'lodash';
 import { appliedFiltersToQueryString, makeKey } from '../utils/utils';
 import Accordion from 'react-responsive-accordion';
+import classNames from 'classnames/bind';
 
 export default class Dashboard extends BaseComponent {
 
@@ -203,6 +204,7 @@ export default class Dashboard extends BaseComponent {
       <div id={region.id} className={region.className} >
         {region.children.map( (element, key) => {
           // if it isn't a react element, the element is a settings object
+          
           let props = this.updateProps(element);
           element.isFetching = this.state.isFetching;
           let el = (React.isValidElement(element)) ? element : React.createElement(Registry.get(element.type), props);
@@ -258,11 +260,14 @@ export default class Dashboard extends BaseComponent {
   render() {
     let markup;
     let title;
+    let defaultClasses = ['container-fluid'];
+    let cx = classNames(this.props.dashWrapperClass, defaultClasses);
+
     if (this.props.title) {
       title = <h1 className="dashboard-title"> + {this.props.title} + </h1>;
     }
     return (
-      <div className="container-fluid" key="dashboard-container">
+      <div className={cx} key="dashboard-container">
         <link rel="stylesheet" type="text/css" href={this.props.faPath} />
         {title}
         {this.getRegions()}

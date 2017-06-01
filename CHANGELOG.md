@@ -18,6 +18,8 @@ State handlers fire on component mount and state update. They should be passed a
 - Allow accordion regions to open/close with a click.
 - Add accessible headers for card elements.
 - Add accessible filter labels for the autocomplete component.
+- Add support for props.dashWrapperClass in dashboard component
+- Add support for props.isLink in highlight component
 
 0.6.x 2017-3-7-2017 
 -------------------
