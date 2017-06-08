@@ -1,4 +1,4 @@
-import {property} from 'lodash';
+import {property, isPlainObject} from 'lodash';
 import d3 from 'd3';
 
 export function getProp(key, object) {
@@ -43,12 +43,12 @@ export function appliedFiltersToQueryString (appliedFilters) {
       let reduced = {};
       Object.keys(appliedFilters).forEach(key => {
         reduced[key] = appliedFilters[key].value.map(opt => {
-            return opt.value;
+            return isPlainObject(opt) ? opt.value : opt;
         });
       });
 
       return reduced;
-    } 
+    }
 
     return Object.keys(obj).reduce(function(a,k){a.push(k+'='+encodeURIComponent(obj[k]));return a},[]).join('&')
 }
@@ -58,5 +58,5 @@ export function getFID(val) {
     return val.replace('fid', '');
   }
   return false;
-} 
+}
 
