@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
+import { Component } from 'react';
 import { findDOMNode } from 'react-dom';
+import { isEqual } from 'lodash';
+import PropTypes from 'prop-types';
 import EventDispatcher from '../dispatcher/EventDispatcher';
-import Dataset from '../models/Dataset';
-import {omit, isEqual, isEmpty, isFunction, isPlainObject, isString, isArray, debounce} from 'lodash';
 import StateHandler from '../utils/StateHandler';
-import Registry from '../utils/Registry';
 import { makeKey } from '../utils/utils';
-import { qFromParams, getOwnQueryParams, getFID, objToQueryString } from '../utils/paramRouting';
 
 const CARD_VARS = ['header', 'footer', 'iconClass', 'cardStyle', 'cardClasses', 'subheader', 'topmatter', 'subheader2', 'topmatter2', 'footerHeader', 'footerSubheader', 'bottommatter', 'footerSubheader2', 'bottommatter2'];
 
 export default class BaseComponent extends Component {
+  propTypes: {
+    queryObj: PropTypes.object
+  }
 
   constructor(props) {
     super(props);
@@ -20,7 +20,7 @@ export default class BaseComponent extends Component {
     this.state = {
       data: [],
       dataset: null,
-      queryObj: Object.assign({from: 0}, this.props.queryObj), // dataset query
+      queryObj: Object.assign({ from: 0 }, this.props.queryObj), // dataset query
       isFetching: false,
     };
   }
@@ -33,10 +33,10 @@ export default class BaseComponent extends Component {
     EventDispatcher.register(this.onAction.bind(this));
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // resize magic
-    let componentWidth = findDOMNode(this).getBoundingClientRect().width;
-    let newState = this.executeStateHandlers();
+    const componentWidth = findDOMNode(this).getBoundingClientRect().width;
+    const newState = this.executeStateHandlers();
 
     newState.componentWidth = componentWidth;
     newState.cardVariables = this.getCardVariables();
@@ -48,7 +48,7 @@ export default class BaseComponent extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (!isEqual(this.props.data, prevProps.data)) {
-      let newState = this.executeStateHandlers();
+      const newState = this.executeStateHandlers();
       newState.cardVariables = this.getCardVariables();
       this.setState(newState);
       this.onResize();
@@ -59,12 +59,30 @@ export default class BaseComponent extends Component {
     window.removeEventListener('resize', this._resizeHandler);
   }
 
-  emit(payload) {
-    EventDispatcher.dispatch(payload);
+  onResize() {
+    /* IMPLEMENT */
+  }
+
+  onAction() {
+    /* IMPLEMENT */
   }
 
   getGlobalData() {
     return this.props.globalData || [];
+  }
+
+  /**
+   * if we have card variables set on the state,
+   * return them otherwise use props or undefined
+   */
+  getCardVariables() {
+    const cardVars = {};
+
+    CARD_VARS.forEach((v) => {
+      cardVars[v] = this.state[v] || this.props[v];
+    });
+
+    return cardVars;
   }
 
   /**
@@ -76,45 +94,30 @@ export default class BaseComponent extends Component {
     let newState = {};
 
     if (this.props.stateHandlers && this.props.stateHandlers.length > 0) {
-      let handledState = StateHandler.handle(this.props.stateHandlers, this.props.data, this.state.dashboardData);
+      const handledState = StateHandler.handle(
+        this.props.stateHandlers,
+        this.props.data,
+        this.state.dashboardData,
+      );
+
       newState = Object.assign(newState, handledState);
     }
 
     return newState;
   }
 
-  // if we have card variables set on the state, return them
-  // otherwise use props or undefined
-  getCardVariables() {
-    let cardVars = {};
-
-    CARD_VARS.forEach(v => {
-      cardVars[v] = this.state[v] || this.props[v];
-    });
-
-    return cardVars;
+  emit(payload) {
+    EventDispatcher.dispatch(payload);
   }
 
   addResizeListener() {
     this._resizeHandler = (e) => {
-      let componentWidth = findDOMNode(this).getBoundingClientRect().width;
+      const componentWidth = findDOMNode(this).getBoundingClientRect().width;
 
-      this.setState({ componentWidth : componentWidth});
+      this.setState({ componentWidth });
       this.onResize(e);
-    }
+    };
+
     window.addEventListener('resize', this._resizeHandler);
   }
-
-  /**
-   * Abstract
-   */
-
-  onResize() {
-    /* IMPLEMENT */
-  }
-
-  onAction() {
-    /* IMPLEMENT */
-  }
-
 }
