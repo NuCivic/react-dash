@@ -8,14 +8,17 @@
     "node": true
   },
   "parser": "babel-eslint",
-  "rules": {
-    "quotes": [2, "single"],
-    "strict": [2, "never"],
-    "react/jsx-uses-react": 2,
-    "react/jsx-uses-vars": 2,
-    "react/react-in-jsx-scope": 2
-  },
   "extends": "airbnb",
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/prefer-stateless-function": 1,
+    "react/jsx-no-bind": 1,
+    "react/no-find-dom-node": 1,
+    "react/no-did-mount-set-state": 1,
+    "react/no-did-update-set-state": 1,
+    "no-underscore-dangle": 1,
+    "class-methods-use-this": 1
+  },
   "plugins": [
     "react"
   ]
