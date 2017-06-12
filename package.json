@@ -12,7 +12,7 @@
     "build-demo": "scripts/build-demo.sh",
     "build-server": "webpack --config webpack.config.react-dash-server.js",
     "test": "bash scripts/runtests.sh",
-    "lint": "eslint src | less"
+    "lint": "eslint src --color | less -r"
   },
   "repository": {
     "type": "git",
@@ -85,6 +85,7 @@
     "flux": "^2.1.1",
     "geojson": "^0.3.0",
     "lodash": "^4.6.1",
+    "prop-types": "^15.5.10",
     "react-collapsible": "^1.4.0",
     "react-input-autosize": "1.1.0",
     "react-nvd3": "git+https://github.com/NuCivic/react-nvd3.git",
