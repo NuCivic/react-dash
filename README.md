@@ -18,5 +18,10 @@ https://github.com/NuCivic/react-dash-boilerplate
 * http://nucivic.github.io/react-dash/
 * http://dev-ucr-dashboard.getnucivic.com/dashboard/12
 
+## Linting
+`npm run lint`
+Uses the airbnb styles 
+https://github.com/airbnb/javascript
+
 ## Complete Documentation
 Check out the complete docs at http://react-dashboard.readthedocs.io/en/latest/
