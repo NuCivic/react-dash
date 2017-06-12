@@ -1,16 +1,7 @@
-import React, { Component } from 'react';
 import Registry from '../utils/Registry';
-import { makeKey } from '../utils/utils';
 import BaseComponent from './BaseComponent';
-import { isArray, isEqual } from 'lodash';
-import { DataHandler } from '../ReactDashboard';
 
 export default class BaseFilter extends BaseComponent {
-  
-  constructor(props) {
-    super(props);
-  }
-  
   getFilterValue() {
     let val;
 
@@ -30,19 +21,19 @@ export default class BaseFilter extends BaseComponent {
 
     return val;
   }
-  
+
   /**
    * @@IMPLEMEMT
    */
   onFilter() {
-    // noop / use this to add onFilter behavior 
+    // noop / use this to add onFilter behavior
   }
-  
+
   onChange(e) {
     this.onFilter(e);
-    
-    let filter = Object.assign({}, this.props);
-    
+
+    const filter = Object.assign({}, this.props);
+
     filter.value = e;
     filter.multi = this.props.multi;
     filter.actionType = this.state.actionType;
@@ -55,12 +46,14 @@ export default class BaseFilter extends BaseComponent {
   // in applied filters
   isDisabled() {
     let disabled = false;
-    let appliedFilters = (this.props.appliedFilters) ? Object.keys(this.props.appliedFilters) : [];
+    const appliedFilters = (this.props.appliedFilters)
+      ? Object.keys(this.props.appliedFilters)
+      : [];
 
     if (this.props.disabled) disabled = true;
-    
+
     if (this.props.disabledBy) {
-      this.props.disabledBy.forEach(field => {
+      this.props.disabledBy.forEach((field) => {
         if (appliedFilters.indexOf(field) >= 0) disabled = true;
       });
     }
@@ -69,25 +62,24 @@ export default class BaseFilter extends BaseComponent {
   }
 
   getData() {
-    let data = this.props.data;
+    const data = this.props.data;
     return data;
   }
 
   /**
    * get autocomplete options
    */
-  getOptions(input){
-    let re = /\{\{(.+)\}\}/;
-    let data = this.getData();
+  getOptions(input) {
+    const data = this.getData();
 
-    if(this.props.options) {
-      return this.props.options
+    if (this.props.options) {
+      return this.props.options;
     // Use component level data
     } else if (data && data[0]) {
       return this.props.data[0];
     }
-    
-    return  [];
+
+    return [];
   }
 }
 
