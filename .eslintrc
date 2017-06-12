@@ -16,7 +16,9 @@
     "react/no-find-dom-node": 1,
     "react/no-did-mount-set-state": 1,
     "react/no-did-update-set-state": 1,
+    "react/prop-types": 1,
     "no-underscore-dangle": 1,
+    "no-unused-vars": [2, { "args": "none"}],
     "class-methods-use-this": 1
   },
   "plugins": [
