@@ -1,44 +1,43 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { feature } from 'topojson';
+import d3 from 'd3';
 import Registry from '../../utils/Registry';
 import BaseComponent from '../BaseComponent';
 import Card from '../Card';
 import Loader from '../Loader';
 import Datamap from './Datamap';
 import HoverInfo from './HoverInfo';
-import { feature } from 'topojson'
-import d3 from 'd3';
 import MapLegend from './MapLegend';
-export default class Choropleth extends BaseComponent {
 
+export default class Choropleth extends BaseComponent {
   constructor(props) {
     super(props);
-    let newState = {
-      infoWindowPos: new Map([['x',0], ['y', 0]]),
+    const newState = {
+      infoWindowPos: new Map([['x', 0], ['y', 0]]),
       infoWindowActive: true,
       activeSubunitName: 'default',
     };
-    let data = this.props.data;
     this.state = Object.assign(this.state, newState);
   }
 
   componentDidMount() {
     super.componentDidMount();
     fetch(this.props.geometry)
-      .then(response => {
-        let r = response.json()
+      .then((response) => {
+        const r = response.json();
         return r;
       })
-      .then( (data) =>{
-        var geometryFeatures;
+      .then((data) => {
+        let geometryFeatures;
         if (this.props.format === 'geojson') {
           geometryFeatures = data.features;
         } else {
           geometryFeatures = feature(
             data,
-            data.objects[this.props.topologyObject]
+            data.objects[this.props.topologyObject],
           ).features;
         }
-        this.setState({geometryFeatures })
+        this.setState({ geometryFeatures });
       });
   }
 
@@ -50,8 +49,8 @@ export default class Choropleth extends BaseComponent {
       return d3.scale.linear()
         .domain([min, max])
         .range([startColor, endColor])
-        .interpolate(d3.interpolateLab)
-    }
+        .interpolate(d3.interpolateLab);
+    };
   }
 
   equidistantScale(min, max) {
@@ -59,29 +58,29 @@ export default class Choropleth extends BaseComponent {
       const colorPallete = this.props.legend.pallete;
 
       if (min === max) {
-        return () => colorPallete[colorPallete.length - 1]
+        return () => colorPallete[colorPallete.length - 1];
       }
 
       return d3.scale.quantize().domain([min, max]).range(colorPallete);
-    }
+    };
   }
 
-  extremeValues(){
+  extremeValues() {
     const valueField = this.props.dataValueField;
     const data = this.props.data || [];
-    const max = d3.max(data.map((d) => d[valueField]));
-    const min = d3.min(data.map((d) => d[valueField]));
-    return new Map([ ['min', min], ['max', max] ]);
+    const max = d3.max(data.map(d => d[valueField]));
+    const min = d3.min(data.map(d => d[valueField]));
+    return new Map([['min', min], ['max', max]]);
   }
 
   colorScale() {
-    const extremeValues =  this.extremeValues();
+    const extremeValues = this.extremeValues();
     const min = extremeValues.get('min');
     const max = extremeValues.get('max');
 
     const scales = {
       linear: this.linearScale(min, max),
-      equidistant: this.equidistantScale(min, max)
+      equidistant: this.equidistantScale(min, max),
     };
 
     return scales[this.props.dataClassification]();
@@ -89,15 +88,15 @@ export default class Choropleth extends BaseComponent {
 
   mouseMoveOnDatamap(e) {
     const position = new Map([['x', e.clientX], ['y', e.clientY]]);
-    this.setState({ infoWindowPos: position })
+    this.setState({ infoWindowPos: position });
   }
 
   mouseEnterOnDatamap() {
-    this.setState({ infoWindowActive: true })
+    this.setState({ infoWindowActive: true });
   }
 
   mouseLeaveDatamap() {
-    this.setState({ infoWindowActive: false })
+    this.setState({ infoWindowActive: false });
   }
 
   mouseEnterOnSubunit(name, value) {
@@ -106,13 +105,13 @@ export default class Choropleth extends BaseComponent {
       activeSubunitValue: value,
     });
   }
-  
+
   onResize() {
-    this.setState({svgResized: true});
+    this.setState({ svgResized: true });
   }
 
   render() {
-    const svgWidth = this.state.componentWidth * .8;
+    const svgWidth = this.state.componentWidth * 0.8;
     const svgHeight = svgWidth * 0.8;
     const extremeValues = this.extremeValues();
     const {
@@ -131,7 +130,7 @@ export default class Choropleth extends BaseComponent {
         {...this.props}
       />
     );
-    
+
     const colorScale = this.colorScale();
     const noDataColor = this.props.noDataColor || '#f5f5f5';
     const borderColor = this.props.borderColor || '#cccccc';
@@ -141,41 +140,41 @@ export default class Choropleth extends BaseComponent {
       width: svgWidth,
       height: svgHeight,
       fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
-    }
+    };
     return (
-    <Card {...this.state.cardVariables}>
-      <Loader isFetching={!loading}>
-        <div className="map-container">
-          <svg className="map-svg" style={svgStyle}>
-            <g id="root-svg-group">
-              <Datamap
-                {...this.props}
-                geometry={geometryFeatures}
-                colorScale={colorScale}
-                noDataColor={noDataColor}
-                borderColor={borderColor}
-                svgWidth={svgWidth}
-                svgHeight={svgHeight}
-                svgResized={this.state.svgResized}
-                componentWidth={this.state.componentWidth}
-                mouseMoveOnDatamap={this.mouseMoveOnDatamap.bind(this)}
-                mouseEnterOnDatamap={this.mouseEnterOnDatamap.bind(this)}
-                mouseLeaveDatamap={this.mouseLeaveDatamap.bind(this)}
-                mouseEnterOnSubunit={this.mouseEnterOnSubunit.bind(this)}
-                regionData={this.props.data}
-              />
-              {extremeValues && mapLegend}
-            </g>
-          </svg>
-          <HoverInfo
-            active={infoWindowActive}
-            position={infoWindowPos}
-            name={activeSubunitName}
-            value={activeSubunitValue}
-          />
-        </div>
-     </Loader>
-    </Card>
+      <Card {...this.state.cardVariables}>
+        <Loader isFetching={!loading}>
+          <div className="map-container">
+            <svg className="map-svg" style={svgStyle}>
+              <g id="root-svg-group">
+                <Datamap
+                  {...this.props}
+                  geometry={geometryFeatures}
+                  colorScale={colorScale}
+                  noDataColor={noDataColor}
+                  borderColor={borderColor}
+                  svgWidth={svgWidth}
+                  svgHeight={svgHeight}
+                  svgResized={this.state.svgResized}
+                  componentWidth={this.state.componentWidth}
+                  mouseMoveOnDatamap={this.mouseMoveOnDatamap.bind(this)}
+                  mouseEnterOnDatamap={this.mouseEnterOnDatamap.bind(this)}
+                  mouseLeaveDatamap={this.mouseLeaveDatamap.bind(this)}
+                  mouseEnterOnSubunit={this.mouseEnterOnSubunit.bind(this)}
+                  regionData={this.props.data}
+                />
+                {extremeValues && mapLegend}
+              </g>
+            </svg>
+            <HoverInfo
+              active={infoWindowActive}
+              position={infoWindowPos}
+              name={activeSubunitName}
+              value={activeSubunitValue}
+            />
+          </div>
+        </Loader>
+      </Card>
     );
   }
 }
