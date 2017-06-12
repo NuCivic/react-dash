@@ -22,15 +22,17 @@ export default class Autocomplete extends BaseFilter {
     let labelClass = (props.label) ? '' : 'sr-only';
     let { className } = this.props;
     let inputProps = {};
-
+    
     inputProps.id = this.state.key;
+    props.options = this.props.data[0];
+    props.isLoading = this.state.isFetching;
 
     if (val && !props.multi) val = val[0];
 
     return (
       <div className={cx('autocomplete-filter-container', className)}>
         <label htmlFor={this.state.key} className={labelClass}>Filter Label</label>
-        <ReactSelect.Async value={val} loadOptions={this.loadOptions.bind(this)} disabled={this.isDisabled()} {...props} onChange={this.onChange.bind(this)} key={this.state.key} inputProps={inputProps} />
+        <ReactSelect value={val} disabled={this.isDisabled()} {...props} onChange={this.onChange.bind(this)} key={this.state.key} inputProps={inputProps} />
       </div>
     );
   }
