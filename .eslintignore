@@ -1,1 +1,6 @@
 src/components/Goal.js
+src/datahandlers/
+src/models/
+src/mixins/
+src/utils/paramRouting.js
+src/utils/utils.js
