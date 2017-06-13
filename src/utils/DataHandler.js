@@ -1,17 +1,16 @@
+import { flow, isFunction, isString, omit } from 'lodash';
 import Registry from './Registry';
-import {flow, isFunction, isString, omit} from 'lodash';
 
 export default class DataHandler {
-
   /**
    * Register a new data handler using the registry.
    */
   static set(path, handler) {
-    Registry.set('dataHandlers.' + path, handler);
+    Registry.set(`dataHandlers.${path}`, handler);
   }
 
   static setLib(libName, handlers) {
-    for (let k in handlers) {
+    for (const k in handlers) {
       Registry.set(['dataHandlers', libName, k], handlers[k]);
     }
   }
@@ -20,7 +19,7 @@ export default class DataHandler {
    * Retrieves a data handler given an object path.
    */
   static get(path) {
-    return Registry.get('dataHandlers.' + path);
+    return Registry.get(`dataHandlers.${path}`);
   }
 
   /**
@@ -30,15 +29,18 @@ export default class DataHandler {
    * @@TODO - provide meaningful error messages
    */
   static handle(hs, componentData, dashboardData, e, appliedFilters) {
-    let handler, funcHandler, args;
+    let handler;
+    let funcHandler;
+    let args;
+
     try {
-      let handle = flow(
-        (hs || []).map( h => {
-          handler = isString(h) ? { name: h } : h ;
+      const handle = flow(
+        (hs || []).map((h) => {
+          handler = isString(h) ? { name: h } : h;
           funcHandler = DataHandler.get(handler.name);
-          args = omit(handler,'name');
+          args = omit(handler, 'name');
           return funcHandler.bind(this, componentData, dashboardData, args, e, appliedFilters);
-        })
+        }),
       );
       return (isFunction(handle)) ? handle(componentData, dashboardData) : componentData;
     } catch (err) {

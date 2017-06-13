@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
 import Card from './Card';
@@ -6,7 +6,7 @@ import Card from './Card';
 export default class Multi extends BaseComponent {
   renderChildren() {
     let curEls;
-		let output;
+    let output;
 
     if (typeof this.props.data === 'string') {
       curEls = this.props.elements[this.props.data];
@@ -15,29 +15,36 @@ export default class Multi extends BaseComponent {
     } else {
       return console.error('No valid key is defined in initVal or in data for elements object');
     }
- 
+
     return curEls.map((element, key) => {
-    			 let props = Object.assign(element, {globalData: this.props.globalData});
-           if (element.cardStyle) {
-              output =
-               <Card key={key} {...element}>
-                {React.createElement(Registry.get(element.type), props)}
-               </Card>
-           } else {
-             output =
-                React.createElement(Registry.get(element.type), props);
-           }
-					return output;
+      const props = Object.assign(element, { globalData: this.props.globalData });
+
+      if (element.cardStyle) {
+        output =
+          (
+            <Card key={key} {...element}>
+              {React.createElement(Registry.get(element.type), props)}
+            </Card>
+          );
+      } else {
+        output =
+          React.createElement(Registry.get(element.type), props);
+      }
+
+      return output;
     });
   }
- 
+
   render() {
-    let v = 
-    <div class="multi-container">
-      <div class="multi-elements-container">
-        {this.renderChildren()}
+    const v =
+    (
+      <div className="multi-container">
+        <div className="multi-elements-container">
+          {this.renderChildren()}
+        </div>
       </div>
-    </div> 
+    );
+
     return v;
   }
 }

@@ -1,14 +1,13 @@
-import React, { Component, PropTypes } from 'react'
-import d3 from 'd3'
+import React, { Component, PropTypes } from 'react';
 
 export default class DatamapSubunit extends Component {
   constructor(props) {
-    super(props)
-    this.handleMouseEnter = this.handleMouseEnter.bind(this)
-    this.handleMouseLeave = this.handleMouseLeave.bind(this)
+    super(props);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.state = {
       active: false,
-    }
+    };
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -21,14 +20,14 @@ export default class DatamapSubunit extends Component {
   }
 
   handleMouseEnter() {
-    this.setState({ active: true })
+    this.setState({ active: true });
 
-    const { name, value, index } = this.props
-    this.props.mouseEnterOnSubunit(name, value, index)
+    const { name, value, index } = this.props;
+    this.props.mouseEnterOnSubunit(name, value, index);
   }
 
   handleMouseLeave() {
-    this.setState({ active: false })
+    this.setState({ active: false });
   }
 
   render() {
@@ -36,7 +35,8 @@ export default class DatamapSubunit extends Component {
       fill: this.state.active ? '#FFCCBC' : this.props.fillColor,
       stroke: this.state.active ? '#FF5722' : this.props.borderColor,
       strokeWidth: this.state.active ? 2 : 0.5,
-    }
+    };
+
     return (
       <path
         className="datamap-subunit"
@@ -45,7 +45,7 @@ export default class DatamapSubunit extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       />
-    )
+    );
   }
 }
 
@@ -58,4 +58,4 @@ DatamapSubunit.propTypes = {
   fillColor: PropTypes.string.isRequired,
   borderColor: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
-}
+};

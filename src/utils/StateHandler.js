@@ -1,34 +1,33 @@
+import { isString, omit } from 'lodash';
 import Registry from './Registry';
-import {isFunction, isString, omit} from 'lodash';
 
 /**
  * The State Handler implementation is an implementation of the Registry
- * It allows us to store a library of functions which can be used to 
- * update the state of components extending BaseComponent using domain 
+ * It allows us to store a library of functions which can be used to
+ * update the state of components extending BaseComponent using domain
  * specific logic which we can store with our dashboard implementations
  *
  * NOTE that this is very similar to the DataHandler implementation
  */
 export default class StateHandler {
-
   /**
    * Register a new state handler using the registry.
    */
   static set(path, handler) {
-    Registry.set('stateHandlers.' + path, handler);
+    Registry.set(`stateHandlers.${path}`, handler);
   }
 
   static setLib(libName, handlers) {
-    for (let k in handlers) {
+    for (const k in handlers) {
       Registry.set(['stateHandlers', libName, k], handlers[k]);
-    } 
+    }
   }
 
   /**
    * Retrieves a state handler given an object path.
    */
   static get(path) {
-    return Registry.get('stateHandlers.' + path);
+    return Registry.get(`stateHandlers.${path}`);
   }
 
   /**
@@ -46,21 +45,28 @@ export default class StateHandler {
    */
   static handle(hs, componentData, dashboardData, e, appliedFilters) {
     let cur;
-    let newState = {};
+    const newState = {};
 
     try {
-      let handlers = (hs || []);
-      handlers.forEach(h => {
-        let handler = isString(h) ? { name: h } : h ;
-        let funcHandler = StateHandler.get(handler.name);
-        let args = omit(handler,'name');
+      const handlers = (hs || []);
+      handlers.forEach((h) => {
+        const handler = isString(h) ? { name: h } : h;
+        const funcHandler = StateHandler.get(handler.name);
+        const args = omit(handler, 'name');
         cur = h;
-        newState[h.attr] = funcHandler.call(this, componentData, dashboardData, args, e, appliedFilters);
+        newState[h.attr] = funcHandler.call(
+          this,
+          componentData,
+          dashboardData,
+          args,
+          e,
+          appliedFilters,
+        );
       });
-    } catch (e) {
-      console.error("Error in state handler. This could mean that one of your state handlers is missing from the registry. Here are the handlers we're trying to process:", e, cur, arguments);
+    } catch (er) {
+      console.error("Error in state handler. This could mean that one of your state handlers is missing from the registry. Here are the handlers we're trying to process:", er, cur, arguments);
     }
-    
+
     return newState;
   }
 }

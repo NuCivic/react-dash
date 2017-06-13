@@ -1,7 +1,7 @@
-import Registry from '../utils/Registry';
 import Select from 'react-select';
+import Registry from '../utils/Registry';
 
-let ReactSelect = Select;
+const ReactSelect = Select;
 export default ReactSelect;
 
 Registry.set('ReactSelect', Select);

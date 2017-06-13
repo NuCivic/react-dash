@@ -2,13 +2,13 @@ import React, { Component, PropTypes } from 'react';
 
 export default class EquidistantLegend extends Component {
   renderLegend() {
-    const rectWidth = 40
+    const rectWidth = 40;
     const textStyle = {
       textAnchor: 'middle',
       fontSize: 9,
       fill: '#333',
-    }
-    const { extremeValues} = this.props;
+    };
+    const { extremeValues } = this.props;
     const classesCount = this.props.legend.classesCount;
     const minVal = extremeValues.get('customMin') || extremeValues.get('min');
     const maxVal = extremeValues.get('customMax') || extremeValues.get('max');
@@ -17,24 +17,26 @@ export default class EquidistantLegend extends Component {
     const startingPoint = rectWidth * classesCount + 80;
 
     const legend = colorPallete.map((color, i) =>
-      <g key={i}>
-        <text
-          key={i + 100}
-          x={this.props.svgWidth - startingPoint + rectWidth * i}
-          y={this.props.svgHeight - 60}
-          style={textStyle}
-        >
-          {Math.round((minVal + interval * i) * 100) / 100}
-        </text>
-        <rect
-          key={i + 1000}
-          x={this.props.svgWidth - startingPoint + rectWidth * i}
-          y={this.props.svgHeight - 50}
-          width={rectWidth}
-          height="10"
-          fill={color}
-        />
-      </g>
+      (
+        <g key={i}>
+          <text
+            key={i + 100}
+            x={this.props.svgWidth - startingPoint + rectWidth * i}
+            y={this.props.svgHeight - 60}
+            style={textStyle}
+          >
+            {Math.round((minVal + interval * i) * 100) / 100}
+          </text>
+          <rect
+            key={i + 1000}
+            x={this.props.svgWidth - startingPoint + rectWidth * i}
+            y={this.props.svgHeight - 50}
+            width={rectWidth}
+            height="10"
+            fill={color}
+          />
+        </g>
+      ),
     );
 
     legend.push(
@@ -44,17 +46,17 @@ export default class EquidistantLegend extends Component {
         y={this.props.svgHeight - 60}
         style={textStyle}
       >
-      {maxVal}
-      </text>
-    )
+        {maxVal}
+      </text>,
+    );
 
-    return legend
+    return legend;
   }
 
   render() {
     return (
       <g>{this.renderLegend()}</g>
-    )
+    );
   }
 }
 
