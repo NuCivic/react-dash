@@ -14,6 +14,7 @@ export default class Card extends Component {
     let style = props.style || {};
     let regions = {};
     let classNames = (props.cardClasses || []).join(' ') || '';
+    let classInnerNames = (props.cardInnerClasses || []).join(' ') || '';
 
     CARD_REGIONS.forEach(region => {
       if (props[region]) {
@@ -28,22 +29,24 @@ export default class Card extends Component {
 
     return (
       <div className={'card card-' + props.cardStyle + ' ' + classNames} style={style}>
-        <div className="card-top">
-          {regions.header}
-          {regions.subheader}
-          {regions.topmatter}
-          {regions.subheader2}
-          {regions.topmatter2}
-        </div>
-        <div className="card-content">
-          {props.children}
-        </div>
-        <div className="card-bottom">
-          {regions.footerHeader}
-          {regions.footerSubheader}
-          {regions.bottommatter}
-          {regions.footerSubheader2}
-          {regions.bottommatter2}
+        <div className={ 'card-inner ' + classInnerNames }>
+          <div className="card-top">
+            {regions.header}
+            {regions.subheader}
+            {regions.topmatter}
+            {regions.subheader2}
+            {regions.topmatter2}
+          </div>
+          <div className="card-content">
+            {props.children}
+          </div>
+          <div className="card-bottom">
+            {regions.footerHeader}
+            {regions.footerSubheader}
+            {regions.bottommatter}
+            {regions.footerSubheader2}
+            {regions.bottommatter2}
+          </div>
         </div>
       </div>
     )
