@@ -201,10 +201,10 @@ export default class Dashboard extends BaseComponent {
 
   getRegion(region) {
     return (
-      <div id={region.id} className={region.className} >
+      <div key={region.id} id={region.id} className={region.className} >
         {region.children.map( (element, key) => {
           // if it isn't a react element, the element is a settings object
-          
+
           let props = this.updateProps(element);
           element.isFetching = this.state.isFetching;
           let el = (React.isValidElement(element)) ? element : React.createElement(Registry.get(element.type), props);
@@ -216,8 +216,8 @@ export default class Dashboard extends BaseComponent {
 
   getAccordionRegion(region) {
     return (
-      <div id={region.id} className={region.className} key={makeKey()} >
-        <Accordion key={makeKey()} closeable={true}>
+      <div id={region.id} className={region.className} key={region.id} >
+        <Accordion key={region.id} closeable={true}>
         {region.children.map( (element, key) => {
           // if it isn't a react element, the element is a settings object
           let props = this.updateProps(element);

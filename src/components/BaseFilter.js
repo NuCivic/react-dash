@@ -6,11 +6,11 @@ import { isArray, isEqual } from 'lodash';
 import { DataHandler } from '../ReactDashboard';
 
 export default class BaseFilter extends BaseComponent {
-  
+
   constructor(props) {
     super(props);
   }
-  
+
   getFilterValue() {
     let val;
 
@@ -30,19 +30,19 @@ export default class BaseFilter extends BaseComponent {
 
     return val;
   }
-  
+
   /**
    * @@IMPLEMEMT
    */
   onFilter() {
-    // noop / use this to add onFilter behavior 
+    // noop / use this to add onFilter behavior
   }
-  
+
   onChange(e) {
     this.onFilter(e);
-    
+
     let filter = Object.assign({}, this.props);
-    
+
     filter.value = e;
     filter.multi = this.props.multi;
     filter.actionType = this.state.actionType;
@@ -58,7 +58,7 @@ export default class BaseFilter extends BaseComponent {
     let appliedFilters = (this.props.appliedFilters) ? Object.keys(this.props.appliedFilters) : [];
 
     if (this.props.disabled) disabled = true;
-    
+
     if (this.props.disabledBy) {
       this.props.disabledBy.forEach(field => {
         if (appliedFilters.indexOf(field) >= 0) disabled = true;
@@ -86,7 +86,7 @@ export default class BaseFilter extends BaseComponent {
     } else if (data && data[0]) {
       return this.props.data[0];
     }
-    
+
     return  [];
   }
 }

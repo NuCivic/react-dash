@@ -15,6 +15,17 @@ export default class Autocomplete extends BaseFilter {
     }
   }
 
+  componentDidMount() {
+    super.componentDidMount();
+    if(!this.props.appliedFilters[this.props.field] && this.props.initVal) {
+      this.onFilter(this.props.initVal);
+      let filter = Object.assign({}, this.props);
+      filter.value = this.props.initVal;
+      filter.actionType = 'AUTOCOMPLETE_CHANGE';
+      setTimeout(() => this.emit(filter), 0);
+    }
+  }
+
   render(){
     let val = this.getFilterValue();
     let props = omit(this.props, 'className');
@@ -22,7 +33,7 @@ export default class Autocomplete extends BaseFilter {
     let labelClass = (props.label) ? '' : 'sr-only';
     let { className } = this.props;
     let inputProps = {};
-    
+
     inputProps.id = this.state.key;
     props.options = this.props.data[0];
     props.isLoading = this.state.isFetching;

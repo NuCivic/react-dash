@@ -36,7 +36,7 @@ export default class Region extends Component {
           } else if (element.data && element.data.length > 0) {
             props.data = element.data;
           }
-
+          props.key = key;
           return React.createElement(Registry.get(element.type), props);
         })}
     return children;
