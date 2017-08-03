@@ -13,20 +13,18 @@ export default class Highlight extends BaseComponent {
           { cols.map( (col, i) => {
               return <div className={"highlight-col highlight-cols-" + cols.length} key={i}>
                 { col.rows.map( (row, j) => {
-                  let labelVal = <span className="highlight-label">{ row.label }</span>;
-                  let rowVal;
-
+                  let output = [];
                   if (row.isLink) {
-                    rowVal = <span className="highlight-val">
-                               <a href={row.val}>{row.val}</a>
-                             </span>
+                    output.push(<span className="highlight-val">
+                               <a href={row.val}>{ row.label ? row.label : row.val}</a>
+                             </span>)
                   } else {
-                    rowVal = <span className="highlight-val">{ row.val }</span>
+                    output.push(<span className="highlight-label">{ row.label }</span>)
+                    output.push(<span className="highlight-val">{ row.val }</span>)
                   }
-
                   return (
                     <div className="highlight-row" key={j}>
-                      {labelVal}{rowVal}
+                      {output}
                     </div>
                  )
                 }) }
