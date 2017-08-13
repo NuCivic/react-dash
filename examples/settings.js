@@ -172,7 +172,6 @@ export var settings = {
             type: 'multiBarChart',
             x: 'x',
             y: 'y',
-            height: 400
           }
         },
         {
