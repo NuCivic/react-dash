@@ -264,7 +264,7 @@ export default class Dashboard extends BaseComponent {
     let cx = classNames(this.props.dashWrapperClass, defaultClasses);
 
     if (this.props.title) {
-      title = <h1 className="dashboard-title"> + {this.props.title} + </h1>;
+      title = <h1 className="dashboard-title">{this.props.title}</h1>;
     }
     return (
       <div className={cx} key="dashboard-container">

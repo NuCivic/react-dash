@@ -54,7 +54,7 @@ let stateIds =
         { value: 50, label: 'USA?'}
     ];
 export var settings = {
-  title: 'React-Dash v0.6.x --- Climate Indices by Year',
+  title: 'Select Climate Indices by Year',
   dashWrapperClass: 'example-dash-wrapper',
   queries: {},
   doFilterRouting: false,
@@ -172,7 +172,7 @@ export var settings = {
             type: 'multiBarChart',
             x: 'x',
             y: 'y',
-            height: 400
+            height: 600
           }
         },
         {

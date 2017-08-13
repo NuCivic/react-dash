@@ -1,11 +1,9 @@
 .region {border-bottom: 1px grey solid; margin-bottom:2em}
-.dashboard-title {font-size:4em;}
 .card-header-content {font-size:2em !important; margin-left:20px !important}
-.region-top, .region:last-child {border-bottom:none}
 .footer {margin:0 auto; text-align:center}
 .logo-sm {height:50px}
 .card-header-icon.fa {font-size:3.5em; margin-top:12px}
-.card-metric-icon .fa {font-size:3.5em; margin-top:12px}
+.card-metric-icon .fa {font-size:3.5em; margin-top:12px;}
 
 /* Accordian */
 .Collapsible__trigger:empty {display:none}
@@ -17,3 +15,9 @@ border-radius: 12px 12px 12px 12px;margin:.2em; cursor:pointer;background-color:
 .yelloW {background-color:yellow}
 .greenCell {background-color:green; border: 1px solid white}
 
+.card-header-inner .fa {margin-right:1em}
+.autocomplete-filter-container {width:50%; margin-left:1em}
+.dashboard-title {margin-left:.3em}
+.card-metric .fa-fire {font-size:3em}
+.metric-with-icon .col-sm-9.col-lg-8 {text-align: center; margin-left:-3em}
+.map-container {margin-top:20%}
