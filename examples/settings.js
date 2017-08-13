@@ -73,7 +73,7 @@ export var settings = {
   regions: [
     {
       id: 'top-row filters-row',
-      cardClasses: ['row'],
+      className: 'row',
       children: [
         {
           type: 'Autocomplete',
@@ -99,7 +99,7 @@ export var settings = {
     },
     {
       id: 'metrics-row',
-      cardClasses: ['row'],
+      className: 'row',
       children: [
         {
           type: 'Metric',
@@ -153,7 +153,7 @@ export var settings = {
     },
     {
       id: 'row-one',
-      cardClasses: ['row'],
+      className: 'row',
       children: [
         {
           type: 'Chart',
@@ -172,7 +172,6 @@ export var settings = {
             type: 'multiBarChart',
             x: 'x',
             y: 'y',
-            heigh: 800
           }
         },
         {

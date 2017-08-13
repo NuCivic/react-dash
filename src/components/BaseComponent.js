@@ -34,19 +34,18 @@ export default class BaseComponent extends Component {
   }
 
   componentDidMount(){
-    // resize magic
-    let componentWidth = findDOMNode(this).getBoundingClientRect().width;
-    let newState = this.executeStateHandlers();
-
-    newState.componentWidth = componentWidth;
-    newState.cardVariables = this.getCardVariables();
-
-    this.setState(newState);
-    this.addResizeListener();
+    window.addEventListener('resize', this._resizeHandler );
+    console.log('<1>', this); 
+    this.setState({
+      cardVariables: this.getCardVariables()
+    });
+    
+    this._resizeHandler();
     this.onResize();
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log('<1>', this); 
     if (!isEqual(this.props.data, prevProps.data)) {
       let newState = this.executeStateHandlers();
       newState.cardVariables = this.getCardVariables();
@@ -86,6 +85,7 @@ export default class BaseComponent extends Component {
   // if we have card variables set on the state, return them
   // otherwise use props or undefined
   getCardVariables() {
+    console.log('<1.2>', this); 
     let cardVars = {};
 
     CARD_VARS.forEach(v => {
@@ -94,15 +94,13 @@ export default class BaseComponent extends Component {
 
     return cardVars;
   }
-
-  addResizeListener() {
-    this._resizeHandler = (e) => {
+  
+  _resizeHandler = (e) => {
       let componentWidth = findDOMNode(this).getBoundingClientRect().width;
-
+    
+      console.log('>_RH', this, componentWidth);
       this.setState({ componentWidth : componentWidth});
       this.onResize(e);
-    }
-    window.addEventListener('resize', this._resizeHandler);
   }
 
   /**

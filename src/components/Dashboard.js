@@ -200,6 +200,7 @@ export default class Dashboard extends BaseComponent {
   }
 
   getRegion(region) {
+    console.log("REGION", region);
     return (
       <div key={region.id} id={region.id} className={region.className} >
         {region.children.map( (element, key) => {
