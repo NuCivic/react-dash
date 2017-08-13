@@ -5,14 +5,14 @@ import testData from './fixtures/zones_test_data.json';
 import ReactTestUtils from 'react-addons-test-utils';
 
 let Component;
-const settings = 
+const settings =
 {
 	header: 'GAChoropleth Test ][ - GEOJSON',
 	type: 'Choropleth',
 	settings: {
 		colors: ['red','green','yellow','purple','orange','pink','#252525','#000000'],
 		cssPath: '/static/choropleth.css',
-		showTooltip: {true},
+		showTooltip: true,
 		legendHeader: 'Accred. Time: Before 8 AM #',
 		levels: 5,
 		domainLower: 10,
@@ -61,7 +61,7 @@ describe('Test geojson implementation', () => {
 describe('Instantiate Choropleth component', () => {
   Component = new Choropleth(settings);
   it('Should be an object', () => {
-    expect(typeof Component).toBe('object'); 
+    expect(typeof Component).toBe('object');
   });
 
   it('Should quack like a duck', () => {

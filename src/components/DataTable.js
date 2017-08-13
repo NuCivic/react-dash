@@ -3,7 +3,6 @@ import Registry from '../utils/Registry';
 import {getProp} from '../utils/utils';
 import React, {Component} from 'react';
 import BaseComponent from './BaseComponent';
-import StateHandler from '../utils/StateHandler';
 import Card from './Card';
 import Loader from './Loader';
 import {isString, isEmpty, range, partialRight} from 'lodash';
@@ -85,7 +84,7 @@ export default class DataTable extends BaseComponent {
   }
 
   onResize() {
-    const { offsetWidth, offsetHeight } = this.refs.table;
+    const { offsetWidth, offsetHeight } = this.table;
     this.setState({
       gridWidth: offsetWidth,
       gridHeight: offsetHeight
@@ -146,7 +145,7 @@ export default class DataTable extends BaseComponent {
         cell={props => {
           let rowOverrides = getProp('rows.' + props.rowIndex, this.props.overrides);
           let cellOverrides = getProp('cells.' + header + '_' + props.rowIndex, this.props.overrides);
-          return <Cell {...props} {...columnOverrides} {...rowDefaultProps} {...rowOverrides} {...cellOverrides} >
+          return <Cell {...props} {...columnOverrides} {...rowDefaultProps} {...rowOverrides} {...cellOverrides}>
             {data[props.rowIndex][props.columnKey]}
           </Cell>
         }}
@@ -189,14 +188,14 @@ export default class DataTable extends BaseComponent {
     // Return the renderable elements
     return (
       <Card key={'card_'+this.state.key} {...this.state.cardVariables}>
-        <div ref="table">
+        <div ref={t => this.table = t} className="table-wrapper">
           <div className="row">
             {filterHeader}
             {headerControls}
           </div>
-          <Loader isFetching={this.state.isFetching}>
+          <Loader isFetching={this.props.isFetching || !data.length}>
             <div className="table-container">
-              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth} >
+              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth} rowHeightGetter={this.rowHeightGetter}>
                 {columns}
               </FixedTable>
             </div>

@@ -9,7 +9,7 @@ export default class MultiCheckboxFilter extends BaseFilter {
   constructor(props) {
     super(props);
     this.state.actionType = "AUTOCOMPLETE_CHANGE";
-    this.state.elKey = makeKey();
+    this.state.key = this.state.key || makeKey();
     this.state.checked = this.state.checked || {};
   }
 
@@ -41,15 +41,16 @@ export default class MultiCheckboxFilter extends BaseFilter {
             el.checked = this.state.checked[el.value];
             return (
               // figure out if it's checked
-							 <li className="react-dash-checkbox-item" key={idx}>
+							 <li className="react-dash-checkbox-item" key={idx + this.state.key}>
 									<input
 										type="checkbox"
 										name={this.props.name}
                     value={el.value}
+                    id={idx + this.state.key}
                     checked={el.checked}
 										onChange={() => { this.checkboxClick(el) }}
 									/>
-									<label htmlFor={this.props.name} value={el.label}>
+									<label htmlFor={idx + this.state.key} value={el.label}>
 										{el.label}
 									</label>
 								</li>

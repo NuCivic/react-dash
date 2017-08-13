@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import { makeKey } from '../utils/utils';
 import BaseComponent from './BaseComponent';
-import { isArray } from 'lodash';
+import { isArray, isEqual } from 'lodash';
+import { DataHandler } from '../ReactDashboard';
 
 export default class BaseFilter extends BaseComponent {
-  
+
   constructor(props) {
     super(props);
   }
@@ -29,19 +30,19 @@ export default class BaseFilter extends BaseComponent {
 
     return val;
   }
-  
+
   /**
    * @@IMPLEMEMT
    */
   onFilter() {
-    // noop / overrides basecomponent onFilter
+    // noop / use this to add onFilter behavior
   }
-  
+
   onChange(e) {
     this.onFilter(e);
-    
+
     let filter = Object.assign({}, this.props);
-    
+
     filter.value = e;
     filter.multi = this.props.multi;
     filter.actionType = this.state.actionType;
@@ -57,7 +58,7 @@ export default class BaseFilter extends BaseComponent {
     let appliedFilters = (this.props.appliedFilters) ? Object.keys(this.props.appliedFilters) : [];
 
     if (this.props.disabled) disabled = true;
-    
+
     if (this.props.disabledBy) {
       this.props.disabledBy.forEach(field => {
         if (appliedFilters.indexOf(field) >= 0) disabled = true;
@@ -67,32 +68,26 @@ export default class BaseFilter extends BaseComponent {
     return disabled;
   }
 
-  /**
-   * Load autocomplete options
-   * @param  {String}   input A text with the query to be sent to the server
-   * @return {Promise}        A promise with the request
-   */
-  loadOptions(input){
-    let re = /\{\{(.+)\}\}/;
+  getData() {
+    let data = this.props.data;
+    return data;
+  }
 
-    // URL Endpoint returns filter options
-    if(this.props.url) {
-      return fetch(this.props.url.replace(re, input))
-        .then((response) => {
-          return response.json();
-        }).then((json) => {
-          return { options: json };
-        });
-    // Pass options directly
-    } else if(this.props.options) {
-      return Promise.resolve({ options: this.props.options, isLoading: false });
+  /**
+   * get autocomplete options
+   */
+  getOptions(input){
+    let re = /\{\{(.+)\}\}/;
+    let data = this.getData();
+
+    if(this.props.options) {
+      return this.props.options
     // Use component level data
-    } else if (this.props.data && this.props.data[0]) {
-      let options = this.props.data[0];
-      return Promise.resolve({ options: options, isLoading: false });
+    } else if (data && data[0]) {
+      return this.props.data[0];
     }
-    
-    return  Promise.resolve({options: [], isLoading: false});
+
+    return  [];
   }
 }
 

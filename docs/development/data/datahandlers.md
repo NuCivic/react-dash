@@ -4,30 +4,22 @@ Data handlers are similar in principle to Redux reducers. They take as input the
 ## datahandler definition
 *Datahandlers* are defined as props at the component level - `props.datahandlers` is defined as an array of objects, where each object consists of a *name* property, as well as any number of additional properties, which are passed to the datahandler function as properties of the *handler* argument.
 
-Consider:
+Consider the following dataHandler configuration for a chart component:
 
-```javascript
-// settings.js:
-{
-  type: 'Metric',
-  caption: 'My Cool Metric',
-  dataHandlers: [
-    {
-        name: 'getRandomMetric'
-    },
-    {
-        name: 'multiplyByFactor',
-        factor: 2
-    },
-    {
-        name: 'multiplyByFactor',
-        factor: 4
-    }
-  ]
-}
+```eval_rst
+.. literalinclude:: ../../../examples/settings.js
+    :start-after: start dataHandler example
+    :end-before: end dataHandler example
+    :dedent: 4
 ```
 
-Take a look at examples/customDatahandlers.js for an example implementation.
+And following is the implmentation of the dataHandler function. It recieves the indicators array and colors array from the handler element, and uses them to generate the barChart data series.
+
+```eval_rst
+.. literalinclude:: ../../../examples/customDataHandlers.js
+    :start-after: start dataHandler example
+    :end-before: end dataHandler example
+```
 
 ## datahandler arguments
 
@@ -41,7 +33,7 @@ Also referred to as globalData - this is the data available to the entire dashbo
 The handler as deffined in settings.js. Any properties set on the handler are available as `handler.foo`, etc
 
 ### e
-Filters use the *e* property to capture the javascript event and pass it along for use in the handler
+**DEPRECATED** This is an empty object in the current implementation.
 
 ### appliedFilters 
 A global property of the dashboard which indicates what filters are applied at the global level. This object is pf the form:
