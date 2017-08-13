@@ -54,7 +54,8 @@ let stateIds =
         { value: 50, label: 'USA?'}
     ];
 export var settings = {
-  title: 'React-Dash v0.6.x -- Climate Indices by Year',
+  title: 'React-Dash v0.6.x --- Climate Indices by Year',
+  dashWrapperClass: 'example-dash-wrapper',
   queries: {},
   doFilterRouting: false,
   // start dataResources example
@@ -101,7 +102,6 @@ export var settings = {
       id: 'metrics-row',
       className: 'row',
       children: [
-        // start-handlers-example
         {
           type: 'Metric',
           cardStyle: 'metric',
@@ -122,7 +122,6 @@ export var settings = {
             }
           ]
         },
-        // end-handlers-example
         {
           type: 'Metric',
           cardStyle: 'metric',
@@ -154,13 +153,33 @@ export var settings = {
       ]
     },
     {
-      id: 'map-row',
+      id: 'row-one',
       className: 'row',
       children: [
-        // choropleth
+        {
+          type: 'Chart',
+          cardStyle: 'chart',
+          className: 'col-md-6',
+          header: 'Standard Precipitation Index',
+          iconClass: 'fa fa-cloud',
+          dataHandlers: [ 'getBarChartData' ],
+          stateHandlers: [
+            {
+              name: 'isStatSignificant',
+              attr: 'footer'
+            }
+          ],
+          settings: {
+            type: 'multiBarChart',
+            x: 'x',
+            y: 'y',
+            height: 800
+          }
+        },
         {
           type: 'Choropleth',
           cardStyle: 'map',
+          className: 'col-md-6',
           iconClass: 'fa fa-balance-scale',
           header: 'Palmer Hydrological Drought Index',
           format: 'topojson',
@@ -185,42 +204,17 @@ export var settings = {
           legend: {
             classesCount: 5,
             pallete:
-							[
-								"#e6ffff",
-								"#00ffff",
-								"#00cccc",
-								"#00b3b3",
-								"#009999",
-								"#008080",
-								"#004d4d"
-							]
+              [
+                "#e6ffff",
+                "#00ffff",
+                "#00cccc",
+                "#00b3b3",
+                "#009999",
+                "#008080",
+                "#004d4d"
+              ]
           },
         },
-      ]
-    },
-    {
-      id: 'chart-row',
-      className: 'row',
-      children: [
-        {
-          type: 'Chart',
-          cardStyle: 'chart',
-          header: 'Standard Precipitation Index',
-          iconClass: 'fa fa-cloud',
-          dataHandlers: [ 'getBarChartData' ],
-          stateHandlers: [
-            {
-              name: 'isStatSignificant',
-              attr: 'footer'
-            }
-          ],
-          settings: {
-            type: 'multiBarChart',
-            x: 'x',
-            y: 'y',
-            height: 800
-          }
-        }
       ]
     }
   ]
