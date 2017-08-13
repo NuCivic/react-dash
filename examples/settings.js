@@ -73,14 +73,13 @@ export var settings = {
   regions: [
     {
       id: 'top-row filters-row',
-      className: 'row',
+      cardClasses: 'row',
       children: [
         {
           type: 'Autocomplete',
-          className: 'col-md-6',
           name: 'specialty-autocomplete',
           id: 'specialty-autocomplete',
-          className: 'specialty-autocomplete',
+          cardClasses: 'col-md-6 specialty-autocomplete',
           field: 'YearMonth',
           action: 'filter', // sort / groupBy / etc
           willFilter: ['climateData'], // array of dkanDataResources keys that filters affect 
@@ -100,13 +99,13 @@ export var settings = {
     },
     {
       id: 'metrics-row',
-      className: 'row',
+      cardClasses: 'row',
       children: [
         {
           type: 'Metric',
           cardStyle: 'metric',
           iconClass: 'fa fa-level-up',
-          className: 'col-md-4',
+          cardClasses: 'col-md-4',
           background: "#00b3b3",
           caption: 'Maximum Temp.',
           dataHandlers: [
@@ -126,7 +125,7 @@ export var settings = {
           type: 'Metric',
           cardStyle: 'metric',
           iconClass: 'fa fa-level-down',
-          className: 'col-md-4',
+          cardClasses: 'col-md-4',
           background: '#009999',
           caption: 'Minimum Temp.',
           dataHandlers: [
@@ -140,7 +139,7 @@ export var settings = {
           type: 'Metric',
           cardStyle: 'metric',     
           iconClass: 'fa fa-fire',
-          className: 'col-md-4',
+          cardClasses: 'col-md-4',
           caption: 'Average Temp/',
           background: '#004d4d',
           dataHandlers: [
@@ -154,12 +153,12 @@ export var settings = {
     },
     {
       id: 'row-one',
-      className: 'row',
+      cardClasses: 'row',
       children: [
         {
           type: 'Chart',
           cardStyle: 'chart',
-          className: 'col-md-6',
+          cardClasses: 'col-md-6',
           header: 'Standard Precipitation Index',
           iconClass: 'fa fa-cloud',
           dataHandlers: [ 'getBarChartData' ],
@@ -179,7 +178,7 @@ export var settings = {
         {
           type: 'Choropleth',
           cardStyle: 'map',
-          className: 'col-md-6',
+          cardClasses: 'col-md-6',
           iconClass: 'fa fa-balance-scale',
           header: 'Palmer Hydrological Drought Index',
           format: 'topojson',
