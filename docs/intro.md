@@ -9,7 +9,7 @@ The *react-dash-boilerplate* project provides a starter project and a developmen
   git clone https://github.com/NuCivic/react-dash-boilerplate.git
   cd react-dash-boilerplate
   npm install
-  npm run init
+  npm run setup
   npm run start
   ```
 * Visit http://localhost:5000 on your system - if everything was successful, you should see an example dashboard
@@ -29,4 +29,4 @@ npm run start
 * Take a look at our [Developer's Guide](development/index.html) for next steps to customize your dash!
 
 ## Building a DKAN project
-Visit the [Drupal Module](https://github.com/NuCivic/react_dashboard) page for more on Drupal Dkan development
+Visit the [Drupal Module](https://github.com/NuCivic/dkan_dash) page for more on Drupal Dkan development
