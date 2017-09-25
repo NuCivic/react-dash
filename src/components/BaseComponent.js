@@ -31,31 +31,25 @@ export default class BaseComponent extends Component {
   componentWillMount() {
     // Register to all the actions
     EventDispatcher.register(this.onAction.bind(this));
-    this.addResizeListener();
   }
 
   componentDidMount(){
     // resize magic
+    let componentWidth = findDOMNode(this).getBoundingClientRect().width;
     let newState = this.executeStateHandlers();
-    
-    setTimeout(() => {
-      
-      newState.componentWidth = componentWidth;
-      newState.cardVariables = this.getCardVariables();
 
-      this.setState(newState);
-      this.onResize();
-    
-    })   
+    newState.componentWidth = componentWidth;
+    newState.cardVariables = this.getCardVariables();
+
+    this.setState(newState);
+    this.addResizeListener();
+    this.onResize();
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (!isEqual(this.props.data, prevProps.data)) {
       let newState = this.executeStateHandlers();
-      
       newState.cardVariables = this.getCardVariables();
-      newState.componentWidth = findDOMNode(this).getBoundingClientRect().width;
-
       this.setState(newState);
       this.onResize();
     }
