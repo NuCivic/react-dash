@@ -64,7 +64,7 @@ export var settings = {
       fetchData: {
         type: 'backend',
         backend: 'csv',
-        url: 'https://dl.dropboxusercontent.com/u/73703010/react_dash_data_0.4/climate_indices.csv'
+        url: 'https://nucivic.github.io/react-dash/data/climate_indices.csv'
       },
     }
     // end dataResources example
