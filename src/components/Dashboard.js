@@ -202,12 +202,14 @@ export default class Dashboard extends BaseComponent {
   getRegion(region) {
     return (
       <div key={region.id} id={region.id} className={region.className} >
-        {region.children.map( (element, key) => {
+        {region.children.map( (element, index) => {
           // if it isn't a react element, the element is a settings object
 
           let props = this.updateProps(element);
           element.isFetching = this.state.isFetching;
-          let el = (React.isValidElement(element)) ? element : React.createElement(Registry.get(element.type), props);
+          let el = (React.isValidElement(element)) ?
+            element :
+            React.createElement(Registry.get(element.type), props);
           return el;
         })}
       </div>
@@ -237,10 +239,10 @@ export default class Dashboard extends BaseComponent {
   getRegions() {
     let regions;
     if (this.props.regions) {
-      regions = this.props.regions.map( (region, key) => {
+      regions = this.props.regions.map( (region, index) => {
         if (region.multi) {
           let multiRegionKey = this.getChildData(region);
-          region.key = key;
+          region.key = index;
           region.children = region.elements[multiRegionKey];
         }
 
