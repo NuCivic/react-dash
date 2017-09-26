@@ -80,10 +80,11 @@ export var settings = {
           className: 'col-md-6',
           name: 'specialty-autocomplete',
           id: 'specialty-autocomplete',
+          key: 'auto-complete-1',
           className: 'specialty-autocomplete',
           field: 'YearMonth',
           action: 'filter', // sort / groupBy / etc
-          willFilter: ['climateData'], // array of dkanDataResources keys that filters affect 
+          willFilter: ['climateData'], // array of dkanDataResources keys that filters affect
           data: [
             [
               { label: '2010', value: '2010' },
@@ -106,6 +107,8 @@ export var settings = {
           type: 'Metric',
           cardStyle: 'metric',
           iconClass: 'fa fa-level-up',
+          id: 'metric-1',
+          key: 'key-1',
           className: 'col-md-4',
           background: "#00b3b3",
           caption: 'Maximum Temp.',
@@ -126,6 +129,8 @@ export var settings = {
           type: 'Metric',
           cardStyle: 'metric',
           iconClass: 'fa fa-level-down',
+          id: 'metric-2',
+          key: 'key-2',
           className: 'col-md-4',
           background: '#009999',
           caption: 'Minimum Temp.',
@@ -138,8 +143,10 @@ export var settings = {
         },
         {
           type: 'Metric',
-          cardStyle: 'metric',     
+          cardStyle: 'metric',
           iconClass: 'fa fa-fire',
+          id: 'metric-3',
+          key: 'key-3',
           className: 'col-md-4',
           caption: 'Average Temp/',
           background: '#004d4d',
@@ -161,6 +168,7 @@ export var settings = {
           type: 'Choropleth',
           cardStyle: 'map',
           iconClass: 'fa fa-balance-scale',
+          key: 'key-1',
           header: 'Palmer Hydrological Drought Index',
           format: 'topojson',
           dataHandlers: [
@@ -205,6 +213,7 @@ export var settings = {
           type: 'Chart',
           cardStyle: 'chart',
           header: 'Standard Precipitation Index',
+          key: 'chart-1',
           iconClass: 'fa fa-cloud',
           dataHandlers: [ 'getBarChartData' ],
           stateHandlers: [
@@ -219,6 +228,29 @@ export var settings = {
             y: 'y',
             height: 800
           }
+        }
+      ]
+    },
+    {
+      id: 'highlight-row',
+      className: 'row',
+      children: [
+        {
+          type: 'Highlight',
+          key: 'highlight1',
+          data: [
+            {
+              cols: [
+                {rows:[
+                  {label: 'label 1', val: 'Value 1'},
+                  {label: 'Full Link', val: 'This is a full link', url:'http://google.com', isLink:true}
+                ]},
+                {rows:[
+                  {label: 'label 2', val: 'Value 2'}
+                ]}
+              ]
+            }
+          ]
         }
       ]
     }
