@@ -64,7 +64,7 @@ export var settings = {
       fetchData: {
         type: 'backend',
         backend: 'csv',
-        url: 'https://dl.dropboxusercontent.com/u/73703010/react_dash_data_0.4/climate_indices.csv'
+        url: 'https://nucivic.github.io/react-dash/data/climate_indices.csv'
       },
     }
     // end dataResources example
@@ -83,7 +83,7 @@ export var settings = {
           className: 'specialty-autocomplete',
           field: 'YearMonth',
           action: 'filter', // sort / groupBy / etc
-          willFilter: ['climateData'], // array of dkanDataResources keys that filters affect 
+          willFilter: ['climateData'], // array of dkanDataResources keys that filters affect
           data: [
             [
               { label: '2010', value: '2010' },
@@ -138,7 +138,7 @@ export var settings = {
         },
         {
           type: 'Metric',
-          cardStyle: 'metric',     
+          cardStyle: 'metric',
           iconClass: 'fa fa-fire',
           className: 'col-md-4',
           caption: 'Average Temp/',
@@ -172,7 +172,7 @@ export var settings = {
           dataKeyField: 'name',
           dataValueField: 'PHDI',
           geometryKeyField: 'name',
-          geometry: 'https://dl.dropboxusercontent.com/u/73703010/react_dash_data_0.4/map/usa.json', // topojson or geojson
+          geometry: 'https://nucivic.github.io/react-dash/data/map/usa.json', // topojson or geojson
           projection: 'albersUsa', // https://github.com/d3/d3/wiki/Geo-Projections
           scaleDenominator: .75,
           borderColor: 'yellow',
