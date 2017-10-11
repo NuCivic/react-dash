@@ -79,7 +79,7 @@ export var settings = {
           type: 'Autocomplete',
           className: 'col-md-6',
           name: 'specialty-autocomplete',
-          id: 'specialty-autocomplete',
+          key: 'specialty-autocomplete',
           className: 'specialty-autocomplete',
           field: 'YearMonth',
           action: 'filter', // sort / groupBy / etc
@@ -100,11 +100,13 @@ export var settings = {
     },
     {
       id: 'metrics-row',
+      key: 'metrics-row',
       className: 'row',
       children: [
         {
           type: 'Metric',
           cardStyle: 'metric',
+          key: 'metrics-row1',
           iconClass: 'fa fa-level-up',
           className: 'col-md-4',
           background: "#00b3b3",
@@ -125,6 +127,7 @@ export var settings = {
         {
           type: 'Metric',
           cardStyle: 'metric',
+          key: 'metrics-row2',
           iconClass: 'fa fa-level-down',
           className: 'col-md-4',
           background: '#009999',
@@ -139,6 +142,7 @@ export var settings = {
         {
           type: 'Metric',
           cardStyle: 'metric',
+          key: 'metrics-row3',
           iconClass: 'fa fa-fire',
           className: 'col-md-4',
           caption: 'Average Temp/',
@@ -159,6 +163,7 @@ export var settings = {
         // choropleth
         {
           type: 'Choropleth',
+          key: 'map-row-1',
           cardStyle: 'map',
           iconClass: 'fa fa-balance-scale',
           header: 'Palmer Hydrological Drought Index',
@@ -203,6 +208,7 @@ export var settings = {
       children: [
         {
           type: 'Chart',
+          key: 'chart-row-1',
           cardStyle: 'chart',
           header: 'Standard Precipitation Index',
           iconClass: 'fa fa-cloud',
