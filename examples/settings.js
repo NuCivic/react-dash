@@ -227,9 +227,32 @@ export var settings = {
           }
         }
       ]
+    },
+    {
+      id: 'highlight-row',
+      className: 'row',
+      children: [
+        {
+          type: 'Highlight',
+          key: 'highlight1',
+          data: [
+            {
+              cols: [
+                {rows:[
+                  {label: 'label 1', val: 'Value 1'},
+                  {label: 'Full Link', val: 'This is a full link', url:'http://google.com', isLink:true}
+                ]},
+                {rows:[
+                  {label: 'label 2', val: 'Value 2'}
+                ]}
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
-}
+};
 
 
 let climateVars = {
