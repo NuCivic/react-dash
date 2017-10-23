@@ -5,3 +5,5 @@ bower_components
 build
 *.sw*
 dist/
+package-lock.json
+.idea
