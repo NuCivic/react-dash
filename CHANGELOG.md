@@ -1,3 +1,16 @@
+0.7.2 2017-10-23
+----------------
+- Pin React version to v.15.6.2 pending a v.2.0.0 release which should support React v.16.
+- Update broken links to sample data in settings.js. Map & Chart example was linking to a data source in Dropbox. Update it to link to data sources within the repo.
+- Add Keys to sample data to fix console.log errors.
+- Add a new Link feature to the Highlight component.
+
+0.7.1 2017-08-03
+----------------
+- Update the Highlight Component
+- Fix default filters that were not being applied.
+- Bugfix for failing routing.
+
 0.6.x 2017-4-1
 ------
 - Add cardClasses to components.
