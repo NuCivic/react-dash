@@ -90,7 +90,7 @@ let customDataHandlers = {
   // @TODO use data with dashboardData.
   getTableData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
 
-    // Gey data.
+    // Get data.
     const data = dashboardData.climateData || [];
 
     if (data.length < 1) return ["..."];
