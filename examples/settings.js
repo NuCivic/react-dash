@@ -1,4 +1,3 @@
-
 let stateIds =
       [
         { value: 1, label: 'AK' },
@@ -229,12 +228,33 @@ export var settings = {
       ]
     },
     {
+      id: 'datatable-row',
+      className: 'row',
+      children: [
+        {
+          type: 'ResponsiveDataTable',
+          dataHandlers: [
+            {
+              name: 'getTableData'
+            },
+          ],
+          key: 'datatables-row',
+          header: 'Responsive DataTables',
+          iconClass: 'fa fa-database',
+          cardStyle: 'table',
+          cardClasses: ['col-md-12', 'static-score-table']            
+        },
+        
+      ]
+    },
+    {
       id: 'highlight-row',
       className: 'row',
       children: [
         {
           type: 'Highlight',
           key: 'highlight1',
+          header: 'Highlight',
           data: [
             {
               cols: [
@@ -250,7 +270,7 @@ export var settings = {
           ]
         }
       ]
-    }
+    }        
   ]
 };
 
@@ -268,3 +288,4 @@ let climateVars = {
 			HDD: 'Heating Degree Days',
 			SPnn: 'Standard Precipitation Index'
 		};
+

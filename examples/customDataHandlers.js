@@ -85,12 +85,108 @@ let customDataHandlers = {
     return series;
   },
 
+
+
+ // @TODO use data with dashboardData.
   getTableData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    console.log(arguments);
-    if (dashboardData.climateData) {
-      return dashboardData.climateData;
-    }
+
+    //const data = dashboardData.climateData || [];
+
+
+    const d = [
+      {
+        "year": 2000,
+        "min": 0.42,
+        "max": 0.52
+      },
+      {
+        "year": 2001,
+        "min": 0.55,
+        "max": 0.54
+      },
+      {
+        "year": 2002,
+        "min": 0.63,
+        "max": 0.56
+      },
+      {
+        "year": 2003,
+        "min": 0.62,
+        "max": 0.59
+      },
+      {
+        "year": 2004,
+        "min": 0.55,
+        "max": 0.61
+      },
+      {
+        "year": 2005,
+        "min": 0.69,
+        "max": 0.62
+      },
+      {
+        "year": 2006,
+        "min": 0.63,
+        "max": 0.62
+      },
+      {
+        "year": 2007,
+        "min": 0.66,
+        "max": 0.63
+      },
+      {
+        "year": 2008,
+        "min": 0.54,
+        "max": 0.63
+      },
+      {
+        "year": 2009,
+        "min": 0.64,
+        "max": 0.63
+      },
+      {
+        "year": 2010,
+        "min": 0.71,
+        "max": 0.63
+      },
+      {
+        "year": 2011,
+        "min": 0.6,
+        "max": 0.65
+      },
+      {
+        "year": 2012,
+        "min": 0.63,
+        "max": 0.68
+      },
+      {
+        "year": 2013,
+        "min": 0.65,
+        "max": 0.74
+      },
+      {
+        "year": 2014,
+        "min": 0.74,
+        "max": 0.79
+      },
+      {
+        "year": 2015,
+        "min": 0.87,
+        "max": 0.85
+      },
+      {
+        "year": 2016,
+        "min": 0.99,
+        "max": 0.91
+      }
+    ];
+
+
+      return  [d];
+ 
+
   }
+
 }
 
 for (let k in customDataHandlers) {
