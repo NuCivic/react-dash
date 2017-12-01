@@ -1,5 +1,5 @@
 import { DataHandler } from '../src/ReactDashboard'
-import { find, min, max, mean, isArray } from 'lodash';
+import { find, min, max, mean, isArray, startsWith, chain, forEach, groupBy, map} from 'lodash';
 
 let customDataHandlers = {
   getClimateMetric: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
@@ -11,7 +11,7 @@ let customDataHandlers = {
         output = data.map(r => { return r.TMIN });
         return [min(output)]
       }
-      
+
       if (handler.field === 'TMAX') {
         output = data.map(r => { return r.TMAX });
         return [max(output)]
@@ -24,7 +24,7 @@ let customDataHandlers = {
         return [n];
       }
     }
-    
+
     return ["..."];
   },
 
@@ -34,10 +34,10 @@ let customDataHandlers = {
     let NaNRows = {};
     let _data = dashboardData.climateData;
     let mapped;
-    
+
     if (_data && _data.length > 0) {
       mapped = _data.map(row => {
-        
+
         Object.keys(row).forEach((k) => {
           row[k] = Number(row[k]);
           if (row[k] === -99.99 )  row[k] = 0; // not sure the cause of this but ain't got time to sort it out
@@ -45,13 +45,13 @@ let customDataHandlers = {
 
         // assign label from stateArray to row, based on matching id
         let state = find(handler.stateArray, r => {
-         return ( r.value === row.StateCode ) 
+          return ( r.value === row.StateCode )
         });
 
         if (state) {
           row.name = state.label;
         }
-        
+
         return row;
       });
     }
@@ -85,13 +85,51 @@ let customDataHandlers = {
     return series;
   },
 
+
+
+  // @TODO use data with dashboardData.
   getTableData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    console.log(arguments);
-    if (dashboardData.climateData) {
-      return dashboardData.climateData;
+
+    // Gey data.
+    const data = dashboardData.climateData || [];
+
+    if (data.length < 1) return ["..."];
+
+    // Function to get just the year from a year/month string.
+    const yToStr = item => {
+      return item.YearMonth.toString().substring(0, 4);
+    };
+
+    // Sum
+    function sum(a, b) {
+      a += b;
+      return a;
     }
+        
+    // First group data by year.
+    let byYearData = chain(data)
+        .groupBy(yToStr)
+        .value();
+
+
+    // Then calculate averages for yearly data.
+    let yearlyAveragesData = [];
+    let minTotal = 0;
+    let maxTotal = 0;
+    forEach(byYearData, function(d, year) {
+      let o = {};
+      let max = 0;
+      o.year = year;
+      minTotal = (map(d, 'TMIN').reduce(sum));
+      maxTotal =(map(d, 'TMAX').reduce(sum));
+      o.min = Math.round(minTotal / d.length);
+      o.max = Math.round(maxTotal / d.length);
+      yearlyAveragesData.push(o);
+    });
+
+    return [yearlyAveragesData];
   }
-}
+};
 
 for (let k in customDataHandlers) {
   DataHandler.set(k, customDataHandlers[k]);
