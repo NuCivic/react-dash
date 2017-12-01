@@ -17,3 +17,6 @@ border-radius: 12px 12px 12px 12px;margin:.2em; cursor:pointer;background-color:
 .yelloW {background-color:yellow}
 .greenCell {background-color:green; border: 1px solid white}
 
+
+/* DataTables */
+.data-table-wrapper table {width: 100%;}
