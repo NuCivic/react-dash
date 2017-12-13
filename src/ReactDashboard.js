@@ -1,4 +1,4 @@
-import './stylesheets/main.scss';
+
 console.log('React Dashboard -- 0.7.3');
 
 // COMPONENTS
