@@ -228,6 +228,57 @@ export var settings = {
       ]
     },
     {
+      id: 'fixed-data-table-row',
+      className: 'row',
+      children: [
+        {
+          type: 'DataTable',
+          dataHandlers: [
+            {
+              name: 'getTableData'
+            },
+          ],
+          key: 'fixed-data-table-row',
+          header: 'Fixed Data Table 2',
+          iconClass: 'fa fa-database',
+          cardStyle: 'table',
+          cardClasses: ['col-md-12', 'climate-data'],
+          hideControls: true,
+          hideFilterHeader: true,
+          settings: {
+            table: {
+              rowHeight: 60,
+              width: '100%',
+              maxHeight: 300,
+              headerHeight:60
+            },
+            columns: {
+              flexGrow: 1,
+              width: 150,
+            },
+          },
+          overrides: {
+            rows: {
+              "max": {
+                className: 'yelloW'
+              }
+            },
+            columns: {
+              "max": {
+                className: 'greenCell'
+              }
+            },
+            cells: {
+              "min_3": {
+                className: 'greenCell'
+              }
+            }
+          }
+        },
+        
+      ]
+    },
+    {
       id: 'datatable-row',
       className: 'row',
       children: [
@@ -263,7 +314,7 @@ export var settings = {
         },
         
       ]
-    },
+    },    
     {
       id: 'highlight-row',
       className: 'row',
