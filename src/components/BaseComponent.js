@@ -91,7 +91,6 @@ export default class BaseComponent extends Component {
     CARD_VARS.forEach(v => {
       cardVars[v] = this.state[v] || this.props[v];
     });
-
     return cardVars;
   }
 

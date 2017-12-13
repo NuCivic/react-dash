@@ -1,5 +1,5 @@
-import './stylesheets/main.scss';
-console.log('React Dashboard -- 0.7.2');
+
+console.log('React Dashboard -- 0.7.3');
 
 // COMPONENTS
 export {default as Autocomplete } from './components/Autocomplete';
@@ -13,6 +13,7 @@ export {default as Goal } from './components/Goal';
 export {default as Metric } from './components/Metric';
 export {default as Multi} from './components/Multi';
 export {default as DataTable } from './components/DataTable';
+export {default as ResponsiveDataTable } from './components/ResponsiveDataTable';
 export {default as Markup } from './components/Markup';
 export {default as CheckboxFilter } from './components/CheckboxFilter';
 export {default as MultiCheckboxFilter} from './components/MultiCheckboxFilter';
