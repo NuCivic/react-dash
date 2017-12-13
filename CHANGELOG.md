@@ -1,3 +1,7 @@
+0.7.3 2017-12-13
+----------------
+- Add DataTables jQuery plugin for displaying tables
+
 0.7.2 2017-10-23
 ----------------
 - Pin React version to v.15.6.2 pending a v.2.0.0 release which should support React v.16.
