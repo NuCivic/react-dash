@@ -1,9 +1,4 @@
 import 'datatables.net-responsive-bs';
-import 'datatables.net-responsive-bs/css/responsive.bootstrap.min.css';
-import 'bootstrap';
-import 'bootstrap-grid';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-grid/dist/grid.min.css';
 import Registry from '../utils/Registry';
 import {getProp} from '../utils/utils';
 import React, {Component} from 'react';
