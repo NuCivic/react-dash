@@ -36,15 +36,17 @@ export default class ResponsiveDataTable extends BaseComponent {
     return cols;
   }
 
-  clearDataTable() {
-    let tableEl = $(this.refs.main);
-    tableEl.DataTable().clear().draw();
-  }
+  buildDataTable(data) {   
+    $.fn.dataTable.ext.errMode = 'none';
 
-  buildDataTable(data) {
+    if ($.fn.DataTable.isDataTable(this.refs.main)) {
+      $(this.refs.main).DataTable().destroy();
+      $(this.refs.main).empty();
+    }             
     const tableEl = $(this.refs.main);
     const cols = this.prepareDataCols(data);
     const that = this;
+
     tableEl.DataTable({
       columnDefs: [{
         "targets": "_all",
@@ -81,30 +83,12 @@ export default class ResponsiveDataTable extends BaseComponent {
     });
   }
 
-  updateDataTable(data) {
-    let dt = $(this.refs.main).DataTable();
-    dt.rows.add(data);
-    dt.columns.adjust().draw();
-  }
-
   componentDidUpdate(prevProps, prevState) {
-
     const data = this.getDataFromProps();
-
-    // Do we have data? If not, return;
     if ((typeof data === 'undefined') || (data.length < 1)) {
       return;
     }
-
-    // We have data:
-    // Now, see if we already have a DataTable in the DOM.
-    if ($.fn.DataTable.isDataTable(this.refs.main)) {
-      this.clearDataTable();
-      this.updateDataTable(data);
-    } else {
-      this.buildDataTable(data);
-    }
-
+    this.buildDataTable(data);
     return;
   }
 
