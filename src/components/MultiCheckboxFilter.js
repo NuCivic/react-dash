@@ -48,6 +48,7 @@ export default class MultiCheckboxFilter extends BaseFilter {
                     value={el.value}
                     id={idx + this.state.key}
                     checked={el.checked}
+                    disabled={this.isDisabled()}
 										onChange={() => { this.checkboxClick(el) }}
 									/>
 									<label htmlFor={idx + this.state.key} value={el.label}>

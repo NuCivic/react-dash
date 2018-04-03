@@ -5,6 +5,7 @@ import { isArray, isEqual, pick} from 'lodash';
 import { appliedFiltersToQueryString, makeKey } from '../utils/utils';
 import Accordion from 'react-responsive-accordion';
 import classNames from 'classnames/bind';
+import FilterHandler from '../utils/FilterHandler';
 
 export default class Dashboard extends BaseComponent {
 
@@ -131,11 +132,28 @@ export default class Dashboard extends BaseComponent {
   }
 
   /**
+   * If filterHandlers are defined on the component call them and return the result
+   *
+   * @returns {obj} object with updated payload 
+   */
+  executeFilterHandlers(payload) {
+
+    if (payload.filterHandlers && payload.filterHandlers.length > 0) {
+      FilterHandler.handle(payload.filterHandlers, payload, this.state);
+      return payload;
+    }
+    return payload;
+  }
+
+
+  /**
    * Handle actions here.
    *    Update appliedFilters on state triggers re-render
    *    App parses appliedFilters and updates dash accordingly
    **/
-  onAction(payload) {
+  onAction(_payload) {
+
+    const payload = this.executeFilterHandlers(_payload);
     switch(payload.actionType) {
       case 'AUTOCOMPLETE_CHANGE':
         let appliedFilters = Object.assign({}, this.state.appliedFilters);
