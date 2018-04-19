@@ -36,8 +36,10 @@ export default class FilterHandler {
         if (field in payload.appliedFilters) {
           let funcHandler = FilterHandler.get(handler);
           const filter = payload.appliedFilters[field];
-          let newVal = funcHandler.call(this, componentData, dashboardData, args, filter, state, payload);
-          payload.appliedFilters[field].value = newVal;
+          let newValue = funcHandler.call(this, componentData, dashboardData, args, filter, state, payload);
+          let newVal = newValue.map(cur => parseInt(cur.value,10));
+          payload.appliedFilters[field].value = newValue;
+          payload.appliedFilters[field].vals = newVal;
         }
       });
     } catch (err) {
