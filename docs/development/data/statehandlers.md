@@ -8,17 +8,19 @@ Consider the following stateHandler configuration for a chart component:
 
 ```eval_rst
 .. literalinclude:: ../../../examples/settings.js
-    :start-after: start stateHandler example
-    :end-before: end stateHandler example
+    :language: javascript
+    :emphasize-lines: 216-221 
     :dedent: 4
+    :lines: 205-230 
 ```
 
 The *stateHandler* should return a literal value, which will be applied the state using the handlers *attribute* property. When looking up props, the component checks the state first, and if that prop is set on the state, will use that instead, allowing the state to override props on a case-by-case basis, using *stateHandler.attribute* 
 
 ```eval_rst
 .. literalinclude:: ../../../examples/customStateHandlers.js
-    :start-after: start stateHandler example
-    :end-before: end stateHandler example
+    :language: javascript
+    :dedent: 2
+    :lines: 17-23 
 ```
 
 ## Attributes

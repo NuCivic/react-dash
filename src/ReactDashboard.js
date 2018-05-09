@@ -26,6 +26,7 @@ export {default as Region} from './components/Region';
 export {default as Registry } from './utils/Registry';
 export {default as DataHandler } from './utils/DataHandler';
 export {default as StateHandler } from './utils/StateHandler';
+export {default as FilterHandler } from './utils/FilterHandler';
 export * from './utils/utils';
 
 // MODELS
@@ -38,4 +39,3 @@ export {default as DashboardConstants} from './constants/DashboardConstants';
 
 // DATAHANDLERS
 export {default as DataHandlers} from './datahandlers/index';
-

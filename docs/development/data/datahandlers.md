@@ -8,17 +8,19 @@ Consider the following dataHandler configuration for a chart component:
 
 ```eval_rst
 .. literalinclude:: ../../../examples/settings.js
-    :start-after: start dataHandler example
-    :end-before: end dataHandler example
-    :dedent: 4
+   :language: javascript
+   :emphasize-lines: 215-216 
+   :dedent: 4
+   :lines: 205-230 
 ```
 
 And following is the implmentation of the dataHandler function. It recieves the indicators array and colors array from the handler element, and uses them to generate the barChart data series.
 
 ```eval_rst
 .. literalinclude:: ../../../examples/customDataHandlers.js
-    :start-after: start dataHandler example
-    :end-before: end dataHandler example
+   :language: javascript
+   :dedent: 2
+   :lines: 62-86 
 ```
 
 ## datahandler arguments
@@ -45,7 +47,7 @@ A global property of the dashboard which indicates what filters are applied at t
 ```
 
 ### pipelineData
-If datahandlers are chained, then *pipelineData* will be the return value of the previous datahandler in the chain. See [chaining](below)
+If datahandlers are chained, then *pipelineData* will be the return value of the previous datahandler in the chain. See [chaining](#chaining)
 
 ## chaining
 If the component.props.dataHandlers array has more than one datahandler then the return value from the first handler will be passed as *pipelineData* to subsequent handlers, in this way composition of components is possible, etc.

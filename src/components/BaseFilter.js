@@ -40,7 +40,6 @@ export default class BaseFilter extends BaseComponent {
 
   onChange(e) {
     this.onFilter(e);
-
     let filter = Object.assign({}, this.props);
 
     filter.value = e;
@@ -51,13 +50,13 @@ export default class BaseFilter extends BaseComponent {
   }
 
   // Check if the filter is disabled
-  // Filters can be disabled via props, or if a specified filter is present
-  // in applied filters
+  // Filters can be disabled via props, state, or if a specified filter is
+  // present in applied filters
   isDisabled() {
     let disabled = false;
     let appliedFilters = (this.props.appliedFilters) ? Object.keys(this.props.appliedFilters) : [];
 
-    if (this.props.disabled) disabled = true;
+    if (this.props.disabled || this.state.disabled) disabled = true;
 
     if (this.props.disabledBy) {
       this.props.disabledBy.forEach(field => {

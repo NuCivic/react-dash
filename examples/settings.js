@@ -188,15 +188,15 @@ export var settings = {
           legend: {
             classesCount: 5,
             pallete:
-							[
-								"#e6ffff",
-								"#00ffff",
-								"#00cccc",
-								"#00b3b3",
-								"#009999",
-								"#008080",
-								"#004d4d"
-							]
+              [
+                "#e6ffff",
+                "#00ffff",
+                "#00cccc",
+                "#00b3b3",
+                "#009999",
+                "#008080",
+                "#004d4d"
+              ]
           },
         },
       ]
@@ -356,4 +356,3 @@ let climateVars = {
 			HDD: 'Heating Degree Days',
 			SPnn: 'Standard Precipitation Index'
 		};
-
