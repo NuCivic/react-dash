@@ -8,6 +8,8 @@ You can define a dashboard using familiar JSX syntax. Following is a complete ex
 
 ```eval_rst
 .. literalinclude:: ../../examples/jsx_static_example/app.js 
+   :language: javascript
+   :lines: 10-
 ```
 
 ## Javascript Settings object 
@@ -17,6 +19,7 @@ In many cases it is useful to define dashboard configuration in JSON - allowing 
 
 ```eval_rst
 .. literalinclude:: ../../examples/js_static_example/app.js 
+   :language: javascript
 ```
 
 ## Complete Dashboard Application
@@ -27,10 +30,10 @@ The app at `/examples/app.js` runs an example of a more robust application with 
 ## Boilerplate project
 The boilerplate module includes the above application in a complete development environment suitable for doing dashbaord development.
 
-`git clone https://github.com/NuCivic/react-dash-boilerplate.git`
-`cd react-dash-boilerplate`
-`npm install`
-`npm run init`
-`npm run start`
+    git clone https://github.com/NuCivic/react-dash-boilerplate.git
+    cd react-dash-boilerplate
+    npm install
+    npm run init
+    npm run start
 
 This will spin up the example application, and you can use it as a starting point for developing your own app.

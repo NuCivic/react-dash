@@ -189,15 +189,15 @@ export var settings = {
           legend: {
             classesCount: 5,
             pallete:
-							[
-								"#e6ffff",
-								"#00ffff",
-								"#00cccc",
-								"#00b3b3",
-								"#009999",
-								"#008080",
-								"#004d4d"
-							]
+              [
+                "#e6ffff",
+                "#00ffff",
+                "#00cccc",
+                "#00b3b3",
+                "#009999",
+                "#008080",
+                "#004d4d"
+              ]
           },
         },
       ]
@@ -256,15 +256,15 @@ export var settings = {
 
 
 let climateVars = {
-			PCP: 'Precipitation Index',
-			TAVG: 'Temperature Index',
-			TMIN: 'Minimum Temperature Index',
-			TMAX: 'Maximum Temperature Index',
-			PDSI: 'Palmer Drought Severity Index',
-			PHDI: 'Palmer Hydrological Drought Index',
-			ZNDX: 'Palmer Z-Index',
-			PMDI: 'Modified Palmer Drought Severity Index',
-			CDD: 'Cooling Degree Days',
-			HDD: 'Heating Degree Days',
-			SPnn: 'Standard Precipitation Index'
-		};
+      PCP: 'Precipitation Index',
+      TAVG: 'Temperature Index',
+      TMIN: 'Minimum Temperature Index',
+      TMAX: 'Maximum Temperature Index',
+      PDSI: 'Palmer Drought Severity Index',
+      PHDI: 'Palmer Hydrological Drought Index',
+      ZNDX: 'Palmer Z-Index',
+      PMDI: 'Modified Palmer Drought Severity Index',
+      CDD: 'Cooling Degree Days',
+      HDD: 'Heating Degree Days',
+      SPnn: 'Standard Precipitation Index'
+    };

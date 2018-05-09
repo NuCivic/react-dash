@@ -9,6 +9,7 @@ Here's an example of the configuration:
 
 ```eval_rst
 .. literalinclude:: ../../../examples/js_static_example/settings.js 
+    :language: javascript
     :start-after: start DataTable Example
     :end-before: end DataTable Example
     :dedent: 4
@@ -29,6 +30,7 @@ Here's an example of the configuration:
   - **overrides.rows**
   - **overrides.cells**
 
-** DATA **
+**DATA**
+
 Data should be in the format given in the example above. The first row of data will be used as headers.
 

@@ -6,4 +6,5 @@ Data Handling
     overview
     datahandlers
     statehandlers
+    filterhandlers
     backends

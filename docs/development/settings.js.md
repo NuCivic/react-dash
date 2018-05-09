@@ -5,6 +5,7 @@ A simple example:
 
 ```eval_rst
 .. literalinclude:: ../../examples/js_static_example/settings.js 
+   :language: javascript
 ```
 
 ## Regions
