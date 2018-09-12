@@ -36,13 +36,13 @@ export default class ResponsiveDataTable extends BaseComponent {
     return cols;
   }
 
-  buildDataTable(data) {   
+  buildDataTable(data) {
     $.fn.dataTable.ext.errMode = 'none';
 
     if ($.fn.DataTable.isDataTable(this.refs.main)) {
       $(this.refs.main).DataTable().destroy();
       $(this.refs.main).empty();
-    }             
+    }
     const tableEl = $(this.refs.main);
     const cols = this.prepareDataCols(data);
     const that = this;
@@ -53,10 +53,12 @@ export default class ResponsiveDataTable extends BaseComponent {
         createdCell: function(td, cellData, rowData, row, col) {
           const header = Object.keys(rowData)[col];
 
-          const  columnOverrides = getProp('columns.' + header,
-                                           that.props.overrides);
+          const overrides = Object.assign({}, that.props.overrides, that.state.overrides);
+
+          const columnOverrides = getProp('columns.' + header,
+                                           overrides);
           const cellOverrides = getProp('cells.' + header + '_' + row,
-                                        that.props.overrides);
+                                        overrides);
           if (!isEmpty(columnOverrides)) {
             $(td).addClass(columnOverrides.className);
           }
