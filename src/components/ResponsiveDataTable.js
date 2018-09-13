@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import BaseComponent from './BaseComponent';
 import Card from './Card';
 import Loader from './Loader';
-import {isString, isEmpty, isArray} from 'lodash';
+import {isString,isEqual, isEmpty, isArray} from 'lodash';
 import $ from 'jquery';
 
 export default class ResponsiveDataTable extends BaseComponent {
@@ -91,6 +91,12 @@ export default class ResponsiveDataTable extends BaseComponent {
       return;
     }
     this.buildDataTable(data);
+    if (!isEqual(this.props.data, prevProps.data)) {
+      let newState = this.executeStateHandlers();
+      newState.cardVariables = this.getCardVariables();
+      this.setState(newState);
+      this.onResize();
+    }
     return;
   }
 
