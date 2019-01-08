@@ -76,7 +76,7 @@ export default class BaseComponent extends Component {
     let newState = {};
 
     if (this.props.stateHandlers && this.props.stateHandlers.length > 0) {
-      let handledState = StateHandler.handle(this.props.stateHandlers, this.props.data, this.props.globalData, this.props.appliedFilters);
+      let handledState = StateHandler.handle(this.props.stateHandlers, this.props.data, this.props.globalData, this.props.appliedFilters, this.state);
       newState = Object.assign(newState, handledState);
     }
 
