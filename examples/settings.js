@@ -1,4 +1,3 @@
-
 let stateIds =
       [
         { value: 1, label: 'AK' },
@@ -229,12 +228,101 @@ export var settings = {
       ]
     },
     {
+      id: 'fixed-data-table-row',
+      className: 'row',
+      children: [
+        {
+          type: 'DataTable',
+          dataHandlers: [
+            {
+              name: 'getTableData'
+            },
+          ],
+          key: 'fixed-data-table-row',
+          header: 'Fixed Data Table 2',
+          iconClass: 'fa fa-database',
+          cardStyle: 'table',
+          cardClasses: ['col-md-12', 'climate-data'],
+          hideControls: true,
+          hideFilterHeader: true,
+          settings: {
+            table: {
+              rowHeight: 60,
+              width: '100%',
+              maxHeight: 300,
+              headerHeight:60
+            },
+            columns: {
+              flexGrow: 1,
+              width: 150,
+            },
+          },
+          overrides: {
+            rows: {
+              "max": {
+                className: 'yelloW'
+              }
+            },
+            columns: {
+              "max": {
+                className: 'greenCell'
+              }
+            },
+            cells: {
+              "min_3": {
+                className: 'greenCell'
+              }
+            }
+          }
+        },
+        
+      ]
+    },
+    {
+      id: 'datatable-row',
+      className: 'row',
+      children: [
+        {
+          type: 'ResponsiveDataTable',
+          dataHandlers: [
+            {
+              name: 'getTableData'
+            },
+          ],
+          key: 'datatables-row',
+          header: 'Responsive DataTables',
+          iconClass: 'fa fa-database',
+          cardStyle: 'table',
+          cardClasses: ['col-md-12', 'climate-data'],
+          overrides: {
+            rows: {
+              "max": {
+                className: 'yelloW'
+              }
+            },
+            columns: {
+              "max": {
+                className: 'greenCell'
+              }
+            },
+            cells: {
+              "min_3": {
+                className: 'greenCell'
+              }
+            }
+          }
+        },
+        
+      ]
+    },    
+    {
       id: 'highlight-row',
       className: 'row',
       children: [
         {
           type: 'Highlight',
           key: 'highlight1',
+          header: 'Highlight',
           data: [
             {
               cols: [
@@ -250,21 +338,21 @@ export var settings = {
           ]
         }
       ]
-    }
+    }        
   ]
 };
 
 
 let climateVars = {
-      PCP: 'Precipitation Index',
-      TAVG: 'Temperature Index',
-      TMIN: 'Minimum Temperature Index',
-      TMAX: 'Maximum Temperature Index',
-      PDSI: 'Palmer Drought Severity Index',
-      PHDI: 'Palmer Hydrological Drought Index',
-      ZNDX: 'Palmer Z-Index',
-      PMDI: 'Modified Palmer Drought Severity Index',
-      CDD: 'Cooling Degree Days',
-      HDD: 'Heating Degree Days',
-      SPnn: 'Standard Precipitation Index'
-    };
+			PCP: 'Precipitation Index',
+			TAVG: 'Temperature Index',
+			TMIN: 'Minimum Temperature Index',
+			TMAX: 'Maximum Temperature Index',
+			PDSI: 'Palmer Drought Severity Index',
+			PHDI: 'Palmer Hydrological Drought Index',
+			ZNDX: 'Palmer Z-Index',
+			PMDI: 'Modified Palmer Drought Severity Index',
+			CDD: 'Cooling Degree Days',
+			HDD: 'Heating Degree Days',
+			SPnn: 'Standard Precipitation Index'
+		};
