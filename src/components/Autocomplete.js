@@ -1,84 +1,50 @@
-/**
- * This component is based in the react-select component https://github.com/JedWatson/react-select
- * It adds the ability to pass only the url from where options are get.
- * Url should have the following format: http://localhost:3004/options?q={{keyword}}
- * Keyword is the string to be sent to the server and retrive the available options
- * for that word.
- *
- * You can override all the available properties of the original component.
- * For more documentation about  this component please go
- * to https://github.com/JedWatson/react-select
- */
-
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
-import {makeKey} from '../utils/utils';
-import BaseComponent from './BaseComponent';
+import BaseFilter from './BaseFilter';
 import ReactSelect from './ReactSelect';
-import { isArray } from 'lodash';
+import { makeKey } from '../utils/utils';
+import { omit } from 'lodash';
+import cx from 'classnames/bind';
 
-export default class Autocomplete extends BaseComponent {
-
-  getFilterValue() {
-    let val;
-    if (this.props.appliedFilters && this.props.appliedFilters[this.props.field]) {
-      val = this.props.appliedFilters[this.props.field];
-    } else if (this.props.initVal) {
-      val = this.props.defaultValue;
-    } else {
-      val = this.props.options[0].value;
+export default class Autocomplete extends BaseFilter {
+  constructor(props) {
+    super(props);
+    this.state.actionType = "AUTOCOMPLETE_CHANGE";
+    if (!this.state.key) {
+      this.state.key = makeKey();
     }
-
-    if (!isArray(val)) val = [val];
-    return val;
-  
-  }
-  
-  onFilter() {
-    // noop / overrides basecomponent onFilte
-  }
-  
-  onChange(e) {
-    // @@TODO wire param routing to Autocomplete!
-    // Currently this overrides onFilter in BaseComponent
-    // which does param handling
-    
-    this.onFilter(e);
-
-    this.emit({
-      actionType: 'AUTOCOMPLETE_CHANGE',
-      value: [e],
-      field: this.props.field,
-      fetch: this.props.fetch
-    });
   }
 
-  /**
-   * Load autocomplete options
-   * @param  {String}   input A text with the query to be sent to the server
-   * @param  {Function} cb    Callback to be called right after server response
-   * @return {Promise}        A promise with the request
-   */
-  loadOptions(input, cb){
-    let re = /\{\{(.+)\}\}/;
-    if(this.props.url) {
-      return fetch(this.props.url.replace(re, input))
-        .then((response) => {
-          return response.json();
-        }).then((json) => {
-          return { options: json };
-        });
-    } else if(this.props.options) {
-      return Promise.resolve({options: this.props.options, isLoading: false});
+  componentDidMount() {
+    super.componentDidMount();
+    if(!this.props.appliedFilters[this.props.field] && this.props.initVal) {
+      this.onFilter(this.props.initVal);
+      let filter = Object.assign({}, this.props);
+      filter.value = this.props.initVal;
+      filter.actionType = 'AUTOCOMPLETE_CHANGE';
+      setTimeout(() => this.emit(filter), 0);
     }
-    return  Promise.resolve({options: [], isLoading: false});
   }
-  
+
   render(){
     let val = this.getFilterValue();
-    if (!this.props.multi) val = val[0];
+    let props = omit(this.props, 'className');
+    let label = props.label || 'Filter Label';
+    let labelClass = (props.label) ? '' : 'sr-only';
+    let { className } = this.props;
+    let inputProps = {};
+
+    inputProps.id = this.state.key;
+    props.options = this.props.data[0];
+    props.isLoading = this.state.isFetching;
+
+    if (val && !props.multi) val = val[0];
+
     return (
-      <ReactSelect.Async value={val} loadOptions={this.loadOptions.bind(this)} {...this.props} onChange={this.onChange.bind(this)}/>
+      <div className={cx('autocomplete-filter-container', className)}>
+        <label htmlFor={this.state.key} className={labelClass}>Filter Label</label>
+        <ReactSelect value={val} disabled={this.isDisabled()} {...props} onChange={this.onChange.bind(this)} key={this.state.key} inputProps={inputProps} />
+      </div>
     );
   }
 }

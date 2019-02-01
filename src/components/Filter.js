@@ -1,3 +1,10 @@
+
+/**
+ * @@NOTE: I think this is deprecated
+ * 
+ * Extend BaseFilter,js or use one of the 
+ * existing filter implementations
+ */
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';

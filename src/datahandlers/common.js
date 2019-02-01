@@ -1,4 +1,5 @@
 import DataHandler from '../utils/DataHandler';
+import { format } from 'd3';
 
 const libName = 'common';
 
@@ -25,6 +26,20 @@ let dataHandlers = {
     return series;
   },
   
+  fieldToD3Format: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    let data = pipelineData || componentData || [];
+    let formatter = format(handler.format);
+
+    data.map(series => {
+      return series.map(row => {
+        row[handler.field] = formatter(row[handler.field]);
+        return row;
+      });
+    });
+
+    return data;
+  },
+  
   /**
    * Only use data if data.field = value
    *
@@ -44,11 +59,8 @@ let dataHandlers = {
 
   /**
    * Parse a field as a date.
-   * handler = {
-   *   field: 'field_name_to_parse',
-   *   name: 'parseFieldDate'
-   * }
-   */
+   * @param handler.field {string} field name to parse
+   **/
   parseDateField: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let _data = pipelineData || componentData;
     return _data.map((row) => {
@@ -73,13 +85,15 @@ let dataHandlers = {
    * Select a keyed set of data from the dashboard's global data, and factor as XY series
    *
    * @param dashboardData {object}
-   * @param handler.queryKey {string} a valid key on dashboardData obj
+   * @param handler.dataKey {string} a valid key on dashboardData obj
+   * @param handler.queryKey {string} a valid key on dashboardData.dataKey obj
    * @param handler.xField {string} 
    * @param handler.yField {string}
    **/
   getXYByQueryData: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
-    if (dashboardData && dashboardData[handler.queryKey]) {
-      let localData = dashboardData[handler.queryKey].result.records;
+    if (dashboardData && dashboardData[handler.dataKey] && dashboardData[handler.dataKey][handler.queryKey]) {
+      let localData = dashboardData[handler.dataKey][handler.queryKey].result.records;
+      //if (componentData && componentData.length > 0) localData = componentData;
       let output =  localData.map(row => {
         // use handler fields to select fields to return!
         let newRow = {};
@@ -93,10 +107,61 @@ let dataHandlers = {
     }
   },
   
+  getXYByQueryDataWhere: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    if (dashboardData && dashboardData[handler.dataKey] && dashboardData[handler.dataKey][handler.queryKey]) {
+      let localData = dashboardData[handler.dataKey][handler.queryKey].result.records;
+      let localDataWhere = localData.filter(row => {
+        let test = handler.whereFieldValueIn.indexOf(row[handler.whereField]) >= 0
+        return test;
+      });
+
+      //if (componentData && componentData.length > 0) localData = componentData;
+      let output =  localDataWhere.map(row => {
+        // use handler fields to select fields to return!
+        let newRow = {};
+        newRow[handler.xField] = row[handler.xField];
+        newRow[handler.yField] = row[handler.yField];
+        return newRow;
+      });
+      return [output];
+    } else {
+      return [];
+    }
+  },
+  
+  // given a set of field names, return records that match value(s) given
+  getXYByQueryDataWhereFieldsIn: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    if (dashboardData && dashboardData[handler.dataKey] && dashboardData[handler.dataKey][handler.queryKey]) {
+      let localData = dashboardData[handler.dataKey][handler.queryKey].result.records;
+      
+      let localDataWhere = localData.filter(row => {
+        let test;
+        // whereField is an array of possible fieldNames
+        handler.whereField.forEach(field => {
+          test = handler.whereFieldValueIn.indexOf(row[field]) >= 0;
+        });
+        
+        return test;
+      });
+
+      let output =  localDataWhere.map(row => {
+        // use handler fields to select fields to return!
+        let newRow = {};
+        newRow[handler.xField] = row[handler.xField];
+        newRow[handler.yField] = row[handler.yField];
+        return newRow;
+      });
+
+      return [output];
+    } else {
+      return [];
+    }
+  },
+  
   getPercentileSeries: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     
   },
-
+  
   groupByRange: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
     let data = pipelineData || componentData;
     let finalOutput = []; // array of series
@@ -123,12 +188,8 @@ let dataHandlers = {
       // now add our transformed series to the array of series for output
       finalOutput.push(outputSeries);
     });
-
-    if (handler.isPieChart) {
-      return finalOutput[0] || [];
-    } else {
-      return finalOutput;
-    }
+    
+    return finalOutput;
   },
 
   /* Create an array of data series' for use in NVD3 single-line type horizontal barChart
@@ -174,7 +235,7 @@ let dataHandlers = {
         });
         return rekeyed;
       });
-      return output;
+      return [output];
     } else {
       return [];
     }
@@ -216,9 +277,28 @@ let dataHandlers = {
     });
     return _data;
   },
+  
+  whitelistValues: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    let data = pipelineData || componentData;
+    let _data;
+    if (data.length > 0) {
+      _data = data.map(series => {
+        return series.filter(row => {
+          if (handler.whiteList.indexOf(row[handler.field]) >= 0) return true; 
+        }); 
+      });
+      return _data;
+    }
+    return data;
+  },
+  
+  inspect: function (componentData, dashboardData, handler, e, appliedFilters, pipelineData) {
+    let data = pipelineData || componentData;
+    console.log('INSPECT>>', this, data, arguments);
+    return data;
+  },
 }
 
-
-DataHandler.setLib('common', dataHandlers);
+DataHandler.setLib("common", dataHandlers);
 
 export default dataHandlers;

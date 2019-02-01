@@ -1,12 +1,13 @@
-import {Table as FixedTable, Column, Cell} from 'fixed-data-table';
+import {Table as FixedTable, Column, Cell} from 'fixed-data-table-2';
 import Registry from '../utils/Registry';
 import {getProp} from '../utils/utils';
 import React, {Component} from 'react';
 import BaseComponent from './BaseComponent';
+import Card from './Card';
 import Loader from './Loader';
 import {isString, isEmpty, range, partialRight} from 'lodash';
 
-class DataTable extends BaseComponent {
+export default class DataTable extends BaseComponent {
   static defaultProps = {
     rowsPerPage: 10,
     queryObj: {
@@ -54,6 +55,10 @@ class DataTable extends BaseComponent {
   }
 
   getPageNumbers(size, total, current) {
+    if (!this.getTotalPages() || this.getTotalPages() < 2) {
+      return;
+    }
+
     return this.getPages(size, total, current).map((pageNumber) => {
       return (
         <li
@@ -79,7 +84,7 @@ class DataTable extends BaseComponent {
   }
 
   onResize() {
-    const { offsetWidth, offsetHeight } = this.refs.table;
+    const { offsetWidth, offsetHeight } = this.table;
     this.setState({
       gridWidth: offsetWidth,
       gridHeight: offsetHeight
@@ -118,29 +123,34 @@ class DataTable extends BaseComponent {
 
   render() {
     const { gridWidth, gridHeight } = this.state;
-    let data = this.state.data || [];
+    let data = this.props.data[0] || [];
     let tableDefaultProps = getProp('settings.table', this.props);
     let columnDefaultProps = getProp('settings.columns', this.props);
-    let cellsDefaultProps = getProp('settings.cells', this.props);
+    // not that there is no 'row' abstraction in FixedDataTable
+    // module  - a 'row' here refers to the cells at the same
+    // index of the column, eg: col[1][3], col[2][3], col[3][3]
+    let rowDefaultProps = getProp('settings.rows', this.props);
     let headers = Object.keys(data[0] || {});
     let totalPages = this.getTotalPages(this.state.rowsPerPage, this.state.total);
     let content;
 
     // Create the colums
-    let columns = headers.map((header) => {
-      let overrides = getProp('overrides.' + header, columnDefaultProps);
+    let columns = headers.map((header, headerIndex) => {
+      let columnOverrides = getProp('columns.' + header, this.props.overrides);
       return <Column
         header={<Cell>{header}</Cell>}
-        key={header}
+        key={header + headerIndex}
         columnKey={header}
+        flexGrow={1}
         cell={props => {
-          let overrides = getProp('overrides.' + props.rowIndex, cellsDefaultProps);
-          return <Cell {...props} {...cellsDefaultProps} {...overrides}>
+          let rowOverrides = getProp('rows.' + props.rowIndex, this.props.overrides);
+          let cellOverrides = getProp('cells.' + header + '_' + props.rowIndex, this.props.overrides);
+          return <Cell {...props} {...columnOverrides} {...rowDefaultProps} {...rowOverrides} {...cellOverrides}>
             {data[props.rowIndex][props.columnKey]}
           </Cell>
         }}
         {...columnDefaultProps}
-        {...overrides}
+        {...columnOverrides}
       />
     });
 
@@ -148,7 +158,7 @@ class DataTable extends BaseComponent {
     let headerControls = '';
 
     if (!this.props.hideFilterHeader) {
-      filterHeader = 
+      filterHeader =
         <div className="col-md-10">
           <div className="form-group">
             <input
@@ -159,9 +169,9 @@ class DataTable extends BaseComponent {
           </div>
         </div>
     }
-    
+
     if (!this.props.hideControls) {
-      headerControls = 
+      headerControls =
             <div className="col-md-2">
               <div onChange={this._onRowsPerPageChange.bind(this)} className="form-group">
                 <select className="form-control">
@@ -174,18 +184,18 @@ class DataTable extends BaseComponent {
               </div>
             </div>
     }
-    
+
     // Return the renderable elements
     return (
-
-        <div ref="table">
+      <Card key={'card_'+this.state.key} {...this.state.cardVariables}>
+        <div ref={t => this.table = t} className="table-wrapper">
           <div className="row">
             {filterHeader}
             {headerControls}
           </div>
-          <Loader isFeching={this.state.isFeching}>
+          <Loader isFetching={this.props.isFetching || !data.length}>
             <div className="table-container">
-              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth}>
+              <FixedTable rowsCount={data.length} {...tableDefaultProps} width={gridWidth} rowHeightGetter={this.rowHeightGetter}>
                 {columns}
               </FixedTable>
             </div>
@@ -223,7 +233,7 @@ class DataTable extends BaseComponent {
             </nav>
           </Loader>
         </div>
-
+      </Card>
     );
   }
 }

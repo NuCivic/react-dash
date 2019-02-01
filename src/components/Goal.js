@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Registry from '../utils/Registry';
 import BaseComponent from './BaseComponent';
+import Card from './Card';
 import Loader from './Loader';
 import {head, template, capitalize, merge} from 'lodash';
 import NVD3Chart from 'react-nvd3';
@@ -115,7 +116,8 @@ export default class Goal extends BaseComponent {
     }
 
     return (
-      <Loader isFeching={this.props.isFeching}>
+    <Card {...this.state.cardVariables}>
+      <Loader isFetching={this.props.isFetching}>
         <div className="goal" style={style}>
           <div className="row">
             <div className="col-md-4">
@@ -152,6 +154,7 @@ export default class Goal extends BaseComponent {
           </div>
         </div>
       </Loader>
+    </Card>
     )
   }
 }

@@ -4,3 +4,5 @@ npm-debug.log
 bower_components
 build
 *.sw*
+package-lock.json
+.idea

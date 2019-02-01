@@ -1,6 +1,22 @@
 .region {border-bottom: 1px grey solid; margin-bottom:2em}
-.dashboard-title {margin-left: 100px, background: url('static/logo.png') 100px}
-.fa {font-size:3.5em !important; margin-top:.2em}
+.dashboard-title {font-size:4em;}
+.card-header-content {font-size:2em !important; margin-left:20px !important}
 .region-top, .region:last-child {border-bottom:none}
 .footer {margin:0 auto; text-align:center}
 .logo-sm {height:50px}
+.card-header-icon.fa {font-size:3.5em; margin-top:12px}
+.card-metric-icon .fa {font-size:3.5em; margin-top:12px}
+
+/* Accordian */
+.Collapsible__trigger:empty {display:none}
+.Collapsible__trigger {font-size:2em; font-weight:400; width:100%; display:inline-block;background-color:red; padding:.4em;-webkit-border-radius: 12px 12px 12px 12px;
+border-radius: 12px 12px 12px 12px;margin:.2em; cursor:pointer;background-color: rgba(181, 189, 201, .6);}
+.Collapsible .card-content {padding:1em}
+
+.red {background-color:red}
+.yelloW {background-color:yellow}
+.greenCell {background-color:#98FB98}
+
+
+/* DataTables */
+.data-table-wrapper table {width: 100%;}

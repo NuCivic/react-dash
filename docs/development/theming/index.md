@@ -4,42 +4,42 @@
 React Dash uses bootstrap responsive grid. 
 Full docs are [here](https://v4-alpha.getbootstrap.com/layout/grid/)
 
-Define rows and columns as follows in your settings.js file:
+
+Layout is defined as an array of regions. Each region represents a bootstrap row, as follows:
+
 ```javascript
-{
-  type: 'Region',
-  className: 'row',
-  children: [
-    {
-      type: 'Metric',
-      value: 'A',
-      className: 'col-4-md'
-    },
-    {,
-      type: 'Metric',
-      value: 'B',
-      className: 'col-4-md'
-    },
-    {
-      type: 'Metric',
-      value: 'B',
-      className: 'col-4-md'
+
+regions: [
+    { 
+      className: 'row',
+      children: [
+        {
+          type: 'Metric',
+          value: 'A',
+          className: 'col-4-md'
+        },
+        {,
+          type: 'Metric',
+          value: 'B',
+          className: 'col-4-md'
+        },
+        {
+          type: 'Metric',
+          value: 'B',
+          className: 'col-4-md'
+        }
+      ]
     }
-  ]
-}
+]
 ```
 
+Note that we're just using the bootstrap classes to define the responsive grid.
+
 ## cards
-Cards allow you to use pre-defined themed layouts at the component level. See [Cards](../components/Card).
-To enable card layout, add `cardStyle` prop to your component in settings.js:
-```javascript
-{
-  type: 'Chart',
-  cardStyle: 'chart',
-  header: 'Card renders headers!',
-  // .... your settings follow
-}
-```
+Component are rendered inside of the [Card component](../components/Card).
+
+The Card component exposes a number of regions which can be targeted as props:
+
 
 ## custom css
 The `index.html` file in the examples project loads `static/custom.css`. Add custom css here.

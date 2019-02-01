@@ -1,4 +1,4 @@
-import {property} from 'lodash';
+import {property, isPlainObject} from 'lodash';
 import d3 from 'd3';
 
 export function getProp(key, object) {
@@ -33,9 +33,30 @@ export function formatNumber(n, format) {
   return formatter(n);
 }
 
+
+// from https://gist.github.com/dgs700/4677933
+export function appliedFiltersToQueryString (appliedFilters) {
+    let obj = getAppliedFilterValuesForUrl(appliedFilters);
+
+    // We want to reduce the appliedFilters object to the simplest possible object which we can use for routing
+    function getAppliedFilterValuesForUrl (appliedFilters) {
+      let reduced = {};
+      Object.keys(appliedFilters).forEach(key => {
+        reduced[key] = appliedFilters[key].value.map(opt => {
+            return isPlainObject(opt) ? opt.value : opt;
+        });
+      });
+
+      return reduced;
+    }
+
+    return Object.keys(obj).reduce(function(a,k){a.push(k+'='+encodeURIComponent(obj[k]));return a},[]).join('&')
+}
+
 export function getFID(val) {
   if (val.indexOf && val.indexOf('fid') >= 0) {
     return val.replace('fid', '');
   }
   return false;
-} 
+}
+

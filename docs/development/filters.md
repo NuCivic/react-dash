@@ -1,61 +1,70 @@
-# Filter components
+# Dashboard Filtering
+The dashboard's user interface is represented through filters components. Filters trigger actions on the Dashboard which update `state.appliedFilters`. This triggers a re-render, allowing the Dashboard to respond to the updated application state - by re-fetching data, filtering existing data, reconfiguring the Dashboard etc.
 
-## Filters
-Filters allow data to be filtered based on user input, application state, or other custom logic. Filters use dom events and custom data handlers to provide filtered data.
+## Filter 
 
-### Component-level filters
-Filters can be used to allow user input which controls the data at the component level.
-Filters use dataHandlers, along with user input, to determine how to filter component data.
-Filters are configured as follows
+### props
+Filters take the following props:
+**type** The component type. Filter components should extend BaseFilter component.
+**field** This represents a key that will be used on the `state.appliedFilters` object. Depending on the implementation, it can also represent a field in the data.
+**action**: NOT IMPLEMENTED. (This will allow for sort or other filter actions in the future)
+**willFilter** An array of strings, each string corresponds with a *dataResource* or *dataKey*. This property indicates which part of the dashboard data the filter will be applied to.
+**disabledBy** An array of strings, where each string corresponds to a *field* value of another filter. When that field value is present in *appliedFilters*, the filter's html element will have the attribute `disabled=true`.
+**data / dataHandlers** As with all components, data can be passed as an object literal, or calculated via *dataHandlers*. It should be an array of arrays, where each array is a series of key value pairs.
+**initVal** An initial value for the filter.
 
-### Filter Paramaters
-Filter paramaters are serialized to the url, allowing the dashboard to be loaded with a set of filters already applied.
-The url query string is serialized according to the following scheme:
-
-`http://yoursite.com/dashboard/cid1=key1_val1&cid_1=key1_val2&cid2=key2_val3`
-
+## Example
+Consider this filter definition:
 ```javascript
 {
-  cid1: {
-    key1 : ['val1', 'val2']
-  },
-  cid2: {
-    key2 : val2
-  }
+  type: 'Autocomplete',
+  className: 'col-md-6',
+  name: 'specialty-autocomplete',
+  id: 'specialty-autocomplete',
+  className: 'specialty-autocomplete',
+  field: 'YearMonth',
+  action: 'filter', // sort / groupBy / etc
+  willFilter: ['climateData'], // array of dkanDataResources keys that filters affect 
+  data: [
+    [
+      { label: '2010', value: '2010' },
+      { label: '2011', value: '2011' },
+      { label: '2012', value: '2012' },
+      { label: '2013', value: '2013' },
+      { label: '2014', value: '2014' },
+      { label: '2015', value: '2015' },
+    ]
+  ],
+  placeholder: 'Select year to filter dashboard...'
 }
 ```
 
-Components recieve their `ownParams` as props. So for copoment with _cid1_:
-
-`component.props.ownParams = { key1: ['val1', 'val2'] }`
-
-```javascript
-//@@TODO
+This will create the following select box:
+```eval_rst
+.. image:: ../_static/select_screenshot.png
 ```
 
-### Dashboard-level filters
-@@TODO
-Autocomplete / Actions / data handlers
-
-## Theming
-### Dashboard-level theming
-The **React Dash** comes with default styles, but you can also customize them by importing a stylesheet. 
+If the user selects a year, the dashboard's `state.appliedFilters` object will be updated as follows:
 
 ```javascript
-// file: entry point 
-// standalone.js or dkan.js
-import 'stylesheets/custom.css'
+state : {
+    // ...
+    appliedFilters: {
+        YearMonth: ['2010']
+    }
+}
 ```
 
-Currently you can use either a *css* or a *sass* file. You can also add import sentences inside to split the files. It's good to have a separate stylesheet for each component you are overriding. 
-
-### Cards
-@@TODO clarify
-If a *cardStyle* property is specified, the component will be rendered inside a car div.
-
-### Componentlevel theming
-Components can take a style object as follows:
+Out *`dataHandlers`* have access to the *appliedFilters* values and can filter data accordingly:
 
 ```javascript
-style: {backgroundColor: 'red', fontSize: '1em', margin: '1em'}
+    Object.keys(appliedFilters).forEach(k => {
+      if (k === "year" && appliedFilters[k].length > 0) {
+        _data =  _data.filter(row => {
+          return _inYear(row, appliedFilters[k]);  
+        })
+      }
+    });
 ```
+
+See also [Actions](./actions.md).

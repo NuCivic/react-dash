@@ -4,10 +4,10 @@
 The *react-dash-boilerplate* project provides a starter project and a development environment for doing react-dash development. It's a good place to start.
 
 * Make sure that you have npm installed on your system
-* Install the react-dashboard-boilerplate project and its dependencies:
+* Install the react-dash-boilerplate project and its dependencies:
   ```
-  git clone https://github.com/NuCivic/react-dashboard-boilerplate.git
-  cd react-dashboard-boilerplate
+  git clone https://github.com/NuCivic/react-dash-boilerplate.git
+  cd react-dash-boilerplate
   npm install
   npm run init
   npm run start
@@ -15,17 +15,14 @@ The *react-dash-boilerplate* project provides a starter project and a developmen
 * Visit http://localhost:5000 on your system - if everything was successful, you should see an example dashboard
 * Look at our [Developer's Guide](development/index.rst) for next steps to customize your dash!
 
-## Copying the example project from the react-dash repo
-If you can't get the boilerplate project to install, just download the react-dash project and use the example project as a starting place.
+## Run the example project that ships with the react-dash project
+If you can't get the boilerplate project to install, just install the react-dash library and use the example project as a starting place.
 
 * Make sure that you have npm installed on your system
-* Clone the react-dash repository
+* Set up an npm project
 ```
-git clone https://github.com/NuCivic/react-dashboard.git
-```
-* Install dependencies and start the development server
-```
-npm install
+npm init
+npm install react-dash
 npm run start
 ```
 * Look in the `examples/` folder for the project source
