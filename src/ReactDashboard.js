@@ -1,5 +1,5 @@
 
-console.log('React Dashboard -- 0.7.3');
+console.log('React Dashboard -- 0.7.6');
 
 // COMPONENTS
 export {default as Autocomplete } from './components/Autocomplete';
